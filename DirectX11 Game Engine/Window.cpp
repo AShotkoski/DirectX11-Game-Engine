@@ -103,17 +103,22 @@ LRESULT WINAPI Window::SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 LRESULT WINAPI Window::RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
+	// Retrieve window pointer
 	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr( hWnd, GWLP_USERDATA ));
+	// Call message proc func
 	return pWnd->MessageProc( hWnd, msg, wParam, lParam );
 }
 
 LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
+	// Main message switch
 	switch ( msg )
 	{
-		case WM_CLOSE:
+		case WM_CLOSE:			
 			PostQuitMessage( 0 );
 			break;
 	}
+
+	// Let windows handle non user defined messages.
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }

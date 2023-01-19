@@ -1,5 +1,5 @@
 #include "Window.h"
-
+#include "Exception.h"
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE     hInstance,
@@ -7,22 +7,39 @@ int WINAPI wWinMain(
 	_In_ PWSTR         pCmdLine,
 	_In_ int           nCmdShow )
 {
-	Window window( 800, 600, L"Direct3D Window." );
+	try
+	{
+		Window window( 800, 600, L"Direct3D Window." );
 
-	MSG msg;
-	BOOL gResult;
-	while ( ( gResult = GetMessage( &msg, nullptr, 0u, 0u )) > 0 )
-	{
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
-	}
+		// Message loop
+		MSG msg;
+		BOOL gResult;
+		while ( ( gResult = GetMessage( &msg, nullptr, 0u, 0u ) ) > 0 )
+		{
+			TranslateMessage( &msg );
+			DispatchMessage( &msg );
+		}
 
-	if ( gResult == -1 )
-	{
-		return -1;
-	}
-	else
-	{
+		// Error code
+		if ( gResult == -1 )
+		{
+			return -1;
+		}
+		// Code given to WM_QUIT message
 		return (int)msg.wParam;
 	}
+	catch ( const Exception& e )
+	{
+		MessageBoxA( nullptr, e.what(), e.GetType(), 0u );
+	}
+	catch ( const std::exception& e )
+	{
+		MessageBoxA( nullptr, e.what(), "STL exception", 0u);
+	}
+	catch ( ... )
+	{
+		MessageBoxA( nullptr, "Unknown exception thrown", "unknown", 0u);
+	}
+	// If we get passed exception
+	return -1;
 }

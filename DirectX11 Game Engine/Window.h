@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Win.h"
+#include "macros.h"
 #include <string>
 
 class Window
