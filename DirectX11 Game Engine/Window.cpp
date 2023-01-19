@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <sstream>
 
 // Setup singleton
 Window::WindowClass Window::WindowClass::wndClass;
@@ -114,11 +115,65 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
-		case WM_CLOSE:			
+		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;
 	}
 
 	// Let windows handle non user defined messages.
 	return DefWindowProc( hWnd, msg, wParam, lParam );
+}
+
+/******************   WINDOWS EXCEPTION    ***********************/
+
+Window::Exception::Exception( int line, const std::string& file, HRESULT hr )
+	:
+	BaseException(line,file),
+	hr(hr)
+{
+}
+
+const char* Window::Exception::what() const noexcept
+{
+	std::ostringstream ss;
+	ss << BaseException::what() << GetErrorCode() << std::endl <<
+		GetErrorString() << std::endl;
+	whatBuffer = ss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::Exception::GetType() const noexcept
+{
+	return "Caught Windows Exception";
+}
+
+std::string Window::Exception::GetErrorString() const noexcept
+{
+	return TranslateErrorCode(hr);
+}
+
+HRESULT Window::Exception::GetErrorCode() const noexcept
+{
+	return hr;
+}
+
+std::string Window::Exception::TranslateErrorCode( HRESULT hRes ) noexcept
+{
+	char* pMsgBuffer = nullptr;
+	DWORD dwMsgLen = FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hRes, 0,
+		reinterpret_cast<LPSTR>( &pMsgBuffer ),
+		0u, nullptr
+	);
+
+	if ( dwMsgLen == 0 )
+		return "Error code unknown.";
+
+	std::string strMsg = pMsgBuffer;
+	LocalFree( pMsgBuffer );
+
+	return strMsg;
 }

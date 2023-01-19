@@ -1,14 +1,14 @@
-#include "Exception.h"
+#include "BaseException.h"
 #include <sstream>
 
-Exception::Exception( int line, const std::string& file ) noexcept
+BaseException::BaseException( int line, const std::string& file ) noexcept
 	:
 	line(line),
 	file(file)
 {
 }
 
-const char* Exception::what() const noexcept
+const char* BaseException::what() const noexcept
 {
 	std::ostringstream ss;
 	ss << GetType() << std::endl <<
@@ -19,17 +19,17 @@ const char* Exception::what() const noexcept
 	return whatBuffer.c_str();
 }
 
-const char* Exception::GetType() const noexcept
+const char* BaseException::GetType() const noexcept
 {
 	return "Undefined Handled Exception";
 }
 
-int Exception::GetLine() const noexcept
+int BaseException::GetLine() const noexcept
 {
 	return line;
 }
 
-const std::string& Exception::GetFile() const noexcept
+const std::string& BaseException::GetFile() const noexcept
 {
 	return file;
 }

@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "Exception.h"
+#include "BaseException.h"
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE     hInstance,
@@ -28,7 +28,7 @@ int WINAPI wWinMain(
 		// Code given to WM_QUIT message
 		return (int)msg.wParam;
 	}
-	catch ( const Exception& e )
+	catch ( const BaseException& e )
 	{
 		MessageBoxA( nullptr, e.what(), e.GetType(), 0u );
 	}

@@ -143,12 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="BaseException.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Exception.h" />
+    <ClInclude Include="BaseException.h" />
     <ClInclude Include="Macros.h" />
     <ClInclude Include="Win.h" />
     <ClInclude Include="Window.h" />

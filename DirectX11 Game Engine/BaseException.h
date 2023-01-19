@@ -2,10 +2,11 @@
 #include <exception>
 #include <string>
 
-class Exception : public std::exception
+class BaseException : public std::exception
 {
 public:
-	Exception( int line, const std::string& file ) noexcept;
+	BaseException( int line, const std::string& file ) noexcept;
+	virtual ~BaseException() = default;
 	const char* what() const noexcept;
 	virtual const char* GetType() const noexcept;
 	int GetLine() const noexcept;
@@ -13,7 +14,7 @@ public:
 private:
 	int line;
 	std::string file;
-private:
+protected:
 	// Used for what function since pointer
 	mutable std::string whatBuffer;
 };

@@ -1,4 +1,4 @@
 #pragma once
-#include "Exception.h"
 
-#define DEFAULT_EXCEPT() (Exception(__LINE__,__FILE__))
+#define DEFAULT_EXCEPT() (BaseException(__LINE__,__FILE__))
+#define WINDOW_EXCEPT(hr) (Window::Exception(__LINE__,__FILE__,hr))
