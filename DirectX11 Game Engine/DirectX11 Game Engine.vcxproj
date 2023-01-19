@@ -150,8 +150,15 @@
   <ItemGroup>
     <ClInclude Include="BaseException.h" />
     <ClInclude Include="Macros.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Win.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectX11 Game Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

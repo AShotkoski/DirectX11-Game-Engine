@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "resource.h"
 #include <sstream>
 
 // Setup singleton
@@ -16,8 +17,8 @@ Window::WindowClass::WindowClass()
 	wnd_class.cbWndExtra = 0;
 	wnd_class.hbrBackground = nullptr;
 	wnd_class.hCursor = nullptr;
-	wnd_class.hIcon = nullptr;
-	wnd_class.hIconSm = nullptr;
+	wnd_class.hIcon = static_cast<HICON>( LoadImage( hInst, MAKEINTRESOURCE( IDI_ICON1 ), IMAGE_ICON, 64, 64, 0 ) );
+	wnd_class.hIconSm = static_cast<HICON>( LoadImage( hInst, MAKEINTRESOURCE( IDI_ICON1 ), IMAGE_ICON, 16, 16, 0 ) );;
 	wnd_class.lpfnWndProc = Window::SetupMessageProc;
 	wnd_class.lpszMenuName = 0;
 	wnd_class.style = CS_OWNDC;
