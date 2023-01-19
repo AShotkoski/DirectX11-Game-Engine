@@ -11,9 +11,9 @@ BaseException::BaseException( int line, const std::string& file ) noexcept
 const char* BaseException::what() const noexcept
 {
 	std::ostringstream ss;
-	ss << GetType() << std::endl <<
-		"In file: " << GetFile() << std::endl <<
-		"On line: " << GetLine() << std::endl;
+	ss << 
+		"[File] " << GetFile() << std::endl <<
+		"[Line] " << GetLine() << std::endl;
 	// Whatbuffer is used because the std::Exception what func returns char*
 	whatBuffer = ss.str();
 	return whatBuffer.c_str();

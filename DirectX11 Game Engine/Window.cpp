@@ -54,7 +54,10 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	wndRect.right  = wndRect.left + width;
 	wndRect.bottom = wndRect.top + height;
 	
-	AdjustWindowRectEx(&wndRect, dwCreationFlags, false, 0u);
+	if ( AdjustWindowRectEx( &wndRect, dwCreationFlags, false, 0u ) == 0 )
+	{
+		throw LAST_ERR_EXCEPT();
+	}
 	
 	// Create Window, pass in pointer to this as lParam to use for message bs.
 	hWnd = CreateWindowExW(
@@ -70,6 +73,8 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		nullptr,
 		WindowClass::GetHInstance(),
 		this );
+	if ( hWnd == nullptr )
+		throw LAST_ERR_EXCEPT();
 }
 
 Window::~Window()
@@ -115,6 +120,9 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
+		case WM_KEYDOWN:
+			throw LAST_ERR_EXCEPT();
+			break;
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;
@@ -136,15 +144,16 @@ Window::Exception::Exception( int line, const std::string& file, HRESULT hr )
 const char* Window::Exception::what() const noexcept
 {
 	std::ostringstream ss;
-	ss << BaseException::what() << GetErrorCode() << std::endl <<
-		GetErrorString() << std::endl;
+	ss << BaseException::what() << std::endl
+		<< "[Code] " << GetErrorCode() << std::endl 
+		<< "[Description] " << GetErrorString() << std::endl;
 	whatBuffer = ss.str();
 	return whatBuffer.c_str();
 }
 
 const char* Window::Exception::GetType() const noexcept
 {
-	return "Caught Windows Exception";
+	return "Caught Windows Exception:";
 }
 
 std::string Window::Exception::GetErrorString() const noexcept
