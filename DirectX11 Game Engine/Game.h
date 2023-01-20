@@ -14,8 +14,10 @@ private:
 	void ProcessFrame();
 private:
 	Window& wnd;
+	// Hold a ref to graphics
+	Graphics& gfx;
 	FrameTimer ft;
 private:
-	float dt;
+	float dt = 0.f;
 };
 

@@ -76,6 +76,9 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		this );
 	if ( hWnd == nullptr )
 		throw LAST_ERR_EXCEPT();
+
+	// Create Graphics object
+	pGfx = std::make_unique<Graphics>( hWnd );
 }
 
 Window::~Window()
@@ -101,6 +104,11 @@ std::optional<int> Window::ProcessMessage() const
 
 	// Return empty optional
 	return {};
+}
+
+Graphics& Window::GFX()
+{
+	return *pGfx;
 }
 
 LRESULT WINAPI Window::SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )

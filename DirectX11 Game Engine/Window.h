@@ -3,8 +3,10 @@
 #include "Win.h"
 #include "BaseException.h"
 #include "Macros.h"
+#include "Graphics.h"
 #include <string>
 #include <optional>
+#include <memory>
 
 /******************   WINDOWS CLASS    ***********************/
 class Window
@@ -49,6 +51,7 @@ public:
 	Window& operator=( const Window& ) = delete;
 	// Exit code will be returned, otherwise empty optional
 	std::optional<int> ProcessMessage() const;
+	Graphics& GFX();
 private:
 	static LRESULT WINAPI SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
@@ -57,5 +60,6 @@ private:
 	UINT width;
 	UINT height;
 	HWND hWnd;
+	std::unique_ptr<Graphics> pGfx;
 };
 

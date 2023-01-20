@@ -2,7 +2,8 @@
 
 Game::Game( Window& window )
 	:
-	wnd( window )
+	wnd( window ),
+	gfx(wnd.GFX())
 {
 }
 
@@ -22,6 +23,6 @@ void Game::Go()
 void Game::ProcessFrame()
 {
 	// Code goes here
-	OutputDebugStringA( (" dt: " + std::to_string(dt) + '\n' ).c_str());
-	OutputDebugStringA( ( " t: " + std::to_string( ft.GetTime() ) + '\n').c_str());
+	gfx.BeginFrame();
+	gfx.EndFrame();
 }
