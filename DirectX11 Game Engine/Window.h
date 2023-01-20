@@ -4,9 +4,7 @@
 #include "BaseException.h"
 #include "Macros.h"
 #include <string>
-
-
-
+#include <optional>
 
 /******************   WINDOWS CLASS    ***********************/
 class Window
@@ -27,6 +25,7 @@ private:
 		HRESULT hr;
 	};
 
+private:
 	// Singleton windows class to manage registration of window class
 	class WindowClass
 	{
@@ -48,12 +47,12 @@ public:
 	~Window();
 	Window( const Window& ) = delete;
 	Window& operator=( const Window& ) = delete;
-
+	// Exit code will be returned, otherwise empty optional
+	std::optional<int> ProcessMessage() const;
 private:
 	static LRESULT WINAPI SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT				  MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
-
 private:
 	UINT width;
 	UINT height;

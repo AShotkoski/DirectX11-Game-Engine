@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "BaseException.h"
+#include "Game.h"
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE     hInstance,
@@ -9,24 +10,20 @@ int WINAPI wWinMain(
 {
 	try
 	{
-		Window window( 800, 600, L"Direct3D Window." );
-
-		// Message loop
-		MSG msg;
-		BOOL gResult;
-		while ( ( gResult = GetMessage( &msg, nullptr, 0u, 0u ) ) > 0 )
+		Window window( 800u, 600u, L"Direct3D Game Window." );
+		Game game(window);
+	
+		while (true)
 		{
-			TranslateMessage( &msg );
-			DispatchMessage( &msg );
+			// processmessage returns a filled optional ( quit message )
+			if (const auto exitCode = window.ProcessMessage())
+			{
+				return *exitCode;
+			}
+			// Update game
+			game.Go();
 		}
 
-		// Error code
-		if ( gResult == -1 )
-		{
-			return -1;
-		}
-		// Code given to WM_QUIT message
-		return (int)msg.wParam;
 	}
 	catch ( const BaseException& e )
 	{
@@ -40,6 +37,6 @@ int WINAPI wWinMain(
 	{
 		MessageBoxA( nullptr, "Unknown exception thrown", "unknown", 0u);
 	}
-	// If we get passed exception
+	// If we get passed an exception
 	return -1;
 }

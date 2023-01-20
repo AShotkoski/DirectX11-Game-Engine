@@ -83,6 +83,26 @@ Window::~Window()
 	DestroyWindow( hWnd );
 }
 
+std::optional<int> Window::ProcessMessage() const
+{
+	// Message loop
+	MSG msg;
+
+	// Loop through all messages in queue(if any) and process them.
+	while ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) )
+	{
+		// For quit message return the error code
+		if ( msg.message == WM_QUIT )
+			return (int)msg.wParam;
+
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );	
+	}
+
+	// Return empty optional
+	return {};
+}
+
 LRESULT WINAPI Window::SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	// This man has one purpose, to associate a ptr to the window class into the windows api.
