@@ -13,8 +13,9 @@ public:
 	void BeginFrame();
 	void EndFrame();
 private:
-	ID3D11Device*        pDevice    = nullptr;
-	IDXGISwapChain*      pSwapChain = nullptr;
-	ID3D11DeviceContext* pContext   = nullptr;
+	ID3D11Device*        pDevice              = nullptr;
+	IDXGISwapChain*      pSwapChain           = nullptr;
+	ID3D11DeviceContext* pContext             = nullptr;
+	ID3D11RenderTargetView* pRenderTargetView = nullptr;
 };
 

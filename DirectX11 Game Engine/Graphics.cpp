@@ -35,6 +35,14 @@ Graphics::Graphics( HWND hWnd )
 		nullptr,
 		&pContext 
 	);
+
+	// Create render target view
+	ID3D11Resource* pBackBuffer = nullptr;
+	pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), reinterpret_cast<void**>( &pBackBuffer ) );
+	
+	pDevice->CreateRenderTargetView( pBackBuffer, nullptr, &pRenderTargetView );
+	if(pBackBuffer != nullptr )
+		pBackBuffer->Release();
 }
 
 Graphics::~Graphics()
@@ -45,6 +53,8 @@ Graphics::~Graphics()
 		pSwapChain->Release();
 	if ( pContext != nullptr )
 		pContext->Release();
+	if ( pRenderTargetView != nullptr )
+		pRenderTargetView->Release();
 }
 
 void Graphics::BeginFrame()
@@ -53,5 +63,7 @@ void Graphics::BeginFrame()
 
 void Graphics::EndFrame()
 {
-	pSwapChain->Present( 1, 0u );
+	float c[ 4 ] = { 1.f,0.5f,0.f,1.f };
+	pContext->ClearRenderTargetView( pRenderTargetView, c );
+	pSwapChain->Present( 1u, 0u );
 }

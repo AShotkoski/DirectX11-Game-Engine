@@ -13,7 +13,7 @@ Game::~Game()
 
 void Game::Go()
 {
-	// Timing stuff
+	// Capture frame time
 	dt = ft.Mark();
 
 	ProcessFrame();
