@@ -11,7 +11,7 @@
 /******************   WINDOWS CLASS    ***********************/
 class Window
 {
-private:
+public:
 	/******************   WINDOWS EXCEPTION    ***********************/
 	class Exception : public BaseException
 	{

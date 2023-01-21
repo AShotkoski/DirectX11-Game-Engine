@@ -57,7 +57,7 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	
 	if ( AdjustWindowRectEx( &wndRect, dwCreationFlags, false, 0u ) == 0 )
 	{
-		throw LAST_ERR_EXCEPT();
+		throw LAST_WND_ERR_EXCEPT();
 	}
 	
 	// Create Window, pass in pointer to this as lParam to use for message bs.
@@ -75,7 +75,7 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		WindowClass::GetHInstance(),
 		this );
 	if ( hWnd == nullptr )
-		throw LAST_ERR_EXCEPT();
+		throw LAST_WND_ERR_EXCEPT();
 
 	// Create Graphics object
 	pGfx = std::make_unique<Graphics>( hWnd );
@@ -150,7 +150,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	switch ( msg )
 	{
 		case WM_KEYDOWN:
-			throw LAST_ERR_EXCEPT();
+			throw LAST_WND_ERR_EXCEPT();
 			break;
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
