@@ -149,9 +149,6 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
-		case WM_KEYDOWN:
-			throw LAST_WND_ERR_EXCEPT();
-			break;
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;

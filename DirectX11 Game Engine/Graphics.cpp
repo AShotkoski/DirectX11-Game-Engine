@@ -73,13 +73,16 @@ void Graphics::DrawTest()
 	{
 		float x;
 		float y;
+		float r;
+		float g;
+		float b;
 	};
 	// Set vertexs
 	Vertex verts[] =
 	{
-		{ 0.f, 0.5f },
-		{ 0.5f, 0.f },
-		{ 0.0f,0.0f }
+		{ 0.0f, 0.5f, 1.0f, 0.0f, 0.0f },
+		{ 0.5f, 0.0f, 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 0.5f, 1.0f }
 	};
 
 	// Bind vertex buffer
@@ -88,7 +91,7 @@ void Graphics::DrawTest()
 	srd.SysMemPitch = 0u; // Texture
 	srd.SysMemSlicePitch = 0u;
 	D3D11_BUFFER_DESC bd = { 0 };
-	bd.ByteWidth = sizeof( bd );
+	bd.ByteWidth = sizeof( verts );
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0u;
@@ -126,10 +129,11 @@ void Graphics::DrawTest()
 
 	D3D11_INPUT_ELEMENT_DESC IED[] =
 	{
-		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	THROW_FAILED_GFX(pDevice->CreateInputLayout( IED, 1, pBlob->GetBufferPointer(),
+	THROW_FAILED_GFX(pDevice->CreateInputLayout( IED, 2, pBlob->GetBufferPointer(),
 								pBlob->GetBufferSize(), &pInputLayout ));
 	pContext->IASetInputLayout( pInputLayout.Get() );
 
