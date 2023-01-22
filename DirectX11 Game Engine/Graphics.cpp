@@ -80,12 +80,18 @@ void Graphics::DrawTest()
 	// Set vertexs
 	Vertex verts[] =
 	{
-		{ 0.0f, 0.5f, 1.0f, 0.0f, 0.0f },
-		{ 0.5f, 0.0f, 0.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 0.0f, 0.5f, 1.0f }
+		{ 0.25f, 0.5f, 1.0f, 0.0f, 0.0f },
+		{ 0.5f, 0.25f, 0.0f, 1.0f, 0.0f },
+		{ 0.5f, -0.25f, 0.0f, 0.5f, 1.0f },
+		{ 0.25f, -0.5f, 0.0f, 1.0f, 0.0f },
+		{ -0.25f, -0.5f, 1.0f, 0.0f, 0.0f },
+		{ -0.5f, -0.25f, 0.0f, 0.5f, 1.0f },
+		{ -0.5f, 0.25f, 0.0f, 0.5f, 1.0f },
+		{ -0.25f, 0.5f, 0.0f, 0.5f, 1.0f }
 	};
 
 	// Bind vertex buffer
+	WRL::ComPtr<ID3D11Buffer> pVertBuffer;
 	D3D11_SUBRESOURCE_DATA srd = { 0 };
 	srd.pSysMem = verts;
 	srd.SysMemPitch = 0u; // Texture
@@ -97,11 +103,37 @@ void Graphics::DrawTest()
 	bd.CPUAccessFlags = 0u;
 	bd.MiscFlags = 0u;
 	bd.StructureByteStride = sizeof( Vertex );
-	WRL::ComPtr<ID3D11Buffer> pVertBuffer;
 	THROW_FAILED_GFX( pDevice->CreateBuffer( &bd, &srd, &pVertBuffer ) );
 	const UINT stride = sizeof( Vertex );
 	const UINT offset = 0u;
 	pContext->IASetVertexBuffers( 0u, 1u, pVertBuffer.GetAddressOf(), &stride, &offset );
+
+	// Create Index Buffer
+	const unsigned short indices[] =
+	{
+		6,4,5,
+		7,4,6,
+		7,3,4,
+		7,0,3,
+		0,2,3,
+		0,1,2
+	};
+
+	WRL::ComPtr<ID3D11Buffer> pIndexBuffer;
+	D3D11_BUFFER_DESC ibd = { 0 };
+	ibd.ByteWidth = sizeof( indices );
+	ibd.Usage = D3D11_USAGE_DEFAULT;
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.CPUAccessFlags = 0u;
+	ibd.MiscFlags = 0u;
+	ibd.StructureByteStride = sizeof( indices[0]);
+	D3D11_SUBRESOURCE_DATA isrd = { 0 };
+	isrd.pSysMem = indices;
+	isrd.SysMemPitch = 0u; // Texture
+	isrd.SysMemSlicePitch = 0u;
+	THROW_FAILED_GFX(pDevice->CreateBuffer(&ibd,&isrd,&pIndexBuffer));
+	pContext->IASetIndexBuffer( pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u );
+
 
 	// Set primitive topology
 	pContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
@@ -151,9 +183,7 @@ void Graphics::DrawTest()
 	pContext->RSSetViewports( 1u, &vp );
 
 
-	
-
-	pContext->Draw( (UINT)std::size(verts), 0);
+	pContext->DrawIndexed( (UINT)std::size(indices), 0u, 0u);
 }
 
 void Graphics::EndFrame()
