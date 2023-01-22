@@ -24,5 +24,6 @@ void Game::ProcessFrame()
 {
 	// Code goes here
 	gfx.BeginFrame();
+	gfx.DrawTest();
 	gfx.EndFrame();
 }

@@ -1,8 +1,10 @@
 #include "Graphics.h"
 #include "Macros.h"
 #include <sstream>
+#include <d3dcompiler.h>
 
 #pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d3dcompiler.lib")
 
 namespace WRL = Microsoft::WRL;
 
@@ -61,6 +63,96 @@ void Graphics::BeginFrame()
 {
 	float c[ 4 ] = { 1.f,0.5f,0.f,1.f };
 	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
+}
+
+void Graphics::DrawTest()
+{
+	HRESULT hr;
+	// Vertex desc
+	struct Vertex
+	{
+		float x;
+		float y;
+	};
+	// Set vertexs
+	Vertex verts[] =
+	{
+		{ 0.f, 0.5f },
+		{ 0.5f, 0.f },
+		{ 0.0f,0.0f }
+	};
+
+	// Bind vertex buffer
+	D3D11_SUBRESOURCE_DATA srd = { 0 };
+	srd.pSysMem = verts;
+	srd.SysMemPitch = 0u; // Texture
+	srd.SysMemSlicePitch = 0u;
+	D3D11_BUFFER_DESC bd = { 0 };
+	bd.ByteWidth = sizeof( bd );
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0u;
+	bd.MiscFlags = 0u;
+	bd.StructureByteStride = sizeof( Vertex );
+	WRL::ComPtr<ID3D11Buffer> pVertBuffer;
+	THROW_FAILED_GFX( pDevice->CreateBuffer( &bd, &srd, &pVertBuffer ) );
+	const UINT stride = sizeof( Vertex );
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers( 0u, 1u, pVertBuffer.GetAddressOf(), &stride, &offset );
+
+	// Set primitive topology
+	pContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	// Pixel Shader
+	WRL::ComPtr<ID3D11PixelShader> pPixelShader;
+	WRL::ComPtr<ID3DBlob> pBlob;
+	THROW_FAILED_GFX( D3DReadFileToBlob( L"PixelShader.cso", &pBlob ) );
+	THROW_FAILED_GFX( pDevice->CreatePixelShader( pBlob->GetBufferPointer(),
+												  pBlob->GetBufferSize(),
+												  nullptr, &pPixelShader ) );
+	pContext->PSSetShader( pPixelShader.Get(), nullptr, 0u );
+
+	// Create Vertex Shader
+	WRL::ComPtr<ID3D11VertexShader> pVertexShader;
+	THROW_FAILED_GFX(D3DReadFileToBlob( L"VertexShader.cso", &pBlob ));
+	THROW_FAILED_GFX( pDevice->CreateVertexShader(pBlob->GetBufferPointer(),
+												   pBlob->GetBufferSize(),
+												   nullptr, &pVertexShader) );
+	pContext->VSSetShader( pVertexShader.Get(), nullptr, 0u );
+
+
+	// Set input layout
+	WRL::ComPtr<ID3D11InputLayout> pInputLayout;
+	D3D11_INPUT_ELEMENT_DESC IED = {};
+	IED.SemanticName = "Position";
+	IED.SemanticIndex = 0;
+	IED.Format = DXGI_FORMAT_R32G32_FLOAT;
+	IED.InputSlot = 0;
+	IED.AlignedByteOffset = 0;
+	IED.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	IED.InstanceDataStepRate = 0;
+
+	THROW_FAILED_GFX(pDevice->CreateInputLayout( &IED, 1, pBlob->GetBufferPointer(),
+								pBlob->GetBufferSize(), &pInputLayout ));
+	pContext->IASetInputLayout( pInputLayout.Get() );
+
+	// Set render target view
+	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
+
+	// Viewport
+	D3D11_VIEWPORT vp = {};
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	vp.Width = 800;
+	vp.Height = 600;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	pContext->RSSetViewports( 1u, &vp );
+
+
+	
+
+	pContext->Draw( (UINT)std::size(verts), 0);
 }
 
 void Graphics::EndFrame()

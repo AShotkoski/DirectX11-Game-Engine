@@ -26,6 +26,9 @@ public:
 	Graphics& operator=( const Graphics& ) = delete;
 public:
 	void BeginFrame();
+
+	void DrawTest();
+
 	void EndFrame();
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
