@@ -4,6 +4,8 @@
 
 #pragma comment(lib,"d3d11.lib")
 
+namespace WRL = Microsoft::WRL;
+
 Graphics::Graphics( HWND hWnd )
 {
 	HRESULT hr;
@@ -47,33 +49,18 @@ Graphics::Graphics( HWND hWnd )
 	));
 
 	// Create render target view
-	ID3D11Resource* pBackBuffer = nullptr;
-	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ),
-											reinterpret_cast<void**>( &pBackBuffer ) ));
+	WRL::ComPtr<ID3D11Resource> pBackBuffer;
+
+	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
 	
-	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer, nullptr, &pRenderTargetView ));
+	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
 
-	// Cleanup
-	if(pBackBuffer != nullptr )
-		pBackBuffer->Release();
-}
-
-Graphics::~Graphics()
-{
-	if ( pDevice != nullptr )
-		pDevice->Release();
-	if ( pSwapChain != nullptr )
-		pSwapChain->Release();
-	if ( pContext != nullptr )
-		pContext->Release();
-	if ( pRenderTargetView != nullptr )
-		pRenderTargetView->Release();
 }
 
 void Graphics::BeginFrame()
 {
 	float c[ 4 ] = { 1.f,0.5f,0.f,1.f };
-	pContext->ClearRenderTargetView( pRenderTargetView, c );
+	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
 }
 
 void Graphics::EndFrame()
