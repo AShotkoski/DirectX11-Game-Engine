@@ -123,16 +123,13 @@ void Graphics::DrawTest()
 
 	// Set input layout
 	WRL::ComPtr<ID3D11InputLayout> pInputLayout;
-	D3D11_INPUT_ELEMENT_DESC IED = {};
-	IED.SemanticName = "Position";
-	IED.SemanticIndex = 0;
-	IED.Format = DXGI_FORMAT_R32G32_FLOAT;
-	IED.InputSlot = 0;
-	IED.AlignedByteOffset = 0;
-	IED.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	IED.InstanceDataStepRate = 0;
 
-	THROW_FAILED_GFX(pDevice->CreateInputLayout( &IED, 1, pBlob->GetBufferPointer(),
+	D3D11_INPUT_ELEMENT_DESC IED[] =
+	{
+		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+
+	THROW_FAILED_GFX(pDevice->CreateInputLayout( IED, 1, pBlob->GetBufferPointer(),
 								pBlob->GetBufferSize(), &pInputLayout ));
 	pContext->IASetInputLayout( pInputLayout.Get() );
 
