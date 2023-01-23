@@ -2,11 +2,13 @@
 #include "Macros.h"
 #include <sstream>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
 
 namespace WRL = Microsoft::WRL;
+namespace dx = DirectX;
 
 Graphics::Graphics( HWND hWnd )
 {
@@ -137,20 +139,15 @@ void Graphics::DrawTest(float angle)
 	// Create constant buffer
 	struct ConstBuffer
 	{
-		struct
-		{
-			float el[ 4 ][ 4 ];
-		} transformation;
+		dx::XMMATRIX transformation;
 	};
 
 	const ConstBuffer cb =
 	{
-		{
-			0.75f *  cos( angle ), sin( angle ), 0, 0,
-			0.75f * -sin( angle ), cos( angle ),  0, 0,
-			0,			  0,			 1, 0,
-			0,			  0,			 0, 1
-		}
+		dx::XMMatrixTranspose(
+			dx::XMMatrixRotationZ( angle )
+			* dx::XMMatrixScaling( 3.f / 4.f,1,1 )
+		)
 	};
 
 	WRL::ComPtr<ID3D11Buffer> pConstBuffer;
