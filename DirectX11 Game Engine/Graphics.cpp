@@ -2,11 +2,13 @@
 #include "Macros.h"
 #include <sstream>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
 
 namespace WRL = Microsoft::WRL;
+namespace dx = DirectX;
 
 Graphics::Graphics( HWND hWnd )
 {
@@ -71,8 +73,8 @@ void Graphics::DrawTest(float angle)
 	// Vertex desc
 	struct Vertex
 	{
-		float x;
-		float y;
+		dx::XMVECTOR pos;
+
 		float r;
 		float g;
 		float b;
@@ -80,15 +82,16 @@ void Graphics::DrawTest(float angle)
 	// Set vertexs
 	Vertex verts[] =
 	{
-		{ 0.25f, 0.5f, 1.0f, 0.0f, 0.0f },
-		{ 0.5f, 0.25f, 0.0f, 1.0f, 0.0f },
-		{ 0.5f, -0.25f, 0.0f, 0.5f, 1.0f },
-		{ 0.25f, -0.5f, 0.0f, 1.0f, 0.0f },
-		{ -0.25f, -0.5f, 1.0f, 0.0f, 0.0f },
-		{ -0.5f, -0.25f, 0.0f, 0.5f, 1.0f },
-		{ -0.5f, 0.25f, 0.0f, 0.5f, 1.0f },
-		{ -0.25f, 0.5f, 0.0f, 0.5f, 1.0f }
+		{dx::XMVectorSet(0.25f,0.5f,0.0f,1.0f), 1.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(0.5f,0.25f,0.0f,1.0f), 0.0f, 1.0f, 0.0f },
+		{dx::XMVectorSet(0.5f,-0.25f,0.0f,1.0f), 0.0f, 0.5f, 0.0f },
+		{dx::XMVectorSet(0.25f,-0.5f,0.0f,1.0f), 0.7f, 0.5f, 0.0f },
+		{dx::XMVectorSet(-0.25f,-0.5f,0.0f,1.0f), 1.0f, 0.0f, 0.0f },
+		{dx::XMVectorSet(-0.5f,-0.25f,0.0f,1.0f), 0.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(-0.5f,0.25f,0.0f,1.0f), 1.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(-0.25f,0.5f,0.0f,1.0f), 0.0f, 0.0f, 1.0f },
 	};
+
 
 	// Bind vertex buffer
 	WRL::ComPtr<ID3D11Buffer> pVertBuffer;
@@ -137,20 +140,15 @@ void Graphics::DrawTest(float angle)
 	// Create constant buffer
 	struct ConstBuffer
 	{
-		struct
-		{
-			float el[ 4 ][ 4 ];
-		} transformation;
+		dx::XMMATRIX transformation;
 	};
 
 	const ConstBuffer cb =
 	{
-		{
-			0.75f *  cos( angle ), sin( angle ), 0, 0,
-			0.75f * -sin( angle ), cos( angle ),  0, 0,
-			0,			  0,			 1, 0,
-			0,			  0,			 0, 1
-		}
+		dx::XMMatrixTranspose(
+			dx::XMMatrixRotationZ( angle )
+			* dx::XMMatrixScaling( 3.f / 4.f,1,1 )
+		)
 	};
 
 	WRL::ComPtr<ID3D11Buffer> pConstBuffer;
@@ -194,7 +192,7 @@ void Graphics::DrawTest(float angle)
 
 	D3D11_INPUT_ELEMENT_DESC IED[] =
 	{
-		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"Position", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
