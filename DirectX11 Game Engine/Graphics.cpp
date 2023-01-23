@@ -65,7 +65,7 @@ void Graphics::BeginFrame()
 	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
 }
 
-void Graphics::DrawTest()
+void Graphics::DrawTest(float angle)
 {
 	HRESULT hr;
 	// Vertex desc
@@ -134,6 +134,39 @@ void Graphics::DrawTest()
 	THROW_FAILED_GFX(pDevice->CreateBuffer(&ibd,&isrd,&pIndexBuffer));
 	pContext->IASetIndexBuffer( pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u );
 
+	// Create constant buffer
+	struct ConstBuffer
+	{
+		struct
+		{
+			float el[ 4 ][ 4 ];
+		} transformation;
+	};
+
+	const ConstBuffer cb =
+	{
+		{
+			0.75f *  cos( angle ), sin( angle ), 0, 0,
+			0.75f * -sin( angle ), cos( angle ),  0, 0,
+			0,			  0,			 1, 0,
+			0,			  0,			 0, 1
+		}
+	};
+
+	WRL::ComPtr<ID3D11Buffer> pConstBuffer;
+	D3D11_BUFFER_DESC cbd = { 0 };
+	cbd.ByteWidth = sizeof( cb );
+	cbd.Usage = D3D11_USAGE_DYNAMIC;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbd.MiscFlags = 0u;
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csrd = { 0 };
+	csrd.pSysMem = &cb;
+	csrd.SysMemPitch = 0u; // Texture
+	csrd.SysMemSlicePitch = 0u;
+	THROW_FAILED_GFX( pDevice->CreateBuffer( &cbd, &csrd, &pConstBuffer ) );
+	pContext->VSSetConstantBuffers( 0u, 1u, pConstBuffer.GetAddressOf() );
 
 	// Set primitive topology
 	pContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );

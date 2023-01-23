@@ -27,7 +27,7 @@ public:
 public:
 	void BeginFrame();
 
-	void DrawTest();
+	void DrawTest(float angle);
 
 	void EndFrame();
 private:
