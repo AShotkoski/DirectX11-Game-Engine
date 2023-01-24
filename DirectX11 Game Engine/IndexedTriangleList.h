@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cassert>
 
 //vertices, indices
 template <class V>

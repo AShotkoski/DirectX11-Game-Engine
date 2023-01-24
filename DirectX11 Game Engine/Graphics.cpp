@@ -12,8 +12,15 @@ namespace dx = DirectX;
 
 Graphics::Graphics( HWND hWnd )
 {
+	// Used for erro chedcking
 	HRESULT hr;
 
+	// Get window dimensions
+	RECT clientRect;
+	if ( GetClientRect( hWnd, &clientRect ) == 0 )
+		throw std::runtime_error( "Error getting client rect.\n" );
+
+	// Setup SwapChain parameters
 	DXGI_SWAP_CHAIN_DESC sd = { 0 };
 	sd.BufferDesc.Width = 0;
 	sd.BufferDesc.Height = 0;
@@ -37,6 +44,7 @@ Graphics::Graphics( HWND hWnd )
 	flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
+	// Create d3d device and swap chain
 	THROW_FAILED_GFX(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -58,6 +66,17 @@ Graphics::Graphics( HWND hWnd )
 	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
 	
 	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
+
+	// Setup Viewport
+	D3D11_VIEWPORT vp = {};
+	vp.TopLeftX = clientRect.left;
+	vp.TopLeftY = clientRect.top;
+	vp.Width = clientRect.right;
+	vp.Height = clientRect.left;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	pContext->RSSetViewports( 1u, &vp );
+
 
 }
 
@@ -202,17 +221,6 @@ void Graphics::DrawTest(float angle)
 
 	// Set render target view
 	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
-
-	// Viewport
-	D3D11_VIEWPORT vp = {};
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	vp.Width = 800;
-	vp.Height = 600;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	pContext->RSSetViewports( 1u, &vp );
-
 
 	pContext->DrawIndexed( (UINT)std::size(indices), 0u, 0u);
 }
