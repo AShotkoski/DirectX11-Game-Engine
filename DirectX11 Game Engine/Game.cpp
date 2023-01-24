@@ -24,6 +24,7 @@ void Game::ProcessFrame()
 {
 	// Code goes here
 	gfx.BeginFrame();
-	gfx.DrawTest(ft.GetTime());
+	//gfx.DrawTest(ft.GetTime());
+
 	gfx.EndFrame();
 }

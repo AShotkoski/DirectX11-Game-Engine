@@ -156,6 +156,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseException.cpp" />
+    <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -164,9 +166,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h" />
+    <ClInclude Include="Bindable.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="IndexedTriangleList.h" />
     <ClInclude Include="Macros.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Win.h" />
