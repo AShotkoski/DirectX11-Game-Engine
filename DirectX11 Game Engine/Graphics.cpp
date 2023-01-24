@@ -76,7 +76,8 @@ Graphics::Graphics( HWND hWnd )
 	vp.MaxDepth       = 1;
 	pContext->RSSetViewports( 1u, &vp );
 
-
+	// Set render target view
+	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
 }
 
 void Graphics::BeginFrame()
@@ -218,8 +219,7 @@ void Graphics::DrawTest(float angle)
 								pBlob->GetBufferSize(), &pInputLayout ));
 	pContext->IASetInputLayout( pInputLayout.Get() );
 
-	// Set render target view
-	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
+	
 
 	pContext->DrawIndexed( (UINT)std::size(indices), 0u, 0u);
 }
