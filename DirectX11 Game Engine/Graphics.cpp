@@ -22,21 +22,21 @@ Graphics::Graphics( HWND hWnd )
 
 	// Setup SwapChain parameters
 	DXGI_SWAP_CHAIN_DESC sd = { 0 };
-	sd.BufferDesc.Width = 0;
-	sd.BufferDesc.Height = 0;
-	sd.BufferDesc.RefreshRate.Numerator = 0;
+	sd.BufferDesc.Width                   = 0;
+	sd.BufferDesc.Height                  = 0;
+	sd.BufferDesc.RefreshRate.Numerator   = 0;
 	sd.BufferDesc.RefreshRate.Denominator = 0;
-	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	sd.SampleDesc.Count = 1;
-	sd.SampleDesc.Quality = 0;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.BufferCount = 1;
-	sd.OutputWindow = hWnd;
-	sd.Windowed = true;
-	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	sd.Flags = 0;
+	sd.BufferDesc.Format                  = DXGI_FORMAT_B8G8R8A8_UNORM;
+	sd.BufferDesc.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	sd.BufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+	sd.SampleDesc.Count                   = 1;
+	sd.SampleDesc.Quality                 = 0;
+	sd.BufferUsage                        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.BufferCount                        = 1;
+	sd.OutputWindow                       = hWnd;
+	sd.Windowed                           = true;
+	sd.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
+	sd.Flags                              = 0;
 
 	// Use debug flag in d3ddevice creation if in debug mode
 	UINT flags = 0u;
@@ -45,7 +45,7 @@ Graphics::Graphics( HWND hWnd )
 #endif
 
 	// Create d3d device and swap chain
-	THROW_FAILED_GFX(D3D11CreateDeviceAndSwapChain(
+	THROW_FAILED_GFX( D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -57,8 +57,7 @@ Graphics::Graphics( HWND hWnd )
 		&pSwapChain,
 		&pDevice,
 		nullptr,
-		&pContext
-	));
+		&pContext ) );
 
 	// Create render target view
 	WRL::ComPtr<ID3D11Resource> pBackBuffer;
@@ -69,12 +68,12 @@ Graphics::Graphics( HWND hWnd )
 
 	// Setup Viewport
 	D3D11_VIEWPORT vp = {};
-	vp.TopLeftX = clientRect.left;
-	vp.TopLeftY = clientRect.top;
-	vp.Width = clientRect.right;
-	vp.Height = clientRect.left;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
+	vp.TopLeftX       = (FLOAT)clientRect.left;
+	vp.TopLeftY       = (FLOAT)clientRect.top;
+	vp.Width          = (FLOAT)clientRect.right;
+	vp.Height         = (FLOAT)clientRect.left;
+	vp.MinDepth       = 0;
+	vp.MaxDepth       = 1;
 	pContext->RSSetViewports( 1u, &vp );
 
 
