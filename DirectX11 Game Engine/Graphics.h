@@ -6,6 +6,9 @@
 
 class Graphics
 {
+private:
+	friend class Bindable;
+private:
 	class Exception : public BaseException
 	{
 	public:

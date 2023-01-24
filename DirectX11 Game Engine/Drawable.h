@@ -9,10 +9,13 @@
 class Drawable
 {
 public:
-	Drawable();
+	Drawable() = default;
 	virtual ~Drawable() = default;
-	void Draw() const;
-
+	Drawable( const Drawable& ) = delete;
+	Drawable& operator=( const Drawable& ) = delete;
+	void Draw(Graphics& gfx) const;
+	void AddBind( std::unique_ptr<Bindable> bind );
+	virtual void Update( float dt ) = 0;
 private:
 	std::vector<std::unique_ptr<Bindable>> Binds;
 };
