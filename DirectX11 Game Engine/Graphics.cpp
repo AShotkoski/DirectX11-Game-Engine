@@ -82,14 +82,14 @@ void Graphics::DrawTest(float angle)
 	// Set vertexs
 	Vertex verts[] =
 	{
-		{dx::XMVectorSet(0.25f,0.5f,0.0f,1.0f), 1.0f, 0.0f, 1.0f },
-		{dx::XMVectorSet(0.5f,0.25f,0.0f,1.0f), 0.0f, 1.0f, 0.0f },
-		{dx::XMVectorSet(0.5f,-0.25f,0.0f,1.0f), 0.0f, 0.5f, 0.0f },
-		{dx::XMVectorSet(0.25f,-0.5f,0.0f,1.0f), 0.7f, 0.5f, 0.0f },
-		{dx::XMVectorSet(-0.25f,-0.5f,0.0f,1.0f), 1.0f, 0.0f, 0.0f },
-		{dx::XMVectorSet(-0.5f,-0.25f,0.0f,1.0f), 0.0f, 0.0f, 1.0f },
-		{dx::XMVectorSet(-0.5f,0.25f,0.0f,1.0f), 1.0f, 0.0f, 1.0f },
-		{dx::XMVectorSet(-0.25f,0.5f,0.0f,1.0f), 0.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(0.25f,0.5f,  1.0f,1.0f), 1.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(0.5f,0.25f,  1.0f,1.0f), 0.0f, 1.0f, 0.0f },
+		{dx::XMVectorSet(0.5f,-0.25f, 1.0f,1.0f), 0.0f, 0.5f, 0.0f },
+		{dx::XMVectorSet(0.25f,-0.5f, 1.0f,1.0f), 0.7f, 0.5f, 0.0f },
+		{dx::XMVectorSet(-0.25f,-0.5f,1.0f,1.0f), 1.0f, 0.0f, 0.0f },
+		{dx::XMVectorSet(-0.5f,-0.25f,1.0f,1.0f), 0.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(-0.5f,0.25f, 1.0f,1.0f), 1.0f, 0.0f, 1.0f },
+		{dx::XMVectorSet(-0.25f,0.5f, 1.0f,1.0f), 0.0f, 0.0f, 1.0f },
 	};
 
 
@@ -147,7 +147,7 @@ void Graphics::DrawTest(float angle)
 	{
 		dx::XMMatrixTranspose(
 			dx::XMMatrixRotationZ( angle )
-			* dx::XMMatrixScaling( 3.f / 4.f,1,1 )
+			* dx::XMMatrixPerspectiveFovLH( 10.f,3.f / 4.f,0.25f,25.0f )
 		)
 	};
 
