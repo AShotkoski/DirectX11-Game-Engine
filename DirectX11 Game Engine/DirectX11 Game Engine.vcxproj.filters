@@ -1,84 +1,153 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{77459a7f-e8ca-4131-a8b7-ed137a771c75}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Win.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Macros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DirectX11 Game Engine.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameTimer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseException.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Source\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Bindable.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Topology.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseException.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTimer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexedTriangleList.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Macros.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Win.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Bindable.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableBaseIncludes.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffers.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Topology.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDrawable.h">
+      <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{ef897d93-a0b1-4e97-aa71-b949924b3049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{0b6398ca-74c1-45df-bc5e-c8d6b90fc3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{8b3468a0-0091-4a66-8070-a47cd872a9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{3a1ce41e-d50c-4d3b-a389-0f692ddeb1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Bindable">
+      <UniqueIdentifier>{b79a8655-bf47-47d7-a181-e4c5651f20c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Drawable">
+      <UniqueIdentifier>{5711c4c3-baf3-4968-b22e-ac3e46b49b7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Bindable">
+      <UniqueIdentifier>{5836c1f9-8173-4ee4-8b2d-66d48f786d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Drawable">
+      <UniqueIdentifier>{1a5814f7-8082-4dc9-b414-a0d6aaec62a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectX11 Game Engine.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

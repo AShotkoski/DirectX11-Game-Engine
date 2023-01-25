@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Drawable.h"
 #include "BindableBaseIncludes.h"
+#include "ConstantBuffers.h"
 #include <DirectXMath.h>
 
 class tDrawable : public Drawable
@@ -13,6 +14,7 @@ public:
 		// Set topology
 		AddBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
+		// Setup Vertex type
 		struct Vertex
 		{
 			struct
@@ -58,6 +60,22 @@ public:
 		// Bind Index Buffer
 		AddBind( std::make_unique<IndexBuffer>( gfx, indices ) );
 
+		// const buffer
+		struct ConstBuffer
+		{
+			DirectX::XMMATRIX transformation;
+		};
+		ConstBuffer cb = 
+		{
+			DirectX::XMMatrixTranspose(
+				DirectX::XMMatrixRotationZ( theta )
+				* DirectX::XMMatrixPerspectiveFovLH( 2.f,3.f / 4.f,0.25f,25.0f ) // MAKE BETTER FFS
+			)
+		};
+
+		// Bind VS Const Buffer
+		AddBind( std::make_unique<VertexConstantBuffer<ConstBuffer>>( gfx, cb ) );
+
 		// Bind PS
 		AddBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso"));
 		
@@ -77,6 +95,8 @@ public:
 
 	void Update( float dt ) override
 	{
-		
+		theta += dt;
 	}
+private:
+	float theta = 0.0f;
 };
