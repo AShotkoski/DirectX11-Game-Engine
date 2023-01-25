@@ -253,6 +253,16 @@ void Graphics::EndFrame()
 	}
 }
 
+void Graphics::SetProjection( DirectX::FXMMATRIX proj ) noexcept
+{
+	projection = proj;
+}
+
+DirectX::XMMATRIX Graphics::GetProjection() const noexcept
+{
+	return projection;
+}
+
 
 Graphics::Exception::Exception( int line, const std::string& file, HRESULT hr )
 	:

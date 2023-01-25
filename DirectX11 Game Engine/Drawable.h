@@ -16,6 +16,7 @@ public:
 	Drawable& operator=( const Drawable& ) = delete;
 	void Draw(Graphics& gfx) const;
 	virtual void Update( float dt ) = 0;
+	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 protected:
 	void AddBind( std::unique_ptr<Bindable> bind );
 private:

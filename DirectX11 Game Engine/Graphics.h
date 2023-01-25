@@ -3,6 +3,7 @@
 #include "BaseException.h"
 #include <d3d11.h>
 #include <wrl.h>
+#include <DirectXMath.h>
 
 class Graphics
 {
@@ -28,12 +29,15 @@ public:
 	Graphics( const Graphics& ) = delete;
 	Graphics& operator=( const Graphics& ) = delete;
 public:
-
 	void BeginFrame();
 	void DrawTest(float angle);
 	void Draw( UINT vertexCount, UINT start );
 	void DrawIndexed( UINT indexCount );
 	void EndFrame();
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
+private:
+	DirectX::XMMATRIX projection;
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;

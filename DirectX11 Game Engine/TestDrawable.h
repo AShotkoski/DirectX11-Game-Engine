@@ -65,13 +65,8 @@ public:
 		{
 			DirectX::XMMATRIX transformation;
 		};
-		ConstBuffer cb = 
-		{
-			DirectX::XMMatrixTranspose(
-				DirectX::XMMatrixRotationZ( theta )
-				* DirectX::XMMatrixPerspectiveFovLH( 2.f,3.f / 4.f,0.25f,25.0f ) // MAKE BETTER FFS
-			)
-		};
+
+		ConstBuffer cb = { DirectX::XMMatrixIdentity() };
 
 		// Bind VS Const Buffer
 		AddBind( std::make_unique<VertexConstantBuffer<ConstBuffer>>( gfx, cb ) );
@@ -96,6 +91,13 @@ public:
 	void Update( float dt ) override
 	{
 		theta += dt;
+	}
+
+	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
+	{
+		return DirectX::XMMatrixTranspose(
+			DirectX::XMMatrixRotationRollPitchYaw( 0.0f, 0.0f, theta )
+		);
 	}
 private:
 	float theta = 0.0f;
