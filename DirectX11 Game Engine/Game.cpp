@@ -27,5 +27,5 @@ void Game::Go()
 void Game::ProcessFrame()
 {	
 	test.Draw( gfx );
-	test.Update( dt );
+	test.Update( dt / 5.f );
 }

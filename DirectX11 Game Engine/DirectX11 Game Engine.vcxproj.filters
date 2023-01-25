@@ -54,6 +54,9 @@
     <ClCompile Include="TransformationConstBuffer.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="TransformationConstBuffer.h">
       <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Headers\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

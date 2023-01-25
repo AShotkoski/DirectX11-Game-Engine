@@ -30,19 +30,20 @@ public:
 			} color;
 		};
 
+
 		// Set vertexs
+		const float side = 1.f;
 		std::vector<Vertex> verts = 
 		{
-			{DirectX::XMVectorSet( 0.25f,0.5f,  1.0f,1.0f ), 1.0f, 0.0f, 1.0f },
-			{DirectX::XMVectorSet( 0.5f,0.25f,  1.0f,1.0f ), 0.0f, 1.0f, 0.0f },
-			{DirectX::XMVectorSet( 0.5f,-0.25f, 1.0f,1.0f ), 0.0f, 0.5f, 0.0f },
-			{DirectX::XMVectorSet( 0.25f,-0.5f, 1.0f,1.0f ), 0.7f, 0.5f, 0.0f },
-			{DirectX::XMVectorSet( -0.25f,-0.5f,1.0f,1.0f ), 1.0f, 0.0f, 0.0f },
-			{DirectX::XMVectorSet( -0.5f,-0.25f,1.0f,1.0f ), 0.0f, 0.0f, 1.0f },
-			{DirectX::XMVectorSet( -0.5f,0.25f, 1.0f,1.0f ), 1.0f, 0.0f, 1.0f },
-			{DirectX::XMVectorSet( -0.25f,0.5f, 1.0f,1.0f ), 0.0f, 0.0f, 1.0f },
+			{ DirectX::XMVectorSet( -side, -side, -side, 1.0f ), 1.0f, 0.0f, 1.0f },
+			{ DirectX::XMVectorSet( side, -side, -side, 1.0f ), 0.0f, 1.0f, 0.0f },
+			{ DirectX::XMVectorSet( -side, side, -side, 1.0f ), 0.0f, 0.5f, 0.0f },
+			{ DirectX::XMVectorSet( side, side, -side, 1.0f ), 0.7f, 0.5f, 0.0f },
+			{ DirectX::XMVectorSet( -side, -side, side, 1.0f ), 1.0f, 0.0f, 0.0f },
+			{ DirectX::XMVectorSet( side, -side, side, 1.0f ), 0.0f, 0.0f, 1.0f },
+			{ DirectX::XMVectorSet( -side, side, side, 1.0f ), 1.0f, 0.0f, 1.0f },
+			{ DirectX::XMVectorSet( side, side, side, 1.f ), 0.0f, 0.0f, 1.0f },
 		};
-
 		
 		// Bind vertex buffer
 		AddBind( std::make_unique<VertexBuffer>( gfx, verts) );
@@ -50,12 +51,12 @@ public:
 		// Create Index Buffer
 		const std::vector<unsigned short> indices =
 		{
-			6,4,5,
-			7,4,6,
-			7,3,4,
-			7,0,3,
-			0,2,3,
-			0,1,2
+			0,2,1,   2,3,1,
+			1,3,5,	 3,7,5,
+			5,7,4,	 7,6,4,
+			4,6,2,	 2,0,4,
+			2,6,3,   6,7,3,
+			0,1,4,	 1,5,4
 		};
 
 		// Bind Index Buffer
@@ -74,7 +75,7 @@ public:
 
 		// Input layout
 		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
-		IED.emplace_back(  "Position", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0  );
+		IED.emplace_back(  "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0  );
 		IED.emplace_back( "Color", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
 		AddBind( std::make_unique<InputLayout>( gfx, std::move(IED), *vsbtyecode ) );
@@ -88,7 +89,8 @@ public:
 
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
 	{
-		return DirectX::XMMatrixRotationRollPitchYaw( 0.0f, 0.0f, theta );
+		return DirectX::XMMatrixRotationRollPitchYaw( theta * 2.f, 0.0f, theta )
+			 * DirectX::XMMatrixTranslation(0,0,5.f);
 	}
 private:
 	float theta = 0.0f;
