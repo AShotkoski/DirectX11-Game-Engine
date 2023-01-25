@@ -20,15 +20,22 @@ public:
 				float x;
 				float y;
 				float z;
+				float w;
 			} pos;	
+			struct
+			{
+				float r;
+				float g;
+				float b;
+			} color;
 		};
 
 		// Set vertexs
 		std::vector<Vertex> verts = 
 		{
-			{0.0f,1.0f,1.0f},
-			{1.0f,0.0f,1.0f },
-			{-1.0f,0.0f,1.0f }
+			{0.0f,1.0f,1.0f, 1.0f, 1.0f,0.0f,0.0f},
+			{1.0f,0.0f,1.0f, 1.0f, 0.0f,1.0f,0.0f },
+			{-1.0f,0.0f,1.0f, 1.0f, 0.0f,0.0f,1.0f }
 		};
 		//{
 			//{DirectX::XMVectorSet( 0.25f,0.5f,  1.0f,1.0f ), 1.0f, 0.0f, 1.0f },
@@ -60,8 +67,8 @@ public:
 
 		// INput layout
 		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
-		IED.emplace_back(  "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0  );
-		//IED.emplace_back( "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
+		IED.emplace_back(  "Position", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0  );
+		IED.emplace_back( "Color", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
 		AddBind( std::make_unique<InputLayout>( gfx, std::move(IED), *vsbtyecode ) );
 
