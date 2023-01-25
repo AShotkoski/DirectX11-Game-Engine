@@ -229,6 +229,11 @@ void Graphics::Draw( UINT vertexCount, UINT start )
 	pContext->Draw( vertexCount, start );
 }
 
+void Graphics::DrawIndexed( UINT indexCount )
+{
+	pContext->DrawIndexed( indexCount, 0u, 0u );
+}
+
 void Graphics::EndFrame()
 {
 	HRESULT hr;

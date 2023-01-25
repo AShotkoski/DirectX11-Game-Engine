@@ -30,11 +30,9 @@ public:
 public:
 
 	void BeginFrame();
-
 	void DrawTest(float angle);
-
 	void Draw( UINT vertexCount, UINT start );
-
+	void DrawIndexed( UINT indexCount );
 	void EndFrame();
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;

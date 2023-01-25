@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Bindable.h"
 #include "IndexedTriangleList.h"
+#include "IndexBuffer.h"
 #include <vector>
 #include <memory>
 
@@ -19,5 +20,7 @@ protected:
 	void AddBind( std::unique_ptr<Bindable> bind );
 private:
 	std::vector<std::unique_ptr<Bindable>> Binds;
+	// Hold a const ptr to the index buffer to access it when drawing
+	const IndexBuffer* pIndexBuffer = nullptr;
 };
 
