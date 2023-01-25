@@ -52,6 +52,8 @@ public:
 	// Exit code will be returned, otherwise empty optional
 	std::optional<int> ProcessMessage() const;
 	Graphics& GFX();
+	RECT GetRect() const;
+	float GetAspectRatio() const;
 private:
 	static LRESULT WINAPI SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );

@@ -5,6 +5,7 @@
 // Setup singleton
 Window::WindowClass Window::WindowClass::wndClass;
 
+/******************   WINDOWS CLASS    ***********************/
 Window::WindowClass::WindowClass()
 	:
 	hInst(GetModuleHandle(nullptr))
@@ -41,6 +42,7 @@ std::wstring Window::WindowClass::GetName()  noexcept
 	return std::wstring(ClassName);
 }
 
+/******************   WINDOWS CORE    ***********************/
 Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	:
 	width(Width),
@@ -111,6 +113,21 @@ Graphics& Window::GFX()
 	return *pGfx;
 }
 
+RECT Window::GetRect() const
+{
+	RECT rect;
+	rect.left = 0;
+	rect.right = width;
+	rect.top = 0;
+	rect.bottom = height;
+	return rect;
+}
+
+float Window::GetAspectRatio() const
+{
+	return ((float)width / (float)height);
+}
+
 LRESULT WINAPI Window::SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	// This man has one purpose, to associate a ptr to the window class into the windows api.
@@ -159,7 +176,6 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 }
 
 /******************   WINDOWS EXCEPTION    ***********************/
-
 Window::Exception::Exception( int line, const std::string& file, HRESULT hr )
 	:
 	BaseException(line,file),
