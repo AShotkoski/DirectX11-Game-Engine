@@ -71,7 +71,7 @@ Graphics::Graphics( HWND hWnd )
 	vp.TopLeftX       = (FLOAT)clientRect.left;
 	vp.TopLeftY       = (FLOAT)clientRect.top;
 	vp.Width          = (FLOAT)clientRect.right;
-	vp.Height         = (FLOAT)clientRect.left;
+	vp.Height         = (FLOAT)clientRect.bottom;
 	vp.MinDepth       = 0;
 	vp.MaxDepth       = 1;
 	pContext->RSSetViewports( 1u, &vp );
