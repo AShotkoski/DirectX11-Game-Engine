@@ -19,17 +19,16 @@ void Game::Go()
 	// Capture frame time
 	dt = ft.Mark();
 
+	gfx.BeginFrame();
+
 	ProcessFrame();
+
+	gfx.EndFrame();
 }
 
 
 void Game::ProcessFrame()
-{
-	// Code goes here
-	gfx.BeginFrame();
-
+{	
 	test.Draw( gfx );
 	test.Update( dt );
-
-	gfx.EndFrame();
 }

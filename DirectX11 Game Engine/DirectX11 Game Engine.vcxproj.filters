@@ -51,6 +51,9 @@
     <ClCompile Include="VertexShader.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="TransformationConstBuffer.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationConstBuffer.h">
+      <Filter>Headers\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

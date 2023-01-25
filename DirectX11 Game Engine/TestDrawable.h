@@ -4,6 +4,7 @@
 #include "Drawable.h"
 #include "BindableBaseIncludes.h"
 #include "ConstantBuffers.h"
+#include "TransformationConstBuffer.h"
 #include <DirectXMath.h>
 
 class tDrawable : public Drawable
@@ -60,16 +61,8 @@ public:
 		// Bind Index Buffer
 		AddBind( std::make_unique<IndexBuffer>( gfx, indices ) );
 
-		// const buffer
-		struct ConstBuffer
-		{
-			DirectX::XMMATRIX transformation;
-		};
-
-		ConstBuffer cb = { DirectX::XMMatrixIdentity() };
-
-		// Bind VS Const Buffer
-		AddBind( std::make_unique<VertexConstantBuffer<ConstBuffer>>( gfx, cb ) );
+		// Bind Transformation CB
+		AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
 
 		// Bind PS
 		AddBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso"));
@@ -95,9 +88,7 @@ public:
 
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
 	{
-		return DirectX::XMMatrixTranspose(
-			DirectX::XMMatrixRotationRollPitchYaw( 0.0f, 0.0f, theta )
-		);
+		return DirectX::XMMatrixRotationRollPitchYaw( 0.0f, 0.0f, theta );
 	}
 private:
 	float theta = 0.0f;
