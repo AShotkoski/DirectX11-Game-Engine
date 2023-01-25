@@ -17,10 +17,7 @@ public:
 		{
 			struct
 			{
-				float x;
-				float y;
-				float z;
-				float w;
+				DirectX::XMVECTOR position;
 			} pos;	
 			struct
 			{
@@ -33,9 +30,9 @@ public:
 		// Set vertexs
 		std::vector<Vertex> verts = 
 		{
-			{0.0f,1.0f,1.0f, 1.0f, 1.0f,0.0f,0.0f},
-			{1.0f,0.0f,1.0f, 1.0f, 0.0f,1.0f,0.0f },
-			{-1.0f,0.0f,1.0f, 1.0f, 0.0f,0.0f,1.0f }
+					 {  DirectX::XMVectorSet( 0.01f,0.5f,  1.0f,1.0f ), 0.0f, 0.0f, 1.0f },
+					 {  DirectX::XMVectorSet( 0.25f,0.0f,  1.0f,1.0f ), 1.0f, 0.0f, 0.0f },
+					 {  DirectX::XMVectorSet( -0.25f,0.0f,  1.0f,1.0f ), 0.0f, 1.0f, 0.0f }
 		};
 		//{
 			//{DirectX::XMVectorSet( 0.25f,0.5f,  1.0f,1.0f ), 1.0f, 0.0f, 1.0f },
@@ -50,10 +47,8 @@ public:
 			//{DirectX::XMVectorSet( 0.5f,0.0f, 1.0f,1.0f ), 0.0f, 0.0f, 1.0f },
 			////{DirectX::XMVectorSet( -0.25f,0.0f, 1.0f,1.0f ), 0.0f, 0.0f, 1.0f },
 		//};
-		//verts.push_back( {  0.0f,0.8f, 1.0f,1.0f, 0.0f, 0.0f, 1.0f } );
-		//verts.push_back( {  0.5f,0.0f, 1.0f,1.0f, 0.0f, 0.0f, 1.0f } );
-		//verts.push_back( {  -0.25f,0.0f, 1.0f,1.0f, 0.0f, 0.0f, 1.0f } );
-		// 
+
+		
 		// Bind vert buff
 		AddBind( std::make_unique<VertexBuffer>( gfx, verts) );
 
