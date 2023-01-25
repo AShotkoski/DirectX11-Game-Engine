@@ -224,6 +224,11 @@ void Graphics::DrawTest(float angle)
 	pContext->DrawIndexed( (UINT)std::size(indices), 0u, 0u);
 }
 
+void Graphics::Draw( UINT vertexCount, UINT start )
+{
+	pContext->Draw( vertexCount, start );
+}
+
 void Graphics::EndFrame()
 {
 	HRESULT hr;

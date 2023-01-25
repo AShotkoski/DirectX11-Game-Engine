@@ -28,9 +28,12 @@ public:
 	Graphics( const Graphics& ) = delete;
 	Graphics& operator=( const Graphics& ) = delete;
 public:
+
 	void BeginFrame();
 
 	void DrawTest(float angle);
+
+	void Draw( UINT vertexCount, UINT start );
 
 	void EndFrame();
 private:

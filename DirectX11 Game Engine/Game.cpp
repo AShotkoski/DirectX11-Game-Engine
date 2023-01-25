@@ -3,7 +3,8 @@
 Game::Game( Window& window )
 	:
 	wnd( window ),
-	gfx(wnd.GFX())
+	gfx(wnd.GFX()),
+	test(gfx)
 {
 }
 
@@ -24,7 +25,8 @@ void Game::ProcessFrame()
 {
 	// Code goes here
 	gfx.BeginFrame();
-	//gfx.DrawTest(ft.GetTime());
+	gfx.DrawTest(ft.GetTime());
+	test.Draw( gfx );
 
 	gfx.EndFrame();
 }

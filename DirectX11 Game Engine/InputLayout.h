@@ -11,7 +11,6 @@ public:
 				 ID3DBlob& VSByteCode );
 	void Bind( Graphics& gfx ) override;
 private:
-	const std::vector<D3D11_INPUT_ELEMENT_DESC>& Descriptions;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> pInputLayout;
 };
 

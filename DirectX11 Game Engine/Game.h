@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "FrameTimer.h"
+#include "TestDrawable.h"
 
 class Game
 {
@@ -17,6 +18,8 @@ private:
 	// Hold a ref to graphics
 	Graphics& gfx;
 	FrameTimer ft;
+	//test
+	tDrawable test;
 private:
 	float dt = 0.f;
 };

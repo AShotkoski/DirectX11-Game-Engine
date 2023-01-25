@@ -6,6 +6,7 @@ void Drawable::Draw( Graphics& gfx ) const
 	{
 		b->Bind( gfx );
 	}
+	gfx.Draw( 3, 0 );
 }
 
 void Drawable::AddBind( std::unique_ptr<Bindable> bind )

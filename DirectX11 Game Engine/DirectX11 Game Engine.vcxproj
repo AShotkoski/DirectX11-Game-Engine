@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="BaseException.h" />
     <ClInclude Include="Bindable.h" />
+    <ClInclude Include="BindableBaseIncludes.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />

@@ -1,18 +1,18 @@
 #include "InputLayout.h"
 #include "Macros.h"
+#include <cassert>
 
 InputLayout::InputLayout( Graphics& gfx,
 						  const std::vector<D3D11_INPUT_ELEMENT_DESC>& descriptions,
 						  ID3DBlob& VSByteCode)
-	:
-	Descriptions(descriptions)
 {
 	// error handling
 	HRESULT hr;
+	assert( descriptions.size() > 0 );
 
 	THROW_FAILED_GFX( pGetDevice( gfx )->CreateInputLayout(
-		Descriptions.data(),
-		(UINT)Descriptions.size(),
+		descriptions.data(),
+		(UINT)descriptions.size(),
 		VSByteCode.GetBufferPointer(),
 		VSByteCode.GetBufferSize(),
 		&pInputLayout ) );

@@ -3,6 +3,7 @@
 #include "Macros.h"
 #include <vector>
 #include <wrl.h>
+#include <cassert>
 
 class VertexBuffer : public Bindable
 {
@@ -16,18 +17,19 @@ private:
 };
 
 template<class Vertex>
-inline VertexBuffer::VertexBuffer( Graphics& gfx, const std::vector<Vertex>& vertices )
+VertexBuffer::VertexBuffer( Graphics& gfx, const std::vector<Vertex>& vertices )
 {
+	assert( vertices.size() > 0 );
 	// Error checker
 	HRESULT hr;
-
+	
 	D3D11_SUBRESOURCE_DATA srd = { 0 };
 	srd.pSysMem                = vertices.data();
 	srd.SysMemPitch            = 0u; // Texture
 	srd.SysMemSlicePitch       = 0u;
 
 	D3D11_BUFFER_DESC bd = { 0 };
-	bd.ByteWidth           = sizeof( Vertex ) * vertices.size();
+	bd.ByteWidth           = (UINT)(sizeof( Vertex ) * vertices.size());
 	bd.Usage               = D3D11_USAGE_DEFAULT;
 	bd.BindFlags           = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags      = 0u;
