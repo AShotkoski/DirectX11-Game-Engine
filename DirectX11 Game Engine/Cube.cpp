@@ -80,11 +80,10 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
-			float dRho, float dTheta, float dPhi, float dPitch, float dYaw, float dRoll )
+			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll )
 	:
 	Cube(gfx,size,rho,theta,phi)
 {
-	this->dRho = dRho;
 	this->dTheta = dTheta;
 	this->dPhi = dPhi;
 	this->dPitch = dPitch;
@@ -98,7 +97,6 @@ void Cube::Update( float dt )
 	yaw += dYaw * dt;
 	roll += dRoll * dt;
 
-	rho += dRho * dt;
 	theta += dTheta * dt;
 	phi += dPhi * dt;
 }
