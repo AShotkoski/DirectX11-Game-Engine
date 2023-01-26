@@ -188,7 +188,6 @@
     <ClInclude Include="Macros.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="TestDrawable.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformationConstBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />
