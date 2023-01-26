@@ -23,10 +23,11 @@ protected:
 	void AddBind( std::unique_ptr<Bindable> bind );
 	// Only implemented in drawablebase as a way to access static binds
 	virtual const std::vector<std::unique_ptr<Bindable>>& GetStaticBinds() const noexcept = 0;
+	virtual const IndexBuffer* pGetStaticIndexBuffer() const noexcept = 0;
 private:
 	std::vector<std::unique_ptr<Bindable>> Binds;
 	// Hold a const ptr to the index buffer to access it when drawing
-	const IndexBuffer* pIndexBuffer = nullptr;
+	mutable const IndexBuffer* pIndexBuffer = nullptr;
 };
 
 
@@ -42,7 +43,7 @@ protected:
 		if ( typeid( *bind ) == typeid( IndexBuffer ) )
 		{
 			assert( pIndexBuffer == nullptr );
-			pIndexBuffer = static_cast<IndexBuffer*>(bind.get());
+			staticpIndexBuffer = static_cast<IndexBuffer*>(bind.get());
 		}
 
 		StaticBinds.push_back( std::move( bind ) );
@@ -55,9 +56,16 @@ protected:
 	{
 		return StaticBinds;
 	}
+	const IndexBuffer* pGetStaticIndexBuffer() const noexcept override
+	{
+		return staticpIndexBuffer;
+	}
 private:
 	static std::vector<std::unique_ptr<Bindable>> StaticBinds;
+	static const IndexBuffer* staticpIndexBuffer;
 };
 
 template <class ID>
 std::vector<std::unique_ptr<Bindable>> DrawableBase<ID>::StaticBinds;
+template <class ID>
+const IndexBuffer* DrawableBase<ID>::staticpIndexBuffer;

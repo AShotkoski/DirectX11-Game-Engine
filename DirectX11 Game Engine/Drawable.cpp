@@ -3,7 +3,7 @@
 #include "IndexBuffer.h"
 
 void Drawable::Draw( Graphics& gfx ) const
-{
+{	
 	for ( auto& b : Binds )
 	{
 		b->Bind( gfx );
@@ -12,8 +12,15 @@ void Drawable::Draw( Graphics& gfx ) const
 	{
 		b->Bind( gfx );
 	}
-	assert("No index buffer bound." && pIndexBuffer != nullptr);
+	
+	if ( pIndexBuffer == nullptr )
+	{
+		assert("NO INDEX BUFFER FOUND\n" && pGetStaticIndexBuffer() != nullptr);
+		pIndexBuffer = pGetStaticIndexBuffer();
+	}
+
 	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
+
 }
 
 void Drawable::AddBind( std::unique_ptr<Bindable> bind )

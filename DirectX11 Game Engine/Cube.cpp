@@ -13,7 +13,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 {
 	if ( !isStaticInitialized() )
 	{
-	// Set topology
+		// Set topology
 		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
 		// Setup Vertex type
