@@ -79,11 +79,28 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 	AddBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
 }
 
+Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
+			float dRho, float dTheta, float dPhi, float dPitch, float dYaw, float dRoll )
+	:
+	Cube(gfx,size,rho,theta,phi)
+{
+	this->dRho = dRho;
+	this->dTheta = dTheta;
+	this->dPhi = dPhi;
+	this->dPitch = dPitch;
+	this->dYaw = dYaw;
+	this->dRoll = dRoll;
+}
+
 void Cube::Update( float dt )
 {
 	pitch += dPitch * dt;
 	yaw += dYaw * dt;
 	roll += dRoll * dt;
+
+	rho += dRho * dt;
+	theta += dTheta * dt;
+	phi += dPhi * dt;
 }
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept

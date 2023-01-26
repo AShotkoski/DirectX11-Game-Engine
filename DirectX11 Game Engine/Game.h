@@ -18,7 +18,7 @@ private:
 	// Hold a ref to graphics
 	Graphics& gfx;
 	FrameTimer ft;
-	Cube cube;
+	std::vector<std::unique_ptr<Cube>> cubes;
 private:
 	float dt = 0.f;
 };
