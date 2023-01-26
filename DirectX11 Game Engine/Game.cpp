@@ -1,10 +1,10 @@
 #include "Game.h"
 
-Game::Game( Window& window )
+Game::Game( Window& window)
 	:
 	wnd( window ),
 	gfx(wnd.GFX()),
-	test(gfx)
+	cube(gfx,1.f,1.f,1.f,1.f)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 40.0f));
 }
@@ -26,6 +26,6 @@ void Game::Go()
 
 void Game::ProcessFrame()
 {	
-	test.Draw( gfx );
-	test.Update( dt / 5.f );
+	cube.Update( dt );
+	cube.Draw( gfx );
 }

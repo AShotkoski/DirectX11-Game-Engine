@@ -1,7 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "FrameTimer.h"
-#include "TestDrawable.h"
+#include "Cube.h"
 
 class Game
 {
@@ -18,8 +18,7 @@ private:
 	// Hold a ref to graphics
 	Graphics& gfx;
 	FrameTimer ft;
-	//test
-	tDrawable test;
+	Cube cube;
 private:
 	float dt = 0.f;
 };
