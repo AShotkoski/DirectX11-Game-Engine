@@ -15,7 +15,7 @@ Game::Game( Window& window)
 	std::uniform_real_distribution<float> dtheta( -2.f, 2.f );
 	std::uniform_real_distribution<float> dphi( -2.f, 2.f );
 	std::uniform_real_distribution<float> rot( -2.f, 2.f );
-	for ( int i = 0; i < 30; i++ )
+	for ( int i = 0; i < 300; i++ )
 	{
 		cubes.emplace_back( std::make_unique<Cube>(
 			gfx,

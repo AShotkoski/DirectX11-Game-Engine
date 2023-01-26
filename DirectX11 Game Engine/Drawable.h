@@ -29,6 +29,7 @@ private:
 	const IndexBuffer* pIndexBuffer = nullptr;
 };
 
+
 // Static binds are held between instances of the same type. The template must be the classname
 // wherein it is instantiated
 template <class ID>

@@ -14,7 +14,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 	if ( !isStaticInitialized() )
 	{
 	// Set topology
-		AddBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
 		// Setup Vertex type
 		struct Vertex
@@ -46,7 +46,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		};
 
 		// Bind vertex buffer
-		AddBind( std::make_unique<VertexBuffer>( gfx, verts ) );
+		AddStaticBind( std::make_unique<VertexBuffer>( gfx, verts ) );
 
 		// Create Index Buffer
 		const std::vector<unsigned short> indices =
@@ -60,26 +60,26 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		};
 
 		// Bind Index Buffer
-		AddBind( std::make_unique<IndexBuffer>( gfx, indices ) );
-
-		// Bind Transformation CB
-		AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
+		AddStaticBind( std::make_unique<IndexBuffer>( gfx, indices ) );
 
 		// Bind PS
-		AddBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso" ) );
+		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso" ) );
 
 		// Bind VS, store bytecode
 		auto vs = std::make_unique<VertexShader>( gfx, L"VertexShader.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
-		AddBind( std::move( vs ) );
+		AddStaticBind( std::move( vs ) );
 
 		// Input layout
 		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
 		IED.emplace_back( "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 		IED.emplace_back( "Color", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
-		AddBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
+		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
 	}
+
+	// Bind non static Transformation CB
+	AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
