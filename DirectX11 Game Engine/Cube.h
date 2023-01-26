@@ -6,7 +6,7 @@ class Cube : public Drawable
 public:
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi );
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi,
-		  float dRho, float dTheta, float dPhi, float dPitch, float dYaw, float dRoll);
+		  float dTheta, float dPhi, float dPitch, float dYaw, float dRoll);
 	void Update( float dt ) override;
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:
@@ -22,7 +22,6 @@ private:
 
 	// Derivates //
 	// Position
-	float dRho = 0;
 	float dTheta = 0;
 	float dPhi = 0;
 	// Rotation
