@@ -1,7 +1,7 @@
 #pragma once
 #include "Drawable.h"
 
-class Cube : public Drawable
+class Cube : public DrawableBase<Cube>
 {
 public:
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi );
