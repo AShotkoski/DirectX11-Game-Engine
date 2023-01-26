@@ -2,7 +2,7 @@
 #include "BindableBaseIncludes.h"
 #include "ConstantBuffers.h"
 #include "TransformationConstBuffer.h"
-
+#include "CubePrimitive.h"
 
 Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 	:
@@ -19,10 +19,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		// Setup Vertex type
 		struct Vertex
 		{
-			struct
-			{
-				DirectX::XMVECTOR position;
-			} pos;
+			DirectX::XMFLOAT3 pos;
 			struct
 			{
 				float r;
@@ -32,35 +29,22 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		};
 
 		// Set vertexs
-		const float side = size / 2.f;
-		std::vector<Vertex> verts =
-		{
-			{ DirectX::XMVectorSet( -side, -side, -side, 1.0f ), 1.0f, 0.0f, 1.0f },
-			{ DirectX::XMVectorSet( side, -side, -side, 1.0f ), 0.0f, 1.0f, 0.0f },
-			{ DirectX::XMVectorSet( -side, side, -side, 1.0f ), 0.0f, 0.5f, 0.0f },
-			{ DirectX::XMVectorSet( side, side, -side, 1.0f ), 0.7f, 0.5f, 0.0f },
-			{ DirectX::XMVectorSet( -side, -side, side, 1.0f ), 1.0f, 0.0f, 0.0f },
-			{ DirectX::XMVectorSet( side, -side, side, 1.0f ), 0.0f, 0.0f, 1.0f },
-			{ DirectX::XMVectorSet( -side, side, side, 1.0f ), 1.0f, 0.0f, 1.0f },
-			{ DirectX::XMVectorSet( side, side, side, 1.f ), 0.0f, 0.0f, 1.0f },
-		};
+		auto itl = GeometricPrim::Cube::GetPlain<Vertex>();
+		itl.Transform( DirectX::XMMatrixScaling( size, size, size ) );
+		itl.vertices[0].color = { 1.0, 0.f, 0.f };
+		itl.vertices[1].color = { 1.0, 1.f, 0.f };
+		itl.vertices[2].color = { 0.0, 1.f, 0.f };
+		itl.vertices[3].color = { 1.0, 0.f, 1.f };
+		itl.vertices[4].color = { 1.0, 0.f, 0.f };
+		itl.vertices[5].color = { 0.0, 0.f, 1.f };
+		itl.vertices[6].color = { 1.0, 0.f, 0.f };
+		itl.vertices[7].color = { 1.0, 1.f, 1.f };
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<VertexBuffer>( gfx, verts ) );
-
-		// Create Index Buffer
-		const std::vector<unsigned short> indices =
-		{
-			0,2,1,   2,3,1,
-			1,3,5,	 3,7,5,
-			5,7,4,	 7,6,4,
-			4,6,2,	 2,0,4,
-			2,6,3,   6,7,3,
-			0,1,4,	 1,5,4
-		};
+		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
 
 		// Bind Index Buffer
-		AddStaticBind( std::make_unique<IndexBuffer>( gfx, indices ) );
+		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );
 
 		// Bind PS
 		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso" ) );
