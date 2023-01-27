@@ -194,4 +194,5 @@ namespace Colors
 	static constexpr const Color SlateGrey      = Color::MakeRgbS( 112, 128, 144 );
 	static constexpr const Color DarkSlateGray  = Color::MakeRgbS( 47, 79, 79 );
 	static constexpr const Color DarkSlateGrey  = Color::MakeRgbS( 47, 79, 79 );
+	static constexpr const Color Black		    = Color::MakeRgbS( 0, 0, 0 );
 };

@@ -35,14 +35,14 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 
 		const colorconstbuff cols =
 		{
-			 1.0f,0.0f,0.0f, 1.0f,
-			 0.0f,1.0f,0.0f, 1.0f,
-			 0.0f,0.0f,1.0f, 1.0f,
-			 0.0f,0.5f,0.5f, 1.0f,
-			 0.5f,0.5f,0.0f, 1.0f,
-			 0.5f,0.0f,0.5f, 1.0f,
-			 0.5f,0.5f,0.5f, 1.0f,
-			 0.25f,0.75f,0.0f, 1.0f
+			 Colors::Red,
+			 Colors::OrangeRed,
+			 Colors::Yellow,
+			 Colors::LawnGreen,
+			 Colors::Blue,
+			 Colors::DarkViolet,
+			 Colors::Black,
+			 Colors::Black
 		};
 
 
