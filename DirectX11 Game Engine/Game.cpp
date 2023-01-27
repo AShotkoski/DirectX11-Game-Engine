@@ -10,7 +10,6 @@ Game::Game( Window& window)
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
 	std::mt19937 rng( std::random_device{}( ) );
 	std::normal_distribution<float> sizeDist( 0.6f, 0.6f );
-	float size = std::clamp( sizeDist( rng ), 0.2f, 1.5f );
 	std::normal_distribution<float> rhodist( 5.f, 2.f );
 	std::uniform_real_distribution<float> thetadist( -2.f, 2.f );
 	std::uniform_real_distribution<float> phidist( -2.f, 2.f );
@@ -19,6 +18,7 @@ Game::Game( Window& window)
 	std::uniform_real_distribution<float> rot( -2.f, 2.f );
 	for ( int i = 0; i < 3; i++ )
 	{
+		float size = std::clamp( sizeDist( rng ), 0.2f, 1.5f );
 		cubes.emplace_back( std::make_unique<Cube>(
 			gfx,
 			size,
