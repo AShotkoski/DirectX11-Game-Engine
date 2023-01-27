@@ -21,23 +21,37 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		struct Vertex
 		{
 			DirectX::XMFLOAT3 pos;
+		};
+
+		// Color cbuffer
+		struct colorconstbuff
+		{
 			struct
 			{
 				float r;
 				float g;
 				float b;
-			} color;
+				float a;
+			} color[8];
 		};
+
+		const colorconstbuff cols =
+		{
+			 1.0f,0.0f,0.0f, 1.0f,
+			 0.0f,1.0f,0.0f, 1.0f,
+			 0.0f,0.0f,1.0f, 1.0f,
+			 0.0f,0.5f,0.5f, 1.0f,
+			 0.5f,0.5f,0.0f, 1.0f,
+			 0.5f,0.0f,0.5f, 1.0f,
+			 0.5f,0.5f,0.5f, 1.0f,
+			 0.25f,0.75f,0.0f, 1.0f
+		};
+
+		// Bind ps cb
+		AddStaticBind( std::make_unique<PixelConstantBuffer<colorconstbuff>>( gfx, cols ) );
 
 		// Set vertexs
 		auto itl = GeometricPrim::Cube::GetPlain<Vertex>();
-		// Setup colors
-		for ( auto& v : itl.vertices )
-		{
-			std::uniform_real_distribution<float> cDist( 0.f, 1.f );
-			std::mt19937 rng( std::random_device{}( ) );
-			v.color = { cDist( rng ), cDist( rng ), cDist( rng ) };
-		}
 
 		// Bind vertex buffer
 		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
@@ -46,17 +60,16 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );
 
 		// Bind PS
-		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PixelShader.cso" ) );
+		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSPrimitiveSolidColor.cso" ) );
 
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<VertexShader>( gfx, L"VertexShader.cso" );
+		auto vs = std::make_unique<VertexShader>( gfx, L"VSTransform.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
 		// Input layout
 		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
 		IED.emplace_back( "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 );
-		IED.emplace_back( "Color", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
 		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
 	}
