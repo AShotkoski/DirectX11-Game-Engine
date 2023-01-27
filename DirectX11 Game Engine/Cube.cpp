@@ -3,6 +3,7 @@
 #include "ConstantBuffers.h"
 #include "TransformationConstBuffer.h"
 #include "CubePrimitive.h"
+#include <random>
 
 Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 	:
@@ -30,14 +31,13 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 
 		// Set vertexs
 		auto itl = GeometricPrim::Cube::GetPlain<Vertex>();
-		itl.vertices[0].color = { 1.0, 0.f, 0.f };
-		itl.vertices[1].color = { 1.0, 1.f, 0.f };
-		itl.vertices[2].color = { 0.0, 1.f, 0.f };
-		itl.vertices[3].color = { 1.0, 0.f, 1.f };
-		itl.vertices[4].color = { 1.0, 0.f, 0.f };
-		itl.vertices[5].color = { 0.0, 0.f, 1.f };
-		itl.vertices[6].color = { 1.0, 0.f, 0.f };
-		itl.vertices[7].color = { 1.0, 1.f, 1.f };
+		// Setup colors
+		for ( auto& v : itl.vertices )
+		{
+			std::uniform_real_distribution<float> cDist( 0.f, 1.f );
+			std::mt19937 rng( std::random_device{}( ) );
+			v.color = { cDist( rng ), cDist( rng ), cDist( rng ) };
+		}
 
 		// Bind vertex buffer
 		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
