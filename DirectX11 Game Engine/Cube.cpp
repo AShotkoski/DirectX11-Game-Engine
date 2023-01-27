@@ -41,10 +41,9 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 			 Colors::LawnGreen,
 			 Colors::Blue,
 			 Colors::DarkViolet,
-			 Colors::Black,
-			 Colors::Black
+			 Colors::Aquamarine,
+			 Colors::Maroon
 		};
-
 
 		// Bind ps cb
 		AddStaticBind( std::make_unique<PixelConstantBuffer<colorconstbuff>>( gfx, cols ) );

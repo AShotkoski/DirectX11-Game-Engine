@@ -183,6 +183,7 @@
     <ClInclude Include="BindableBaseIncludes.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
+    <ClInclude Include="PlatonicSolids.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubePrimitive.h" />
     <ClInclude Include="Drawable.h" />

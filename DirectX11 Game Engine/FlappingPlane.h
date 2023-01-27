@@ -9,5 +9,6 @@ public:
 	void Update( float dt ) override;
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:
+	float theta = 0;
 };
 
