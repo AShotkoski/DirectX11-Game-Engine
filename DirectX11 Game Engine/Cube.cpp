@@ -3,6 +3,7 @@
 #include "ConstantBuffers.h"
 #include "TransformationConstBuffer.h"
 #include "CubePrimitive.h"
+#include "Colors.h"
 #include <random>
 
 Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
@@ -28,10 +29,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		{
 			struct
 			{
-				float r;
-				float g;
-				float b;
-				float a;
+				Color c;
 			} color[8];
 		};
 
@@ -46,6 +44,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 			 0.5f,0.5f,0.5f, 1.0f,
 			 0.25f,0.75f,0.0f, 1.0f
 		};
+
 
 		// Bind ps cb
 		AddStaticBind( std::make_unique<PixelConstantBuffer<colorconstbuff>>( gfx, cols ) );
