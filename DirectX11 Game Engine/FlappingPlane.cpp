@@ -16,9 +16,9 @@ FlappingPlane::FlappingPlane( Graphics& gfx )
 			DirectX::XMFLOAT3 pos;
 		};
 	
-
 		// Set vertexs
-		auto itl = GeometricPrim::Plane::GetPlain<Vertex>(5);
+		auto itl = GeometricPrim::Plane::GetPlain<Vertex>(4);
+
 		itl.Transform( DirectX::XMMatrixRotationX( 1.f ) );
 
 		// Bind vertex buffer
@@ -31,7 +31,7 @@ FlappingPlane::FlappingPlane( Graphics& gfx )
 		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSSolidWhite.cso" ) );
 
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<VertexShader>( gfx, L"VSFlapping.cso" );
+		auto vs = std::make_unique<VertexShader>( gfx, L"VSTransform.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
@@ -48,7 +48,6 @@ FlappingPlane::FlappingPlane( Graphics& gfx )
 
 void FlappingPlane::Update( float dt )
 {
-	time += dt;
 }
 
 DirectX::XMMATRIX FlappingPlane::GetTransformationMatrix() const noexcept

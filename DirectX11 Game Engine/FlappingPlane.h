@@ -9,6 +9,5 @@ public:
 	void Update( float dt ) override;
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:
-	float time = 0;
 };
 
