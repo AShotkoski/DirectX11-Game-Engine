@@ -7,6 +7,12 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="VSTransform.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PSSolidWhite.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -55,6 +61,9 @@
       <Filter>Source\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
+      <Filter>Source\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="FlappingPlane.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +122,6 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="TestDrawable.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
@@ -123,6 +129,15 @@
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
+      <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="CubePrimitive.h">
+      <Filter>Headers\GeometricPrim</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanePrimitive.h">
+      <Filter>Headers\GeometricPrim</Filter>
+    </ClInclude>
+    <ClInclude Include="FlappingPlane.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,6 +165,9 @@
     </Filter>
     <Filter Include="Source\Drawable">
       <UniqueIdentifier>{1a5814f7-8082-4dc9-b414-a0d6aaec62a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GeometricPrim">
+      <UniqueIdentifier>{b079c664-8863-4ac6-b0c6-5bd06b11d146}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,8 @@
 Game::Game( Window& window)
 	:
 	wnd( window ),
-	gfx(wnd.GFX())
+	gfx(wnd.GFX()),
+	pl(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
 	std::mt19937 rng( std::random_device{}( ) );
@@ -15,7 +16,7 @@ Game::Game( Window& window)
 	std::uniform_real_distribution<float> dtheta( -2.f, 2.f );
 	std::uniform_real_distribution<float> dphi( -2.f, 2.f );
 	std::uniform_real_distribution<float> rot( -2.f, 2.f );
-	for ( int i = 0; i < 300; i++ )
+	for ( int i = 0; i < 3; i++ )
 	{
 		cubes.emplace_back( std::make_unique<Cube>(
 			gfx,
@@ -53,4 +54,6 @@ void Game::ProcessFrame()
 		c->Update( dt );
 		c->Draw( gfx );
 	}
+	pl.Update( dt );
+	pl.Draw( gfx );
 }
