@@ -142,7 +142,7 @@ void Graphics::EndFrame()
 	HRESULT hr;
 
 	// Present back buffer
-	if ( FAILED( hr = pSwapChain->Present( 1u, 0u ) ) )
+	if ( FAILED( hr = pSwapChain->Present( enableVSync ? 1u : 0u, 0u ) ) )
 	{
 		// Special throw case if graphics driver crashes
 		if ( hr == DXGI_ERROR_DEVICE_REMOVED )
