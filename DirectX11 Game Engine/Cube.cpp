@@ -30,7 +30,6 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 
 		// Set vertexs
 		auto itl = GeometricPrim::Cube::GetPlain<Vertex>();
-		itl.Transform( DirectX::XMMatrixScaling( size, size, size ) );
 		itl.vertices[0].color = { 1.0, 0.f, 0.f };
 		itl.vertices[1].color = { 1.0, 1.f, 0.f };
 		itl.vertices[2].color = { 0.0, 1.f, 0.f };
@@ -92,7 +91,8 @@ DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
 	// Use psuedo spherical coordinates to set position since it's funny
 	// First rotate object, then move based on rho theta phi, finally move out 10 units along Z
-	return DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
+	return DirectX::XMMatrixScaling(size,size,size)
+		* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
 		* DirectX::XMMatrixTranslation( rho, 0.f, 0.f )
 		* DirectX::XMMatrixRotationRollPitchYaw( 0.f, theta, phi )
 		* DirectX::XMMatrixTranslation( 0, 0, 10.f );
