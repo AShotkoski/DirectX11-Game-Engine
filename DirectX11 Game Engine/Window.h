@@ -50,7 +50,7 @@ public:
 	Window( const Window& ) = delete;
 	Window& operator=( const Window& ) = delete;
 	// Exit code will be returned, otherwise empty optional
-	std::optional<int> ProcessMessage() const;
+	static std::optional<int> ProcessMessage();
 	Graphics& GFX();
 	RECT GetRect() const;
 	float GetAspectRatio() const;

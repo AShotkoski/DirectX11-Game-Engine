@@ -1,9 +1,13 @@
 #include "Window.h"
 #include "resource.h"
+#include "ImGui//imgui_impl_win32.h"
 #include <sstream>
 
 // Setup singleton
 Window::WindowClass Window::WindowClass::wndClass;
+
+// ImGUi
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
 /******************   WINDOWS CLASS    ***********************/
 Window::WindowClass::WindowClass()
@@ -79,16 +83,20 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	if ( hWnd == nullptr )
 		throw LAST_WND_ERR_EXCEPT();
 
+	// Init ImGUI
+	ImGui_ImplWin32_Init( hWnd );
+
 	// Create Graphics object
 	pGfx = std::make_unique<Graphics>( hWnd );
 }
 
 Window::~Window()
 {
+	ImGui_ImplWin32_Shutdown();
 	DestroyWindow( hWnd );
 }
 
-std::optional<int> Window::ProcessMessage() const
+std::optional<int> Window::ProcessMessage()
 {
 	// Message loop
 	MSG msg;
@@ -163,6 +171,13 @@ LRESULT WINAPI Window::RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, 
 
 LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
+	// ImGUI
+	if ( ImGui_ImplWin32_WndProcHandler( hWnd, msg, wParam, lParam ) )
+	{
+		OutputDebugStringW( L"ImGUI return" );
+		return true;
+	}
+
 	// Main message switch
 	switch ( msg )
 	{

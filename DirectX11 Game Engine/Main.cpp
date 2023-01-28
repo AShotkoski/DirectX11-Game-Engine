@@ -10,13 +10,12 @@ int WINAPI wWinMain(
 {
 	try
 	{
-		Window window( 800u, 600u, L"Direct3D Game Window." );
-		Game game(window);
+		Game game;
 	
 		while (true)
 		{
 			// processmessage returns a filled optional ( quit message )
-			if (const auto exitCode = window.ProcessMessage())
+			if (const auto exitCode = Window::ProcessMessage())
 			{
 				return *exitCode;
 			}

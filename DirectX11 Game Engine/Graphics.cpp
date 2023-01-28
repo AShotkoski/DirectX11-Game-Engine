@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include "Macros.h"
+#include "ImGui/imgui_impl_dx11.h"
 #include <sstream>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -62,6 +63,9 @@ Graphics::Graphics( HWND hWnd )
 		nullptr,
 		&pContext ) );
 
+	// IMGUI
+	ImGui_ImplDX11_Init( pDevice.Get(), pContext.Get() );
+
 	// Create render target view
 	WRL::ComPtr<ID3D11Resource> pBackBuffer;
 
@@ -121,6 +125,10 @@ Graphics::Graphics( HWND hWnd )
 	pContext->RSSetViewports( 1u, &vp );
 }
 
+Graphics::~Graphics()
+{
+	ImGui_ImplDX11_Shutdown();
+}
 
 void Graphics::BeginFrame()
 {

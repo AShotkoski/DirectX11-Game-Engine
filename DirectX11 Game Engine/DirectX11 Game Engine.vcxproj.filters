@@ -105,6 +105,9 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

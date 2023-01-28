@@ -108,6 +108,7 @@
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="DDSLoader\DDSTextureLoader.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />

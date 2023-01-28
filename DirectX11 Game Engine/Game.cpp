@@ -1,9 +1,12 @@
 #include "Game.h"
 #include <random>
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_dx11.h"
+#include "ImGui/imgui_impl_win32.h"
 
-Game::Game( Window& window)
+Game::Game()
 	:
-	wnd( window ),
+	wnd( 800u, 600u, L"DirectX Window"),
 	gfx(wnd.GFX()),
 	pl(gfx)
 {
@@ -50,6 +53,8 @@ void Game::Go()
 
 void Game::ProcessFrame()
 {	
+
+
 	for ( auto& c : cubes )
 	{
 		c->Update( dt );
@@ -57,4 +62,15 @@ void Game::ProcessFrame()
 	}
 	pl.Update( dt );
 	pl.Draw( gfx );
+
+
+	// Imgui handle frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData( ImGui::GetDrawData() );
+
+	ImGui::EndFrame();
 }
