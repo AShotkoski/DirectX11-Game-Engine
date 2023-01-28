@@ -69,6 +69,9 @@
     <ClCompile Include="FlappingPlane.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Texure.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -142,6 +145,11 @@
     </ClInclude>
     <ClInclude Include="FlappingPlane.h">
       <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h" />
+    <ClInclude Include="PlatonicSolids.h" />
+    <ClInclude Include="Texure.h">
+      <Filter>Headers\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
