@@ -3,6 +3,7 @@
 #include <sstream>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include <d3d11sdklayers.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -16,7 +17,7 @@ Graphics::Graphics( HWND hWnd )
 {
 	// Used for erro chedcking
 	HRESULT hr;
-
+	
 	// Get window dimensions
 	RECT clientRect;
 	if ( GetClientRect( hWnd, &clientRect ) == 0 )
@@ -119,6 +120,7 @@ Graphics::Graphics( HWND hWnd )
 	vp.MaxDepth       = 1;
 	pContext->RSSetViewports( 1u, &vp );
 }
+
 
 void Graphics::BeginFrame()
 {
