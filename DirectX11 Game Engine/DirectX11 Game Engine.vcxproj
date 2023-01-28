@@ -44,10 +44,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <VcpkgUseStatic>false</VcpkgUseStatic>
+    <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>false</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>true</VcpkgEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -57,7 +60,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
@@ -80,7 +83,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
@@ -99,6 +102,7 @@
     <ClCompile Include="BaseException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DDSLoader\DDSTextureLoader.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="FlappingPlane.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
@@ -122,6 +126,7 @@
     <ClInclude Include="BindableBaseIncludes.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
+    <ClInclude Include="DDSLoader\DDSTextureLoader.h" />
     <ClInclude Include="PlatonicSolids.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubePrimitive.h" />

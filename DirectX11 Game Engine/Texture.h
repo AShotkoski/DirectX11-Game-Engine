@@ -2,7 +2,7 @@
 #include "Bindable.h"
 #include "Macros.h"
 #include "Win.h"
-#include <directxtk/DDSTextureLoader.h>
+#include "DDSLoader/DDSTextureLoader.h"
 #include <string>
 
 class Texture : public Bindable
@@ -11,9 +11,10 @@ public:
     Texture( Graphics& gfx, const std::wstring& path )
     {
         HRESULT hr;  
-        THROW_FAILED_GFX(DirectX::CreateDDSTextureFromFile( pGetDevice( gfx ), path.c_str(),
-                                           &pResource,
-                                           &pResourceView ));
+        // Create texure
+        THROW_FAILED_GFX( DirectX::CreateDDSTextureFromFile( pGetDevice( gfx ), path.c_str(),
+                                                             &pResource,
+                                                             &pResourceView ) );
     }
     void Bind( Graphics& gfx ) override
     {

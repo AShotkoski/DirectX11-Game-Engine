@@ -81,6 +81,9 @@
     <ClCompile Include="Sampler.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="DDSLoader\DDSTextureLoader.cpp">
+      <Filter>ThirdParty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -167,6 +170,9 @@
     <ClInclude Include="PlatonicSolids.h">
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
+    <ClInclude Include="DDSLoader\DDSTextureLoader.h">
+      <Filter>ThirdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -195,6 +201,9 @@
     </Filter>
     <Filter Include="Headers\GeometricPrim">
       <UniqueIdentifier>{b079c664-8863-4ac6-b0c6-5bd06b11d146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{407a6ee3-816e-44a3-bd1e-c9d8c0e0993c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
