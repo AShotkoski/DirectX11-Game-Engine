@@ -82,7 +82,28 @@
       <Filter>Source\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="DDSLoader\DDSTextureLoader.cpp">
-      <Filter>ThirdParty</Filter>
+      <Filter>ThirdParty\DDSLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +192,31 @@
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
     <ClInclude Include="DDSLoader\DDSTextureLoader.h">
-      <Filter>ThirdParty</Filter>
+      <Filter>ThirdParty\DDSLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ThirdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ThirdParty\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +249,12 @@
     </Filter>
     <Filter Include="ThirdParty">
       <UniqueIdentifier>{407a6ee3-816e-44a3-bd1e-c9d8c0e0993c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\DDSLoader">
+      <UniqueIdentifier>{e7b032ff-0d7d-4776-81a7-35cd4008bccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\ImGui">
+      <UniqueIdentifier>{032d3e31-aff2-4584-b7cb-d019548bcd81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
