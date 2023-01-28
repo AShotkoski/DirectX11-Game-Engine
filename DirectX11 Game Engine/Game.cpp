@@ -43,7 +43,7 @@ Game::~Game()
 void Game::Go()
 {
 	// Capture frame time
-	dt = ft.Mark();
+	dt = ft.Mark() * timeFactor;
 
 	gfx.BeginFrame();
 	ProcessFrame();
@@ -53,8 +53,6 @@ void Game::Go()
 
 void Game::ProcessFrame()
 {	
-
-
 	for ( auto& c : cubes )
 	{
 		c->Update( dt );
@@ -63,5 +61,11 @@ void Game::ProcessFrame()
 	pl.Update( dt );
 	pl.Draw( gfx );
 
-	ImGui::ShowDemoWindow();	
+	// Control game-wide settings
+	if ( ImGui::Begin( "Simulation Control" ) )
+	{
+		ImGui::SliderFloat( "Simulation Speed", &timeFactor, 0.0f, 6.0f );
+	}
+	ImGui::End();
 }
+

@@ -25,5 +25,6 @@ private:
 	FlappingPlane pl;
 private:
 	float dt = 0.f;
+	float timeFactor = 1.0f;
 };
 

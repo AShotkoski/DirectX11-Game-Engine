@@ -6,6 +6,7 @@
 #include "Colors.h"
 #include "Texture.h"
 #include "Sampler.h"
+#include "ImGui/imgui.h"
 
 FlappingPlane::FlappingPlane( Graphics& gfx )
 {
@@ -56,9 +57,6 @@ FlappingPlane::FlappingPlane( Graphics& gfx )
 		IED.emplace_back( "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
 		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
-		
-
-
 	}
 
 	// Bind non static Transformation CB
@@ -67,7 +65,7 @@ FlappingPlane::FlappingPlane( Graphics& gfx )
 
 void FlappingPlane::Update( float dt )
 {
-	theta += dt;
+	theta += dt;	
 }
 
 DirectX::XMMATRIX FlappingPlane::GetTransformationMatrix() const noexcept
