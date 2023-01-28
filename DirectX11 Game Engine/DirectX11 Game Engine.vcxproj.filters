@@ -16,6 +16,12 @@
     <FxCompile Include="PSPrimitiveSolidColor.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="VSTexture.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PSTexture.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -70,6 +76,9 @@
       <Filter>Source\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
