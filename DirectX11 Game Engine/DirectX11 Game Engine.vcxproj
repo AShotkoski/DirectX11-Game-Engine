@@ -175,7 +175,7 @@
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Texure.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformationConstBuffer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -203,7 +203,8 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="PlanePrimitive.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Texure.h" />
+    <ClInclude Include="Sampler.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformationConstBuffer.h" />
     <ClInclude Include="VertexBuffer.h" />

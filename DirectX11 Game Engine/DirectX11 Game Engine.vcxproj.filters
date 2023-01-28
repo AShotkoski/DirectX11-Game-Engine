@@ -69,7 +69,7 @@
     <ClCompile Include="FlappingPlane.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Texure.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,10 +146,17 @@
     <ClInclude Include="FlappingPlane.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Colors.h" />
-    <ClInclude Include="PlatonicSolids.h" />
-    <ClInclude Include="Texure.h">
+    <ClInclude Include="Texture.h">
       <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatonicSolids.h">
+      <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
