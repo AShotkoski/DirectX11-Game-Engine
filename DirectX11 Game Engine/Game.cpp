@@ -63,14 +63,5 @@ void Game::ProcessFrame()
 	pl.Update( dt );
 	pl.Draw( gfx );
 
-
-	// Imgui handle frame
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData( ImGui::GetDrawData() );
-
-	ImGui::EndFrame();
+	ImGui::ShowDemoWindow();	
 }

@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Macros.h"
 #include "ImGui/imgui_impl_dx11.h"
+#include "ImGui/imgui_impl_win32.h"
 #include <sstream>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -132,6 +133,13 @@ Graphics::~Graphics()
 
 void Graphics::BeginFrame()
 {
+	// Handle ImGui
+	if ( enableImGui )
+	{
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
 	float c[ 4 ] = { 0.f,0.0f,0.f,1.f };
 	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
 	pContext->ClearDepthStencilView( pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0 );
@@ -149,6 +157,15 @@ void Graphics::DrawIndexed( UINT indexCount )
 
 void Graphics::EndFrame()
 {
+	// Handle ImGui
+	if ( enableImGui )
+	{
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData( ImGui::GetDrawData() );
+
+		ImGui::EndFrame();
+	}
+
 	HRESULT hr;
 
 	// Present back buffer

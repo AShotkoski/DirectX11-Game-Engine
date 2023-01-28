@@ -37,7 +37,6 @@ public:
 	DirectX::XMMATRIX GetProjection() const noexcept;
 private:
 	DirectX::XMMATRIX projection;
-
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;
@@ -45,6 +44,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 
+private:
+	/********************** Parameters *******************/
 	static constexpr bool enableVSync = true;
+	static constexpr bool enableImGui = true;
+
 };
 
