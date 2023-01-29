@@ -27,6 +27,29 @@ public:
 			XMStoreFloat3( &v.pos, XMVector3Transform( pos, transformation ) );
 		}
 	}
+	void SetNormalsIndependentFlat()
+	{
+		assert("Wrong number of indices in triangle list" &&
+				indices.size() > 0 && indices.size() % 3 == 0);
+		using namespace DirectX;
+
+		// Loop over each triangle
+		for (size_t i = 0; i < indices.size(); i += 3 )
+		{
+			// Get vertex positions
+			const auto& v0 = XMLoadFloat3(&vertices[i].pos);
+			const auto& v1 = XMLoadFloat3(&vertices[i + 1].pos);
+			const auto& v2 = XMLoadFloat3(&vertices[i + 2].pos);
+
+			// Calculate normal using cross product
+			const auto n = XMVector3Normalize( XMVector3Cross( v1 - v0, v2 - v0 ) );
+
+			// Store normalized normal into vertices
+			XMStoreFloat3( &vertices[i].n, n );
+			XMStoreFloat3( &vertices[i + 1].n, n );
+			XMStoreFloat3( &vertices[i + 2].n, n );
+		}
+	}
 
 	//core data
 	std::vector<V> vertices;
