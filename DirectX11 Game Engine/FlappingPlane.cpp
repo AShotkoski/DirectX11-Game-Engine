@@ -71,6 +71,5 @@ void FlappingPlane::Update( float dt )
 DirectX::XMMATRIX FlappingPlane::GetTransformationMatrix() const noexcept
 {
 	using namespace DirectX;
-    return XMMatrixRotationRollPitchYaw(theta, theta * 2, 0) *
-		XMMatrixTranslation(0,0,5.f);
+	return XMMatrixRotationRollPitchYaw( theta, theta * 2, 0 );
 }

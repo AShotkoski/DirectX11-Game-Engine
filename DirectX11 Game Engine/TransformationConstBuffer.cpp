@@ -15,7 +15,7 @@ void TransformationConstBuffer::Bind( Graphics& gfx )
 					   DirectX::XMMatrixTranspose
 					   (
 						   parent.GetTransformationMatrix() *
-						   gfx.GetCamera() * 
+						   gfx.GetCamera().GetMatrix() * 
 						   gfx.GetProjection()
 					   )
 	);

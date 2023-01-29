@@ -102,9 +102,8 @@ DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
 	// Use psuedo spherical coordinates to set position since it's funny
 	// First rotate object, then move based on rho theta phi, finally move out 10 units along Z
-	return DirectX::XMMatrixScaling(size,size,size)
+	return DirectX::XMMatrixScaling( size, size, size )
 		* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
 		* DirectX::XMMatrixTranslation( rho, 0.f, 0.f )
-		* DirectX::XMMatrixRotationRollPitchYaw( 0.f, theta, phi )
-		* DirectX::XMMatrixTranslation( 0, 0, 10.f );
+		* DirectX::XMMatrixRotationRollPitchYaw( 0.f, theta, phi );
 }

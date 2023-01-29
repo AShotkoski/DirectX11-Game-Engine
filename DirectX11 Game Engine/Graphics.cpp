@@ -15,8 +15,7 @@ namespace dx = DirectX;
 
 Graphics::Graphics( HWND hWnd )
 	:
-	projection(DirectX::XMMatrixIdentity()),
-	camera(DirectX::XMMatrixIdentity())
+	projection(DirectX::XMMatrixIdentity())
 {
 	// Used for erro chedcking
 	HRESULT hr;
@@ -192,14 +191,9 @@ DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 	return projection;
 }
 
-void Graphics::SetCamera( DirectX::FXMMATRIX cam ) noexcept
+Camera& Graphics::GetCamera() noexcept
 {
-	camera = cam;
-}
-
-DirectX::XMMATRIX Graphics::GetCamera() const noexcept
-{
-	return camera;
+	return cam;
 }
 
 Graphics::Exception::Exception( int line, const std::string& file, HRESULT hr )

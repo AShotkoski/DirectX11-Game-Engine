@@ -12,7 +12,6 @@ Game::Game()
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
-	gfx.SetCamera( DirectX::XMMatrixTranslation(0,0,20.f));
 
 	for ( int i = 0; i < 10; i++ )
 	{
@@ -24,16 +23,8 @@ Game::Game()
 		float dRot = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float size = NumberFactory::NormalReal( 0.6f, 0.8f, 0.2f, 2.0f );
 
-		cubes.emplace_back( std::make_unique<Cube>( gfx,
-													size,
-													rho,
-													theta,
-													phi,
-													dtheta,
-													dphi,
-													dRot,
-													dRot,
-													dRot ) );
+		cubes.emplace_back(
+			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot ) );
 
 	}
 }
@@ -66,10 +57,10 @@ void Game::ProcessFrame()
 	// Control game-wide settings
 	if ( ImGui::Begin( "Simulation Control" ) )
 	{
-		ImGui::SliderFloat( "Simulation Speed", &timeFactor, 0.0f, 6.0f );
+		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );
 	}
 	ImGui::End();
 
-	
+	gfx.GetCamera().SpawnControlWindow();
 }
 

@@ -4,6 +4,7 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include <DirectXMath.h>
+#include "Camera.h"
 
 class Graphics
 {
@@ -35,11 +36,10 @@ public:
 	void EndFrame();
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
-	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
-	DirectX::XMMATRIX GetCamera() const noexcept;
+	Camera& GetCamera() noexcept;
 private:
 	DirectX::XMMATRIX projection;
-	DirectX::XMMATRIX camera;
+	Camera cam;
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;
