@@ -6,7 +6,7 @@
 
 Game::Game()
 	:
-	wnd( 800u, 600u, L"DirectX Window"),
+	wnd( ScreenWidth, ScreenHeight, WindowTitle),
 	gfx(wnd.GFX()),
 	pl(gfx)
 {

@@ -1,8 +1,6 @@
 #pragma once
 #include "Bindable.h"
 #include <vector>
-#include <memory>
-#include "VertexShader.h"
 
 class InputLayout : public Bindable
 {

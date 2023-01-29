@@ -18,13 +18,18 @@ private:
 private:
 	ImGuiManager imguimanager;
 	Window wnd;
-	// Hold a ref to graphics for easier calling
 	Graphics& gfx;
 	FrameTimer ft;
+
+	FlappingPlane pl; 
 	std::vector<std::unique_ptr<Cube>> cubes;
-	FlappingPlane pl;
 private:
 	float dt = 0.f;
 	float timeFactor = 1.0f;
+
+private:
+	static constexpr UINT ScreenWidth = 800u;
+	static constexpr UINT ScreenHeight = 600u;
+	static constexpr const wchar_t* WindowTitle = L"DirectX Window";
 };
 
