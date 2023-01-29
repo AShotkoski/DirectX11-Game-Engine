@@ -1,8 +1,8 @@
 #include "Game.h"
-#include <random>
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
+#include "NumberFactory.h"
 
 Game::Game()
 	:
@@ -11,28 +11,28 @@ Game::Game()
 	pl(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
-	std::mt19937 rng( std::random_device{}( ) );
-	std::normal_distribution<float> sizeDist( 0.6f, 0.8f );
-	std::normal_distribution<float> rhodist( 5.f, 2.f );
-	std::uniform_real_distribution<float> thetadist( -2.f, 2.f );
-	std::uniform_real_distribution<float> phidist( -2.f, 2.f );
-	std::uniform_real_distribution<float> dtheta( -2.f, 2.f );
-	std::uniform_real_distribution<float> dphi( -2.f, 2.f );
-	std::uniform_real_distribution<float> rot( -2.f, 2.f );
-	for ( int i = 0; i < 1; i++ )
+
+	for ( int i = 0; i < 10; i++ )
 	{
-		float size = std::clamp( sizeDist( rng ), 0.4f, 1.5f );
-		cubes.emplace_back( std::make_unique<Cube>(
-			gfx,
-			size,
-			rhodist( rng ),
-			thetadist( rng ),
-			phidist( rng ),
-			dphi(rng),
-			dtheta(rng),
-			rot( rng ),
-			rot( rng ),
-			rot( rng ) ) );
+		float rho = NumberFactory::NormalReal( 5.0f, 1.0f, 0.1f, 20.f );
+		float theta = NumberFactory::RandomReal( -2.0f, 2.0f );
+		float phi = NumberFactory::RandomReal( -2.0f, 2.0f );
+		float dtheta = NumberFactory::RandomReal( -2.0f, 2.0f );
+		float dphi = NumberFactory::RandomReal( -2.0f, 2.0f );
+		float dRot = NumberFactory::RandomReal( -2.0f, 2.0f );
+		float size = NumberFactory::NormalReal( 0.6f, 0.8f, 0.2f, 2.0f );
+
+		cubes.emplace_back( std::make_unique<Cube>( gfx,
+													size,
+													rho,
+													theta,
+													phi,
+													dtheta,
+													dphi,
+													dRot,
+													dRot,
+													dRot ) );
+
 	}
 }
 
@@ -67,5 +67,7 @@ void Game::ProcessFrame()
 		ImGui::SliderFloat( "Simulation Speed", &timeFactor, 0.0f, 6.0f );
 	}
 	ImGui::End();
+
+	
 }
 

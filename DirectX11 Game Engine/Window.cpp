@@ -174,7 +174,6 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// ImGUI
 	if ( ImGui_ImplWin32_WndProcHandler( hWnd, msg, wParam, lParam ) )
 	{
-		OutputDebugStringW( L"ImGUI return" );
 		return true;
 	}
 
