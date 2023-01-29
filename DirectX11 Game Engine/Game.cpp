@@ -10,7 +10,9 @@ Game::Game()
 	gfx(wnd.GFX()),
 	pl(gfx)
 {
+	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
+	gfx.SetCamera( DirectX::XMMatrixTranslation(0,0,20.f));
 
 	for ( int i = 0; i < 10; i++ )
 	{

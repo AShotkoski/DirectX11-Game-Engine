@@ -15,7 +15,8 @@ namespace dx = DirectX;
 
 Graphics::Graphics( HWND hWnd )
 	:
-	projection(DirectX::XMMatrixIdentity())
+	projection(DirectX::XMMatrixIdentity()),
+	camera(DirectX::XMMatrixIdentity())
 {
 	// Used for erro chedcking
 	HRESULT hr;
@@ -68,10 +69,8 @@ Graphics::Graphics( HWND hWnd )
 	ImGui_ImplDX11_Init( pDevice.Get(), pContext.Get() );
 
 	// Create render target view
-	WRL::ComPtr<ID3D11Resource> pBackBuffer;
-
+	Microsoft::WRL::ComPtr<ID3D11Resource> pBackBuffer;
 	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
-	
 	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
 
 	/************ Create depth / stencil buffer ************/
@@ -191,6 +190,16 @@ void Graphics::SetProjection( DirectX::FXMMATRIX proj ) noexcept
 DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 {
 	return projection;
+}
+
+void Graphics::SetCamera( DirectX::FXMMATRIX cam ) noexcept
+{
+	camera = cam;
+}
+
+DirectX::XMMATRIX Graphics::GetCamera() const noexcept
+{
+	return camera;
 }
 
 Graphics::Exception::Exception( int line, const std::string& file, HRESULT hr )

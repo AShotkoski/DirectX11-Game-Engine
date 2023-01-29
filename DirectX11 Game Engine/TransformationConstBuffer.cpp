@@ -14,7 +14,9 @@ void TransformationConstBuffer::Bind( Graphics& gfx )
 	VertexCBuf.Update( gfx, 
 					   DirectX::XMMatrixTranspose
 					   (
-						   parent.GetTransformationMatrix() * gfx.GetProjection()
+						   parent.GetTransformationMatrix() *
+						   gfx.GetCamera() * 
+						   gfx.GetProjection()
 					   )
 	);
 	VertexCBuf.Bind( gfx );
