@@ -13,15 +13,15 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
 
-	for ( int i = 0; i < 10; i++ )
+	for ( int i = 0; i < 16; i++ )
 	{
-		float rho = NumberFactory::NormalReal( 5.0f, 1.0f, 0.1f, 20.f );
+		float rho = NumberFactory::NormalReal( 5.0f, 3.0f, 0.4f, 50.f );
 		float theta = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float phi = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float dtheta = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float dphi = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float dRot = NumberFactory::RandomReal( -2.0f, 2.0f );
-		float size = NumberFactory::NormalReal( 0.6f, 0.8f, 0.2f, 2.0f );
+		float size = NumberFactory::NormalReal( 0.6f, 0.8f, 0.2f, 1.5f );
 
 		cubes.emplace_back(
 			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot ) );

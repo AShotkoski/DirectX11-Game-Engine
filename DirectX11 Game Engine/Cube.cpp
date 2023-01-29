@@ -22,6 +22,7 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		struct Vertex
 		{
 			DirectX::XMFLOAT3 pos;
+			DirectX::XMFLOAT3 n;
 		};
 
 		// Color cbuffer
@@ -49,7 +50,8 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		AddStaticBind( std::make_unique<PixelConstantBuffer<colorconstbuff>>( gfx, cols ) );
 
 		// Set vertexs
-		auto itl = GeometricPrim::Cube::GetPlain<Vertex>();
+		auto itl = GeometricPrim::Cube::GetIndependentFaces<Vertex>();
+		itl.SetNormalsIndependentFlat();
 
 		// Bind vertex buffer
 		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
