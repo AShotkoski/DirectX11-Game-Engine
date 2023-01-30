@@ -3,6 +3,7 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "NumberFactory.h"
+#include "Colors.h"
 
 Game::Game()
 	:
@@ -23,9 +24,12 @@ Game::Game()
 		float dtheta = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dphi = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dRot = NumberFactory::RandomReal( -1.2f, 1.2f );
+		DWORD col = NumberFactory::RandomInt<DWORD>( 0x00, 0xFFFFFFFF );
+
 
 		cubes.emplace_back(
-			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot ) );
+			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
+									DirectX::XMFLOAT3(&Color::MakeRgb( col ).el[0])));
 
 	}
 }

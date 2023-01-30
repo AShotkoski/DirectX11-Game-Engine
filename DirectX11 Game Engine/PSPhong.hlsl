@@ -9,7 +9,10 @@ cbuffer LightCBuf
     float attenQuad;
 };
 
-static const float3 matColor = { 1.0f, 1.0f, 1.0f };
+cbuffer ObjectCBuf : register(b1)
+{
+    float3 MaterialColor;
+};
 
 float4 main(float3 normal : NORMAL, float3 worldPos : POSITION) : SV_TARGET
 {
@@ -24,5 +27,5 @@ float4 main(float3 normal : NORMAL, float3 worldPos : POSITION) : SV_TARGET
     const float3 diffuse = diffuseColor * diffuseIntensity * attenuation
                                 * max(0, dot(dirVertToL, normal));
 
-    return float4(saturate(diffuse + ambient) * matColor, 1);
+    return float4(saturate(diffuse + ambient) * MaterialColor, 1);
 }

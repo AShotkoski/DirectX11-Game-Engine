@@ -6,7 +6,7 @@
 #include "Colors.h"
 #include <random>
 
-Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
+Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, DirectX::XMFLOAT3 matColor )
 	:
 	size(size),
 	rho(rho),
@@ -53,12 +53,23 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 
 	// Bind non static Transformation CB
 	AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
+
+	// Setup phong material properties
+	struct PSCBuf
+	{
+		DirectX::XMFLOAT3 MatCol;
+		float padding;
+	};
+
+	PSCBuf cubeProps = { matColor };
+
+	AddBind( std::make_unique<PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
-			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll )
+			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor )
 	:
-	Cube(gfx,size,rho,theta,phi)
+	Cube(gfx,size,rho,theta,phi,matColor)
 {
 	this->dTheta = dTheta;
 	this->dPhi = dPhi;

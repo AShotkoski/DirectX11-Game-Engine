@@ -4,9 +4,9 @@
 class Cube : public DrawableBase<Cube>
 {
 public:
-	Cube( Graphics& gfx,float size, float rho, float theta, float phi );
+	Cube( Graphics& gfx,float size, float rho, float theta, float phi, DirectX::XMFLOAT3 matColor );
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi,
-		  float dTheta, float dPhi, float dPitch, float dYaw, float dRoll);
+		  float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor );
 	void Update( float dt ) override;
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:

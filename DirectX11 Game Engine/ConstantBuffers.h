@@ -6,14 +6,15 @@ template <typename CB>
 class ConstantBuffer : public Bindable
 {
 public:
-	ConstantBuffer( Graphics& gfx, const CB& consts )
+	ConstantBuffer( Graphics& gfx, const CB& consts, UINT slot = 0u )
 		:
-		ConstantBuffer(gfx)
+		ConstantBuffer(gfx, slot)
 	{
-		// This might work
 		Update( gfx, consts );
 	}
-	ConstantBuffer( Graphics& gfx )
+	ConstantBuffer( Graphics& gfx, UINT slot = 0u)
+		:
+		slot(slot)
 	{
 		// Errors
 		HRESULT hr;
@@ -39,6 +40,7 @@ public:
 	}
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstBuffer;
+	UINT slot;
 };
 
 // Create separate classes for vertex and index const buffers since they bind to different parts
@@ -48,11 +50,12 @@ class VertexConstantBuffer : public ConstantBuffer<CB>
 {
 	using Bindable::pGetContext;
 	using ConstantBuffer<CB>::pConstBuffer;
+	using ConstantBuffer<CB>::slot;
 public:
 	using ConstantBuffer<CB>::ConstantBuffer;
 	void Bind( Graphics& gfx ) override
 	{
-		pGetContext(gfx)->VSSetConstantBuffers(0u, 1u, pConstBuffer.GetAddressOf());
+		pGetContext(gfx)->VSSetConstantBuffers(slot, 1u, pConstBuffer.GetAddressOf());
 	}
 };
 
@@ -62,11 +65,12 @@ class PixelConstantBuffer : public ConstantBuffer<CB>
 {
 	using Bindable::pGetContext;
 	using ConstantBuffer<CB>::pConstBuffer;
+	using ConstantBuffer<CB>::slot;
 public:
 	using ConstantBuffer<CB>::ConstantBuffer;
 	void Bind( Graphics& gfx ) override
 	{
-		pGetContext(gfx)->PSSetConstantBuffers(0u, 1u, pConstBuffer.GetAddressOf());
+		pGetContext(gfx)->PSSetConstantBuffers(slot, 1u, pConstBuffer.GetAddressOf());
 	}
 };
 
