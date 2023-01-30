@@ -17,9 +17,9 @@ public:
 	static inline constexpr Color MakeRgb( dword c )
 	{
 		return MakeRgbS(
-			(ushort)( ( c & 0xFF000000 ) >> 0x6 ),
-			(ushort)( ( c & 0x00FF0000 ) >> 0x4 ),
-			(ushort)( ( c & 0x0000FF00 ) >> 0x2 ) );
+			(ushort)( ( c & 0xFF000000 ) >> 24 ),
+			(ushort)( ( c & 0x00FF0000 ) >> 16 ),
+			(ushort)( ( c & 0x0000FF00 ) >> 8 ) );
 	}
 
 public:
