@@ -1,6 +1,7 @@
 cbuffer cb
 {
-    matrix transformation;
+    matrix model;
+    matrix modelviewproj;
 };
 
 struct interpolants
@@ -13,6 +14,6 @@ interpolants main(float3 pos : POSITION, float2 tc : TEXCOORD)
 {
     interpolants vso;
     vso.tex = tc;
-    vso.pos = mul(float4(pos, 1.f), transformation);
+    vso.pos = mul(float4(pos, 1.f), modelviewproj);
     return vso;
 }

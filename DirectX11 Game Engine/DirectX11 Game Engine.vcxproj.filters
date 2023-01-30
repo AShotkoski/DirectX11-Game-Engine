@@ -22,6 +22,12 @@
     <FxCompile Include="PSTexture.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="VSPhong.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PSPhong.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -108,6 +114,7 @@
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -224,6 +231,8 @@
     <ClInclude Include="ImGuiManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="NumberFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

@@ -5,11 +5,17 @@
 
 class TransformationConstBuffer : public Bindable
 {
+private:
+	struct TransformBuffer
+	{
+		DirectX::XMMATRIX model;         // Into world pos
+		DirectX::XMMATRIX ModelViewProj; // Into view pos
+	};
 public:
 	TransformationConstBuffer( Graphics& gfx, const Drawable& parent );
 	void Bind( Graphics& gfx ) override;
 private:
-	VertexConstantBuffer<DirectX::XMMATRIX> VertexCBuf;
+	VertexConstantBuffer<TransformBuffer> VertexCBuf;
 	const Drawable& parent;
 };
 
