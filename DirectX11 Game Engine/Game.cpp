@@ -65,5 +65,6 @@ void Game::ProcessFrame()
 	ImGui::End();
 
 	gfx.GetCamera().SpawnControlWindow();
+	light.SpawnControlWindow();
 }
 

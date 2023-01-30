@@ -23,7 +23,7 @@ void Camera::SpawnControlWindow()
 {
 	if( ImGui::Begin( "Camera" ) )
 	{
-		ImGui::SliderFloat( "Rho", &rho, 0.5f, 50.f );
+		ImGui::DragFloat( "Rho", &rho, 0.5f,  0.5f, 50.f );
 		ImGui::SliderAngle( "Theta", &theta, -180.f, 180.f );
 		ImGui::SliderAngle( "Phi", &phi, -89.f, 89.f );
 		ImGui::NewLine();

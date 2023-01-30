@@ -6,7 +6,7 @@ class PointLight
 public:
 	PointLight( Graphics& gfx );
 	void Bind( Graphics& gfx ) const;
-	
+	void SpawnControlWindow();
 private:
 	struct PointLightCBuf
 	{
