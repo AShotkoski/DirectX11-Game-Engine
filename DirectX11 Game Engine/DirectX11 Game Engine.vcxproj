@@ -123,6 +123,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Sampler.cpp" />
+    <ClCompile Include="SphereSolidWhite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformationConstBuffer.cpp" />
@@ -165,6 +166,8 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sampler.h" />
+    <ClInclude Include="SpherePrimitive.h" />
+    <ClInclude Include="SphereSolidWhite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformationConstBuffer.h" />

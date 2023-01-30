@@ -117,7 +117,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereSolidWhite.cpp">
+      <Filter>Source\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -240,7 +245,15 @@
     <ClInclude Include="NumberFactory.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="SpherePrimitive.h">
+      <Filter>Headers\GeometricPrim</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereSolidWhite.h">
+      <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

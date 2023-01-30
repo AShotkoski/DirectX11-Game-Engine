@@ -9,7 +9,7 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle),
 	gfx(wnd.GFX()),
 	pl(gfx),
-	light(gfx)
+	light(gfx, 0.25f)
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
@@ -56,6 +56,7 @@ void Game::ProcessFrame()
 	//pl.Draw( gfx );
 
 	light.Bind(gfx);
+	light.Draw( gfx );
 
 	// Control game-wide settings
 	if ( ImGui::Begin( "Simulation Control" ) )

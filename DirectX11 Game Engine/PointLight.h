@@ -1,11 +1,13 @@
 #pragma once
 #include "ConstantBuffers.h"
+#include "SphereSolidWhite.h"
 
 class PointLight
 {
 public:
-	PointLight( Graphics& gfx );
+	PointLight( Graphics& gfx, float radius );
 	void Bind( Graphics& gfx ) const;
+	void Draw( Graphics& gfx ) const;
 	void SpawnControlWindow();
 private:
 	struct PointLightCBuf
@@ -15,6 +17,7 @@ private:
 	};
 private:
 	DirectX::XMFLOAT3 LightPos;
+	mutable SphereSolidWhite mesh;
 	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
 };
 
