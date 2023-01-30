@@ -4,6 +4,7 @@
 #include "FrameTimer.h"
 #include "Cube.h"
 #include "FlappingPlane.h"
+#include "PointLight.h"
 
 class Game
 {
@@ -22,6 +23,7 @@ private:
 	FrameTimer ft;
 
 	FlappingPlane pl; 
+	PointLight light;
 	std::vector<std::unique_ptr<Cube>> cubes;
 private:
 	float dt = 0.f;

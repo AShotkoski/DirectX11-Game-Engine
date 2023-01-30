@@ -6,14 +6,16 @@ cbuffer cb
 
 struct Interpolated
 {
-    float4 pos : SV_Position;
-    float3 n : NORMAL;
+    float3 Normal : NORMAL;
+    float3 WorldPos : POSITION;
+    float4 ViewPos : SV_Position;
 };
 
 Interpolated main( float3 pos : POSITION, float3 normal : NORMAL )
 {
     Interpolated vsout;
-    vsout.pos = float4(pos, 1);
-    vsout.n = normal;
+    vsout.WorldPos = (float3) mul(float4(pos, 1), model);
+    vsout.ViewPos = mul(float4(pos, 1), modelviewproj);
+    vsout.Normal = mul(normal, (float3x3)model);
 	return vsout;
 }

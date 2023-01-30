@@ -25,30 +25,6 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 			DirectX::XMFLOAT3 n;
 		};
 
-		// Color cbuffer
-		struct colorconstbuff
-		{
-			struct
-			{
-				Color c;
-			} color[8];
-		};
-
-		const colorconstbuff cols =
-		{
-			 Colors::Red,
-			 Colors::OrangeRed,
-			 Colors::Yellow,
-			 Colors::LawnGreen,
-			 Colors::Blue,
-			 Colors::DarkViolet,
-			 Colors::Aquamarine,
-			 Colors::Maroon
-		};
-
-		// Bind ps cb
-		AddStaticBind( std::make_unique<PixelConstantBuffer<colorconstbuff>>( gfx, cols ) );
-
 		// Set vertexs
 		auto itl = GeometricPrim::Cube::GetIndependentFaces<Vertex>();
 		itl.SetNormalsIndependentFlat();
@@ -60,16 +36,17 @@ Cube::Cube( Graphics& gfx,float size, float rho, float theta, float phi )
 		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );
 
 		// Bind PS
-		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSPrimitiveSolidColor.cso" ) );
+		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSPhong.cso" ) );
 
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<VertexShader>( gfx, L"VSTransform.cso" );
+		auto vs = std::make_unique<VertexShader>( gfx, L"VSPhong.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
 		// Input layout
 		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
 		IED.emplace_back( "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 );
+		IED.emplace_back( "Normal", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
 
 		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
 	}

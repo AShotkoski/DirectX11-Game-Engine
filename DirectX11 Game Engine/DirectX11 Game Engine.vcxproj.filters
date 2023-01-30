@@ -114,7 +114,10 @@
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -231,8 +234,13 @@
     <ClInclude Include="ImGuiManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="NumberFactory.h" />
+    <ClInclude Include="Camera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberFactory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
