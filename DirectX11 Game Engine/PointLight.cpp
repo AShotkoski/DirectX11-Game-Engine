@@ -6,18 +6,20 @@ PointLight::PointLight( Graphics& gfx, float radius )
 	cbuf(gfx),
 	LightPos(0,0,0),
 	mesh(gfx, radius)
-{
-	
-}
+{}
 
 void PointLight::Bind( Graphics& gfx ) const
 {
-	PointLightCBuf ConstBuffer =
-	{
-		LightPos
-	};
-
-	cbuf.Update( gfx, ConstBuffer );
+	PointLightCBuf LightProperties = {};
+	LightProperties.ambient = ambient;;
+	LightProperties.diffuseColor = diffuseColor;
+	LightProperties.diffuseIntensity = diffuseIntensity;
+	LightProperties.attenConst = attenConst;
+	LightProperties.attenLin = attenLin;
+	LightProperties.attenQuad = attenQuad;
+	LightProperties.LightPos = LightPos;
+		
+	cbuf.Update( gfx, LightProperties );
 
 	cbuf.Bind( gfx );
 }
@@ -36,6 +38,9 @@ void PointLight::SpawnControlWindow()
 		ImGui::DragFloat( "x", &LightPos.x, 0.075f );
 		ImGui::DragFloat( "y", &LightPos.y, 0.075f );
 		ImGui::DragFloat( "z", &LightPos.z, 0.075f );
+		ImGui::ColorEdit3( "Diffuse", &diffuseColor.x );
+		ImGui::ColorEdit3( "Ambient", &ambient.x );
+		ImGui::DragFloat( "Intensity", &diffuseIntensity, 0.005f );
 	}
 	ImGui::End();
 }

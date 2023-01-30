@@ -12,12 +12,24 @@ public:
 private:
 	struct PointLightCBuf
 	{
-		DirectX::XMFLOAT3 LightPos;
-		float padding;
+		alignas(16)DirectX::XMFLOAT3 LightPos;
+		alignas(16)DirectX::XMFLOAT3 ambient;
+		alignas(16)DirectX::XMFLOAT3 diffuseColor;
+		float diffuseIntensity;
+		float attenConst;
+		float attenLin;
+		float attenQuad;
 	};
 private:
-	DirectX::XMFLOAT3 LightPos;
 	mutable SphereSolidWhite mesh;
 	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
+	// Light props
+	DirectX::XMFLOAT3 LightPos;
+	DirectX::XMFLOAT3 ambient = { 0.11f, 0.11f, 0.11f };
+	DirectX::XMFLOAT3 diffuseColor = { 0.5f, 0.5f, 0.5f };
+	float diffuseIntensity = 1.f;
+	float attenConst = 1.f;
+	float attenLin = 0.045f;
+	float attenQuad = 0.0075f;
 };
 
