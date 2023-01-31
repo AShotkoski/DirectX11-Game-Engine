@@ -15,10 +15,10 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
 
-	for ( int i = 0; i < 16; i++ )
+	for ( int i = 0; i < 64; i++ )
 	{
-		float size = NumberFactory::NormalReal( 0.6f, 0.8f, 0.2f, 1.5f );
-		float rho = NumberFactory::NormalReal( 5.0f, 1.0f, 1.f, 50.f );
+		float size = NumberFactory::NormalReal( 1.0f, 1.f, 0.5f, 1.5f );
+		float rho = NumberFactory::RandomReal( 5.0f, 25.0f );
 		float theta = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float phi = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float dtheta = NumberFactory::RandomReal( -1.2f, 1.2f );
