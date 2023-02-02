@@ -15,6 +15,7 @@ namespace Vert
 		{
 			Position_3D,
 			Position_2D,
+			Normal,
 			Color_float_RGB
 		};
 
@@ -25,21 +26,28 @@ namespace Vert
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			const char* semantic = "Position";
+			static constexpr const char* semantic = "Position";
 		};
 		template<>
 		struct TypeInfo<Position_2D>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
-			const char* semantic = "Position";
+			static constexpr const char* semantic = "Position";
+		};
+		template<>
+		struct TypeInfo<Normal>
+		{
+			using type = DirectX::XMFLOAT3;
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "Normal";
 		};
 		template<>
 		struct TypeInfo<Color_float_RGB>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			const char* semantic = "Color";
+			static constexpr const char* semantic = "Color";
 		};
 
 
@@ -119,6 +127,8 @@ namespace Vert
 					return sizeof( TypeInfo<Position_2D>::type );
 				case ElementType::Color_float_RGB:
 					return sizeof( TypeInfo<Color_float_RGB>::type );
+				case ElementType::Normal:
+					return sizeof( TypeInfo<Normal>::type );
 			}
 			// Invalid element was passed in, return 0;
 			assert( "Invalid element passed to sizeofelement" && false );
@@ -166,6 +176,9 @@ namespace Vert
 					break;
 				case types::Color_float_RGB:
 					SetAttribute<types::Color_float_RGB>( pAttr, std::forward<T>( attr ) );
+					break;
+				case types::Normal:
+					SetAttribute<types::Normal>( pAttr, std::forward<T>( attr ) );
 					break;
 				default:
 					assert( false && "bad element type" );
