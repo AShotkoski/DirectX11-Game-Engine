@@ -223,6 +223,22 @@ namespace Vert
 		VertexLayout& layout;
 	};
 
+	class CVertexView
+	{
+	public:
+		CVertexView( const VertexView& vertex )
+			: vertex( vertex )
+		{}
+		template<VertexLayout::ElementType Type>
+		const auto& Attribute() const
+		{
+			return const_cast<VertexView&>( vertex ).Attribute<Type>();
+		}
+
+	private:
+		const VertexView& vertex;
+	};
+
 	// Hold the actual data of the vertices used
 	class VertexBuffer
 	{
@@ -256,6 +272,18 @@ namespace Vert
 			assert( index < layout.NumElements() );
 			return VertexView( data.data() + ( layout.SizeBytes() * index ), layout );
 		}
+		CVertexView Back() const
+		{
+			return const_cast<VertexBuffer&>( *this ).Back();
+		}
+		CVertexView Front() const
+		{
+			return const_cast<VertexBuffer&>( *this ).Front();
+		}
+		CVertexView operator[]( size_t index ) const
+		{
+			return CVertexView(const_cast<VertexBuffer&>( *this )[index]);
+		}
 		const char* GetData()
 		{
 			return data.data();
@@ -263,6 +291,10 @@ namespace Vert
 		size_t SizeBytes() const
 		{
 			return data.size();
+		}
+		size_t Size() const
+		{
+			return data.size() == 0u ? 0u : data.size() / layout.SizeBytes();
 		}
 	private:
 		VertexLayout layout;
