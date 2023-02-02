@@ -4,27 +4,26 @@
 #include <cassert>
 #include <DirectXMath.h>
 
-//vertices, indices
+//vertexBuffer, indices
 class IndexedTriangleList
 {
 public:
-	IndexedTriangleList() = default;
-	IndexedTriangleList( Vert::VertexBuffer vb, std::vector<unsigned short> inds )
+	IndexedTriangleList( Vert::VertexBuffer& vb, std::vector<unsigned short> inds )
 		:
-		vertices( std::move( vb ) ),
+		vb( vb ),
 		indices( std::move( inds ) )
 	{
-		assert( vertices.Size() > 2 );
+		assert( vb.Size() > 2 );
 		assert( indices.size() % 3 == 0 );
 	}
 	// All geometric primitives will use unit size and this is how they will be transformed.
 	void Transform( DirectX::FXMMATRIX transformation )
 	{
 		using namespace DirectX;
-		for ( size_t i = 0; i < vertices.Size(); i++ )
+		for ( size_t i = 0; i < vb.Size(); i++ )
 		{
 			// Load ref to position
-			auto& flPos = vertices[i].Attribute<Vert::VertexLayout::Position_3D>();
+			auto& flPos = vb[i].Attribute<Vert::VertexLayout::Position_3D>();
 
 			// Convert to xmvec
 			XMVECTOR vecPos = XMLoadFloat3(&flPos);
@@ -44,9 +43,9 @@ public:
 		for (size_t i = 0; i < indices.size(); i += 3 )
 		{
 			// Get vertex views
-			auto v0 = vertices[indices[i]];
-			auto v1 = vertices[indices[i + 1]];
-			auto v2 = vertices[indices[i + 2]];
+			auto v0 = vb[indices[i]];
+			auto v1 = vb[indices[i + 1]];
+			auto v2 = vb[indices[i + 2]];
 			// Get positions as xmvector
 			const auto p0 = XMLoadFloat3(&v0.Attribute<Vert::VertexLayout::Position_3D>());
 			const auto p1 = XMLoadFloat3(&v1.Attribute<Vert::VertexLayout::Position_3D>() );
@@ -55,7 +54,7 @@ public:
 			// Calculate normal using cross product
 			const auto n = XMVector3Normalize( XMVector3Cross( ( p1 - p0 ), ( p2 - p0 ) ) );
 
-			// Store normalized normal into vertices
+			// Store normalized normal into vb
 			XMStoreFloat3( &v0.Attribute<Vert::VertexLayout::Normal>(), n );
 			XMStoreFloat3( &v1.Attribute<Vert::VertexLayout::Normal>(), n );
 			XMStoreFloat3( &v2.Attribute<Vert::VertexLayout::Normal>(), n );
@@ -63,6 +62,6 @@ public:
 	}
 
 	//core data
-	Vert::VertexBuffer vertices;
+	Vert::VertexBuffer& vb;
 	std::vector<unsigned short> indices;
 };

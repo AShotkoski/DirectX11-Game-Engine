@@ -1,5 +1,6 @@
 #pragma once
 #include "IndexedTriangleList.h"
+#include "Vertex.h"
 #include <vector>
 
 namespace GeometricPrim
@@ -7,8 +8,7 @@ namespace GeometricPrim
 	class Cube
 	{		
 	public:
-		template <class V>
-		static IndexedTriangleList<V> GetPlain()
+		static void AppendPlain(IndexedTriangleList& itl)
 		{
 			using namespace DirectX;
 			const float side = 1.0f / 2.0f;
@@ -24,26 +24,25 @@ namespace GeometricPrim
 			vertices.emplace_back( -side, side, side );   // 6
 			vertices.emplace_back( side, side, side );    // 7
 
-			std::vector<V> formattedV(vertices.size());
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
-				formattedV[i].pos = vertices[i];
+				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
 			
-			return IndexedTriangleList<V>{
-				std::move( formattedV ), 
-				{
-					0,2,1,   2,3,1,
-					1,3,5,	 3,7,5,
-					5,7,4,	 7,6,4,
-					4,6,2,	 2,0,4,
-					2,6,3,   6,7,3,
-					0,1,4,	 1,5,4
-				}
+			std::vector<unsigned short> inds =
+			{
+				0,2,1,   2,3,1,
+				1,3,5,	 3,7,5,
+				5,7,4,	 7,6,4,
+				4,6,2,	 2,0,4,
+				2,6,3,   6,7,3,
+				0,1,4,	 1,5,4
 			};
+			
+			itl.indices.insert( itl.indices.end(), inds.begin(), inds.end() );
 		}
-		template <class V>
-		static IndexedTriangleList<V> GetIndependentFaces()
+
+		static void AppendIndependentFaces( IndexedTriangleList& itl )
 		{
 			using namespace DirectX;
 			const float side = 1.0f / 2.0f;
@@ -75,14 +74,12 @@ namespace GeometricPrim
 			vertices.push_back({ -side, side, side });// 22
 			vertices.push_back({ side, side, side });// 23
 
-			std::vector<V> formattedV(vertices.size());
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
-				formattedV[i].pos = vertices[i];
+				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
 			
-			return IndexedTriangleList<V>{
-				std::move( formattedV ), 
+			std::vector<unsigned short> inds = 
 				{
 				0,2, 1,    2,3,1,
 				4,5, 7,    4,7,6,
@@ -90,8 +87,10 @@ namespace GeometricPrim
 				12,13,15, 12,15,14,
 				16,17,18, 18,17,19,
 				20,23,21, 20,22,23
-				}
-			};
+				};
+
+			itl.indices.insert( itl.indices.end(), inds.begin(), inds.end() );
 		}
+
 	};
 };
