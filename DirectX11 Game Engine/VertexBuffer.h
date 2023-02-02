@@ -1,6 +1,7 @@
 #pragma once
 #include "Bindable.h"
 #include "Macros.h"
+#include "Vertex.h"
 #include <vector>
 #include <wrl.h>
 #include <cassert>
@@ -10,6 +11,7 @@ class VertexBuffer : public Bindable
 public:
 	template <class Vertex>
 	VertexBuffer( Graphics& gfx, const std::vector<Vertex>& vertices );
+	VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb );
 	void Bind( Graphics& gfx ) override;
 private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;

@@ -284,7 +284,7 @@ namespace Vert
 		{
 			return CVertexView(const_cast<VertexBuffer&>( *this )[index]);
 		}
-		const char* GetData()
+		const char* GetData() const
 		{
 			return data.data();
 		}
@@ -295,6 +295,10 @@ namespace Vert
 		size_t Size() const
 		{
 			return data.size() == 0u ? 0u : data.size() / layout.SizeBytes();
+		}
+		size_t VertexSizeBytes() const
+		{
+			return layout.SizeBytes();
 		}
 	private:
 		VertexLayout layout;
