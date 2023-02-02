@@ -254,6 +254,9 @@
     <ClInclude Include="PointLight.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
