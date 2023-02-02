@@ -256,6 +256,11 @@ namespace Vert
 			data.resize( data.size() + layout.SizeBytes() );
 			Back().SetAttributeByIndex( 0u, std::forward<Args>( args )... );
 		}
+		// number of NEW verts to reserve (doesn't overload, wont downsize) 
+		void Reserve( size_t nVertices )
+		{
+			data.resize( data.size() + (layout.SizeBytes() * nVertices) );
+		}
 		VertexView Back()
 		{
 			assert( data.size() >= layout.SizeBytes() );
@@ -269,7 +274,7 @@ namespace Vert
 		VertexView operator[]( size_t index )
 		{
 			assert( data.size() >= layout.SizeBytes() );
-			assert( index < layout.NumElements() );
+			assert( index < Size() );
 			return VertexView( data.data() + ( layout.SizeBytes() * index ), layout );
 		}
 		CVertexView Back() const

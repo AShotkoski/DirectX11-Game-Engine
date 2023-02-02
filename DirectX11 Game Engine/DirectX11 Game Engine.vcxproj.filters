@@ -78,9 +78,6 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="FlappingPlane.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
@@ -135,9 +132,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexedTriangleList.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Macros.h">
@@ -256,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexedTriangleList.h">
+      <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

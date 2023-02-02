@@ -3,7 +3,6 @@
 #include "ImGuiManager.h"
 #include "FrameTimer.h"
 #include "Cube.h"
-#include "FlappingPlane.h"
 #include "PointLight.h"
 
 class Game
@@ -22,7 +21,6 @@ private:
 	Graphics& gfx;
 	FrameTimer ft;
 
-	FlappingPlane pl; 
 	PointLight light;
 	std::vector<std::unique_ptr<Cube>> cubes;
 private:

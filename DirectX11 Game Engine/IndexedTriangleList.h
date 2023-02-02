@@ -8,17 +8,18 @@
 class IndexedTriangleList
 {
 public:
-	IndexedTriangleList( Vert::VertexBuffer& vb, std::vector<unsigned short> inds )
+	IndexedTriangleList( Vert::VertexBuffer& vb, std::vector<unsigned short> inds = {} )
 		:
 		vb( vb ),
 		indices( std::move( inds ) )
 	{
-		assert( vb.Size() > 2 );
-		assert( indices.size() % 3 == 0 );
 	}
 	// All geometric primitives will use unit size and this is how they will be transformed.
 	void Transform( DirectX::FXMMATRIX transformation )
 	{
+		assert( vb.Size() > 2 );
+		assert( indices.size() % 3 == 0 );
+
 		using namespace DirectX;
 		for ( size_t i = 0; i < vb.Size(); i++ )
 		{
@@ -35,6 +36,7 @@ public:
 	}
 	void SetNormalsIndependentFlat()
 	{
+		assert( vb.Size() > 2 );
 		assert("Wrong number of indices in triangle list" &&
 				indices.size() > 0 && indices.size() % 3 == 0);
 		using namespace DirectX;

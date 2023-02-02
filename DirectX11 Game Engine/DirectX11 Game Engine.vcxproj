@@ -105,7 +105,6 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DDSLoader\DDSTextureLoader.cpp" />
     <ClCompile Include="Drawable.cpp" />
-    <ClCompile Include="FlappingPlane.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />

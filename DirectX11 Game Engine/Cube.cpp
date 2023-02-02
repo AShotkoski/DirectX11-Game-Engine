@@ -4,6 +4,7 @@
 #include "TransformationConstBuffer.h"
 #include "CubePrimitive.h"
 #include "Colors.h"
+#include "Vertex.h"
 #include <random>
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, DirectX::XMFLOAT3 matColor )
@@ -18,19 +19,20 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, Direct
 		// Set topology
 		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
-		// Setup Vertex type
-		struct Vertex
-		{
-			DirectX::XMFLOAT3 pos;
-			DirectX::XMFLOAT3 n;
-		};
-
 		// Set vertexs
-		auto itl = GeometricPrim::Cube::GetIndependentFaces<Vertex>();
+		Vert::VertexLayout vLayout;
+		vLayout.Append( Vert::VertexLayout::Position_3D );
+		vLayout.Append( Vert::VertexLayout::Normal );
+
+		Vert::VertexBuffer vertBuf( std::move(vLayout) );
+
+		IndexedTriangleList itl( vertBuf );
+		GeometricPrim::Cube::AppendIndependentFaces(itl);
+
 		itl.SetNormalsIndependentFlat();
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
+		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vb ) );
 
 		// Bind Index Buffer
 		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );

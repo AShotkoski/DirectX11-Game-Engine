@@ -1,18 +1,18 @@
 #pragma once
 #include "IndexedTriangleList.h"
+#include "Vertex.h"
 #include <DirectXMath.h>
 
 namespace GeometricPrim
 {
 	//
-	//   COPIED FROM CHILI FRAMEWORK 
+	//   COPIED MAIN MATH FROM CHILI FRAMEWORK 
 	// 
 
 	class Sphere
 	{
 	public:
-		template<class V>
-		static IndexedTriangleList<V> MakeTesselated( int latDiv, int longDiv )
+		static IndexedTriangleList MakeTesselated( int latDiv, int longDiv, Vert::VertexBuffer& vb )
 		{
 			namespace dx = DirectX;
 			assert( latDiv >= 3 );
@@ -22,7 +22,7 @@ namespace GeometricPrim
 			const auto base = dx::XMVectorSet( 0.0f, 0.0f, radius, 0.0f );
 			const float lattitudeAngle = dx::XM_PI / latDiv;
 			const float longitudeAngle = 2.0f * dx::XM_PI / longDiv;
-			std::vector<V> vertices;
+			std::vector<dx::XMFLOAT3> vertices;
 			for ( int iLat = 1; iLat < latDiv; iLat++ )
 			{
 				const auto latBase = dx::XMVector3Transform(
@@ -36,17 +36,17 @@ namespace GeometricPrim
 						latBase,
 						dx::XMMatrixRotationZ( longitudeAngle * iLong )
 					);
-					dx::XMStoreFloat3( &vertices.back().pos, v );
+					dx::XMStoreFloat3( &vertices.back(), v );
 				}
 			}
 
 			// add the cap vertices
 			const auto iNorthPole = (unsigned short)vertices.size();
 			vertices.emplace_back();
-			dx::XMStoreFloat3( &vertices.back().pos, base );
+			dx::XMStoreFloat3( &vertices.back(), base );
 			const auto iSouthPole = (unsigned short)vertices.size();
 			vertices.emplace_back();
-			dx::XMStoreFloat3( &vertices.back().pos, dx::XMVectorNegate( base ) );
+			dx::XMStoreFloat3( &vertices.back(), dx::XMVectorNegate( base ) );
 
 			const auto calcIdx = [latDiv, longDiv]( unsigned short iLat, unsigned short iLong )
 			{ return iLat * longDiv + iLong; };
@@ -93,12 +93,15 @@ namespace GeometricPrim
 			indices.push_back( calcIdx( latDiv - 2, longDiv - 1 ) );
 			indices.push_back( iSouthPole );
 
-			return { std::move( vertices ),std::move( indices ) };
-		}
-		template<class V>
-		static IndexedTriangleList<V> Make()
-		{
-			return MakeTesselated<V>( 12, 24 );
+			IndexedTriangleList itl( vb, indices );
+
+			itl.vb.Reserve( vertices.size() );
+			for ( size_t i = 0u; i < vertices.size(); i++ )
+			{
+				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
+			}
+
+			return std::move( itl );
 		}
 	};
 };

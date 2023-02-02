@@ -9,7 +9,6 @@ Game::Game()
 	:
 	wnd( ScreenWidth, ScreenHeight, WindowTitle),
 	gfx(wnd.GFX()),
-	pl(gfx),
 	light(gfx, 0.25f)
 {
 	//Set matrices
@@ -56,8 +55,6 @@ void Game::ProcessFrame()
 		c->Update( dt );
 		c->Draw( gfx );
 	}
-	pl.Update( dt );
-	//pl.Draw( gfx );
 
 	light.Bind(gfx);
 	light.Draw( gfx );
@@ -72,4 +69,3 @@ void Game::ProcessFrame()
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
 }
-

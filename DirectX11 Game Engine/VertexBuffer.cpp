@@ -17,11 +17,11 @@ VertexBuffer::VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb )
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0u;
 	bd.MiscFlags = 0u;
-	bd.StructureByteStride = vb.VertexSizeBytes();
+	bd.StructureByteStride = (UINT)vb.VertexSizeBytes();
 
 	THROW_FAILED_GFX( pGetDevice( gfx )->CreateBuffer( &bd, &srd, &pVertexBuffer ) );
 	// Store stride based off templated vertex for use in binding
-	stride = vb.VertexSizeBytes();
+	stride = (UINT)vb.VertexSizeBytes();
 }
 
 void VertexBuffer::Bind( Graphics& gfx )

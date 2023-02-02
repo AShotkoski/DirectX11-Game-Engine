@@ -2,6 +2,7 @@
 #include "BindableBaseIncludes.h"
 #include "TransformationConstBuffer.h"
 #include "SpherePrimitive.h"
+#include "Vertex.h"
 
 SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 {
@@ -10,18 +11,18 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 		// Set topology
 		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
-		// Setup Vertex type
-		struct Vertex
-		{
-			DirectX::XMFLOAT3 pos;
-		};
 
 		// Set vertexs
-		auto itl = GeometricPrim::Sphere::Make<Vertex>();
+		Vert::VertexLayout vl;
+		vl.Append( Vert::VertexLayout::Position_3D );
+		Vert::VertexBuffer vb(std::move(vl) );
+
+		auto itl = GeometricPrim::Sphere::MakeTesselated( 12, 8, vb );
+
 		itl.Transform( DirectX::XMMatrixScaling( radius, radius, radius ) );
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vertices ) );
+		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vb ) );
 
 		// Bind Index Buffer
 		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );

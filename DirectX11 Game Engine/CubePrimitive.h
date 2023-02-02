@@ -24,6 +24,7 @@ namespace GeometricPrim
 			vertices.emplace_back( -side, side, side );   // 6
 			vertices.emplace_back( side, side, side );    // 7
 
+			itl.vb.Reserve( vertices.size() );
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
 				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
@@ -74,6 +75,7 @@ namespace GeometricPrim
 			vertices.push_back({ -side, side, side });// 22
 			vertices.push_back({ side, side, side });// 23
 
+			itl.vb.Reserve( vertices.size() );
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
 				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
