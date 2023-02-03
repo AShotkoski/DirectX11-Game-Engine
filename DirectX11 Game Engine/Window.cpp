@@ -207,7 +207,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 			if ( pRaw->header.dwType == RIM_TYPEMOUSE )
 			{
-				
+				mouse.RawInput( pRaw->data.mouse );
 			}
 			break;
 		}

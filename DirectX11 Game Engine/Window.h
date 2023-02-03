@@ -5,6 +5,7 @@
 #include "Macros.h"
 #include "Graphics.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 #include <string>
 #include <optional>
 #include <memory>
@@ -58,6 +59,7 @@ public:
 	float GetAspectRatio() const;
 public:
 	Keyboard kbd;
+	Mouse mouse;
 private:
 	static LRESULT WINAPI SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
