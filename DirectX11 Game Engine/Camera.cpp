@@ -12,7 +12,7 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {
 	// Rotate where we want to look
 	XMVECTOR base = XMVectorSet( 0, 0, 1.f, 0.f ); // Default is looking forward in z
-	XMVECTOR lookat = XMVector3Transform(base, XMMatrixRotationRollPitchYaw( -pitch, yaw, 0.f ));
+	XMVECTOR lookat = XMVector3Transform(base, XMMatrixRotationRollPitchYaw( pitch, yaw, 0.f ));
 
 	auto xmpos = XMLoadFloat3( &Position );
 
@@ -46,4 +46,20 @@ void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 {
 	pitch += dView.y * Sensitivity;
 	yaw += dView.x * Sensitivity;
+	// TODO CLAMP
+}
+
+void Camera::EnableMouseControl()
+{
+	isMouseControl = true;
+}
+
+void Camera::DisableMouseControl()
+{
+	isMouseControl = false;
+}
+
+bool Camera::isMouseControlEnabled() const
+{
+	return isMouseControl;
 }

@@ -86,14 +86,13 @@ void Game::ControlCamera()
 
 	if ( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
-		wnd.HideCursor();
-		if ( auto optdelta = wnd.mouse.GetRawMouseMovement() )
-		{
-			dCam = *optdelta;
-			gfx.GetCamera().UpdateView( dCam );
-			// Ignore keyboard for mouse camera controlling
-			return;
-		}
+		gfx.GetCamera().EnableMouseControl();
+		wnd.HideCursor();		
+	}
+	else
+	{
+		gfx.GetCamera().DisableMouseControl();
+		wnd.ShowCursor();
 	}
 
 	if ( wnd.kbd.KeyIsPressed( VK_RIGHT ) )
