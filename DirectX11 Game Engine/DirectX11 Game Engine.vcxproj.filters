@@ -200,9 +200,6 @@
     <ClInclude Include="Colors.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="PlatonicSolids.h">
-      <Filter>Headers\GeometricPrim</Filter>
-    </ClInclude>
     <ClInclude Include="DDSLoader\DDSTextureLoader.h">
       <Filter>ThirdParty\DDSLoader</Filter>
     </ClInclude>

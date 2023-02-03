@@ -1,5 +1,6 @@
 #pragma once
 #include "IndexedTriangleList.h"
+#include "Vertex.h"
 #include <vector>
 
 namespace GeometricPrim
@@ -7,8 +8,7 @@ namespace GeometricPrim
 	class Plane
 	{
 	public:
-		template <class V>
-		static IndexedTriangleList<V> GetPlain( int nTesselations = 0 ) 
+		static IndexedTriangleList GetPlain( Vert::VertexBuffer& vb, int nTesselations = 0 ) 
 		{
 			using namespace DirectX;
 
@@ -47,15 +47,15 @@ namespace GeometricPrim
 				}
 			}
 
-			// Convert verts to V type
-			std::vector<V> formattedV( vertices.size() );
+			// Add Verts to VertexBuffer
+			vb.Reserve( vertices.size() );
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
-				formattedV[i].pos = vertices[i];
+				vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
-			return IndexedTriangleList<V>
+			return IndexedTriangleList
 			(
-				std::move( formattedV ), std::move( indices )
+				vb, std::move( indices )
 			);
 		}
 	};
