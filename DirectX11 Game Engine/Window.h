@@ -8,6 +8,7 @@
 #include <string>
 #include <optional>
 #include <memory>
+#include <vector>
 
 /******************   WINDOWS CLASS    ***********************/
 class Window
@@ -62,6 +63,7 @@ private:
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT				  MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 private:
+	std::vector<char> rawBuffer;
 	UINT width;
 	UINT height;
 	HWND hWnd;

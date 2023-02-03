@@ -2,6 +2,8 @@
 #include "resource.h"
 #include "ImGui//imgui_impl_win32.h"
 #include <sstream>
+#include <hidusage.h>
+#include <strsafe.h> /// BRUV
 
 // Setup singleton
 Window::WindowClass Window::WindowClass::wndClass;
@@ -82,6 +84,17 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		this );
 	if ( hWnd == nullptr )
 		throw LAST_WND_ERR_EXCEPT();
+
+	// Init raw input devices (mouse)
+	RAWINPUTDEVICE rid;
+	rid.usUsagePage = HID_USAGE_PAGE_GENERIC;
+	rid.usUsage     = HID_USAGE_GENERIC_MOUSE;
+	rid.dwFlags     = 0u;
+	rid.hwndTarget  = nullptr;
+	if ( RegisterRawInputDevices(&rid, 1u, sizeof(rid)) == FALSE )
+	{
+		throw LAST_WND_ERR_EXCEPT();
+	}
 
 	// Init ImGUI
 	ImGui_ImplWin32_Init( hWnd );
@@ -180,6 +193,24 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
+		case WM_INPUT:
+		{
+			UINT dwSize = 0u;
+
+			GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, nullptr, &dwSize, sizeof(RAWINPUTHEADER) );
+			rawBuffer.resize( dwSize );
+
+			if ( GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, rawBuffer.data(), &dwSize, sizeof(RAWINPUTHEADER)) != dwSize )
+				OutputDebugString( TEXT( "GetRawInputData does not return correct size !\n" ) );
+
+			const RAWINPUT* pRaw = (RAWINPUT*)rawBuffer.data();
+
+			if ( pRaw->header.dwType == RIM_TYPEMOUSE )
+			{
+				
+			}
+			break;
+		}
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 			if ( !( lParam & 0x40000000 ) )
