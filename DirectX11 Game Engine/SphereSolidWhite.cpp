@@ -11,7 +11,6 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 		// Set topology
 		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
-
 		// Set vertexs
 		Vert::VertexLayout vl;
 		vl.Append( Vert::VertexLayout::Position_3D );

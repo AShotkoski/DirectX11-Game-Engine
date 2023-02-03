@@ -8,7 +8,7 @@ namespace GeometricPrim
 	class Cube
 	{		
 	public:
-		static void AppendPlain(IndexedTriangleList& itl)
+		static IndexedTriangleList GetPlain(Vert::VertexBuffer& vb)
 		{
 			using namespace DirectX;
 			const float side = 1.0f / 2.0f;
@@ -24,10 +24,10 @@ namespace GeometricPrim
 			vertices.emplace_back( -side, side, side );   // 6
 			vertices.emplace_back( side, side, side );    // 7
 
-			itl.vb.Reserve( vertices.size() );
+			vb.Reserve( vertices.size() );
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
-				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
+				vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
 			
 			std::vector<unsigned short> inds =
@@ -40,10 +40,10 @@ namespace GeometricPrim
 				0,1,4,	 1,5,4
 			};
 			
-			itl.indices.insert( itl.indices.end(), inds.begin(), inds.end() );
+			return { vb, std::move( inds ) };
 		}
 
-		static void AppendIndependentFaces( IndexedTriangleList& itl )
+		static IndexedTriangleList GetIndependentFaces( Vert::VertexBuffer& vb )
 		{
 			using namespace DirectX;
 			const float side = 1.0f / 2.0f;
@@ -75,10 +75,10 @@ namespace GeometricPrim
 			vertices.push_back({ -side, side, side });// 22
 			vertices.push_back({ side, side, side });// 23
 
-			itl.vb.Reserve( vertices.size() );
+			vb.Reserve( vertices.size() );
 			for ( size_t i = 0; i < vertices.size(); i++ )
 			{
-				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
+				vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
 			
 			std::vector<unsigned short> inds = 
@@ -91,7 +91,7 @@ namespace GeometricPrim
 				20,23,21, 20,22,23
 				};
 
-			itl.indices.insert( itl.indices.end(), inds.begin(), inds.end() );
+			return { vb, std::move( inds ) };
 		}
 
 	};

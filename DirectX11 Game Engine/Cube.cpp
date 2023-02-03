@@ -26,8 +26,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, Direct
 
 		Vert::VertexBuffer vertBuf( std::move(vLayout) );
 
-		IndexedTriangleList itl( vertBuf );
-		GeometricPrim::Cube::AppendIndependentFaces(itl);
+		IndexedTriangleList itl = GeometricPrim::Cube::GetIndependentFaces(vertBuf);
 
 		itl.SetNormalsIndependentFlat();
 
