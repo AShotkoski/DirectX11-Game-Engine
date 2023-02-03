@@ -49,6 +49,19 @@ void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 	// TODO CLAMP
 }
 
+void Camera::MovePosition( DirectX::XMFLOAT3 dPos )
+{
+	// Update dPos to care about direction the camera is facing and the movespeed
+	XMStoreFloat3( &dPos, XMVector3Transform(
+		XMLoadFloat3( &dPos ),
+		XMMatrixRotationRollPitchYaw( pitch, yaw, 0.0f ) *
+		XMMatrixScaling( MoveSpeed, MoveSpeed, MoveSpeed )
+	) );
+	Position.x += dPos.x;
+	Position.y += dPos.y;
+	Position.z += dPos.z;
+}
+
 void Camera::EnableMouseControl()
 {
 	isMouseControl = true;

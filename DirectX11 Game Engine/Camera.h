@@ -9,6 +9,7 @@ public:
 	void SpawnControlWindow();
 	void Reset() noexcept;
 	void UpdateView( DirectX::XMFLOAT2 dView );
+	void MovePosition( DirectX::XMFLOAT3 dPos );
 	void EnableMouseControl();
 	void DisableMouseControl();
 	bool isMouseControlEnabled() const;
@@ -19,5 +20,6 @@ private:
 	float yaw;
 	// Only adjust the numerator
 	static constexpr float Sensitivity = 25.f / 10000.f;
+	static constexpr float MoveSpeed = 35.f / 1000.f;
 };
 

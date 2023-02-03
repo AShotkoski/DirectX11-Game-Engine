@@ -58,6 +58,7 @@ void Game::UpdateLogic()
 
 	light.Bind(gfx);
 
+	// Camera control
 	ControlCamera();
 
 	// Control game-wide settings
@@ -82,12 +83,12 @@ void Game::DrawFrame()
 
 void Game::ControlCamera()
 {
-	DirectX::XMFLOAT2 dCam = { 0, 0 };
+	DirectX::XMFLOAT3 dCampos = { 0, 0, 0 };
 
 	if ( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
 		gfx.GetCamera().EnableMouseControl();
-		wnd.HideCursor();		
+		wnd.HideCursor();
 	}
 	else
 	{
@@ -95,28 +96,36 @@ void Game::ControlCamera()
 		wnd.ShowCursor();
 	}
 
-	if ( wnd.kbd.KeyIsPressed( VK_RIGHT ) )
+	if ( wnd.kbd.KeyIsPressed( 'W') )
 	{
-		dCam.x += 1.f;
+		dCampos.z += 1.f;
 	}
-	if ( wnd.kbd.KeyIsPressed( VK_LEFT ) )
+	if ( wnd.kbd.KeyIsPressed( 'S') )
 	{
-		dCam.x -= 1.f;
+		dCampos.z -= 1.f;
 	}
-	if ( wnd.kbd.KeyIsPressed( VK_UP ) )
+	if ( wnd.kbd.KeyIsPressed( 'A') )
 	{
-		dCam.y += 1.f;
+		dCampos.x -= 1.f;
 	}
-	if ( wnd.kbd.KeyIsPressed( VK_DOWN ) )
+	if ( wnd.kbd.KeyIsPressed( 'D') )
 	{
-		dCam.y -= 1.f;
+		dCampos.x += 1.f;
+	}
+	if ( wnd.kbd.KeyIsPressed( 'R') )
+	{
+		dCampos.y += 1.f;
+	}
+	if ( wnd.kbd.KeyIsPressed( 'F') )
+	{
+		dCampos.y -= 1.f;
 	}
 
-	if ( dCam.x != 0 || dCam.y != 0 )
+	if ( dCampos.x != 0 || dCampos.y != 0 || dCampos.z != 0 )
 	{
 		// Normalize camera movement vector so that diagonals are not twice as fast.
-	    DirectX::XMStoreFloat2(&dCam, DirectX::XMVector2Normalize( DirectX::XMLoadFloat2( &dCam ) ));
-		// Slow down movement by sensitivty ( magic number YAY )
-		gfx.GetCamera().UpdateView( dCam );
+	    DirectX::XMStoreFloat3(&dCampos, DirectX::XMVector3Normalize( DirectX::XMLoadFloat3( &dCampos ) ));
+
+		gfx.GetCamera().MovePosition(dCampos);
 	}
 }
