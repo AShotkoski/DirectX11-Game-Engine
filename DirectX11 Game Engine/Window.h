@@ -57,6 +57,9 @@ public:
 	Graphics& GFX();
 	RECT GetRect() const;
 	float GetAspectRatio() const;
+	void ShowCursor();
+	void HideCursor();
+	bool isCursorHidden() const;
 public:
 	Keyboard kbd;
 	Mouse mouse;
@@ -70,5 +73,6 @@ private:
 	UINT height;
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
+	bool isCursorHide = false;
 };
 

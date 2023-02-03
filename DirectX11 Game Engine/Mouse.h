@@ -16,6 +16,6 @@ private:
 
 	void TrimRawDeltaQueue();
 private:
-	static constexpr size_t rawDeltaQueueMaxsize = 16u;
+	static constexpr size_t rawDeltaQueueMaxsize = 1u;
 	mutable std::queue<DirectX::XMFLOAT2> rawDeltaQueue;
 };

@@ -149,6 +149,24 @@ float Window::GetAspectRatio() const
 	return ((float)width / (float)height);
 }
 
+void Window::ShowCursor()
+{
+	isCursorHide = false;
+	while ( ::ShowCursor( true ) < 0 );
+}
+
+void Window::HideCursor()
+{
+	isCursorHide = true;
+	while ( ::ShowCursor( false ) >= 0 );
+}
+
+bool Window::isCursorHidden() const
+{
+	return isCursorHide;
+}
+
+
 LRESULT WINAPI Window::SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	// This man has one purpose, to associate a ptr to the window class into the windows api.
@@ -227,7 +245,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			PostQuitMessage( 0 );
 			break;
 	}
-
+	
 	// Let windows handle non user defined messages.
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
