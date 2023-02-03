@@ -14,7 +14,8 @@ public:
 	const Game& operator=( const Game& ) = delete;
 	void Go();
 private:
-	void ProcessFrame();
+	void UpdateLogic();
+	void DrawFrame();
 private:
 	ImGuiManager imguimanager;
 	Window wnd;

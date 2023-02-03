@@ -43,23 +43,20 @@ void Game::Go()
 	dt = ft.Mark() * timeFactor;
 
 	gfx.BeginFrame();
-	ProcessFrame();
+	UpdateLogic();
+
 	gfx.EndFrame();
 }
 
 
-void Game::ProcessFrame()
+void Game::UpdateLogic()
 {	
 	for ( auto& c : cubes )
 	{
 		c->Update( dt );
-		c->Draw( gfx );
 	}
 
 	light.Bind(gfx);
-
-	light.Draw( gfx );
-	
 
 	// Control game-wide settings
 	if ( ImGui::Begin( "Simulation Control" ) )
@@ -70,4 +67,13 @@ void Game::ProcessFrame()
 
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
+}
+
+void Game::DrawFrame()
+{
+	for ( auto& c : cubes )
+	{
+		c->Draw( gfx );
+	}
+	light.Draw( gfx );
 }
