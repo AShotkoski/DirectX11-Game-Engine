@@ -8,13 +8,10 @@ public:
 	DirectX::XMMATRIX GetMatrix() const noexcept;
 	void SpawnControlWindow();
 	void Reset() noexcept;
-	void UpdateView( DirectX::XMFLOAT2 newView );
+	void UpdateView( DirectX::XMFLOAT2 dView );
 private:
-	float rho;
-	float theta;
-	float phi;
+	DirectX::XMFLOAT3 Position;
 	float pitch;
 	float yaw;
-	float roll;
 };
 
