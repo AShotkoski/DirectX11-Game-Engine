@@ -57,7 +57,9 @@ void Game::ProcessFrame()
 	}
 
 	light.Bind(gfx);
+
 	light.Draw( gfx );
+	
 
 	// Control game-wide settings
 	if ( ImGui::Begin( "Simulation Control" ) )

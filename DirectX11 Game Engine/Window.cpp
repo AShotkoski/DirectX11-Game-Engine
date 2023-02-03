@@ -180,6 +180,16 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
+		case WM_KEYDOWN:
+		case WM_SYSKEYDOWN:
+			if ( !( lParam & 0x40000000 ) )
+			{
+				kbd.Keydown( wParam );
+			}
+			break;
+		case WM_KEYUP:
+			kbd.Keyup( wParam );
+			break;
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;

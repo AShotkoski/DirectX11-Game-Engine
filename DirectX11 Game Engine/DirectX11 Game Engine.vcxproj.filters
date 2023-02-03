@@ -120,6 +120,7 @@
     <ClCompile Include="SphereSolidWhite.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -251,6 +252,7 @@
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
+    <ClInclude Include="Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
