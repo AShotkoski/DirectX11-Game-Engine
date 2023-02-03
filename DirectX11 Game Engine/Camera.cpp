@@ -76,3 +76,9 @@ bool Camera::isMouseControlEnabled() const
 {
 	return isMouseControl;
 }
+
+void Camera::UpdateMovementSpeed( float factor )
+{
+	assert( factor >= 0.f && factor < 100.f );
+	MoveSpeed *= factor;
+}

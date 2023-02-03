@@ -13,6 +13,7 @@ public:
 	void EnableMouseControl();
 	void DisableMouseControl();
 	bool isMouseControlEnabled() const;
+	void UpdateMovementSpeed( float factor );
 private:
 	bool isMouseControl = false;
 	DirectX::XMFLOAT3 Position;
@@ -20,6 +21,6 @@ private:
 	float yaw;
 	// Only adjust the numerator
 	static constexpr float Sensitivity = 25.f / 10000.f;
-	static constexpr float MoveSpeed = 35.f / 1000.f;
+	float MoveSpeed = 35.f / 1000.f;
 };
 
