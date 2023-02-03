@@ -12,7 +12,8 @@ Game::Game()
 	light(gfx, 0.25f)
 {
 	//Set matrices
-	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 0.5f, 60.0f));
+	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
+													   NearClipping, FarClipping));
 
 	for ( int i = 0; i < 64; i++ )
 	{
@@ -24,7 +25,6 @@ Game::Game()
 		float dphi = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dRot = NumberFactory::RandomReal( -1.2f, 1.2f );
 		DWORD col = NumberFactory::RandomInt<DWORD>( 0x00, 0xFFFFFFFF );
-
 
 		cubes.emplace_back(
 			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
@@ -84,6 +84,20 @@ void Game::ControlCamera()
 {
 	DirectX::XMFLOAT2 dCam = { 0, 0 };
 
+	if ( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+	{
+		if ( auto optdelta = wnd.mouse.GetRawMouseMovement() )
+		{
+			dCam = *optdelta;
+		}
+		else
+		{
+			gfx.GetCamera().UpdateView( dCam );
+			// Ignore keyboard for mouse camera controlling
+			return;
+		}
+	}
+
 	if ( wnd.kbd.KeyIsPressed( VK_RIGHT ) )
 	{
 		dCam.x += 1.f;
@@ -105,9 +119,7 @@ void Game::ControlCamera()
 	{
 		// Normalize camera movement vector so that diagonals are not twice as fast.
 	    DirectX::XMStoreFloat2(&dCam, DirectX::XMVector2Normalize( DirectX::XMLoadFloat2( &dCam ) ));
-		// Factor in time (probably not the best way to do this but it will work for now)
-		dCam.x *= dt;
-		dCam.y *= dt;
+		// Slow down movement by sensitivty ( magic number YAY )
 		gfx.GetCamera().UpdateView( dCam );
 	}
 }

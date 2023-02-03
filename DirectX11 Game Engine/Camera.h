@@ -13,5 +13,6 @@ private:
 	DirectX::XMFLOAT3 Position;
 	float pitch;
 	float yaw;
+	static constexpr float Sensitivity = 1.f / 100.f;
 };
 

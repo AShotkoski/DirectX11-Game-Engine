@@ -205,7 +205,9 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 			const RAWINPUT* pRaw = (RAWINPUT*)rawBuffer.data();
 
-			if ( pRaw->header.dwType == RIM_TYPEMOUSE )
+			if ( pRaw->header.dwType == RIM_TYPEMOUSE && 
+				 (pRaw->data.mouse.lLastX != 0 ||
+				 pRaw->data.mouse.lLastY != 0))
 			{
 				mouse.RawInput( pRaw->data.mouse );
 			}

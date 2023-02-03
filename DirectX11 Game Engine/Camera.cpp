@@ -10,10 +10,13 @@ Camera::Camera()
 
 DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {
-	// Look where we want
-	return XMMatrixTranslationFromVector( XMLoadFloat3( &Position ) ) 
-		* XMMatrixRotationRollPitchYaw( pitch, -yaw, 0.f );
+	// Rotate where we want to look
+	XMVECTOR base = XMVectorSet( 0, 0, 1.f, 0.f ); // Default is looking forward in z
+	XMVECTOR lookat = XMVector3Transform(base, XMMatrixRotationRollPitchYaw( -pitch, yaw, 0.f ));
 
+	auto xmpos = XMLoadFloat3( &Position );
+
+	return XMMatrixLookAtLH(xmpos, lookat + xmpos, XMVectorSet(0,1.f,0,0.f));
 }
 
 void Camera::SpawnControlWindow()
@@ -34,13 +37,13 @@ void Camera::Reset() noexcept
 {
 	Position.x = 0.f;
 	Position.y = 0.f;
-	Position.z = 10.f;
+	Position.z = -10.f;
 	pitch      = 0.f;
 	yaw        = 0.f;
 }
 
 void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 {
-	pitch += dView.y;
-	yaw += dView.x;
+	pitch += dView.y * Sensitivity;
+	yaw += dView.x * Sensitivity;
 }
