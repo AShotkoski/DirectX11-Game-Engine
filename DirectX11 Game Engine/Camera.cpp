@@ -45,3 +45,9 @@ void Camera::Reset() noexcept
 	yaw   = 0.0f;
 	roll  = 0.0f;
 }
+
+void Camera::UpdateView( DirectX::XMFLOAT2 newView )
+{
+	pitch += newView.y;
+	yaw += newView.x;
+}

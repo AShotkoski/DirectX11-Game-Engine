@@ -8,6 +8,7 @@ public:
 	DirectX::XMMATRIX GetMatrix() const noexcept;
 	void SpawnControlWindow();
 	void Reset() noexcept;
+	void UpdateView( DirectX::XMFLOAT2 newView );
 private:
 	float rho;
 	float theta;

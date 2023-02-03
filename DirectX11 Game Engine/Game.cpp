@@ -44,7 +44,7 @@ void Game::Go()
 
 	gfx.BeginFrame();
 	UpdateLogic();
-
+	DrawFrame();
 	gfx.EndFrame();
 }
 
@@ -57,6 +57,8 @@ void Game::UpdateLogic()
 	}
 
 	light.Bind(gfx);
+
+	ControlCamera();
 
 	// Control game-wide settings
 	if ( ImGui::Begin( "Simulation Control" ) )
@@ -76,4 +78,36 @@ void Game::DrawFrame()
 		c->Draw( gfx );
 	}
 	light.Draw( gfx );
+}
+
+void Game::ControlCamera()
+{
+	DirectX::XMFLOAT2 dCam = { 0, 0 };
+
+	if ( wnd.kbd.KeyIsPressed( VK_RIGHT ) )
+	{
+		dCam.x += 1.f;
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_LEFT ) )
+	{
+		dCam.x -= 1.f;
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_UP ) )
+	{
+		dCam.y += 1.f;
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_DOWN ) )
+	{
+		dCam.y -= 1.f;
+	}
+
+	if ( dCam.x != 0 || dCam.y != 0 )
+	{
+		// Normalize camera movement vector so that diagonals are not twice as fast.
+	    DirectX::XMStoreFloat2(&dCam, DirectX::XMVector2Normalize( DirectX::XMLoadFloat2( &dCam ) ));
+		// Factor in time (probably not the best way to do this but it will work for now)
+		dCam.x *= dt;
+		dCam.y *= dt;
+		gfx.GetCamera().UpdateView( dCam );
+	}
 }

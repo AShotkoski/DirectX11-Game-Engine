@@ -16,6 +16,7 @@ public:
 private:
 	void UpdateLogic();
 	void DrawFrame();
+	void ControlCamera();
 private:
 	ImGuiManager imguimanager;
 	Window wnd;
