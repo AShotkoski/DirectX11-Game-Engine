@@ -73,7 +73,12 @@ void Game::DrawFrame()
 	{
 		c->Draw( gfx );
 	}
-	light.Draw( gfx );
+	while ( auto e = wnd.mouse.GetEvent() )
+	{
+		if(e->GetType() == Mouse::Event::ScrollDown )
+			light.Draw( gfx );
+	}
+	
 }
 
 void Game::DrawImGuis()

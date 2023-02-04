@@ -3,7 +3,7 @@
 #include "ImGui//imgui_impl_win32.h"
 #include <sstream>
 #include <hidusage.h>
-#include <strsafe.h> /// BRUV
+#include <windowsx.h> 
 
 // Setup singleton
 Window::WindowClass Window::WindowClass::wndClass;
@@ -239,6 +239,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	// Main message switch
 	switch ( msg )
 	{
+		// ---------Raw mouse input -----------
 		case WM_INPUT:
 		{
 			// Test if mouse control is enabled for current gfx camera
@@ -269,6 +270,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			}
 			break;
 		}
+		// --------- Keyboard -----------
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 			if ( !( lParam & 0x40000000 ) )
@@ -279,6 +281,39 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		case WM_KEYUP:
 			kbd.Keyup( wParam );
 			break;
+		// ----------- Mouse Input -------------
+		case WM_LBUTTONDOWN:
+			mouse.LButtonDown();
+			break;
+		case WM_LBUTTONUP:
+			mouse.LButtonUp();
+			break;
+		case WM_RBUTTONDOWN:
+			mouse.RButtonDown();
+			break;
+		case WM_RBUTTONUP:
+			mouse.RButtonUp();
+			break;
+		case WM_MBUTTONDOWN:
+			mouse.MButtonDown();
+			break;
+		case WM_MBUTTONUP:
+			mouse.MButtonUp();
+			break;
+		case WM_MOUSEMOVE:
+			mouse.Movement( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) );
+			break;
+		case WM_MOUSEWHEEL:
+		{
+			const auto delta = GET_WHEEL_DELTA_WPARAM( wParam );
+			if ( delta > 0 )
+				mouse.ScrollUp();
+			else
+				mouse.ScrollDown();
+			break;
+		}
+
+		// -----------   System    -------------
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;
