@@ -82,6 +82,7 @@ void Game::DrawImGuis()
 	if ( ImGui::Begin( "Simulation Control" ) )
 	{
 		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );
+		ImGui::Text( "%.f FPS", ImGui::GetIO().Framerate );
 	}
 	ImGui::End();
 
