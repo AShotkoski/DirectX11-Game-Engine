@@ -57,9 +57,9 @@ public:
 	Graphics& GFX();
 	RECT GetRect() const;
 	float GetAspectRatio() const;
-	void ShowCursor();
-	void HideCursor();
-	bool isCursorHidden() const;
+	bool isCursorEnabled() const;
+	void EnableCursor();
+	void DisableCursor();
 public:
 	Keyboard kbd;
 	Mouse mouse;
@@ -67,12 +67,14 @@ private:
 	static LRESULT WINAPI SetupMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT WINAPI RedirectMessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT				  MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
+	void ShowCursor();
+	void HideCursor();
 private:
 	std::vector<char> rawBuffer;
 	UINT width;
 	UINT height;
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
-	bool isCursorHide = false;
+	bool cursorEnabled = true;
 };
 

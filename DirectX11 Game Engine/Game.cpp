@@ -88,12 +88,12 @@ void Game::ControlCamera()
 	if ( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
 		gfx.GetCamera().EnableMouseControl();
-		wnd.HideCursor();
+		wnd.DisableCursor();
 	}
 	else
 	{
 		gfx.GetCamera().DisableMouseControl();
-		wnd.ShowCursor();
+		wnd.EnableCursor();
 	}
 
 	if ( wnd.kbd.KeyIsPressed( 'W') )
