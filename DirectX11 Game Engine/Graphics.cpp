@@ -37,10 +37,10 @@ Graphics::Graphics( HWND hWnd )
 	sd.SampleDesc.Count                   = 1;
 	sd.SampleDesc.Quality                 = 0;
 	sd.BufferUsage                        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.BufferCount                        = 1;
+	sd.BufferCount                        = 2;
 	sd.OutputWindow                       = hWnd;
 	sd.Windowed                           = true;
-	sd.SwapEffect                         = DXGI_SWAP_EFFECT_DISCARD;
+	sd.SwapEffect                         = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	sd.Flags                              = 0;
 
 	// Use debug flag in d3ddevice creation if in debug mode
@@ -179,6 +179,8 @@ void Graphics::EndFrame()
 			throw GFX_EXCEPT( hr );
 		}
 	}
+	// Rebind render target view
+	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), pDepthStencilView.Get() );
 }
 
 void Graphics::SetProjection( DirectX::FXMMATRIX proj ) noexcept
