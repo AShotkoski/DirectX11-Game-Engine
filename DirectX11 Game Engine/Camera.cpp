@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "ImGui/imgui.h"
+#include <algorithm>
 
 using namespace DirectX;
 
@@ -46,7 +47,9 @@ void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 {
 	pitch += dView.y * Sensitivity;
 	yaw += dView.x * Sensitivity;
-	// TODO CLAMP
+	// clamp angles
+	pitch = std::clamp( pitch, -XM_PIDIV2 * 0.995f, XM_PIDIV2 * 0.995f );
+	//todo clamp yaw
 }
 
 void Camera::MovePosition( DirectX::XMFLOAT3 dPos )
