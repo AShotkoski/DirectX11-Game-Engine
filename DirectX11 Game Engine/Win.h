@@ -46,3 +46,4 @@
 #define NOTAPE
 
 #include <Windows.h>
+#include "Globals.h"

@@ -121,6 +121,7 @@
       <Filter>Source\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -253,6 +254,10 @@
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Globals.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

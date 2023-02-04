@@ -1,6 +1,5 @@
 #pragma once
 #include "Window.h"
-#include "ImGuiManager.h"
 #include "FrameTimer.h"
 #include "Cube.h"
 #include "PointLight.h"
@@ -17,8 +16,8 @@ private:
 	void UpdateLogic();
 	void DrawFrame();
 	void ControlCamera();
+	void DrawImGuis();
 private:
-	ImGuiManager imguimanager;
 	Window wnd;
 	Graphics& gfx;
 	FrameTimer ft;

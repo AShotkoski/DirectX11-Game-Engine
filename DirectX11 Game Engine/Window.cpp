@@ -96,16 +96,20 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		throw LAST_WND_ERR_EXCEPT();
 	}
 
-	// Init ImGUI
-	ImGui_ImplWin32_Init( hWnd );
-
 	// Create Graphics object
 	pGfx = std::make_unique<Graphics>( hWnd );
+
+	// Init ImGUI
+	if constexpr ( globals::enableImGui )
+		ImGui_ImplWin32_Init( hWnd );
 }
 
 Window::~Window()
 {
-	ImGui_ImplWin32_Shutdown();
+	if constexpr ( globals::enableImGui )
+	{
+		ImGui_ImplWin32_Shutdown();
+	}
 	DestroyWindow( hWnd );
 }
 

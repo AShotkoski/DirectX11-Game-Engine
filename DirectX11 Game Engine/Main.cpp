@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "BaseException.h"
 #include "Game.h"
+#include "ImGuiManager.h"
+
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE     hInstance,
@@ -10,8 +12,13 @@ int WINAPI wWinMain(
 {
 	try
 	{
-		Game game;
-	
+		// enable imgui first globally
+		std::unique_ptr<ImGuiManager> pImGuiManager;
+		if constexpr ( globals::enableImGui )
+			pImGuiManager = std::make_unique<ImGuiManager>();
+
+		Game game;	
+
 		while (true)
 		{
 			// processmessage returns a filled optional ( quit message )

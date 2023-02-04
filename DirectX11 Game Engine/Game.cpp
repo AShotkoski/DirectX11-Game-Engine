@@ -29,8 +29,9 @@ Game::Game()
 		cubes.emplace_back(
 			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
 									DirectX::XMFLOAT3(&Color::MakeRgb( col ).el[0])));
-
 	}
+
+	
 }
 
 Game::~Game()
@@ -45,6 +46,10 @@ void Game::Go()
 	gfx.BeginFrame();
 	UpdateLogic();
 	DrawFrame();
+
+	if constexpr ( globals::enableImGui )
+		DrawImGuis();
+
 	gfx.EndFrame();
 }
 
@@ -60,16 +65,6 @@ void Game::UpdateLogic()
 
 	// Camera control
 	ControlCamera();
-
-	// Control game-wide settings
-	if ( ImGui::Begin( "Simulation Control" ) )
-	{
-		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );
-	}
-	ImGui::End();
-
-	gfx.GetCamera().SpawnControlWindow();
-	light.SpawnControlWindow();
 }
 
 void Game::DrawFrame()
@@ -79,6 +74,19 @@ void Game::DrawFrame()
 		c->Draw( gfx );
 	}
 	light.Draw( gfx );
+}
+
+void Game::DrawImGuis()
+{
+	// Control game-wide settings
+	if ( ImGui::Begin( "Simulation Control" ) )
+	{
+		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );
+	}
+	ImGui::End();
+
+	gfx.GetCamera().SpawnControlWindow();
+	light.SpawnControlWindow();
 }
 
 void Game::ControlCamera()

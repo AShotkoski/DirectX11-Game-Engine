@@ -140,6 +140,7 @@
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="DDSLoader\DDSTextureLoader.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />

@@ -65,7 +65,8 @@ Graphics::Graphics( HWND hWnd )
 		&pContext ) );
 
 	// IMGUI
-	ImGui_ImplDX11_Init( pDevice.Get(), pContext.Get() );
+	if constexpr ( globals::enableImGui )
+		ImGui_ImplDX11_Init( pDevice.Get(), pContext.Get() );
 
 	// Create render target view
 	Microsoft::WRL::ComPtr<ID3D11Resource> pBackBuffer;
@@ -126,13 +127,14 @@ Graphics::Graphics( HWND hWnd )
 
 Graphics::~Graphics()
 {
-	ImGui_ImplDX11_Shutdown();
+	if constexpr ( globals::enableImGui )
+		ImGui_ImplDX11_Shutdown();
 }
 
 void Graphics::BeginFrame()
 {
 	// Handle ImGui
-	if ( enableImGui )
+	if constexpr ( globals::enableImGui )
 	{
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
@@ -156,7 +158,7 @@ void Graphics::DrawIndexed( UINT indexCount )
 void Graphics::EndFrame()
 {
 	// Handle ImGui
-	if ( enableImGui )
+	if constexpr( globals::enableImGui )
 	{
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData( ImGui::GetDrawData() );
