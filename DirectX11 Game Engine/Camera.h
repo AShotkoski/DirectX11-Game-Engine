@@ -6,6 +6,7 @@ class Camera
 public:
 	Camera();
 	DirectX::XMMATRIX GetMatrix() const noexcept;
+	DirectX::XMMATRIX GetInvMatrix() const noexcept;
 	void SpawnControlWindow();
 	void Reset() noexcept;
 	void UpdateView( DirectX::XMFLOAT2 dView );
@@ -15,6 +16,10 @@ public:
 	bool isMouseControlEnabled() const;
 	void UpdateMovementSpeed( float factor );
 private:
+	void CalculateMatrices();
+private:
+	DirectX::XMMATRIX view = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX invView = DirectX::XMMatrixIdentity();
 	bool isMouseControl = false;
 	DirectX::XMFLOAT3 Position;
 	float pitch;

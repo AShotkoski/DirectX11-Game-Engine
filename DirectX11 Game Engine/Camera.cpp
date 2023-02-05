@@ -11,13 +11,12 @@ Camera::Camera()
 
 DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {
-	// Rotate where we want to look
-	XMVECTOR base = XMVectorSet( 0, 0, 1.f, 0.f ); // Default is looking forward in z
-	XMVECTOR lookat = XMVector3Transform(base, XMMatrixRotationRollPitchYaw( pitch, yaw, 0.f ));
+	return view;
+}
 
-	auto xmpos = XMLoadFloat3( &Position );
-
-	return XMMatrixLookAtLH(xmpos, lookat + xmpos, XMVectorSet(0,1.f,0,0.f));
+DirectX::XMMATRIX Camera::GetInvMatrix() const noexcept
+{
+	return invView;
 }
 
 void Camera::SpawnControlWindow()
@@ -41,6 +40,7 @@ void Camera::Reset() noexcept
 	Position.z = -10.f;
 	pitch      = 0.f;
 	yaw        = 0.f;
+	CalculateMatrices();
 }
 
 void Camera::UpdateView( DirectX::XMFLOAT2 dView )
@@ -50,6 +50,7 @@ void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 	// clamp angles
 	pitch = std::clamp( pitch, -XM_PIDIV2 * 0.995f, XM_PIDIV2 * 0.995f );
 	//todo clamp yaw
+	CalculateMatrices();
 }
 
 void Camera::MovePosition( DirectX::XMFLOAT3 dPos )
@@ -63,6 +64,7 @@ void Camera::MovePosition( DirectX::XMFLOAT3 dPos )
 	Position.x += dPos.x;
 	Position.y += dPos.y;
 	Position.z += dPos.z;
+	CalculateMatrices();
 }
 
 void Camera::EnableMouseControl()
@@ -84,4 +86,17 @@ void Camera::UpdateMovementSpeed( float factor )
 {
 	assert( factor >= 0.f && factor < 100.f );
 	MoveSpeed *= factor;
+}
+
+void Camera::CalculateMatrices()
+{
+	// Rotate where we want to look
+	XMVECTOR base = XMVectorSet( 0, 0, 1.f, 0.f ); // Default is looking forward in z
+	XMVECTOR lookat = XMVector3Transform( base, XMMatrixRotationRollPitchYaw( pitch, yaw, 0.f ) );
+
+	auto xmpos = XMLoadFloat3( &Position );
+
+	view = XMMatrixLookAtLH( xmpos, lookat + xmpos, XMVectorSet( 0, 1.f, 0, 0.f ) );
+	auto viewDet = XMMatrixDeterminant( view );
+	invView = XMMatrixInverse( &viewDet, view );
 }
