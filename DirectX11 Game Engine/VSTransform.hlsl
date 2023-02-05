@@ -2,6 +2,7 @@ cbuffer cb
 {
     matrix model;
     matrix view;
+    matrix Invview;
     matrix proj;
 };
 

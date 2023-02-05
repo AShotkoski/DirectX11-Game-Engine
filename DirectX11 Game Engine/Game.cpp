@@ -14,7 +14,7 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-
+	
 	for ( int i = 0; i < 64; i++ )
 	{
 		float size = NumberFactory::NormalReal( 1.0f, 1.f, 0.5f, 1.5f );

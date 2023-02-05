@@ -2,6 +2,7 @@ cbuffer cb
 {
     matrix model;
     matrix view;
+    matrix Invview;
     matrix proj;
 };
 
@@ -15,6 +16,7 @@ struct VSOut
 {
     float3 Normal : NORMAL;
     float3 WorldPos : POSITION;
+    float3 EyePos : EYEPOS;
     float4 ViewPos : SV_Position;
 };
 
@@ -28,6 +30,8 @@ VSOut main(VSIn vsin)
     vsout.ViewPos = mul(vsout.ViewPos, proj); // NDC
     
     vsout.Normal = mul(vsin.normal, (float3x3)model);
+    // Get eye position
+    vsout.EyePos = float3(view[3].xyz);
     
 	return vsout;  
 }

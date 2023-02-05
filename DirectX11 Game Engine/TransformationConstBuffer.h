@@ -10,7 +10,8 @@ private:
 	{
 		DirectX::XMMATRIX model;         // Into world pos
 		DirectX::XMMATRIX View; 
-		DirectX::XMMATRIX Pos; 
+		DirectX::XMMATRIX InvView; 
+		DirectX::XMMATRIX Proj;
 	};
 public:
 	TransformationConstBuffer( Graphics& gfx, const Drawable& parent );

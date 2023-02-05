@@ -16,6 +16,7 @@ void TransformationConstBuffer::Bind( Graphics& gfx )
 	const TransformBuffer tb = {
 		DirectX::XMMatrixTranspose( parentModel ), // model
 		DirectX::XMMatrixTranspose( gfx.GetCamera().GetMatrix() ), //view
+		DirectX::XMMatrixTranspose( gfx.GetCamera().GetInvMatrix() ), //Invview
 		DirectX::XMMatrixTranspose( gfx.GetProjection() ) //proj
 	};
 
