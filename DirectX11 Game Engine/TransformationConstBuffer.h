@@ -9,7 +9,8 @@ private:
 	struct TransformBuffer
 	{
 		DirectX::XMMATRIX model;         // Into world pos
-		DirectX::XMMATRIX ModelViewProj; // Into view pos
+		DirectX::XMMATRIX View; 
+		DirectX::XMMATRIX Pos; 
 	};
 public:
 	TransformationConstBuffer( Graphics& gfx, const Drawable& parent );

@@ -14,9 +14,16 @@ cbuffer ObjectCBuf : register(b1)
     float3 MaterialColor;
 };
 
-float4 main(float3 normal : NORMAL, float3 worldPos : POSITION) : SV_TARGET
+struct PSIn // VSOUT
 {
-    const float3 vertToL = lightposition - worldPos;
+    float3 Normal : NORMAL;
+    float3 WorldPos : POSITION;
+    float4 ViewPos : SV_Position;
+};
+
+float4 main(PSIn psin) : SV_TARGET
+{
+    const float3 vertToL = lightposition - psin.WorldPos;
     const float distVertToL = length(vertToL);
     const float3 dirVertToL = vertToL / distVertToL;
     
@@ -25,7 +32,7 @@ float4 main(float3 normal : NORMAL, float3 worldPos : POSITION) : SV_TARGET
                               + attenConst);
     
     const float3 diffuse = diffuseColor * diffuseIntensity * attenuation
-                                * max(0, dot(dirVertToL, normal));
+                                * max(0, dot(dirVertToL, psin.Normal));
 
     return float4(saturate(diffuse + ambient) * MaterialColor, 1);
 }
