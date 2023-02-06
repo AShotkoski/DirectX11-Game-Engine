@@ -7,7 +7,8 @@
 #include "Vertex.h"
 #include <random>
 
-Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, DirectX::XMFLOAT3 matColor )
+Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
+			DirectX::XMFLOAT3 matColor, float specInt, float specPow )
 	:
 	size(size),
 	rho(rho),
@@ -59,18 +60,20 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, Direct
 	struct PSCBuf
 	{
 		DirectX::XMFLOAT3 MatCol;
-		float padding;
+		float specularIntensity;
+		alignas( 16 ) float specularPower;
 	};
 
-	PSCBuf cubeProps = { matColor };
+	PSCBuf cubeProps = { matColor, specInt, specPow };
 
 	AddBind( std::make_unique<PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
-			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor )
+			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor
+			, float specInt, float specPow )
 	:
-	Cube(gfx,size,rho,theta,phi,matColor)
+	Cube(gfx,size,rho,theta,phi,matColor, specInt, specPow)
 {
 	this->dTheta = dTheta;
 	this->dPhi = dPhi;

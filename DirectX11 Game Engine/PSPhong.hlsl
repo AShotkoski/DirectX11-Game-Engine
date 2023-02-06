@@ -12,6 +12,8 @@ cbuffer LightCBuf
 cbuffer ObjectCBuf : register(b1)
 {
     float3 MaterialColor;
+    float specularIntensity;
+    float specularPower;
 };
 
 struct PSIn // VSOUT
@@ -21,9 +23,6 @@ struct PSIn // VSOUT
     float3 EyePos : EYEPOS;
     float4 ViewPos : SV_Position;
 };
-
-static const float specularIntensity = 1.0f;
-static const float shiny = 1.f;
 
 float4 main(PSIn psin) : SV_TARGET
 {
@@ -48,7 +47,7 @@ float4 main(PSIn psin) : SV_TARGET
     // Calc cos of the angle between the surface normal and the halfway
     float cosBetween = saturate(dot(psin.Normal, halfWay));
 
-    const float3 specular = specularIntensity * pow(cosBetween, shiny) * attenuation;
+    const float3 specular = specularIntensity * pow(cosBetween, specularPower) * attenuation;
     
     return float4(saturate(diffuse + ambient + specular) * MaterialColor, 1);
 }
