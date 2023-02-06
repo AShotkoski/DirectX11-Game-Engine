@@ -19,6 +19,8 @@ namespace Vert
 			Color_float_RGB
 		};
 
+		// Template map for each elementType to keep all relations of Elementtype with concrete 
+		// data types in one place.
 		template<ElementType type>
 		struct TypeInfo;
 		template<>
@@ -50,7 +52,8 @@ namespace Vert
 			static constexpr const char* semantic = "Color";
 		};
 
-
+		// Each vertex element contains its type and its offset, in bytes, into the vertexlayout
+		// which can be thought of as the concrete vertex type.
 		class Element
 		{
 		public:
@@ -74,6 +77,36 @@ namespace Vert
 			{
 				return type;
 			}
+			D3D11_INPUT_ELEMENT_DESC GetD3DDesc() const
+			{
+				switch ( type )
+				{
+					case Position_3D:
+						return GenerateD3DDesc<Position_3D>();
+					case Position_2D:
+						return GenerateD3DDesc<Position_2D>();
+					case Normal:
+						return GenerateD3DDesc<Normal>();
+					case Color_float_RGB:
+						return GenerateD3DDesc<Color_float_RGB>();
+				}
+				assert( false && "horrible error in getd3ddesc" );
+				return {};
+			}
+		private:
+			template <ElementType ty>
+			D3D11_INPUT_ELEMENT_DESC GenerateD3DDesc() const
+			{
+				D3D11_INPUT_ELEMENT_DESC desc = {};
+				desc.AlignedByteOffset = (UINT)offset;
+				desc.Format = TypeInfo<ty>::dxgiFormat;
+				desc.InputSlot = 0u;
+				desc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+				desc.InstanceDataStepRate = 0u;
+				desc.SemanticIndex = 0u;
+				desc.SemanticName = TypeInfo<ty>::semantic;
+				return desc;
+			}
 		private:
 			ElementType type;
 			// offset, in bytes, of this element into the vertexlayout
@@ -81,7 +114,6 @@ namespace Vert
 		};
 	public:
 		VertexLayout() = default;
-
 		void Append( ElementType el ) noexcept
 		{
 			elements.emplace_back( el, elements.size() == 0u ? 0u : elements.back().GetNextSlot() );
@@ -99,8 +131,8 @@ namespace Vert
 			assert( index < elements.size() );
 			return elements[index];
 		}
-		template <ElementType type>
 		// Get element with type = 'type'
+		template <ElementType type>
 		const Element& Resolve() const
 		{
 			assert( elements.size() > 0 );
@@ -134,7 +166,17 @@ namespace Vert
 			assert( "Invalid element passed to sizeofelement" && false );
 			return 0;
 		}
+		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DInputLayout() const
+		{
+			std::vector<D3D11_INPUT_ELEMENT_DESC> layout;
+			// Create a input element description for each element in the layout
+			for ( const auto& e : elements )
+			{
+				layout.push_back( e.GetD3DDesc() );
+			}
 
+			return layout;
+		}
 	private:
 		std::vector<Element> elements;
 	};
@@ -223,6 +265,7 @@ namespace Vert
 		VertexLayout& layout;
 	};
 
+	// Constant version of vertex view, encapsulates a vertex object and const_casts a lot.
 	class CVertexView
 	{
 	public:
@@ -304,6 +347,10 @@ namespace Vert
 		size_t VertexSizeBytes() const
 		{
 			return layout.SizeBytes();
+		}
+		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DInputLayout() const
+		{
+			return layout.GetD3DInputLayout();
 		}
 	private:
 		VertexLayout layout;

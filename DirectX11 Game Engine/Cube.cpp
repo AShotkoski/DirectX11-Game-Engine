@@ -45,12 +45,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
-		// Input layout
-		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
-		IED.emplace_back( "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 );
-		IED.emplace_back( "Normal", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 );
-
-		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
+		AddStaticBind( std::make_unique<InputLayout>( gfx, vertBuf.GetD3DInputLayout(), *vsbtyecode ) );
 	}
 
 	// Bind non static Transformation CB

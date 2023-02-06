@@ -34,11 +34,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
-		// Input layout
-		std::vector<D3D11_INPUT_ELEMENT_DESC> IED;
-		IED.emplace_back( "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 );
-
-		AddStaticBind( std::make_unique<InputLayout>( gfx, std::move( IED ), *vsbtyecode ) );
+		AddStaticBind( std::make_unique<InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbtyecode));
 	}
 
 	// Bind non static Transformation CB
