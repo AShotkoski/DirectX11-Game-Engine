@@ -27,24 +27,28 @@ static const float shiny = 1.f;
 
 float4 main(PSIn psin) : SV_TARGET
 {
+    // Normalize normal
+    psin.Normal = normalize(psin.Normal);
     
-    const float3 vertToL = lightposition - psin.WorldPos;
-    const float distVertToL = length(vertToL);
-    const float3 dirVertToL = vertToL / distVertToL;
+    float3 pxToLight = lightposition - psin.WorldPos;
+    const float distPxToLight = length(pxToLight);
     
-    const float attenuation = 1.f / (pow(distVertToL, 2) * attenQuad
-                              + distVertToL * attenLin
+    // Calculate the attenuation ( inverse square law )
+    const float attenuation = 1.f / (pow(distPxToLight, 2) * attenQuad
+                              + distPxToLight * attenLin
                               + attenConst);
     
+    // Get the diffuse lighting
     const float3 diffuse = diffuseColor * diffuseIntensity * attenuation
-                                * max(0, dot(dirVertToL, psin.Normal)); 
-    // Calc specular
-    const float3 V = normalize(psin.EyePos - psin.WorldPos);
-    const float3 L = normalize(lightposition - psin.WorldPos);
-    const float3 H = normalize(L + V);
-    float NdotH = saturate(dot(normalize(psin.Normal), H));
+                                * max(0, dot(normalize(pxToLight), psin.Normal)); 
+    // Calc specular ( blinn-phong )
+    const float3 pxToEye = normalize(psin.EyePos - psin.WorldPos);
+    pxToLight = normalize(pxToLight);
+    const float3 halfWay = normalize(pxToEye + pxToLight);
+    // Calc cos of the angle between the surface normal and the halfway
+    float cosBetween = saturate(dot(psin.Normal, halfWay));
 
-    const float3 specular = specularIntensity * pow(NdotH, shiny) * attenuation;
+    const float3 specular = specularIntensity * pow(cosBetween, shiny) * attenuation;
     
     return float4(saturate(diffuse + ambient + specular) * MaterialColor, 1);
 }
