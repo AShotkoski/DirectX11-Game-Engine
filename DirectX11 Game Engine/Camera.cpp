@@ -23,10 +23,6 @@ void Camera::SpawnControlWindow()
 {
 	if( ImGui::Begin( "Camera" ) )
 	{
-		ImGui::DragFloat( "X", &Position.x, 0.5f,  0.5f, 50.f );
-		ImGui::DragFloat( "Y", &Position.y, 0.5f, 0.5f, 50.f );
-		ImGui::DragFloat( "Z", &Position.z, -0.5f, 0.5f, 50.f );
-		ImGui::NewLine();
 		if( ImGui::Button( "Reset" ) )
 			Reset();
 	}

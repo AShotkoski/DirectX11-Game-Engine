@@ -32,8 +32,6 @@ Game::Game()
 			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
 									DirectX::XMFLOAT3(&Color::MakeRgb( col ).el[0]), specInt, specPow));
 	}
-
-	
 }
 
 Game::~Game()
@@ -98,6 +96,7 @@ void Game::ControlCamera()
 {
 	DirectX::XMFLOAT3 dCampos = { 0, 0, 0 };
 
+	// Hold space to go into camera control mode
 	if ( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
 		gfx.GetCamera().EnableMouseControl();
@@ -107,6 +106,9 @@ void Game::ControlCamera()
 	{
 		gfx.GetCamera().DisableMouseControl();
 		wnd.EnableCursor();
+		// Fast return and don't process keyboard input when not in mouse control mode,
+		// be honest you don't need to move the camera in view mode.
+		return;
 	}
 
 	if ( wnd.kbd.KeyIsPressed( 'W') )
@@ -132,6 +134,18 @@ void Game::ControlCamera()
 	if ( wnd.kbd.KeyIsPressed( 'F') )
 	{
 		dCampos.y -= 1.f;
+	}
+	// Control camera movement speed with scrollwheel
+	while ( auto e = wnd.mouse.GetEvent() )
+	{
+		if ( e->GetType() == Mouse::Event::ScrollUp )
+		{
+			gfx.GetCamera().UpdateMovementSpeed( 1.05f );
+		}
+		else if ( e->GetType() == Mouse::Event::ScrollDown )
+		{
+			gfx.GetCamera().UpdateMovementSpeed( 0.95f );
+		}
 	}
 
 	if ( dCampos.x != 0 || dCampos.y != 0 || dCampos.z != 0 )
