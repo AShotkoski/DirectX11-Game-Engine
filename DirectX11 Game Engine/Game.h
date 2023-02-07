@@ -3,6 +3,7 @@
 #include "FrameTimer.h"
 #include "Cube.h"
 #include "PointLight.h"
+#include "Ray.h"
 
 class Game
 {
@@ -24,6 +25,7 @@ private:
 
 	PointLight light;
 	std::vector<std::unique_ptr<Cube>> cubes;
+	Ray ray;
 private:
 	float dt = 0.f;
 	float timeFactor = 1.0f;

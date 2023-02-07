@@ -7,9 +7,10 @@
 
 Game::Game()
 	:
-	wnd( ScreenWidth, ScreenHeight, WindowTitle),
-	gfx(wnd.GFX()),
-	light(gfx, 0.25f)
+	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
+	gfx( wnd.GFX() ),
+	light( gfx, 0.25f ),
+	ray( gfx )
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -75,7 +76,8 @@ void Game::DrawFrame()
 	}
 
 	light.Draw( gfx );
-	
+
+	ray.Draw(gfx);
 }
 
 void Game::DrawImGuis()

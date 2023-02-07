@@ -248,6 +248,9 @@
     <ClInclude Include="Keyboard.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Headers\Drawable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
