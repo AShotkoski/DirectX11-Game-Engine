@@ -76,5 +76,7 @@ private:
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
 	bool cursorEnabled = true;
+	int Center_x = 0;
+	int Center_y = 0;
 };
 

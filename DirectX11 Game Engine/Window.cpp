@@ -96,6 +96,13 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		throw LAST_WND_ERR_EXCEPT();
 	}
 
+	// Store where the center of the client area is in screen coords.
+	
+	POINT center = { (long)width / 2, (long)height / 2 };
+	ClientToScreen( hWnd, &center );
+	Center_x = center.x;
+	Center_y = center.y;
+
 	// Create Graphics object
 	pGfx = std::make_unique<Graphics>( hWnd );
 
@@ -267,6 +274,8 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 				// Directly update the camera to get as little input lag as possible
 				pGfx->GetCamera().UpdateView( { (float)pRaw->data.mouse.lLastX,
 											    (float)pRaw->data.mouse.lLastY } );
+
+				SetCursorPos( Center_x, Center_y );
 			}
 			break;
 		}
@@ -314,6 +323,14 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		}
 
 		// -----------   System    -------------
+		case WM_MOVE:
+		{
+			POINT center = { (long)width / 2, (long)height / 2 };
+			ClientToScreen( hWnd, &center );
+			Center_x = center.x;
+			Center_y = center.y;
+			break;
+		}
 		case WM_CLOSE:
 			PostQuitMessage( 0 );
 			break;
