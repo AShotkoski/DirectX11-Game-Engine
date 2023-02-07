@@ -12,6 +12,7 @@ public:
 	void UpdateView( DirectX::XMFLOAT2 dView );
 	void UpdatePosition( DirectX::XMFLOAT3 dPos, float dt );
 	DirectX::XMFLOAT3 GetPosition( ) const;
+	DirectX::XMFLOAT3 GetDirectionVector( ) const;
 	void EnableMouseControl();
 	void DisableMouseControl();
 	bool isMouseControlEnabled() const;

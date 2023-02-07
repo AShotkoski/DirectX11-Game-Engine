@@ -71,6 +71,14 @@ DirectX::XMFLOAT3 Camera::GetPosition() const
 	return Position;
 }
 
+DirectX::XMFLOAT3 Camera::GetDirectionVector() const
+{
+	XMFLOAT3X3 v;
+	XMStoreFloat3x3( &v, view );
+
+	return DirectX::XMFLOAT3(v(0,2), v(1,2), v(2,2));
+}
+
 void Camera::EnableMouseControl()
 {
 	isMouseControl = true;
