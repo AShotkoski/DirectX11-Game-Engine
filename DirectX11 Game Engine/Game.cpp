@@ -15,16 +15,16 @@ Game::Game()
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
 	
-	for ( int i = 0; i < 64; i++ )
+	for ( int i = 0; i < 96; i++ )
 	{
 		float size = NumberFactory::NormalReal( 1.0f, 1.f, 0.5f, 1.5f );
-		float rho = NumberFactory::RandomReal( 5.0f, 25.0f );
+		float rho = NumberFactory::RandomReal( 3.0f, 25.0f );
 		float theta = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float phi = NumberFactory::RandomReal( -2.0f, 2.0f );
 		float dtheta = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dphi = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dRot = NumberFactory::RandomReal( -1.2f, 1.2f );
-		float specPow = NumberFactory::RandomReal( 1.f, 90.2f );
+		float specPow = NumberFactory::RandomReal( 1.f, 120.2f );
 		float specInt = NumberFactory::RandomReal( 0.0f, 2.5f );
 		DWORD col = NumberFactory::RandomInt<DWORD>( 0x00, 0xFFFFFFFF );
 
@@ -153,6 +153,6 @@ void Game::ControlCamera()
 		// Normalize camera movement vector so that diagonals are not twice as fast.
 	    DirectX::XMStoreFloat3(&dCampos, DirectX::XMVector3Normalize( DirectX::XMLoadFloat3( &dCampos ) ));
 
-		gfx.GetCamera().MovePosition(dCampos);
+		gfx.GetCamera().UpdatePosition(dCampos, dt);
 	}
 }

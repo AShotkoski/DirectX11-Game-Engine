@@ -4,24 +4,28 @@
 
 #pragma comment(lib,"d3dcompiler.lib")
 
-
-VertexShader::VertexShader( Graphics& gfx, const std::wstring path )
+namespace Binds
 {
-		// error codes
-	HRESULT hr;
 
-	THROW_FAILED_GFX( D3DReadFileToBlob( path.c_str(), &pBlob ) );
-	THROW_FAILED_GFX( pGetDevice( gfx )->CreateVertexShader( pBlob->GetBufferPointer(),
-															pBlob->GetBufferSize(),
-															nullptr, &pVertexShader ) );
-}
+	VertexShader::VertexShader( Graphics& gfx, const std::wstring path )
+	{
+			// error codes
+		HRESULT hr;
 
-void VertexShader::Bind( Graphics& gfx )
-{
-	pGetContext( gfx )->VSSetShader( pVertexShader.Get(), nullptr, 0u );
-}
+		THROW_FAILED_GFX( D3DReadFileToBlob( path.c_str(), &pBlob ) );
+		THROW_FAILED_GFX( pGetDevice( gfx )->CreateVertexShader( pBlob->GetBufferPointer(),
+																 pBlob->GetBufferSize(),
+																 nullptr, &pVertexShader ) );
+	}
 
-ID3DBlob* VertexShader::pGetBytecode() const noexcept
-{
-	return pBlob.Get();
-}
+	void VertexShader::Bind( Graphics& gfx )
+	{
+		pGetContext( gfx )->VSSetShader( pVertexShader.Get(), nullptr, 0u );
+	}
+
+	ID3DBlob* VertexShader::pGetBytecode() const noexcept
+	{
+		return pBlob.Get();
+	}
+
+};

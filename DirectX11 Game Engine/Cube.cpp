@@ -18,7 +18,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 	if ( !isStaticInitialized() )
 	{
 		// Set topology
-		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+		AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
 		// Set vertexs
 		Vert::VertexLayout vLayout;
@@ -32,24 +32,24 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		itl.SetNormalsIndependentFlat();
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vb ) );
+		AddStaticBind( std::make_unique<Binds::VertexBuffer>( gfx, itl.vb ) );
 
 		// Bind Index Buffer
-		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );
+		AddStaticBind( std::make_unique<Binds::IndexBuffer>( gfx, itl.indices ) );
 
 		// Bind PS
-		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSPhong.cso" ) );
+		AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSPhong.cso" ) );
 
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<VertexShader>( gfx, L"VSPhong.cso" );
+		auto vs = std::make_unique<Binds::VertexShader>( gfx, L"VSPhong.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
-		AddStaticBind( std::make_unique<InputLayout>( gfx, vertBuf.GetD3DInputLayout(), *vsbtyecode ) );
+		AddStaticBind( std::make_unique<Binds::InputLayout>( gfx, vertBuf.GetD3DInputLayout(), *vsbtyecode ) );
 	}
 
 	// Bind non static Transformation CB
-	AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
+	AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
 
 	// Setup phong material properties
 	struct PSCBuf
@@ -61,7 +61,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 
 	PSCBuf cubeProps = { matColor, specInt, specPow };
 
-	AddBind( std::make_unique<PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
+	AddBind( std::make_unique<Binds::PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 

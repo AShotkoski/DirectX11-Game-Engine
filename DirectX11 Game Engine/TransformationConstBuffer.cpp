@@ -1,24 +1,29 @@
 #include "TransformationConstBuffer.h"
 
-TransformationConstBuffer::TransformationConstBuffer( Graphics& gfx, const Drawable& parent )
-	:
-	VertexCBuf(gfx),
-	parent(parent)
+namespace Binds
 {
-}
 
-void TransformationConstBuffer::Bind( Graphics& gfx )
-{
-	// Update vertex const buffer with projected transformation matrix given by 
-	// owner drawable
-	const auto parentModel = parent.GetTransformationMatrix();
+	TransformationConstBuffer::TransformationConstBuffer( Graphics& gfx, const Drawable& parent )
+		:
+		VertexCBuf( gfx ),
+		parent( parent )
+	{
+	}
 
-	const TransformBuffer tb = {
-		DirectX::XMMatrixTranspose( parentModel ), // model
-		DirectX::XMMatrixTranspose( gfx.GetCamera().GetInvMatrix() ), //Invview
-		DirectX::XMMatrixTranspose( parentModel * gfx.GetCamera().GetMatrix() * gfx.GetProjection() ) //proj
-	};
+	void TransformationConstBuffer::Bind( Graphics& gfx )
+	{
+		// Update vertex const buffer with projected transformation matrix given by 
+		// owner drawable
+		const auto parentModel = parent.GetTransformationMatrix();
 
-	VertexCBuf.Update( gfx, tb);
-	VertexCBuf.Bind( gfx );
-}
+		const TransformBuffer tb = {
+			DirectX::XMMatrixTranspose( parentModel ), // model
+			DirectX::XMMatrixTranspose( gfx.GetCamera().GetInvMatrix() ), //Invview
+			DirectX::XMMatrixTranspose( parentModel * gfx.GetCamera().GetMatrix() * gfx.GetProjection() ) //proj
+		};
+
+		VertexCBuf.Update( gfx, tb );
+		VertexCBuf.Bind( gfx );
+	}
+
+};

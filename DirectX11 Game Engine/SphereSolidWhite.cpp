@@ -9,7 +9,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	if ( !isStaticInitialized() )
 	{
 		// Set topology
-		AddStaticBind( std::make_unique<Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+		AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
 		// Set vertexs
 		Vert::VertexLayout vl;
@@ -21,24 +21,24 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 		itl.Transform( DirectX::XMMatrixScaling( radius, radius, radius ) );
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<VertexBuffer>( gfx, itl.vb ) );
+		AddStaticBind( std::make_unique<Binds::VertexBuffer>( gfx, itl.vb ) );
 
 		// Bind Index Buffer
-		AddStaticBind( std::make_unique<IndexBuffer>( gfx, itl.indices ) );
+		AddStaticBind( std::make_unique<Binds::IndexBuffer>( gfx, itl.indices ) );
 
 		// Bind PS
-		AddStaticBind( std::make_unique<PixelShader>( gfx, L"PSSolidWhite.cso" ) );
+		AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSSolidWhite.cso" ) );
 
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<VertexShader>( gfx, L"VSTransform.cso" );
+		auto vs = std::make_unique <Binds::VertexShader>( gfx, L"VSTransform.cso" );
 		auto vsbtyecode = vs->pGetBytecode();
 		AddStaticBind( std::move( vs ) );
 
-		AddStaticBind( std::make_unique<InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbtyecode));
+		AddStaticBind( std::make_unique<Binds::InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbtyecode));
 	}
 
 	// Bind non static Transformation CB
-	AddBind( std::make_unique<TransformationConstBuffer>( gfx, *this ) );
+	AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
 }
 
 void SphereSolidWhite::Update( float dt )

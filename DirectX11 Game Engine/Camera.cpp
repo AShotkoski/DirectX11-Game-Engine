@@ -49,8 +49,11 @@ void Camera::UpdateView( DirectX::XMFLOAT2 dView )
 	CalculateMatrices();
 }
 
-void Camera::MovePosition( DirectX::XMFLOAT3 dPos )
+void Camera::UpdatePosition( DirectX::XMFLOAT3 dPos, float dt )
 {
+	// Lets not fly around at 7000 fps anymore
+	const float MoveSpeed = this->MoveSpeed * dt;
+
 	// Update dPos to care about direction the camera is facing and the movespeed
 	XMStoreFloat3( &dPos, XMVector3Transform(
 		XMLoadFloat3( &dPos ),

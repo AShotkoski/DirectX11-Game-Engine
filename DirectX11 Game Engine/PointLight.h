@@ -22,7 +22,7 @@ private:
 	};
 private:
 	mutable SphereSolidWhite mesh;
-	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
+	mutable Binds::PixelConstantBuffer<PointLightCBuf> cbuf;
 	// Light props
 	DirectX::XMFLOAT3 LightPos;
 	DirectX::XMFLOAT3 ambient = { 0.11f, 0.11f, 0.11f };
