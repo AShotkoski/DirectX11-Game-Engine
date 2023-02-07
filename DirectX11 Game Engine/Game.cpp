@@ -13,7 +13,7 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.25f ),
-	ray( gfx, gfx.GetCamera().GetPosition(), dx::XMFLOAT3(0, 0.25f, 1.f))
+	ray( gfx)
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -80,9 +80,7 @@ void Game::UpdateLogic()
 			{
 				case 'I':
 				{
-					auto dir = gfx.GetCamera().GetDirectionVector();
-					ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{0, -0.25f, 0});
-					ray.SetDir( gfx, dir );
+					
 					break;
 				}
 			}
@@ -173,8 +171,8 @@ void Game::ControlCamera()
 		else if ( e->GetType() == Mouse::Event::LeftDown )
 		{
 			auto dir = gfx.GetCamera().GetDirectionVector();
-			ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{ 0, -0.05f, 0 } );
 			ray.SetDir( gfx, dir );
+			ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{0, -1.0f, 0});
 		}
 	}
 
