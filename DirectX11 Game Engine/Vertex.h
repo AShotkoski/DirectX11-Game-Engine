@@ -114,9 +114,10 @@ namespace Vert
 		};
 	public:
 		VertexLayout() = default;
-		void Append( ElementType el ) noexcept
+		VertexLayout& Append( ElementType el ) noexcept
 		{
 			elements.emplace_back( el, elements.size() == 0u ? 0u : elements.back().GetNextSlot() );
+			return *this;
 		}
 		size_t NumElements() const
 		{

@@ -69,6 +69,19 @@ void Game::UpdateLogic()
 
 	// Camera control
 	ControlCamera();
+
+	while ( auto e = wnd.kbd.GetEvent() )
+	{
+		if ( e->GetType() == Keyboard::Event::Keydown )
+		{
+			switch ( e->GetVirtualKey() )
+			{
+				case 'I':
+					ray.SetDir( gfx, dx::XMFLOAT3( 0, 0.75f, 0.7f ) );
+					break;
+			}
+		}
+	}
 }
 
 void Game::DrawFrame()

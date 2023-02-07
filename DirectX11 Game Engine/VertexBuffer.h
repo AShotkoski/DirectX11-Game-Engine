@@ -15,8 +15,9 @@ namespace Binds
 		template <class Vertex>
 		VertexBuffer( Graphics& gfx, const std::vector<Vertex>& vertices );
 		VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb );
+		VertexBuffer() = default;
 		void Bind( Graphics& gfx ) override;
-	private:
+	protected:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
 		UINT stride;
 	};
@@ -45,5 +46,12 @@ namespace Binds
 		// Store stride based off templated vertex for use in binding
 		stride = sizeof( Vertex );
 	}
+
+	class DynamicVertexBuffer : public VertexBuffer
+	{
+	public:
+		DynamicVertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb );
+		void Update(Graphics& gfx, const Vert::VertexBuffer& vb ) const;
+	};
 
 };
