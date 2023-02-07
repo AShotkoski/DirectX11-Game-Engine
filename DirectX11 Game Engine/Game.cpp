@@ -4,13 +4,16 @@
 #include "ImGui/imgui_impl_win32.h"
 #include "NumberFactory.h"
 #include "Colors.h"
+#include <DirectXCollision.h>
+
+namespace dx = DirectX;
 
 Game::Game()
 	:
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.25f ),
-	ray( gfx )
+	ray( gfx, gfx.GetCamera().GetPosition(), dx::XMFLOAT3(0, 0.25f, 1.f))
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 

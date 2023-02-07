@@ -7,36 +7,38 @@
 class Ray : public DrawableBase<Ray>
 {
 public:
-	Ray(Graphics& gfx)
+	Ray( Graphics& gfx, DirectX::XMFLOAT3 source, DirectX::XMFLOAT3 dir, float length = 25.f )
 	{
 		namespace dx = DirectX;
 		if ( !isStaticInitialized() )
 		{
-			AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_LINELIST ));
-			
+			AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_LINELIST ) );
+
 			Vert::VertexLayout vl;
 			vl.Append( Vert::VertexLayout::Position_3D );
 
 			Vert::VertexBuffer vb( std::move( vl ) );
-			
-			// ----- Vertices ------
-			vb.Emplace_back( dx::XMFLOAT3( 0, 0, 0 ) );
-			vb.Emplace_back( dx::XMFLOAT3( 0, 10, -10 ) );		
-			AddStaticBind( std::make_unique<Binds::VertexBuffer>(gfx, vb) );
 
-			const std::vector< unsigned short> inds =
-			{
-				0,1
-			};
-			AddStaticBind( std::make_unique<Binds::IndexBuffer>(gfx, inds ));
+			// ----- Vertices ------
+			dx::XMStoreFloat3(
+				&dir,
+				dx::XMVectorScale(
+					dx::XMVector3Normalize( dx::XMLoadFloat3( &dir ) )
+					, length 
+				)
+			);
+			vb.Emplace_back( source );
+			vb.Emplace_back( dir );
+
+			AddStaticBind( std::make_unique<Binds::VertexBuffer>( gfx, vb ) );
 
 			auto vs = std::make_unique<Binds::VertexShader>( gfx, L"VSTransform.cso" );
 			auto vsbtyecode = vs->pGetBytecode();
 			AddStaticBind( std::move( vs ) );
 
-			AddStaticBind( std::make_unique<Binds::InputLayout>(gfx, vb.GetD3DInputLayout(), *vsbtyecode) );
+			AddStaticBind( std::make_unique<Binds::InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbtyecode ) );
 
-			AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSSolidWhite.cso" ));
+			AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSSolidWhite.cso" ) );
 		}
 
 		AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
@@ -49,6 +51,10 @@ public:
 	{
 		return DirectX::XMMatrixIdentity();
 	}
-private:
-
+	// override draw function to call drawindexed
+	virtual void Draw( Graphics& gfx ) const override
+	{
+		DrawNoIndex( gfx, 2u );
+	}
 };
+/// MOFO ADD JUST A ORIGIN, AND DIRECTION, AND FIGURE IT OUT FROM THERE. SMH, NO NEW SHADERS IF YOU WILL

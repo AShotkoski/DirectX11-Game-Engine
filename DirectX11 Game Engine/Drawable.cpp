@@ -13,6 +13,7 @@ void Drawable::Draw( Graphics& gfx ) const
 		b->Bind( gfx );
 	}
 	
+	// In the case of no index buffer, set index buffer to static index buffer
 	if ( pIndexBuffer == nullptr )
 	{
 		assert("NO INDEX BUFFER FOUND\n" && pGetStaticIndexBuffer() != nullptr);
@@ -21,6 +22,19 @@ void Drawable::Draw( Graphics& gfx ) const
 
 	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
 
+}
+void Drawable::DrawNoIndex( Graphics& gfx, UINT vertCount ) const
+{	
+	for ( auto& b : Binds )
+	{
+		b->Bind( gfx );
+	}
+	for ( auto& b : GetStaticBinds() )
+	{
+		b->Bind( gfx );
+	}
+
+	gfx.Draw( vertCount, 0u );
 }
 
 void Drawable::AddBind( std::unique_ptr<Bindable> bind )

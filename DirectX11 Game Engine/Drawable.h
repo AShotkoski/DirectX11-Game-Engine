@@ -16,10 +16,11 @@ public:
 	virtual ~Drawable() = default;
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
-	void Draw(Graphics& gfx) const;
+	virtual void Draw(Graphics& gfx) const;
 	virtual void Update( float dt ) = 0;
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 protected:
+	void DrawNoIndex(Graphics& gfx, UINT vertCount) const;
 	void AddBind( std::unique_ptr<Bindable> bind );
 	// Only implemented in drawablebase as a way to access static binds
 	virtual const std::vector<std::unique_ptr<Bindable>>& GetStaticBinds() const noexcept = 0;
