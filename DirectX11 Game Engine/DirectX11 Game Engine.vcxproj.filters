@@ -105,8 +105,12 @@
     <ClCompile Include="SphereSolidWhite.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -175,9 +179,6 @@
     <ClInclude Include="PlanePrimitive.h">
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
-    <ClInclude Include="FlappingPlane.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
@@ -238,9 +239,13 @@
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Globals.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

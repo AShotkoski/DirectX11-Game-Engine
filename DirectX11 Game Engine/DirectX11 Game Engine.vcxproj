@@ -156,7 +156,6 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubePrimitive.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="FlappingPlane.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
