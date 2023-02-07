@@ -28,6 +28,7 @@ private:
 	Ray ray;
 private:
 	float dt = 0.f;
+	float adj_dt = 0.f;
 	float timeFactor = 1.0f;
 
 private:

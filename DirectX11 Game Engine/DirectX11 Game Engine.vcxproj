@@ -151,6 +151,7 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NumberFactory.h" />
     <ClInclude Include="Cube.h" />

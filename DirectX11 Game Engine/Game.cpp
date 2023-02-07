@@ -4,7 +4,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #include "NumberFactory.h"
 #include "Colors.h"
-#include <DirectXCollision.h>
+#include "MathUtil.h"
 
 namespace dx = DirectX;
 
@@ -45,7 +45,8 @@ Game::~Game()
 void Game::Go()
 {
 	// Capture frame time
-	dt = ft.Mark() * timeFactor;
+	dt = ft.Mark();
+	adj_dt = dt * timeFactor;
 
 	gfx.BeginFrame();
 	UpdateLogic();
@@ -62,7 +63,7 @@ void Game::UpdateLogic()
 {	
 	for ( auto& c : cubes )
 	{
-		c->Update( dt );
+		c->Update( adj_dt );
 	}
 
 	light.Bind(gfx);
@@ -70,6 +71,7 @@ void Game::UpdateLogic()
 	// Camera control
 	ControlCamera();
 
+	// Test code with kbd input
 	while ( auto e = wnd.kbd.GetEvent() )
 	{
 		if ( e->GetType() == Keyboard::Event::Keydown )
@@ -77,8 +79,12 @@ void Game::UpdateLogic()
 			switch ( e->GetVirtualKey() )
 			{
 				case 'I':
-					ray.SetDir( gfx, dx::XMFLOAT3( 0, 0.75f, 0.7f ) );
+				{
+					auto dir = gfx.GetCamera().GetDirectionVector();
+					ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{0, -0.25f, 0});
+					ray.SetDir( gfx, dir );
 					break;
+				}
 			}
 		}
 	}
@@ -163,6 +169,12 @@ void Game::ControlCamera()
 		else if ( e->GetType() == Mouse::Event::ScrollDown )
 		{
 			gfx.GetCamera().UpdateMovementSpeed( 0.95f );
+		}
+		else if ( e->GetType() == Mouse::Event::LeftDown )
+		{
+			auto dir = gfx.GetCamera().GetDirectionVector();
+			ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{ 0, -0.05f, 0 } );
+			ray.SetDir( gfx, dir );
 		}
 	}
 

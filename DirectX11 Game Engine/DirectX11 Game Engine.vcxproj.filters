@@ -251,6 +251,9 @@
     <ClInclude Include="Ray.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
