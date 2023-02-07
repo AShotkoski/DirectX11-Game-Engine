@@ -24,8 +24,8 @@ Game::Game()
 		float dtheta = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dphi = NumberFactory::RandomReal( -1.2f, 1.2f );
 		float dRot = NumberFactory::RandomReal( -1.2f, 1.2f );
-		float specPow = NumberFactory::RandomReal( 0.1f, 90.2f );
-		float specInt = NumberFactory::RandomReal( 0.0f, 5.2f );
+		float specPow = NumberFactory::RandomReal( 1.f, 90.2f );
+		float specInt = NumberFactory::RandomReal( 0.0f, 2.5f );
 		DWORD col = NumberFactory::RandomInt<DWORD>( 0x00, 0xFFFFFFFF );
 
 		cubes.emplace_back(

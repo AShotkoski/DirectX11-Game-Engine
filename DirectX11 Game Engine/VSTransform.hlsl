@@ -1,9 +1,8 @@
 cbuffer cb
 {
     matrix model;
-    matrix view;
-    matrix Invview;
-    matrix proj;
+    matrix InvView;
+    matrix modelViewProj;
 };
 
 struct VSOut
@@ -14,8 +13,6 @@ struct VSOut
 VSOut main(float3 pos : POSITION)
 {
     VSOut vout;
-    vout.pos = mul(float4(pos, 1.f), model);
-    vout.pos = mul(vout.pos, view);
-    vout.pos = mul(vout.pos, proj);
+    vout.pos = mul(float4(pos, 1.f), modelViewProj);
     return vout;
 }
