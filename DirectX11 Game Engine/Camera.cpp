@@ -66,6 +66,11 @@ void Camera::UpdatePosition( DirectX::XMFLOAT3 dPos, float dt )
 	CalculateMatrices();
 }
 
+DirectX::XMFLOAT3 Camera::GetPosition() const
+{
+	return Position;
+}
+
 void Camera::EnableMouseControl()
 {
 	isMouseControl = true;
