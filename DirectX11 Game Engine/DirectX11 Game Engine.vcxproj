@@ -43,6 +43,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExtensionsToDeleteOnClean>*.cso;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExtensionsToDeleteOnClean>*.cso;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
@@ -51,6 +57,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>true</VcpkgEnabled>
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -153,6 +160,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NumberFactory.h" />
     <ClInclude Include="Cube.h" />
@@ -208,5 +216,13 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.targets" Condition="Exists('..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.props'))" />
+    <Error Condition="!Exists('..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.1.0.0\build\native\vcpkg.C.Users.Shotk.source.vcpkg.vcpkg.targets'))" />
+  </Target>
 </Project>
