@@ -17,7 +17,6 @@ public:
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
 	virtual void Draw(Graphics& gfx) const;
-	virtual void Update( float dt ) = 0;
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 protected:
 	void DrawNoIndex(Graphics& gfx, UINT vertCount) const;

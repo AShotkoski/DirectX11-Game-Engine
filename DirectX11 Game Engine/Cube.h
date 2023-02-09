@@ -7,8 +7,8 @@ public:
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi, DirectX::XMFLOAT3 matColor, float specInt, float specPow );
 	Cube( Graphics& gfx,float size, float rho, float theta, float phi,
 		  float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor, float specInt, float specPow );
-	void Update( float dt ) override;
 	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
+	void Update( float dt );
 private:
 	float size;
 	// Position

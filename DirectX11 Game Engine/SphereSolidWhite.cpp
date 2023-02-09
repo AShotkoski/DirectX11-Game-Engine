@@ -41,10 +41,6 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
 }
 
-void SphereSolidWhite::Update( float dt )
-{
-}
-
 void SphereSolidWhite::SetPos( DirectX::XMFLOAT3 position ) noexcept
 {
 	pos = position;

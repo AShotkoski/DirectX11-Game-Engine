@@ -11,8 +11,6 @@ public:
 		 DirectX::XMFLOAT3 dir = {0,0,0 });
 	void SetDir( Graphics& gfx, DirectX::XMFLOAT3 dir );
 	void SetOrigin( Graphics& gfx, DirectX::XMFLOAT3 origin );
-	virtual void Update( float dt ) override
-	{}
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 	// override draw function to call drawindexed
 	virtual void Draw( Graphics& gfx ) const override;
