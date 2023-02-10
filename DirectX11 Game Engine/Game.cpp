@@ -37,6 +37,7 @@ Game::Game()
 			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
 									DirectX::XMFLOAT3(&Color::MakeRgb( col ).el[0]), specInt, specPow));
 	}
+	
 }
 
 Game::~Game()

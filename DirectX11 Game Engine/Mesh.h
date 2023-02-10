@@ -29,36 +29,41 @@ public:
 			AddBind( std::move( b ) );
 		}
 	}
-	virtual void Draw( Graphics& gfx ) const override
+	// Do some funky business by passing the concatenated transformation down the tree into
+	// the draw function, that then stores it in this mesh.
+	void Draw( Graphics& gfx, DirectX::XMMATRIX transform ) const
 	{
+		transform_ = transform;
 		Drawable::Draw( gfx );
 	}
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
 	{
 		// Return concatenated matrix from all parents
-		return DirectX::XMMatrixIdentity();
+		return transform_;
 	}
 private:
-
+	mutable DirectX::XMMATRIX transform_ = DirectX::XMMatrixIdentity();
 };
 
 class Node
 {
 	friend class Model;
 public:
-	Node( std::vector<std::shared_ptr<Mesh>> in_meshes )
+	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform )
 		: meshes(std::move(in_meshes))
+		, transform(in_transform)
 	{}
-	void Draw( Graphics& gfx ) const
+	void Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const
 	{
 		// Draw all meshes and children
+		const auto concatenatedTransform = dx::XMMatrixMultiply( transform, in_transform );
 		for ( auto& m : meshes )
 		{
-			m->Draw( gfx );
+			m->Draw( gfx, concatenatedTransform );
 		}
 		for ( auto& c : children )
 		{
-			c.Draw( gfx );
+			c.Draw( gfx, concatenatedTransform );
 		}
 	}
 private:
@@ -71,6 +76,7 @@ private:
 private:
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	std::vector<Node> children;
+	DirectX::XMMATRIX transform;
 };
 
 class Model
@@ -98,14 +104,21 @@ public:
 
 		// Pre process head node
 		assert( pAIScene->mRootNode->mNumMeshes == 0 );
-		pHead = std::make_unique<Node>( std::vector<std::shared_ptr<Mesh>>{} );
+		const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>( &pAIScene->mRootNode->mTransformation );
+		pHead = std::make_unique<Node>(
+			std::vector<std::shared_ptr<Mesh>>{},
+			 dx::XMMatrixTranspose(dx::XMLoadFloat4x4(&row_maj_trans)));
 
 		// Populate node tree from head
 		PopulateNodeFromAINode( *pHead, pAIScene->mRootNode );
 	}
-	void Draw( Graphics& gfx ) const
+	void UpdateTransform( DirectX::XMMATRIX in_transform )
 	{
-		pHead->Draw( gfx );
+		transform = in_transform;
+	}
+	void Draw( Graphics& gfx  ) const
+	{
+		pHead->Draw( gfx, transform );
 	}
 private:
 	// Makes mesh from Assimp Mesh and returns shared ptr to it
@@ -163,7 +176,6 @@ private:
 	void PopulateNodeFromAINode(Node& node, const aiNode* pAiNode)
 	{
 		// Check if ainode has children, if so add child to our node and recurse on child 
-		// We will copy the tree offset by one kinda
 		
 		// If the ainode is a leaf, we have processed all we need to
 		if ( pAiNode->mNumChildren == 0 )
@@ -179,7 +191,12 @@ private:
 			{
 				childrenMeshes.push_back( pMeshes[pChild->mMeshes[i]] );
 			}
-			auto& newChild = node.AddChild( Node( std::move( childrenMeshes ) ) );
+
+			const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>( &pChild->mTransformation ) ;
+
+			auto& newChild = node.AddChild( Node(
+				std::move( childrenMeshes ),
+				dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ) ));
 
 			// Recurse over each child
 			PopulateNodeFromAINode( newChild, pAiNode->mChildren[i] );
@@ -189,6 +206,7 @@ private:
 	std::unique_ptr<Node> pHead;
 	// OWNER 
 	std::vector<std::shared_ptr<Mesh>> pMeshes;
+	DirectX::XMMATRIX transform = DirectX::XMMatrixIdentity();
 };
 
 
