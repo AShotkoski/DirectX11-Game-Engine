@@ -98,6 +98,7 @@ void Game::DrawFrame()
 
 	light.Draw( gfx );
 	ray.Draw(gfx);
+	testModel.Draw( gfx );
 }
 
 void Game::DrawImGuis()
