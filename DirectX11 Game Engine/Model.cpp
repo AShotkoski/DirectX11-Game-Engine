@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Material.h"
 
 namespace dx = DirectX;
 
@@ -138,16 +139,11 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 	 StaticBinds.push_back( std::move( vs ) );
 	 StaticBinds.push_back(
 		 std::make_unique<Binds::InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbytecode ) );
+
 	 // Material properties
-	 struct PSCBuf
-	 {
-		 DirectX::XMFLOAT3 MatCol;
-		 float             specularIntensity;
-		 alignas( 16 ) float specularPower;
-	 };
-	 PSCBuf cubeProps = { { 1, 1, 1 }, 1, 50 };
-	 DynamicBinds.push_back(
-		 std::make_unique<Binds::PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
+	 Material mat;
+	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 5.0f ).specular_power(1.1f);
+	 DynamicBinds.push_back( mat.pGetPSCB(gfx,1u) );
 
 	 return std::make_shared<Mesh>( std::move( StaticBinds ), std::move( DynamicBinds ), gfx );
  }

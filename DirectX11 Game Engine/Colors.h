@@ -7,7 +7,7 @@ class Color
 public:
 	static inline constexpr Color MakeRgb( float r, float g, float b )
 	{
-		return Color{ r, g, b, 1.0f };
+		return Color{ r, g, b };
 	}
 	static inline constexpr Color MakeRgbS( ushort r, ushort g, ushort b )
 	{
@@ -23,7 +23,7 @@ public:
 	}
 
 public:
-	float el[4];
+	float el[3];
 };
 
 namespace Colors

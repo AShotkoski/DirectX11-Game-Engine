@@ -89,10 +89,19 @@ void Cube::Update( float dt )
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
-	// Use psuedo spherical coordinates to set position since it's funny
-	// First rotate object, then move based on rho theta phi, finally move out 10 units along Z
-	return DirectX::XMMatrixScaling( size, size, size )
-		* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
-		* DirectX::XMMatrixTranslation( 0.f, 0.f, rho )
-		* DirectX::XMMatrixRotationRollPitchYaw( phi, theta, 0 );
+	if ( sizeX == -1 || sizeY == -1 || sizeZ == -1 )
+	{
+
+		return DirectX::XMMatrixScaling( size, size, size )
+			* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
+			* DirectX::XMMatrixTranslation( 0.f, 0.f, rho )
+			* DirectX::XMMatrixRotationRollPitchYaw( phi, theta, 0 );
+	}
+	else
+	{
+		return DirectX::XMMatrixScaling( sizeX, sizeY, sizeZ )
+			* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
+			* DirectX::XMMatrixTranslation( 0.f, 0.f, rho )
+			* DirectX::XMMatrixRotationRollPitchYaw( phi, theta, 0 );
+	}
 }

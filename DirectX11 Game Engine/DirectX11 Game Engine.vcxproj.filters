@@ -115,6 +115,7 @@
     <ClCompile Include="Ray.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -260,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Headers\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
