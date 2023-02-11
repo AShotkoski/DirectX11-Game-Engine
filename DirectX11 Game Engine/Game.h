@@ -4,7 +4,7 @@
 #include "Cube.h"
 #include "PointLight.h"
 #include "Ray.h"
-#include "Mesh.h"
+#include "Model.h"
 
 class Game
 {

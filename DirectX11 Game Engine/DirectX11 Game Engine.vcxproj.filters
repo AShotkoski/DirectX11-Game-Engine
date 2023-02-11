@@ -111,7 +111,10 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Ray.cpp">
+      <Filter>Source\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h">
@@ -255,7 +258,7 @@
     <ClInclude Include="MathUtil.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="Model.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
