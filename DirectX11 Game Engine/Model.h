@@ -45,7 +45,6 @@ public:
 private:
 	// Makes mesh from Assimp Mesh and returns shared ptr to it
 	std::shared_ptr<Mesh> makeMesh( Graphics& gfx, const aiMesh& mesh );
-
 	void PopulateNodeFromAINode( Node& node, const aiNode* pAiNode );
 private:
 	std::unique_ptr<Node> pHead;

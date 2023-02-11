@@ -45,9 +45,15 @@ float4 main(PSIn psin) : SV_TARGET
     pxToLight = normalize(pxToLight);
     const float3 halfWay = normalize(pxToEye + pxToLight);
     // Calc cos of the angle between the surface normal and the halfway
-    float cosBetween = saturate(dot(psin.Normal, halfWay));
-
-    const float3 specular = specularIntensity * pow(cosBetween, specularPower) * attenuation;
-    
+    float cosBetween = max(dot(psin.Normal, halfWay), 0.0);
+    float3 specular;
+    if (dot(psin.Normal, pxToLight) <= 0)
+    {
+        specular = 0;
+    }
+    else
+    {
+        specular = specularIntensity * pow(cosBetween, specularPower) * attenuation;
+    }
     return float4(saturate(diffuse + ambient + specular) * MaterialColor, 1);
 }
