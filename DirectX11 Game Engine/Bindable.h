@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Graphics.h"
+#include <memory>
 
 class Bindable
 {
 public:
 	virtual void Bind( Graphics& gfx ) = 0;
-	// Must implement static std::string GenerateUID(), that takes the same params as the constructor
+	// Must implement static std::string GenerateUID(), that takes the same params as the constructor minus the gfx
+	// Must implement static std::shared_ptr<Bindable> Resolve(), that takes same params as ctor
 	virtual ~Bindable() = default;
 protected:
 	// Bindable is friend class to graphics, and these static member functions will let

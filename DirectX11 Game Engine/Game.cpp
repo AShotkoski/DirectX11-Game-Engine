@@ -21,7 +21,8 @@ Game::Game()
 													   NearClipping, FarClipping));
 	
 	// TEST
-	const auto ptest = Binds::Codex::Resolve<Binds::Topology>( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
+	const auto ptest = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
+	const auto ptest2 = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
 
 	for ( int i = 0; i < 96; i++ )
 	{

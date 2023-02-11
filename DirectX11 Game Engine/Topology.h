@@ -11,6 +11,7 @@ namespace Binds
 		Topology(Graphics& gfx, D3D11_PRIMITIVE_TOPOLOGY type );
 		void Bind( Graphics& gfx ) override;
 		static std::string GenerateUID( D3D11_PRIMITIVE_TOPOLOGY type );
+		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, D3D11_PRIMITIVE_TOPOLOGY type );
 	private:
 		D3D11_PRIMITIVE_TOPOLOGY type;
 	};
