@@ -8,20 +8,14 @@ void Drawable::Draw( Graphics& gfx ) const
 	{
 		b->Bind( gfx );
 	}
-	for ( auto& b : GetStaticBinds() )
-	{
-		b->Bind( gfx );
-	}
-	
-	// In the case of no index buffer, set index buffer to static index buffer
+
+	// Ensure index buffer exists
 	if ( pIndexBuffer == nullptr )
 	{
-		assert("NO INDEX BUFFER FOUND\n" && pGetStaticIndexBuffer() != nullptr);
-		pIndexBuffer = pGetStaticIndexBuffer();
+		assert("NO INDEX BUFFER FOUND\n" && false);
 	}
 
 	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
-
 }
 void Drawable::DrawNoIndex( Graphics& gfx, UINT vertCount ) const
 {	
@@ -29,20 +23,15 @@ void Drawable::DrawNoIndex( Graphics& gfx, UINT vertCount ) const
 	{
 		b->Bind( gfx );
 	}
-	for ( auto& b : GetStaticBinds() )
-	{
-		b->Bind( gfx );
-	}
 
 	gfx.Draw( vertCount, 0u );
 }
 
-void Drawable::AddBind( std::unique_ptr<Bindable> bind )
+void Drawable::AddBind( std::shared_ptr<Bindable> bind )
 {
-	// Cache ptr to index buffer when bound
-	if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )
+	if ( typeid( bind ) == typeid( Binds::IndexBuffer ) )
 	{
-		assert( pIndexBuffer == nullptr );
+		assert( "Attempted to bind more than 1 index buffer" && false );
 		pIndexBuffer = static_cast<Binds::IndexBuffer*>(bind.get());
 	}
 	Binds.push_back( std::move( bind ) );

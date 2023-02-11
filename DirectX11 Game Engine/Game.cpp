@@ -5,7 +5,6 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
-#include "BindableCodex.h"
 namespace dx = DirectX;
 
 Game::Game()
@@ -13,16 +12,11 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.25f ),
-	ray( gfx),
 	testModel(gfx, "Models\\walls.dae")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-	
-	// TEST
-	const auto ptest = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
-	const auto ptest2 = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
 
 	for ( int i = 0; i < 96; i++ )
 	{
@@ -65,7 +59,6 @@ void Game::Go()
 	gfx.EndFrame();
 }
 
-
 void Game::UpdateLogic()
 {	
 	for ( auto& c : cubes )
@@ -103,7 +96,6 @@ void Game::DrawFrame()
 	}
 
 	light.Draw( gfx );
-	ray.Draw(gfx);
 	testModel.Draw( gfx );
 }
 
@@ -174,12 +166,6 @@ void Game::ControlCamera()
 		else if ( e->GetType() == Mouse::Event::ScrollDown )
 		{
 			gfx.GetCamera().UpdateMovementSpeed( 0.95f );
-		}
-		else if ( e->GetType() == Mouse::Event::LeftDown )
-		{
-			auto dir = gfx.GetCamera().GetDirectionVector();
-			ray.SetDir( gfx, dir );
-			ray.SetOrigin( gfx, gfx.GetCamera().GetPosition() + dx::XMFLOAT3{0, -1.0f, 0});
 		}
 	}
 

@@ -132,7 +132,6 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="SphereSolidWhite.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -180,7 +179,6 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="PlanePrimitive.h" />
     <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Ray.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="SpherePrimitive.h" />

@@ -2,10 +2,10 @@
 
 #include "Graphics.h"
 #include "Bindable.h"
-#include "IndexedTriangleList.h"
 #include "IndexBuffer.h"
 #include <vector>
 #include <memory>
+#include <optional>
 
 class Drawable
 {
@@ -20,52 +20,18 @@ public:
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 protected:
 	void DrawNoIndex(Graphics& gfx, UINT vertCount) const;
-	void AddBind( std::unique_ptr<Bindable> bind );
-	// Only implemented in drawablebase as a way to access static binds
-	virtual const std::vector<std::unique_ptr<Bindable>>& GetStaticBinds() const noexcept = 0;
-	virtual const Binds::IndexBuffer* pGetStaticIndexBuffer() const noexcept = 0;
-private:
-	std::vector<std::unique_ptr<Bindable>> Binds;
-	// Hold a const ptr to the index buffer to access it when drawing
-	mutable const Binds::IndexBuffer* pIndexBuffer = nullptr;
-};
-
-
-// Static binds are held between instances of the same type. The template must be the classname
-// wherein it is instantiated
-template <class ID>
-class DrawableBase : public Drawable
-{
-protected:
-	void AddStaticBind( std::unique_ptr<Bindable> bind )
+	void AddBind( std::shared_ptr<Bindable> bind );
+	template<class T>
+	std::optional<std::shared_ptr<T>> QueryBindable()
 	{
-		// Cache pointer to index buffer if static bindable is index buffer
-		if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )
+		for ( auto& b : Binds )
 		{
-			assert( pIndexBuffer == nullptr );
-			staticpIndexBuffer = static_cast<Binds::IndexBuffer*>(bind.get());
+			if ( typeid<*b> == typid( T ) )
+				return dynamic_cast<T>( *b );
 		}
-
-		StaticBinds.push_back( std::move( bind ) );
-	}
-	bool isStaticInitialized() const
-	{
-		return StaticBinds.size() > 0;
-	}
-	const std::vector<std::unique_ptr<Bindable>>& GetStaticBinds() const noexcept override
-	{
-		return StaticBinds;
-	}
-	const Binds::IndexBuffer* pGetStaticIndexBuffer() const noexcept override
-	{
-		return staticpIndexBuffer;
+		return std::nullopt;
 	}
 private:
-	static std::vector<std::unique_ptr<Bindable>> StaticBinds;
-	static const Binds::IndexBuffer* staticpIndexBuffer;
+	const Binds::IndexBuffer* pIndexBuffer = nullptr;
+	std::vector<std::shared_ptr<Bindable>> Binds;
 };
-
-template <class ID>
-std::vector<std::unique_ptr<Bindable>> DrawableBase<ID>::StaticBinds;
-template <class ID>
-const Binds::IndexBuffer* DrawableBase<ID>::staticpIndexBuffer;
