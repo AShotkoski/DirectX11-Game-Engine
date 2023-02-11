@@ -146,6 +146,7 @@
     <ClInclude Include="BaseException.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableBaseIncludes.h" />
+    <ClInclude Include="BindableCodex.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />

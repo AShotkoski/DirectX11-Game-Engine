@@ -130,7 +130,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 
 	 // Create Binds
 	 StaticBinds.push_back(
-		 std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+		 std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 	 StaticBinds.push_back( std::make_unique<Binds::VertexBuffer>( gfx, vb ) );
 	 StaticBinds.push_back( std::make_unique<Binds::IndexBuffer>( gfx, Indices ) );
 	 StaticBinds.push_back( std::make_unique<Binds::PixelShader>( gfx, L"PSPhong.cso" ) );

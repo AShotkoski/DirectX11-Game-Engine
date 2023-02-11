@@ -7,7 +7,7 @@ Ray::Ray( Graphics& gfx, float length, DirectX::XMFLOAT3 source, DirectX::XMFLOA
 	namespace dx = DirectX;
 	if ( !isStaticInitialized() )
 	{
-		AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_LINELIST ) );
+		AddStaticBind( std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST ) );
 
 		// ----- Vertices ------
 		vertbuf.Emplace_back( source );

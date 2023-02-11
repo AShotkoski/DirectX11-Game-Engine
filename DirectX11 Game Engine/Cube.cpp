@@ -18,7 +18,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 	if ( !isStaticInitialized() )
 	{
 		// Set topology
-		AddStaticBind( std::make_unique<Binds::Topology>( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+		AddStaticBind( std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 
 		// Set vertexs
 		Vert::VertexLayout vLayout;

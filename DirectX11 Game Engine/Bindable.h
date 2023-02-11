@@ -6,6 +6,7 @@ class Bindable
 {
 public:
 	virtual void Bind( Graphics& gfx ) = 0;
+	// Must implement static std::string GenerateUID(), that takes the same params as the constructor
 	virtual ~Bindable() = default;
 protected:
 	// Bindable is friend class to graphics, and these static member functions will let

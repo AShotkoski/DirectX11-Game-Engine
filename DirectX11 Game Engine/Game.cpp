@@ -5,7 +5,7 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
-
+#include "BindableCodex.h"
 namespace dx = DirectX;
 
 Game::Game()
@@ -20,6 +20,9 @@ Game::Game()
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
 	
+	// TEST
+	const auto ptest = Binds::Codex::Resolve<Binds::Topology>( gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
+
 	for ( int i = 0; i < 96; i++ )
 	{
 		float size = NumberFactory::NormalReal( 1.0f, 1.f, 0.5f, 1.5f );
