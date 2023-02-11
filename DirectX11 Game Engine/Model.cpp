@@ -118,7 +118,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 	 }
 	 // Load indices
 	 std::vector<unsigned short> Indices;
-	 Indices.reserve( mesh.mNumFaces * 3 );
+	 Indices.reserve( (size_t(mesh.mNumFaces) * 3 ));
 	 for ( size_t i = 0; i < mesh.mNumFaces; i++ )
 	 {
 		 const auto& face = mesh.mFaces[i];
@@ -142,7 +142,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 
 	 // Material properties
 	 Material mat;
-	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 5.0f ).specular_power(1.1f);
+	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power(1.1f);
 	 DynamicBinds.push_back( mat.pGetPSCB(gfx,1u) );
 
 	 return std::make_shared<Mesh>( std::move( StaticBinds ), std::move( DynamicBinds ), gfx );
