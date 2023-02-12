@@ -30,7 +30,7 @@ namespace Binds
 	std::string TransformationConstBuffer::GenerateUID( const Drawable& parent )
 	{
 		using namespace std::string_literals;
-		return std::string( typeid( TransformationConstBuffer ).name() + "_"s + std::to_string((long) &parent));
+		return std::string( typeid( TransformationConstBuffer ).name() + "_"s + std::to_string((size_t)&parent));
 	}
 
 	std::shared_ptr<Bindable> TransformationConstBuffer::Resolve( Graphics& gfx, const Drawable& parent )

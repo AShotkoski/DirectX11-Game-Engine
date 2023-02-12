@@ -1,6 +1,7 @@
 #include "VertexShader.h"
 #include "Macros.h"
 #include "BindableCodex.h"
+#include "GeneralUtilities.h"
 #include <d3dcompiler.h>
 
 #pragma comment(lib,"d3dcompiler.lib")
@@ -32,7 +33,7 @@ namespace Binds
 	std::string VertexShader::GenerateUID( const std::wstring path )
 	{
 		using namespace std::string_literals;
-		std::string pathA( path.begin(), path.end() );
+		std::string pathA = Util::WStringToString(path);
 		return std::string( typeid( VertexShader ).name() + "_"s + pathA );
 	}
 

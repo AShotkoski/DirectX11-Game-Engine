@@ -2,6 +2,7 @@
 #include "DDSLoader/DDSTextureLoader.h"
 #include "Macros.h"
 #include "BindableCodex.h"
+#include "GeneralUtilities.h"
 
 namespace Binds
 {
@@ -23,7 +24,7 @@ namespace Binds
     std::string Texture::GenerateUID( const std::wstring& path )
     {
         using namespace std::string_literals;
-        std::string pathA( path.begin(), path.end() );
+        std::string pathA = Util::WStringToString(path);
         return std::string( typeid( Texture ).name() + "_"s + pathA );
     }
 

@@ -266,6 +266,9 @@
     <ClInclude Include="BindableCodex.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="GeneralUtilities.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
