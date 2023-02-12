@@ -22,16 +22,16 @@ protected:
 	void DrawNoIndex(Graphics& gfx, UINT vertCount) const;
 	void AddBind( std::shared_ptr<Bindable> bind );
 	template<class T>
-	std::optional<std::shared_ptr<T>> QueryBindable()
+	std::shared_ptr<T> QueryBindable()
 	{
-		for ( const auto& b : Binds )
+		for ( auto& b : Binds )
 		{
-			if ( auto pt = dynamic_cast<T*>( b.get() ) )
+			if ( typeid( *b ) == typeid( T ) )
 			{
-				return pt;
+				return std::dynamic_pointer_cast<T>( b );
 			}
 		}
-		return std::nullopt;
+		return std::shared_ptr<T>(nullptr);
 	}
 private:
 	const Binds::IndexBuffer* pIndexBuffer = nullptr;

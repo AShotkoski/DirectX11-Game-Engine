@@ -29,9 +29,9 @@ void Drawable::DrawNoIndex( Graphics& gfx, UINT vertCount ) const
 
 void Drawable::AddBind( std::shared_ptr<Bindable> bind )
 {
-	if ( typeid( bind ) == typeid( Binds::IndexBuffer ) )
+	if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )
 	{
-		assert( "Attempted to bind more than 1 index buffer" && false );
+		assert( "Attempted to bind more than 1 index buffer" && pIndexBuffer == nullptr );
 		pIndexBuffer = static_cast<Binds::IndexBuffer*>(bind.get());
 	}
 	Binds.push_back( std::move( bind ) );

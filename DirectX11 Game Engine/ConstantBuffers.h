@@ -62,20 +62,16 @@ namespace Binds
 		{
 			pGetContext( gfx )->VSSetConstantBuffers( slot, 1u, pConstBuffer.GetAddressOf() );
 		}
-		static std::string GenerateUID( UINT slot )
+		static std::string GenerateUID( CB consts, UINT slot )
 		{
 			using namespace std::string_literals;
 			return std::string(
 				typeid( VertexConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
 				+ std::to_string( slot ) );
 		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, UINT slot = 0u )
-		{
-			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx, slot );
-		}
 		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, UINT slot = 0u )
 		{
-			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx,consts,  slot );
+			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx, consts,  slot );
 		}
 	};
 
@@ -92,16 +88,12 @@ namespace Binds
 		{
 			pGetContext( gfx )->PSSetConstantBuffers( slot, 1u, pConstBuffer.GetAddressOf() );
 		}
-		static std::string GenerateUID( UINT slot )
+		static std::string GenerateUID( CB consts, UINT slot )
 		{
 			using namespace std::string_literals;
 			return std::string(
 				typeid( PixelConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
 				+ std::to_string( slot ) );
-		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, UINT slot = 0u )
-		{
-			return Codex::Resolve<PixelConstantBuffer<CB>>( gfx, slot );
 		}
 		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, UINT slot = 0u )
 		{
