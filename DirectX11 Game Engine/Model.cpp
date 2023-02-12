@@ -50,6 +50,7 @@ Node& Node::AddChild( Node&& child )
  }
 
 Model::Model( Graphics& gfx, std::string filename )
+	: tag(filename)
  {
 	 Assimp::Importer Importer;
 
@@ -94,6 +95,7 @@ void Model::Draw( Graphics& gfx ) const
 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
  {
+	tag += mesh.mName.C_Str();
 	 std::vector<std::shared_ptr<Bindable>> Binds;
 
 	 Vert::VertexBuffer vb( Vert::VertexLayout{ }
@@ -119,8 +121,8 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 
 	 // Create Binds
 	 Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	 Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, "meshtag(gonnanotworklol)" ));
-	 Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, "stillwontworklmfao" ) );
+	 Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ));
+	 Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
 	 Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
 	 Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
 	 auto vs = static_cast<Binds::VertexShader*>(Binds.back().get());
@@ -130,7 +132,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 	 // Material properties
 	 Material mat;
 	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power(1.1f);
-	 Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, "broke", 1u));
+	 Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u));
 
 	 return std::make_shared<Mesh>( std::move( Binds ), gfx );
  }

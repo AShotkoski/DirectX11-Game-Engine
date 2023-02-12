@@ -46,6 +46,7 @@ private:
 	std::shared_ptr<Mesh> makeMesh( Graphics& gfx, const aiMesh& mesh );
 	void PopulateNodeFromAINode( Node& node, const aiNode* pAiNode );
 private:
+	std::string tag;
 	std::unique_ptr<Node> pHead;
 	// OWNER 
 	std::vector<std::shared_ptr<Mesh>> pMeshes;

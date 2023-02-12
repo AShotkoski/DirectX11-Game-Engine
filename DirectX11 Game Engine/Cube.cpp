@@ -30,9 +30,9 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		itl.SetNormalsIndependentFlat();
 
 		// Bind vertex buffer
-		AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "SUPER COOL TEMP" ) );
+		AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" ) );
 		// Bind Index Buffer
-		AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "SUPER COOL TEMP idx" ) );
+		AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" ) );
 		// Bind PS
 		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
 		// Bind VS, store bytecode
@@ -54,8 +54,8 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		};
 
 		PSCBuf cubeProps = { matColor, specInt, specPow };
-
-		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps,"broke", 1u));
+		const std::string tag = reinterpret_cast<char*>( &cubeProps );
+		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps,tag, 1u));
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
