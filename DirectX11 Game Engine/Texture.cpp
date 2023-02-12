@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include "DDSLoader/DDSTextureLoader.h"
 #include "Macros.h"
+#include "BindableCodex.h"
 
 namespace Binds
 {
@@ -17,6 +18,18 @@ namespace Binds
     void Texture::Bind( Graphics& gfx )
     {
         pGetContext( gfx )->PSSetShaderResources( 0u, 1u, pResourceView.GetAddressOf() );
+    }
+
+    std::string Texture::GenerateUID( const std::wstring& path )
+    {
+        using namespace std::string_literals;
+        std::string pathA( path.begin(), path.end() );
+        return std::string( typeid( Texture ).name() + "_"s + pathA );
+    }
+
+    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, const std::wstring& path )
+    {
+        return Codex::Resolve<Texture>( gfx, path );
     }
 
 };

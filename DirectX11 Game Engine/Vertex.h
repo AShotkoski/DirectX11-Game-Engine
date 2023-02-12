@@ -178,6 +178,15 @@ namespace Vert
 
 			return layout;
 		}
+		std::string GetUID() const
+		{
+			std::string uid;
+			for ( const auto& e : elements )
+			{
+				uid.append( std::to_string(e.GetType()) );
+			}
+			return uid;
+		}
 	private:
 		std::vector<Element> elements;
 	};
@@ -349,9 +358,9 @@ namespace Vert
 		{
 			return layout.SizeBytes();
 		}
-		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DInputLayout() const
+		const VertexLayout& GetLayout() const
 		{
-			return layout.GetD3DInputLayout();
+			return layout;
 		}
 	private:
 		VertexLayout layout;

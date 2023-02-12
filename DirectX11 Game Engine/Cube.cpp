@@ -5,6 +5,7 @@
 #include "CubePrimitive.h"
 #include "Colors.h"
 #include "Vertex.h"
+#include "BindableCodex.h"
 #include <random>
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
@@ -15,11 +16,8 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 	theta(theta),
 	phi(phi)
 {
-	if ( !isStaticInitialized() )
-	{
 		// Set topology
-		AddStaticBind( std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-
+		AddBind( Binds::Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) );
 		// Set vertexs
 		Vert::VertexLayout vLayout;
 		vLayout.Append( Vert::VertexLayout::Position_3D );
@@ -32,36 +30,32 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		itl.SetNormalsIndependentFlat();
 
 		// Bind vertex buffer
-		AddStaticBind( std::make_unique<Binds::VertexBuffer>( gfx, itl.vb ) );
-
+		AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "SUPER COOL TEMP" ) );
 		// Bind Index Buffer
-		AddStaticBind( std::make_unique<Binds::IndexBuffer>( gfx, itl.indices ) );
-
+		AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "SUPER COOL TEMP idx" ) );
 		// Bind PS
-		AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSPhong.cso" ) );
-
+		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
 		// Bind VS, store bytecode
-		auto vs = std::make_unique<Binds::VertexShader>( gfx, L"VSPhong.cso" );
-		auto vsbtyecode = vs->pGetBytecode();
-		AddStaticBind( std::move( vs ) );
+		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
+		auto vs = QueryBindable<Binds::VertexShader>();
+		assert( vs );
+		auto vsbytecode = vs.value()->pGetBytecode();
 
-		AddStaticBind( std::make_unique<Binds::InputLayout>( gfx, vertBuf.GetD3DInputLayout(), *vsbtyecode ) );
-	}
+		AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
 
-	// Bind non static Transformation CB
-	AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
+		AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
 
-	// Setup phong material properties
-	struct PSCBuf
-	{
-		DirectX::XMFLOAT3 MatCol;
-		float specularIntensity;
-		alignas( 16 ) float specularPower;
-	};
+		// Setup phong material properties
+		struct PSCBuf
+		{
+			DirectX::XMFLOAT3 MatCol;
+			float specularIntensity;
+			alignas( 16 ) float specularPower;
+		};
 
-	PSCBuf cubeProps = { matColor, specInt, specPow };
+		PSCBuf cubeProps = { matColor, specInt, specPow };
 
-	AddBind( std::make_unique<Binds::PixelConstantBuffer<PSCBuf>>( gfx, cubeProps, 1u ) );
+		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps, 1u) );
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 

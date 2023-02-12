@@ -1,11 +1,12 @@
 #include "IndexBuffer.h"
 #include "Macros.h"
+#include "BindableCodex.h"
 #include <cassert>
 
 namespace Binds
 {
 
-	IndexBuffer::IndexBuffer( Graphics& gfx, const std::vector<unsigned short>& indices )
+	IndexBuffer::IndexBuffer( Graphics& gfx, const std::vector<unsigned short>& indices, std::string tag )
 	{
 
 		nIndices = (UINT)indices.size();
@@ -36,8 +37,24 @@ namespace Binds
 
 	UINT IndexBuffer::GetIndicesCount() const noexcept
 	{
-		assert( "Tried getting indices count before initializing index buffer." && pIndexBuffer.GetAddressOf() != nullptr );
+		assert(
+			"Tried getting indices count before initializing index buffer."
+			&& pIndexBuffer.GetAddressOf() != nullptr );
 		return nIndices;
+	}
+
+	std::string IndexBuffer::GenerateUID( const std::vector<unsigned short>& indices, std::string tag )
+	{
+		using namespace std::string_literals;
+		return std::string( typeid( IndexBuffer ).name() + "_"s + tag );
+	}
+
+	std::shared_ptr<Bindable> IndexBuffer::Resolve(
+		Graphics&                          gfx,
+		const std::vector<unsigned short>& indices,
+		std::string                        tag )
+	{
+		return Codex::Resolve<IndexBuffer>(gfx, indices, tag);
 	}
 
 };

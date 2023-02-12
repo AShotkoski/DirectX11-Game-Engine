@@ -1,9 +1,10 @@
 #include "VertexBuffer.h"
+#include "BindableCodex.h"
 
 namespace Binds
 {
 
-	VertexBuffer::VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb )
+	VertexBuffer::VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb,std::string tag )
 	{
 		assert( vb.Size() > 0 );
 		// Error checker
@@ -33,7 +34,22 @@ namespace Binds
 		pGetContext( gfx )->IASetVertexBuffers( 0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset );
 	}
 
-	DynamicVertexBuffer::DynamicVertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb )
+	std::string VertexBuffer::GenerateUID( const Vert::VertexBuffer& vb, std::string tag )
+	{
+		using namespace std::string_literals;
+		return std::string( typeid( VertexBuffer ).name() + "_"s + tag );
+	}
+
+	std::shared_ptr<Bindable>
+		VertexBuffer::Resolve( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag )
+	{
+		return Codex::Resolve<VertexBuffer>(gfx,vb,tag);
+	}
+
+	DynamicVertexBuffer::DynamicVertexBuffer(
+		Graphics&                 gfx,
+		const Vert::VertexBuffer& vb,
+		std::string               tag )
 	{
 		assert( vb.Size() > 0 );
 		// Error checker

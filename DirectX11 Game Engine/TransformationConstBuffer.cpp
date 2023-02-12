@@ -1,4 +1,5 @@
 #include "TransformationConstBuffer.h"
+#include "BindableCodex.h"
 
 namespace Binds
 {
@@ -24,6 +25,17 @@ namespace Binds
 
 		VertexCBuf.Update( gfx, tb );
 		VertexCBuf.Bind( gfx );
+	}
+
+	std::string TransformationConstBuffer::GenerateUID( const Drawable& parent )
+	{
+		using namespace std::string_literals;
+		return std::string( typeid( TransformationConstBuffer ).name() + "_"s + std::to_string((long) &parent));
+	}
+
+	std::shared_ptr<Bindable> TransformationConstBuffer::Resolve( Graphics& gfx, const Drawable& parent )
+	{
+		return Codex::Resolve<TransformationConstBuffer>(gfx,parent);
 	}
 
 };
