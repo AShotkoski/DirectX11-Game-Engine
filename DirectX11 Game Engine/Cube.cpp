@@ -39,7 +39,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
 		auto vs = QueryBindable<Binds::VertexShader>();
 		assert( vs );
-		auto vsbytecode = vs.value()->pGetBytecode();
+		auto vsbytecode = vs->pGetBytecode();
 
 		AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
 
@@ -55,7 +55,7 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 
 		PSCBuf cubeProps = { matColor, specInt, specPow };
 
-		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps, 1u) );
+		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps,"broke", 1u));
 }
 
 Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 

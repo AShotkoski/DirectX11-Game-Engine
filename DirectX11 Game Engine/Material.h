@@ -14,7 +14,6 @@ public:
 	Material& specular_intensity( float intensity );
 	Material& specular_power( float power );
 	Material& shininess( float level );
-	std::unique_ptr<Binds::PixelConstantBuffer<Material>> pGetPSCB( Graphics& gfx, UINT slot );
 private:
 	// Constant buffer data
 	Color color_; // 3 floats

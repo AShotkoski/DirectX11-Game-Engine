@@ -3,23 +3,13 @@
 
 namespace dx = DirectX;
 
-Mesh::Mesh(
-	std::vector<std::unique_ptr<Bindable>>&& StaticBinds,
-	std::vector<std::unique_ptr<Bindable>>&& binds,
-	Graphics&                                gfx )
+Mesh::Mesh( std::vector<std::shared_ptr<Bindable>>&& binds, Graphics& gfx )
 {
-	 if( !isStaticInitialized() )
-	 {
-		 for( auto& b : StaticBinds )
-		 {
-			 AddStaticBind( std::move( b ) );
-		 }
-	 }
-	 AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
-	 for( auto& b : binds )
-	 {
-		 AddBind( std::move( b ) );
-	 }
+	AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+	for( auto& b : binds )
+	{
+		AddBind( std::move( b ) );
+	}
  }
 
 void Mesh::BindTransform( DirectX::XMMATRIX Transform )
@@ -104,8 +94,7 @@ void Model::Draw( Graphics& gfx ) const
 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
  {
-	 std::vector<std::unique_ptr<Bindable>> StaticBinds;
-	 std::vector<std::unique_ptr<Bindable>> DynamicBinds;
+	 std::vector<std::shared_ptr<Bindable>> Binds;
 
 	 Vert::VertexBuffer vb( Vert::VertexLayout{ }
 							.Append( Vert::VertexLayout::Position_3D )
@@ -129,23 +118,21 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 	 }
 
 	 // Create Binds
-	 StaticBinds.push_back(
-		 std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	 StaticBinds.push_back( std::make_unique<Binds::VertexBuffer>( gfx, vb ) );
-	 StaticBinds.push_back( std::make_unique<Binds::IndexBuffer>( gfx, Indices ) );
-	 StaticBinds.push_back( std::make_unique<Binds::PixelShader>( gfx, L"PSPhong.cso" ) );
-	 auto vs = std::make_unique<Binds::VertexShader>( gfx, L"VSPhong.cso" );
+	 Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+	 Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, "meshtag(gonnanotworklol)" ));
+	 Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, "stillwontworklmfao" ) );
+	 Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
+	 Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
+	 auto vs = static_cast<Binds::VertexShader*>(Binds.back().get());
 	 auto vsbytecode = vs->pGetBytecode();
-	 StaticBinds.push_back( std::move( vs ) );
-	 StaticBinds.push_back(
-		 std::make_unique<Binds::InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbytecode ) );
+	 Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
 
 	 // Material properties
 	 Material mat;
 	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power(1.1f);
-	 DynamicBinds.push_back( mat.pGetPSCB(gfx,1u) );
+	 Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, "broke", 1u));
 
-	 return std::make_shared<Mesh>( std::move( StaticBinds ), std::move( DynamicBinds ), gfx );
+	 return std::make_shared<Mesh>( std::move( Binds ), gfx );
  }
 
 void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )

@@ -6,39 +6,33 @@
 
 SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 {
-	if ( !isStaticInitialized() )
-	{
-		// Set topology
-		AddStaticBind( std::make_unique<Binds::Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+	// Set topology
+	AddBind( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+	// Set vertexs
+	Vert::VertexLayout vl;
+	vl.Append( Vert::VertexLayout::Position_3D );
+	Vert::VertexBuffer vb( std::move( vl ) );
 
-		// Set vertexs
-		Vert::VertexLayout vl;
-		vl.Append( Vert::VertexLayout::Position_3D );
-		Vert::VertexBuffer vb(std::move(vl) );
+	auto itl = GeometricPrim::Sphere::MakeTesselated( 12, 8, vb );
 
-		auto itl = GeometricPrim::Sphere::MakeTesselated( 12, 8, vb );
+	itl.Transform( DirectX::XMMatrixScaling( radius, radius, radius ) );
 
-		itl.Transform( DirectX::XMMatrixScaling( radius, radius, radius ) );
+	// Bind vertex buffer
+	AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Light"));
+	// Bind Index Buffer
+	AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "lightidx"));
+	// Bind PS
+	AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolidWhite.cso"));
+	// Bind VS, store bytecode
+	AddBind( Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" ) );
+	auto vs = QueryBindable<Binds::VertexShader>();
+	assert( vs );
+	auto vsbytecode = vs->pGetBytecode();
 
-		// Bind vertex buffer
-		AddStaticBind( std::make_unique<Binds::VertexBuffer>( gfx, itl.vb ) );
-
-		// Bind Index Buffer
-		AddStaticBind( std::make_unique<Binds::IndexBuffer>( gfx, itl.indices ) );
-
-		// Bind PS
-		AddStaticBind( std::make_unique<Binds::PixelShader>( gfx, L"PSSolidWhite.cso" ) );
-
-		// Bind VS, store bytecode
-		auto vs = std::make_unique <Binds::VertexShader>( gfx, L"VSTransform.cso" );
-		auto vsbtyecode = vs->pGetBytecode();
-		AddStaticBind( std::move( vs ) );
-
-		AddStaticBind( std::make_unique<Binds::InputLayout>( gfx, vb.GetD3DInputLayout(), *vsbtyecode));
-	}
+	AddBind( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
 
 	// Bind non static Transformation CB
-	AddBind( std::make_unique<Binds::TransformationConstBuffer>( gfx, *this ) );
+	AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
 }
 
 void SphereSolidWhite::SetPos( DirectX::XMFLOAT3 position ) noexcept

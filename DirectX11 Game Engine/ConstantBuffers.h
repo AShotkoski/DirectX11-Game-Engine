@@ -10,12 +10,13 @@ namespace Binds
 	class ConstantBuffer : public Bindable
 	{
 	public:
-		ConstantBuffer( Graphics& gfx, const CB& consts, UINT slot = 0u )
+		ConstantBuffer( Graphics& gfx, const CB& consts,std::string tag, UINT slot )
 			:
 			ConstantBuffer( gfx, slot )
 		{
 			Update( gfx, consts );
 		}
+		
 		ConstantBuffer( Graphics& gfx, UINT slot = 0u )
 			:
 			slot( slot )
@@ -46,6 +47,7 @@ namespace Binds
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pConstBuffer;
 		UINT slot;
+	private:
 	};
 
 	// Create separate classes for vertex and index const buffers since they bind to different parts
@@ -62,16 +64,16 @@ namespace Binds
 		{
 			pGetContext( gfx )->VSSetConstantBuffers( slot, 1u, pConstBuffer.GetAddressOf() );
 		}
-		static std::string GenerateUID( CB consts, UINT slot )
+		static std::string GenerateUID( CB consts,std::string tag, UINT slot)
 		{
 			using namespace std::string_literals;
 			return std::string(
 				typeid( VertexConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
-				+ std::to_string( slot ) );
+				+ std::to_string( slot ) + "_"s + tag);
 		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, UINT slot = 0u )
+		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, std::string tag,  UINT slot = 0u )
 		{
-			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx, consts,  slot );
+			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx, consts, tag, slot );
 		}
 	};
 
@@ -88,16 +90,16 @@ namespace Binds
 		{
 			pGetContext( gfx )->PSSetConstantBuffers( slot, 1u, pConstBuffer.GetAddressOf() );
 		}
-		static std::string GenerateUID( CB consts, UINT slot )
+		static std::string GenerateUID( CB consts, std::string tag, UINT slot )
 		{
 			using namespace std::string_literals;
 			return std::string(
 				typeid( PixelConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
-				+ std::to_string( slot ) );
+				+ std::to_string( slot ) + "_"s + tag);
 		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, UINT slot = 0u )
+		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, CB consts, std::string tag, UINT slot = 0u )
 		{
-			return Codex::Resolve<PixelConstantBuffer<CB>>( gfx,consts, slot );
+			return Codex::Resolve<PixelConstantBuffer<CB>>( gfx,consts,tag, slot );
 		}
 	};
 

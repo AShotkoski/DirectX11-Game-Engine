@@ -41,8 +41,3 @@ Material& Material::shininess( float level )
 {
 	return specular_power( ( 1.f / level ) * 10.f );
 }
-
-std::unique_ptr<Binds::PixelConstantBuffer<Material>> Material::pGetPSCB(Graphics& gfx, UINT slot )
-{
-	return std::make_unique<Binds::PixelConstantBuffer<Material>>(gfx, *this, slot);
-}

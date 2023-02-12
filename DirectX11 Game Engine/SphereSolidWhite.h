@@ -2,7 +2,7 @@
 
 #include "Drawable.h"
 
-class SphereSolidWhite : public DrawableBase<SphereSolidWhite>
+class SphereSolidWhite : public Drawable
 {
 public:
 	SphereSolidWhite( Graphics& gfx, float radius );
