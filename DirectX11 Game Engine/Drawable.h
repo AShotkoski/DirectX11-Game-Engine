@@ -24,10 +24,12 @@ protected:
 	template<class T>
 	std::optional<std::shared_ptr<T>> QueryBindable()
 	{
-		for ( auto& b : Binds )
+		for ( const auto& b : Binds )
 		{
-			if ( typeid<*b> == typid( T ) )
-				return dynamic_cast<T>( *b );
+			if ( auto pt = dynamic_cast<T*>( b.get() ) )
+			{
+				return pt;
+			}
 		}
 		return std::nullopt;
 	}
