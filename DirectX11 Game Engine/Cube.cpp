@@ -8,13 +8,18 @@
 #include "BindableCodex.h"
 #include <random>
 
-Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
-			DirectX::XMFLOAT3 matColor, float specInt, float specPow )
-	:
-	size(size),
-	rho(rho),
-	theta(theta),
-	phi(phi)
+Cube::Cube(
+	Graphics& gfx,
+	DirectX::XMFLOAT3 size,
+	DirectX::XMFLOAT3 position,
+	float pitch, float yaw, float roll,
+	Material material )
+	: size(size)
+	, pos(position)
+	, mat(material)
+	, pitch(pitch)
+	, yaw(yaw)
+	, roll(roll)
 {
 		// Set topology
 		AddBind( Binds::Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) );
@@ -46,56 +51,16 @@ Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi,
 		AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
 
 		// Setup phong material properties
-		struct PSCBuf
-		{
-			DirectX::XMFLOAT3 MatCol;
-			float specularIntensity;
-			alignas( 16 ) float specularPower;
-		};
-
-		PSCBuf cubeProps = { matColor, specInt, specPow };
-		const std::string tag = reinterpret_cast<char*>( &cubeProps );
-		AddBind( Binds::PixelConstantBuffer<PSCBuf>::Resolve( gfx, cubeProps,tag, 1u));
-}
-
-Cube::Cube( Graphics& gfx, float size, float rho, float theta, float phi, 
-			 float dTheta, float dPhi, float dPitch, float dYaw, float dRoll, DirectX::XMFLOAT3 matColor
-			, float specInt, float specPow )
-	:
-	Cube(gfx,size,rho,theta,phi,matColor, specInt, specPow)
-{
-	this->dTheta = dTheta;
-	this->dPhi = dPhi;
-	this->dPitch = dPitch;
-	this->dYaw = dYaw;
-	this->dRoll = dRoll;
+		AddBind( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, mat.GetUID(), 1u));
 }
 
 void Cube::Update( float dt )
-{
-	pitch += dPitch * dt;
-	yaw += dYaw * dt;
-	roll += dRoll * dt;
-
-	theta += dTheta * dt;
-	phi += dPhi * dt;
-}
+{}
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
-	if ( sizeX == -1 || sizeY == -1 || sizeZ == -1 )
-	{
-
-		return DirectX::XMMatrixScaling( size, size, size )
-			* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
-			* DirectX::XMMatrixTranslation( 0.f, 0.f, rho )
-			* DirectX::XMMatrixRotationRollPitchYaw( phi, theta, 0 );
-	}
-	else
-	{
-		return DirectX::XMMatrixScaling( sizeX, sizeY, sizeZ )
-			* DirectX::XMMatrixRotationRollPitchYaw( pitch, yaw, roll )
-			* DirectX::XMMatrixTranslation( 0.f, 0.f, rho )
-			* DirectX::XMMatrixRotationRollPitchYaw( phi, theta, 0 );
-	}
+	using namespace DirectX;
+		return XMMatrixScaling( size.x, size.y, size.z )
+			* XMMatrixRotationRollPitchYaw(pitch,yaw,roll)
+			* XMMatrixTranslation(pos.x,pos.y,pos.z);
 }

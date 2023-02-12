@@ -55,8 +55,9 @@ Model::Model( Graphics& gfx, std::string filename )
 	 Assimp::Importer Importer;
 
 	 const auto pAIScene = Importer.ReadFile( filename,
-											  aiProcess_JoinIdenticalVertices |
-											  aiProcess_Triangulate );
+												  aiProcess_JoinIdenticalVertices |
+												  aiProcess_Triangulate );
+
 	 // Check for scene load success
 	 if ( pAIScene == nullptr )
 	 {
@@ -65,9 +66,10 @@ Model::Model( Graphics& gfx, std::string filename )
 	 }
 
 	 // Populate meshes vector with all meshes (in order)
-	 for ( size_t i = 0; i < pAIScene->mNumMeshes; i++ )
+	 for( size_t i = 0; i < pAIScene->mNumMeshes; i++ )
 	 {
-		 pMeshes.push_back( makeMesh( gfx, *pAIScene->mMeshes[i] ) );
+		 const auto& pMesh = pAIScene->mMeshes[i];
+		 pMeshes.push_back( makeMesh( gfx, *pMesh, pAIScene->mMaterials ) );
 	 }
 
 	 // Pre process head node
@@ -95,22 +97,23 @@ void Model::Draw( Graphics& gfx ) const
 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
  {
-	tag += mesh.mName.C_Str();
+	 tag += mesh.mName.C_Str();
 	 std::vector<std::shared_ptr<Bindable>> Binds;
 
-	 Vert::VertexBuffer vb( Vert::VertexLayout{ }
-							.Append( Vert::VertexLayout::Position_3D )
-							.Append( Vert::VertexLayout::Normal ) );
+	 Vert::VertexBuffer vb( Vert::VertexLayout{}
+								.Append( Vert::VertexLayout::Position_3D )
+								.Append( Vert::VertexLayout::Normal ) );
 	 // Load vertices into vert::vertex buffer
-	 for ( size_t i = 0; i < mesh.mNumVertices; i++ )
+	 for( size_t i = 0; i < mesh.mNumVertices; i++ )
 	 {
-		 vb.Emplace_back( *reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
-						  *reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ) );
+		 vb.Emplace_back(
+			 *reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
+			 *reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ) );
 	 }
 	 // Load indices
 	 std::vector<unsigned short> Indices;
-	 Indices.reserve( (size_t(mesh.mNumFaces) * 3 ));
-	 for ( size_t i = 0; i < mesh.mNumFaces; i++ )
+	 Indices.reserve( ( size_t( mesh.mNumFaces ) * 3 ) );
+	 for( size_t i = 0; i < mesh.mNumFaces; i++ )
 	 {
 		 const auto& face = mesh.mFaces[i];
 		 assert( face.mNumIndices == 3 );
@@ -118,24 +121,76 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh )
 		 Indices.push_back( face.mIndices[1] );
 		 Indices.push_back( face.mIndices[2] );
 	 }
-
+	 
 	 // Create Binds
 	 Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	 Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ));
+	 Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
 	 Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
 	 Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
 	 Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
-	 auto vs = static_cast<Binds::VertexShader*>(Binds.back().get());
+	 auto vs         = static_cast<Binds::VertexShader*>( Binds.back().get() );
 	 auto vsbytecode = vs->pGetBytecode();
 	 Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
 
 	 // Material properties
 	 Material mat;
-	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power(1.1f);
-	 Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u));
+	 mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power( 1.1f );
+	 Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
 
 	 return std::make_shared<Mesh>( std::move( Binds ), gfx );
- }
+}
+
+std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pAiMats)
+{
+	tag += mesh.mName.C_Str();
+	std::vector<std::shared_ptr<Bindable>> Binds;
+
+	Vert::VertexBuffer vb( Vert::VertexLayout{}
+						   .Append( Vert::VertexLayout::Position_3D )
+						   .Append( Vert::VertexLayout::Normal ) );
+	// Load vertices into vert::vertex buffer
+	for ( size_t i = 0; i < mesh.mNumVertices; i++ )
+	{
+		vb.Emplace_back(
+			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
+			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ) );
+	}
+	// Load indices
+	std::vector<unsigned short> Indices;
+	Indices.reserve( ( size_t( mesh.mNumFaces ) * 3 ) );
+	for ( size_t i = 0; i < mesh.mNumFaces; i++ )
+	{
+		const auto& face = mesh.mFaces[i];
+		assert( face.mNumIndices == 3 );
+		Indices.push_back( face.mIndices[0] );
+		Indices.push_back( face.mIndices[1] );
+		Indices.push_back( face.mIndices[2] );
+	}
+
+	// Create Binds
+	Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+	Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
+	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
+	Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
+	Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
+	auto vs = static_cast<Binds::VertexShader*>( Binds.back().get() );
+	auto vsbytecode = vs->pGetBytecode();
+	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
+
+	// Material properties
+	Material mat;
+	// Set defaults
+	mat.color( 1.f, 1.f, 1.f ).specular_intensity( 1.0f ).specular_power( 1.1f );
+	// load material for this mesh from ai, if it has one
+	if ( mesh.mMaterialIndex >= 0 )
+	{
+		auto& aiMat = *pAiMats[mesh.mMaterialIndex];
+		mat.parseAIMat( aiMat );	
+	}
+	Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
+
+	return std::make_shared<Mesh>( std::move( Binds ), gfx );
+}
 
 void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )
  {

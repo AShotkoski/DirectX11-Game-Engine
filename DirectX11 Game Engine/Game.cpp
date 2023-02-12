@@ -5,6 +5,7 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
+
 namespace dx = DirectX;
 
 Game::Game()
@@ -12,29 +13,19 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.25f ),
-	testModel(gfx, "Models\\walls.dae")
+	testModel(gfx, "Models\\cone.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-
-	for ( int i = 0; i < 96; i++ )
-	{
-		float size = NumberFactory::NormalReal( 1.0f, 1.f, 0.5f, 1.5f );
-		float rho = NumberFactory::RandomReal( 3.0f, 25.0f );
-		float theta = NumberFactory::RandomReal( -2.0f, 2.0f );
-		float phi = NumberFactory::RandomReal( -2.0f, 2.0f );
-		float dtheta = NumberFactory::RandomReal( -1.2f, 1.2f );
-		float dphi = NumberFactory::RandomReal( -1.2f, 1.2f );
-		float dRot = NumberFactory::RandomReal( -1.2f, 1.2f );
-		float specPow = NumberFactory::RandomReal( 1.f, 120.2f );
-		float specInt = NumberFactory::RandomReal( 0.0f, 2.5f );
-		DWORD col = NumberFactory::RandomInt<DWORD>( 0x00, 0xFFFFFFFF );
-
-		cubes.emplace_back(
-			std::make_unique<Cube>( gfx, size, rho, theta, phi, dtheta, dphi, dRot, dRot, dRot,
-									DirectX::XMFLOAT3(&Color::MakeRgb( col ).el[0]), specInt, specPow));
-	}
+	cubes.emplace_back( std::make_unique<Cube>(
+		gfx,
+		dx::XMFLOAT3{ 1.f, 1.f, 1.f },
+		dx::XMFLOAT3{ 3.f, 0.f, 0.f },
+		0.f,
+		0.f,
+		0.f,
+		Material{}.color( Colors::Aquamarine ).specular_intensity( 0.5f ).specular_power( 10.f ) ) );
 
 	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -0.5f, 0 ) );
 }

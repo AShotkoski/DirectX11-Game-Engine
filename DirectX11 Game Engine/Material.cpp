@@ -39,5 +39,29 @@ Material& Material::specular_power( float power )
 
 Material& Material::shininess( float level )
 {
-	return specular_power( ( 1.f / level ) * 10.f );
+	return specular_power( level );
+}
+
+std::string Material::GetUID() const
+{
+	using namespace std::string_literals;
+	Color tagC = color_;
+	tagC.el[0] *= specularIntensity_ + 1.f - specularPower_;
+	tagC.el[1] *= specularIntensity_ + 1.f - specularPower_;
+	tagC.el[2] *= specularIntensity_ + 1.f - specularPower_;
+	std::string uid(
+		std::to_string( tagC.el[0] ) + ":"s + std::to_string( tagC.el[1] ) + ":"s
+		+ std::to_string( tagC.el[2] ) );
+	return uid;
+}
+
+void Material::parseAIMat( const aiMaterial& aiMat )
+{
+	float flBuf = 0.f;
+	aiColor3D colBuf;
+	if ( aiMat.Get( AI_MATKEY_SHININESS, flBuf ) == aiReturn_SUCCESS )
+		specular_power( flBuf );
+	if ( aiMat.Get( AI_MATKEY_COLOR_DIFFUSE, colBuf ) == aiReturn_SUCCESS )
+		color( *reinterpret_cast<Color*>(&colBuf) );
+	
 }
