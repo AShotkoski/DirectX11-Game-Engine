@@ -111,32 +111,18 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Ray.cpp">
+    <ClCompile Include="Material.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseException.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameTimer.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Macros.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Win.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
@@ -190,9 +176,6 @@
     <ClInclude Include="Sampler.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Colors.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="DDSLoader\DDSTextureLoader.h">
       <Filter>ThirdParty\DDSLoader</Filter>
     </ClInclude>
@@ -220,13 +203,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ThirdParty\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="NumberFactory.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpherePrimitive.h">
@@ -244,19 +221,10 @@
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Headers\GeometricPrim</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Ray.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="MathUtil.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
@@ -264,6 +232,39 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseException.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTimer.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Macros.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberFactory.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Win.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableCodex.h">
+      <Filter>Headers\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +303,9 @@
     </Filter>
     <Filter Include="ThirdParty\ImGui">
       <UniqueIdentifier>{032d3e31-aff2-4584-b7cb-d019548bcd81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Util">
+      <UniqueIdentifier>{a05da654-f7e6-47af-98d6-171c0dcc218a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
