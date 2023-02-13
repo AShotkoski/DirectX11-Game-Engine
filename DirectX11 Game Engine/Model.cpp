@@ -61,8 +61,7 @@ Model::Model( Graphics& gfx, std::string filename )
 	 // Check for scene load success
 	 if ( pAIScene == nullptr )
 	 {
-		 filename += " invalid file/loading failed.";
-		 assert( false && filename.c_str() );
+		 assert( false && "Error loading file");
 	 }
 
 	 // Populate meshes vector with all meshes (in order)

@@ -13,7 +13,7 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.25f ),
-	testModel(gfx, "Models\\cone.obj")
+	testModel(gfx, "Models\\walls.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 

@@ -63,5 +63,12 @@ void Material::parseAIMat( const aiMaterial& aiMat )
 		specular_power( flBuf );
 	if ( aiMat.Get( AI_MATKEY_COLOR_DIFFUSE, colBuf ) == aiReturn_SUCCESS )
 		color( *reinterpret_cast<Color*>(&colBuf) );
-	
+	if ( aiMat.Get( AI_MATKEY_COLOR_SPECULAR, colBuf ) == aiReturn_SUCCESS )
+	{
+		// Average color of specular color is our intensity, maybe add support for 
+		// actual specular color in future but idk why.
+		Color specCol = *reinterpret_cast<Color*>( &colBuf );
+		flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
+		specular_intensity( flBuf );
+	}
 }
