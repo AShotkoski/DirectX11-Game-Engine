@@ -27,7 +27,7 @@ Game::Game()
 		0.f,
 		Material{}.color( Colors::Aquamarine ).specular_intensity( 0.5f ).specular_power( 10.f ) ) );
 
-	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, 0, 1.f ) );
+	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -1.f, 1.f ) );
 }
 
 Game::~Game()
