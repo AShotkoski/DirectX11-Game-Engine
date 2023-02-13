@@ -13,6 +13,12 @@
     <FxCompile Include="PSPhong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="PSPhongTex.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VSPhongTex.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">

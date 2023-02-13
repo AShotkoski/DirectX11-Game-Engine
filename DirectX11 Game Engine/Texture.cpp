@@ -3,6 +3,7 @@
 #include "Macros.h"
 #include "BindableCodex.h"
 #include "GeneralUtilities.h"
+#include <algorithm>
 
 namespace Binds
 {
