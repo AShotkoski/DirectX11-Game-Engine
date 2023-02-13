@@ -16,7 +16,8 @@ namespace Vert
 			Position_3D,
 			Position_2D,
 			Normal,
-			Color_float_RGB
+			Color_float_RGB,
+			TexCoordUV
 		};
 
 		// Template map for each elementType to keep all relations of Elementtype with concrete 
@@ -50,6 +51,13 @@ namespace Vert
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
+		};
+		template<>
+		struct TypeInfo<TexCoordUV>
+		{
+			using type = DirectX::XMFLOAT2;
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
+			static constexpr const char* semantic = "TEXCOORD";
 		};
 
 		// Each vertex element contains its type and its offset, in bytes, into the vertexlayout
@@ -89,6 +97,8 @@ namespace Vert
 						return GenerateD3DDesc<Normal>();
 					case Color_float_RGB:
 						return GenerateD3DDesc<Color_float_RGB>();
+					case TexCoordUV:
+						return GenerateD3DDesc<TexCoordUV>();
 				}
 				assert( false && "horrible error in getd3ddesc" );
 				return {};
@@ -148,6 +158,7 @@ namespace Vert
 			return elements.front();
 
 		}
+		// TODO change to template to avoid copy-paste in body
 		static constexpr size_t SizeOfElement( ElementType el )
 		{
 			using namespace DirectX;
@@ -162,6 +173,8 @@ namespace Vert
 					return sizeof( TypeInfo<Color_float_RGB>::type );
 				case ElementType::Normal:
 					return sizeof( TypeInfo<Normal>::type );
+				case ElementType::TexCoordUV:
+					return sizeof( TypeInfo<TexCoordUV>::type );
 			}
 			// Invalid element was passed in, return 0;
 			assert( "Invalid element passed to sizeofelement" && false );
@@ -231,6 +244,9 @@ namespace Vert
 					break;
 				case types::Normal:
 					SetAttribute<types::Normal>( pAttr, std::forward<T>( attr ) );
+					break;
+				case types::TexCoordUV:
+					SetAttribute<types::TexCoordUV>( pAttr, std::forward<T>( attr ) );
 					break;
 				default:
 					assert( false && "bad element type" );
