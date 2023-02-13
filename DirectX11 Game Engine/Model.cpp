@@ -53,7 +53,7 @@ Model::Model( Graphics& gfx, std::string filename )
 	: tag(filename)
  {
 	 Assimp::Importer Importer;
-
+	 // TODO assimp logging here for error on file load reason
 	 const auto pAIScene = Importer.ReadFile( filename,
 												  aiProcess_JoinIdenticalVertices |
 												  aiProcess_Triangulate );

@@ -12,8 +12,8 @@ Game::Game()
 	:
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
-	light( gfx, 0.25f ),
-	testModel(gfx, "Models\\walls.obj")
+	light( gfx, 0.05f ),
+	testModel(gfx, "Models\\texturedplane.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -27,7 +27,7 @@ Game::Game()
 		0.f,
 		Material{}.color( Colors::Aquamarine ).specular_intensity( 0.5f ).specular_power( 10.f ) ) );
 
-	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -0.5f, 0 ) );
+	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, 0, 1.f ) );
 }
 
 Game::~Game()
