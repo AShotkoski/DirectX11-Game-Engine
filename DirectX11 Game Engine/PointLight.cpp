@@ -1,10 +1,10 @@
 #include "PointLight.h"
 #include "ImGui/imgui.h"
 
-PointLight::PointLight( Graphics& gfx, float radius )
+PointLight::PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos )
 	:
 	cbuf(gfx),
-	LightPos(0,0,0),
+	LightPos(pos),
 	mesh(gfx, radius)
 {}
 

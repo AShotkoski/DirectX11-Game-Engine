@@ -5,7 +5,7 @@
 class PointLight
 {
 public:
-	PointLight( Graphics& gfx, float radius );
+	PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos);
 	void Bind( Graphics& gfx ) const;
 	void Draw( Graphics& gfx ) const;
 	void SpawnControlWindow();
@@ -25,8 +25,8 @@ private:
 	mutable Binds::PixelConstantBuffer<PointLightCBuf> cbuf;
 	// Light props
 	DirectX::XMFLOAT3 LightPos;
-	DirectX::XMFLOAT3 ambient = { 0.11f, 0.11f, 0.11f };
-	DirectX::XMFLOAT3 diffuseColor = { 0.5f, 0.5f, 0.5f };
+	DirectX::XMFLOAT3 ambient = { 0.21f, 0.21f, 0.21f };
+	DirectX::XMFLOAT3 diffuseColor = { 1.0f, 1.0f, 1.0f };
 	float diffuseIntensity = 1.f;
 	float attenConst = 1.f;
 	float attenLin = 0.045f;

@@ -12,8 +12,8 @@ Game::Game()
 	:
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
-	light( gfx, 0.05f ),
-	testModel(gfx, "Models\\texturedplane.obj")
+	light( gfx, 0.05f, { 1.9f, 4.f, -4.f } ),
+	testModel(gfx, "Models\\cone.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
