@@ -186,8 +186,9 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 		D3D11_SAMPLER_DESC sd = {};
 		sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.ComparisonFunc = D3D11_COMPARISON_LESS;
-		sd.Filter = D3D11_FILTER_COMPARISON_MIN_LINEAR_MAG_MIP_POINT;
+		sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 		Binds.push_back( Binds::Sampler::Resolve( gfx, sd ) );
 	}
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );

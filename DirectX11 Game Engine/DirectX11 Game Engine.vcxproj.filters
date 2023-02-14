@@ -75,9 +75,6 @@
     <ClCompile Include="Sampler.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="DDSLoader\DDSTextureLoader.cpp">
-      <Filter>ThirdParty\DDSLoader</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
@@ -181,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Sampler.h">
       <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="DDSLoader\DDSTextureLoader.h">
-      <Filter>ThirdParty\DDSLoader</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ThirdParty\ImGui</Filter>
@@ -306,9 +300,6 @@
     </Filter>
     <Filter Include="ThirdParty">
       <UniqueIdentifier>{407a6ee3-816e-44a3-bd1e-c9d8c0e0993c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ThirdParty\DDSLoader">
-      <UniqueIdentifier>{e7b032ff-0d7d-4776-81a7-35cd4008bccf}</UniqueIdentifier>
     </Filter>
     <Filter Include="ThirdParty\ImGui">
       <UniqueIdentifier>{032d3e31-aff2-4584-b7cb-d019548bcd81}</UniqueIdentifier>

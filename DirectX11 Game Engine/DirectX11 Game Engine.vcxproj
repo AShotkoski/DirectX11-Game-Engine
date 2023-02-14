@@ -110,7 +110,6 @@
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="DDSLoader\DDSTextureLoader.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -149,7 +148,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
-    <ClInclude Include="DDSLoader\DDSTextureLoader.h" />
     <ClInclude Include="GeneralUtilities.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGuiManager.h" />

@@ -1,9 +1,8 @@
 #include "Texture.h"
-#include "DDSLoader/DDSTextureLoader.h"
 #include "Macros.h"
 #include "BindableCodex.h"
 #include "GeneralUtilities.h"
-#include <algorithm>
+#include "DirectXTex.h"
 
 namespace Binds
 {
@@ -11,10 +10,51 @@ namespace Binds
     Texture::Texture( Graphics& gfx, const std::wstring& path )
     {
         HRESULT hr;
+
+        THROW_FAILED_GFX(CoInitializeEx( nullptr, COINIT_MULTITHREADED ));
         // Create texure
-        THROW_FAILED_GFX( DirectX::CreateDDSTextureFromFile( pGetDevice( gfx ), path.c_str(),
-                                                             &pResource,
-                                                             &pResourceView ) );
+        auto pScratch = std::make_unique<DirectX::ScratchImage>();
+		THROW_FAILED_GFX( DirectX::LoadFromWICFile(
+			path.c_str(),
+			DirectX::WIC_FLAGS_NONE,
+			nullptr,
+			*pScratch ) );
+        D3D11_TEXTURE2D_DESC td = {};
+        td.Format = pScratch->GetMetadata().format;
+        td.ArraySize = (UINT)pScratch->GetMetadata().arraySize;
+        td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        td.Usage = D3D11_USAGE_DEFAULT;
+        td.CPUAccessFlags = 0u;
+        td.Height = (UINT)pScratch->GetMetadata().height;
+        td.Width = (UINT)pScratch->GetMetadata().width;
+        td.MipLevels = (UINT)pScratch->GetMetadata().mipLevels;
+        td.SampleDesc.Count = 1;
+        td.SampleDesc.Quality = 0;
+        td.MiscFlags = 0u;
+
+        D3D11_SUBRESOURCE_DATA sd = {};
+        size_t stmempitch;
+        size_t stmempitchslice;
+        THROW_FAILED_GFX(DirectX::ComputePitch( td.Format, td.Width, td.Height, stmempitch, stmempitchslice ));
+        sd.SysMemPitch = (UINT)stmempitch;
+        sd.SysMemSlicePitch = (UINT)stmempitchslice;
+        sd.pSysMem = pScratch->GetPixels();
+        
+        Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
+
+        THROW_FAILED_GFX(pGetDevice( gfx )->CreateTexture2D( &td, &sd, &pTexture ));
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvd = {};
+        srvd.Format = td.Format;
+        srvd.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
+        srvd.Texture2D.MipLevels = td.MipLevels;
+        srvd.Texture2D.MostDetailedMip = 0u;
+
+        THROW_FAILED_GFX(
+			pGetDevice( gfx )->CreateShaderResourceView( pTexture.Get(), &srvd, &pResourceView ) );
+        // clean
+        CoUninitialize();
+        pScratch->Release();
     }
 
     void Texture::Bind( Graphics& gfx )
