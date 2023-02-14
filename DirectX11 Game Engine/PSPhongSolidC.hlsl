@@ -1,6 +1,6 @@
 cbuffer LightCBuf
 {
-    float3 lightposition;
+    float3 lightposition;   
     float3 ambient;
     float3 diffuseColor;
     float diffuseIntensity;
@@ -11,6 +11,7 @@ cbuffer LightCBuf
 
 cbuffer ObjectCBuf : register(b1)
 {
+    float3 MaterialColor;
     float specularIntensity;
     float specularPower;
 };
@@ -20,12 +21,8 @@ struct PSIn // VSOUT
     float3 Normal : NORMAL;
     float3 WorldPos : POSITION;
     float3 EyePos : EYEPOS;
-    float2 texcoord : TEXCOORD;
     float4 ViewPos : SV_Position;
 };
-
-SamplerState splr;
-Texture2D tex;
 
 float4 main(PSIn psin) : SV_TARGET
 {
@@ -42,7 +39,7 @@ float4 main(PSIn psin) : SV_TARGET
     
     // Get the diffuse lighting
     const float3 diffuse = diffuseColor * diffuseIntensity * attenuation
-                                * max(0, dot(normalize(pxToLight), psin.Normal));
+                                * max(0, dot(normalize(pxToLight), psin.Normal)); 
     // Calc specular ( blinn-phong )
     const float3 pxToEye = normalize(psin.EyePos - psin.WorldPos);
     pxToLight = normalize(pxToLight);
@@ -58,5 +55,5 @@ float4 main(PSIn psin) : SV_TARGET
     {
         specular = specularIntensity * pow(cosBetween, specularPower) * attenuation;
     }
-    return float4(saturate(diffuse + ambient + specular) * (float3) tex.Sample(splr, psin.texcoord), 1);
+    return float4(saturate(diffuse + ambient + specular) * MaterialColor, 1);
 }

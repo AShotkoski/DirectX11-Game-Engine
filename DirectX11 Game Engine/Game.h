@@ -1,7 +1,6 @@
 #pragma once
 #include "Window.h"
 #include "FrameTimer.h"
-#include "Cube.h"
 #include "PointLight.h"
 #include "Model.h"
 
@@ -24,7 +23,6 @@ private:
 	FrameTimer ft;
 
 	PointLight light;
-	std::vector<std::unique_ptr<Cube>> cubes;
 	Model testModel;
 private:
 	float dt = 0.f;

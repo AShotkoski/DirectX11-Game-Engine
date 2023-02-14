@@ -18,14 +18,6 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-	cubes.emplace_back( std::make_unique<Cube>(
-		gfx,
-		dx::XMFLOAT3{ 1.f, 1.f, 1.f },
-		dx::XMFLOAT3{ 3.f, 0.f, 0.f },
-		0.f,
-		0.f,
-		0.f,
-		Material{}.color( Colors::Aquamarine ).specular_intensity( 0.5f ).specular_power( 10.f ) ) );
 
 	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -1.f, 1.f ) );
 }
@@ -52,10 +44,6 @@ void Game::Go()
 
 void Game::UpdateLogic()
 {	
-	for ( auto& c : cubes )
-	{
-		c->Update( adj_dt );
-	}
 
 	light.Bind(gfx);
 
@@ -81,11 +69,6 @@ void Game::UpdateLogic()
 
 void Game::DrawFrame()
 {
-	for ( auto& c : cubes )
-	{
-		c->Draw( gfx );
-	}
-
 	light.Draw( gfx );
 	testModel.Draw( gfx );
 }

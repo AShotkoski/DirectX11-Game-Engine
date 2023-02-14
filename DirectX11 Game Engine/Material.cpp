@@ -28,6 +28,7 @@ std::string Material::GetUID() const
 	using namespace std::string_literals;
 	std::string uid(
 		std::to_string( specularIntensity_ ) + ":"s + std::to_string( specularPower_ ) );
+	return uid;
 }
 
 void Material::parseAIMat( const aiMaterial& aiMat )

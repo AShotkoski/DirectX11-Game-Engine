@@ -2,6 +2,7 @@
 #include "Drawable.h"
 #include "Material.h"
 
+// DEPRECIATED
 class Cube : public Drawable
 {
 public:

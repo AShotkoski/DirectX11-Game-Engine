@@ -39,9 +39,9 @@ Cube::Cube(
 		// Bind Index Buffer
 		AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" ) );
 		// Bind PS
-		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
+		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolidC.cso" ) );
 		// Bind VS, store bytecode
-		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
+		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhongSolidC.cso" ) );
 		auto vs = QueryBindable<Binds::VertexShader>();
 		assert( vs );
 		auto vsbytecode = vs->pGetBytecode();

@@ -18,5 +18,5 @@ private:
 	// Constant buffer data
 	float specularIntensity_;
 	float specularPower_;
-
+	float padding[2];
 };
