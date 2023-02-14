@@ -12,14 +12,14 @@ Game::Game()
 	:
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
-	light( gfx, 0.05f, { 1.9f, 4.f, -4.f } ),
-	testModel(gfx, "Models\\cube.obj")
+	light( gfx, 0.05f, { 1.9f, 2.f, -2.f } ),
+	testModel(gfx, "Models\\Cube.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
 
-	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -1.f, 1.f ) );
+	testModel.UpdateTransform( dx::XMMatrixTranslation( 0, -1.f, 1.f )  );
 }
 
 Game::~Game()

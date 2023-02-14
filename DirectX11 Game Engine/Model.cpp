@@ -57,9 +57,9 @@ Model::Model( Graphics& gfx, std::string filename )
  {
 	 Assimp::Importer Importer;
 	 // TODO assimp logging here for error on file load reason
-	 const auto pAIScene = Importer.ReadFile( filename,
-												  aiProcess_JoinIdenticalVertices |
-												  aiProcess_Triangulate );
+	 const auto pAIScene = Importer.ReadFile(
+		 filename,
+		 aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_ConvertToLeftHanded);
 
 	 // Check for scene load success
 	 if ( pAIScene == nullptr )
