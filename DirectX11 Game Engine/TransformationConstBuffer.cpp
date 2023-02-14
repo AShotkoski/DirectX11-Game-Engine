@@ -3,12 +3,13 @@
 
 namespace Binds
 {
+	std::unique_ptr<VertexConstantBuffer<TransformationConstBuffer::TransformBuffer>> TransformationConstBuffer::pVertexCBuf;
 
 	TransformationConstBuffer::TransformationConstBuffer( Graphics& gfx, const Drawable& parent )
 		:
-		VertexCBuf( gfx ),
 		parent( parent )
 	{
+		pVertexCBuf = std::make_unique<VertexConstantBuffer<TransformBuffer>>( gfx );
 	}
 
 	void TransformationConstBuffer::Bind( Graphics& gfx )
@@ -23,8 +24,8 @@ namespace Binds
 			DirectX::XMMatrixTranspose( parentModel * gfx.GetCamera().GetMatrix() * gfx.GetProjection() ) //proj
 		};
 
-		VertexCBuf.Update( gfx, tb );
-		VertexCBuf.Bind( gfx );
+		pVertexCBuf->Update( gfx, tb );
+		pVertexCBuf->Bind( gfx );
 	}
 
 	std::string TransformationConstBuffer::GenerateUID( const Drawable& parent )

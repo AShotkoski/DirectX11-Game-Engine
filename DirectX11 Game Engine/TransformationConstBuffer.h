@@ -21,7 +21,7 @@ namespace Binds
 		static std::string GenerateUID( const Drawable& parent );
 		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, const Drawable& parent );
 	private:
-		VertexConstantBuffer<TransformBuffer> VertexCBuf;
+		static std::unique_ptr<VertexConstantBuffer<TransformBuffer>> pVertexCBuf;
 		const Drawable& parent;
 	};
 
