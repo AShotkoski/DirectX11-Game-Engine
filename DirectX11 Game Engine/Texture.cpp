@@ -13,12 +13,21 @@ namespace Binds
 
         THROW_FAILED_GFX(CoInitializeEx( nullptr, COINIT_MULTITHREADED ));
         // Create texure
+        auto pScratchFlipped = std::make_unique<DirectX::ScratchImage>();
         auto pScratch = std::make_unique<DirectX::ScratchImage>();
 		THROW_FAILED_GFX( DirectX::LoadFromWICFile(
 			path.c_str(),
 			DirectX::WIC_FLAGS_NONE,
 			nullptr,
-			*pScratch ) );
+			*pScratchFlipped ) );
+
+		THROW_FAILED_GFX(DirectX::FlipRotate(
+			pScratchFlipped->GetImages(),
+			pScratchFlipped->GetImageCount(),
+			pScratchFlipped->GetMetadata(),
+			DirectX::TEX_FR_FLIP_VERTICAL | DirectX::TEX_FR_FLIP_HORIZONTAL,
+			*pScratch ));
+
         D3D11_TEXTURE2D_DESC td = {};
         td.Format = pScratch->GetMetadata().format;
         td.ArraySize = (UINT)pScratch->GetMetadata().arraySize;
