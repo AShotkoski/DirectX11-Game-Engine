@@ -7,10 +7,10 @@ namespace Binds
 	class Sampler : public Bindable
 	{
 	public:
-		Sampler( Graphics& gfx, D3D11_SAMPLER_DESC sd );
+		Sampler( Graphics& gfx );
 		void Bind( Graphics& gfx ) override;
-		static std::string GenerateUID( D3D11_SAMPLER_DESC sd );
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, D3D11_SAMPLER_DESC sd );
+		static std::string GenerateUID(  );
+		static std::shared_ptr<Bindable> Resolve( Graphics& gfx );
 	private:
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> pSamplerState;
 	};

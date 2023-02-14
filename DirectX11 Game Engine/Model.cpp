@@ -103,14 +103,13 @@ void Model::Draw( Graphics& gfx ) const
 	 pHead->Draw( gfx, transform );
  }
 
-// TODO CHANGE SO WE ONLY TAKE THE MAT OF THE MESH WE ARE HANDLING 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat)
 {
-	const bool hasDiffuseTexture = pAiMat->GetTextureCount( aiTextureType_DIFFUSE );
-
+	// set tag for bindable instancing to be the name of the mesh, for VB and IB
 	tag += mesh.mName.C_Str();
-	std::vector<std::shared_ptr<Bindable>> Binds;
 
+	std::vector<std::shared_ptr<Bindable>> Binds;
+	const bool hasDiffuseTexture = pAiMat->GetTextureCount( aiTextureType_DIFFUSE );
 
 	Vert::VertexLayout vl;
 	vl.Append( Vert::VertexLayout::Position_3D )
@@ -183,13 +182,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 		pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
 		using namespace std::string_literals;
 		Binds.push_back( Binds::Texture::Resolve( gfx, Util::StringToWString("Models\\"s + filename.C_Str())));
-		D3D11_SAMPLER_DESC sd = {};
-		sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.ComparisonFunc = D3D11_COMPARISON_LESS;
-		sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-		Binds.push_back( Binds::Sampler::Resolve( gfx, sd ) );
+		Binds.push_back( Binds::Sampler::Resolve( gfx ) );
 	}
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );
 }
