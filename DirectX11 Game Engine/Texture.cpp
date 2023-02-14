@@ -7,7 +7,8 @@
 namespace Binds
 {
 
-    Texture::Texture( Graphics& gfx, const std::wstring& path )
+    Texture::Texture( Graphics& gfx, const std::wstring& path, UINT slot )
+        : slot_(slot)
     {
         HRESULT hr;
 
@@ -60,17 +61,17 @@ namespace Binds
 
     void Texture::Bind( Graphics& gfx )
     {
-        pGetContext( gfx )->PSSetShaderResources( 0u, 1u, pResourceView.GetAddressOf() );
+        pGetContext( gfx )->PSSetShaderResources( slot_, 1u, pResourceView.GetAddressOf() );
     }
 
-    std::string Texture::GenerateUID( const std::wstring& path )
+    std::string Texture::GenerateUID( const std::wstring& path, UINT slot )
     {
         using namespace std::string_literals;
         std::string pathA = Util::WStringToString(path);
-        return std::string( typeid( Texture ).name() + "_"s + pathA );
+        return std::string( typeid( Texture ).name() + "_"s + pathA + "_"s + std::to_string(slot));
     }
 
-    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, const std::wstring& path )
+    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, const std::wstring& path, UINT slot )
     {
         return Codex::Resolve<Texture>( gfx, path );
     }
