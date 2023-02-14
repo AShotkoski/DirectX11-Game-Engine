@@ -98,6 +98,7 @@ StyleCopReport.xml
 *.svclog
 *.scc
 *.cso
+/*/*.cso
 
 # Chutzpah Test files
 _Chutzpah*
@@ -363,3 +364,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Object model files
+!/DirectX11 Game Engine/Models/*.obj
+!/DirectX11 Game Engine/Models/*/*.obj
+/DirectX11 Game Engine/*.cso
+/DirectX11 Game Engine/imgui.ini
