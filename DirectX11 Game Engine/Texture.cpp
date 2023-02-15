@@ -12,7 +12,7 @@ namespace Binds
     {
         HRESULT hr;
 
-        THROW_FAILED_GFX(CoInitializeEx( nullptr, COINIT_MULTITHREADED ));
+        THROW_FAILED_GFX(CoInitialize( nullptr ));
         // Create texure
         auto pScratch = std::make_unique<DirectX::ScratchImage>();
 		THROW_FAILED_GFX( DirectX::LoadFromWICFile(
