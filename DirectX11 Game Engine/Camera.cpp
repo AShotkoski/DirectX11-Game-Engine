@@ -23,6 +23,14 @@ void Camera::SpawnControlWindow()
 {
 	if( ImGui::Begin( "Camera" ) )
 	{
+		ImGui::Checkbox( "Show Info", &im_showDebugInfo );
+		if ( im_showDebugInfo )
+		{
+			ImGui::TextColored( ImColor( 255, 127, 0 ), "Position:" );
+			ImGui::Text( "(%.2f, %.2f, %.2f)", Position.x, Position.y, Position.z );
+			ImGui::TextColored( ImColor( 255, 127, 0 ), "Orientation:" );
+			ImGui::Text( "Pitch: %.2f, Yaw: %.2f", pitch * 180.f / XM_PI, yaw * 180.f / XM_PI );
+		}
 		if( ImGui::Button( "Reset" ) )
 			Reset();
 	}

@@ -29,5 +29,8 @@ private:
 	// Only adjust the numerator
 	static constexpr float Sensitivity = 25.f / 10000.f;
 	float MoveSpeed = 15.f;
+
+	//-----Imgui-----
+	bool im_showDebugInfo = true;
 };
 
