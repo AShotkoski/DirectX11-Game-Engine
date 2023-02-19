@@ -7,7 +7,7 @@
 namespace Binds
 {
 
-    Texture::Texture( Graphics& gfx, const std::wstring& path, UINT slot )
+    Texture::Texture( Graphics& gfx, std::filesystem::path path, UINT slot )
         : slot_(slot)
     {
         HRESULT hr;
@@ -16,7 +16,7 @@ namespace Binds
         // Create texure
         auto pScratch = std::make_unique<DirectX::ScratchImage>();
 		THROW_FAILED_GFX( DirectX::LoadFromWICFile(
-			path.c_str(),
+			path.wstring().c_str(),
 			DirectX::WIC_FLAGS_NONE,
 			nullptr,
 			*pScratch ) );
@@ -64,14 +64,13 @@ namespace Binds
         pGetContext( gfx )->PSSetShaderResources( slot_, 1u, pResourceView.GetAddressOf() );
     }
 
-    std::string Texture::GenerateUID( const std::wstring& path, UINT slot )
+    std::string Texture::GenerateUID( std::filesystem::path path, UINT slot )
     {
         using namespace std::string_literals;
-        std::string pathA = Util::WStringToString(path);
-        return std::string( typeid( Texture ).name() + "_"s + pathA + "_"s + std::to_string(slot));
+        return std::string( typeid( Texture ).name() + "_"s + path.string() + "_"s + std::to_string(slot));
     }
 
-    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, const std::wstring& path, UINT slot )
+    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, std::filesystem::path path, UINT slot )
     {
         return Codex::Resolve<Texture>( gfx, path );
     }

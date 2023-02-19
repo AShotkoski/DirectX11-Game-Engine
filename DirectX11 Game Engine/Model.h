@@ -6,6 +6,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <memory>
+#include <filesystem>
 
 // In this class it would be a great idea to upgrade the drawing so that we don't need to 
 // re-calculate the concatenated matrices every single call to draw.
@@ -38,7 +39,7 @@ private:
 class Model
 {
 public:
-	Model( Graphics& gfx, std::string filename );
+	Model( Graphics& gfx, std::filesystem::path filename );
 	void UpdateTransform( DirectX::XMMATRIX in_transform );
 	void Draw( Graphics& gfx ) const;
 private:

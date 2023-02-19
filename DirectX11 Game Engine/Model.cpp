@@ -52,13 +52,13 @@ Node& Node::AddChild( Node&& child )
 	 return children.back();
  }
 
-Model::Model( Graphics& gfx, std::string filename )
-	: tag(filename)
+Model::Model( Graphics& gfx, std::filesystem::path filename )
+	: tag(filename.string())
  {
 	 Assimp::Importer Importer;
 	 // TODO assimp logging here for error on file load reason
 	 const auto pAIScene = Importer.ReadFile(
-		 filename,
+		 filename.string(),
 		 aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_ConvertToLeftHanded);
 
 	 // Check for scene load success
@@ -105,6 +105,8 @@ void Model::Draw( Graphics& gfx ) const
 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat)
 {
+	std::filesystem::path rootpath = tag;
+	rootpath = rootpath.parent_path();
 	// set tag for bindable instancing to be the name of the mesh, for VB and IB
 	tag += mesh.mName.C_Str();
 
@@ -162,7 +164,8 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	aiString filename;
 	pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
 	using namespace std::string_literals;
-	Binds.push_back( Binds::Texture::Resolve( gfx, Util::StringToWString("Models\\"s + filename.C_Str())));
+	std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
+	Binds.push_back( Binds::Texture::Resolve( gfx, texturePath));
 	Binds.push_back( Binds::Sampler::Resolve( gfx ) );	
 
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );
