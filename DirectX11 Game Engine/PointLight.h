@@ -25,7 +25,7 @@ private:
 	mutable Binds::PixelConstantBuffer<PointLightCBuf> cbuf;
 	// Light props
 	DirectX::XMFLOAT3 LightPos;
-	DirectX::XMFLOAT3 ambient = { 0.21f, 0.21f, 0.21f };
+	DirectX::XMFLOAT3 ambient = { 0.07f, 0.07f, 0.07f };
 	DirectX::XMFLOAT3 diffuseColor = { 1.0f, 1.0f, 1.0f };
 	float diffuseIntensity = 1.f;
 	float attenConst = 1.f;

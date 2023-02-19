@@ -111,7 +111,8 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	tag += mesh.mName.C_Str();
 
 	std::vector<std::shared_ptr<Bindable>> Binds;
-	assert(pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) && "Mesh must have texture");
+	if ( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) == 0 )
+		OutputDebugString( L"Asset doesn't have diffuse tex\n" );
 
 	Vert::VertexLayout vl;
 	vl.Append( Vert::VertexLayout::Position_3D )
@@ -161,13 +162,17 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
 
 	// Load Texture
-	aiString filename;
-	pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
-	using namespace std::string_literals;
-	std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
-	Binds.push_back( Binds::Texture::Resolve( gfx, texturePath));
-	Binds.push_back( Binds::Sampler::Resolve( gfx ) );	
+	if ( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) != 0 )
+	{
 
+		aiString filename;
+		pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
+		using namespace std::string_literals;
+		std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
+		Binds.push_back( Binds::Texture::Resolve( gfx, texturePath ) );
+	}
+		Binds.push_back( Binds::Sampler::Resolve( gfx ) );
+	
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );
 }
 

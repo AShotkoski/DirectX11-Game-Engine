@@ -34,6 +34,6 @@ private:
 	static constexpr UINT ScreenHeight = 600u;
 	static constexpr const wchar_t* WindowTitle = L"DirectX Window";
 	static constexpr float NearClipping = 0.5f;
-	static constexpr float FarClipping = 50.0f;
+	static constexpr float FarClipping = 85.0f;
 };
 
