@@ -40,7 +40,7 @@ void Camera::SpawnControlWindow()
 void Camera::Reset() noexcept
 {
 	Position.x = 0.f;
-	Position.y = 0.f;
+	Position.y = 2.f;
 	Position.z = -10.f;
 	pitch      = 0.f;
 	yaw        = 0.f;

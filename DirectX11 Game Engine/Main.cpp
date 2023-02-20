@@ -18,6 +18,7 @@ int WINAPI wWinMain(
 			pImGuiManager = std::make_unique<ImGuiManager>();
 		// Setting logging outputs
 		loguru::add_file( "logs\\everything.log", loguru::Truncate, loguru::Verbosity_MAX );
+		loguru::add_file( "logs\\attention.log", loguru::Append, loguru::Verbosity_WARNING );
 
 		Game game;	
 

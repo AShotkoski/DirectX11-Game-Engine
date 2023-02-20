@@ -168,17 +168,20 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
 
 	// Load Texture
+	aiString filename;
 	if ( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) != 0 )
 	{
-
-		aiString filename;
 		pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
 		using namespace std::string_literals;
 		std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
 		Binds.push_back( Binds::Texture::Resolve( gfx, texturePath ) );
 	}
-		Binds.push_back( Binds::Sampler::Resolve( gfx ) );
+	Binds.push_back( Binds::Sampler::Resolve( gfx ) );
 	
+	//Log mesh creation
+
+	DLOG_F( INFO, "Created %s mesh, which uses %s diffuse tex", mesh.mName.C_Str(), filename.C_Str() );
+
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );
 }
 
