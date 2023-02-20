@@ -120,6 +120,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -267,6 +270,9 @@
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="GeneralUtilities.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
       <Filter>Headers\Util</Filter>
     </ClInclude>
   </ItemGroup>
