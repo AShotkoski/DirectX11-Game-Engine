@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Sampler.h"
 #include "GeneralUtilities.h"
+#include "Loguru/loguru.hpp"
 
 namespace dx = DirectX;
 
@@ -55,12 +56,18 @@ Node& Node::AddChild( Node&& child )
 Model::Model( Graphics& gfx, std::filesystem::path filename )
 	: tag(filename.string())
  {
+	 DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
+
 	 Assimp::Importer Importer;
 	 // TODO assimp logging here for error on file load reason
 	 const auto pAIScene = Importer.ReadFile(
 		 filename.string(),
-		 aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_ConvertToLeftHanded);
+		 aiProcess_JoinIdenticalVertices |
+		 aiProcess_Triangulate |
+		 aiProcess_GenNormals |
+		 aiProcess_ConvertToLeftHanded);
 
+	 DLOG_F( INFO, "AIScene Loaded" );
 	 // Check for scene load success
 	 if ( pAIScene == nullptr )
 	 {
@@ -80,7 +87,6 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 			 pMeshes.push_back( makeMesh( gfx, *pMesh, pAIScene->mMaterials[pMesh->mMaterialIndex] ) );
 		 }
 	 }
-
 	 // Pre process head node
 	 assert( pAIScene->mRootNode->mNumMeshes == 0 );
 	 const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>(
@@ -112,7 +118,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 
 	std::vector<std::shared_ptr<Bindable>> Binds;
 	if ( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) == 0 )
-		OutputDebugString( L"Asset doesn't have diffuse tex\n" );
+		LOG_F( WARNING, "Mesh %s doesn't have a diffuse texture.", mesh.mName.C_Str() );
 
 	Vert::VertexLayout vl;
 	vl.Append( Vert::VertexLayout::Position_3D )
