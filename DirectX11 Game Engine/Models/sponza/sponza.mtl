@@ -10,7 +10,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/lion.jpg
-map_Bump -bm textures/lion_ddn.jpg
+map_Bump -bm 1.0 textures/lion_ddn.jpg
 
 newmtl Material__298
 Ns 70.843135
@@ -21,7 +21,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/background.jpg
-map_Bump -bm textures/background_ddn.jpg
+map_Bump -bm 1.0 textures/background_ddn.jpg
 
 newmtl Material__47
 Ns 7.843135
@@ -62,7 +62,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/spnza_bricks_a_diff.jpg
-map_Bump -bm textures/spnza_bricks_a_ddn.jpg
+map_Bump -bm 1.0 textures/spnza_bricks_a_ddn.jpg
 
 newmtl ceiling
 Ns 70.843135
@@ -73,7 +73,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_ceiling_a_diff.jpg
-map_Bump -bm textures/sponza_ceiling_a_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_ceiling_a_ddn.jpg
 
 newmtl chain
 Ns 170.843135
@@ -85,7 +85,7 @@ d 1.000000
 illum 1
 map_Kd textures/chain_texture.jpg
 map_d textures/chain_texture_mask.jpg
-map_Bump -bm textures/chain_texture_ddn.jpg
+map_Bump -bm 1.0 textures/chain_texture_ddn.jpg
 
 newmtl column_a
 Ns 70.843135
@@ -96,7 +96,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_column_a_diff.jpg
-map_Bump -bm textures/sponza_column_a_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_column_a_ddn.jpg
 
 newmtl column_b
 Ns 70.843135
@@ -107,7 +107,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_column_b_diff.jpg
-map_Bump -bm textures/sponza_column_b_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_column_b_ddn.jpg
 
 newmtl column_c
 Ns 70.843135
@@ -117,7 +117,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-map_Bump -bm textures/sponza_column_c_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_column_c_ddn.jpg
 
 newmtl details
 Ns 70.843135
@@ -128,7 +128,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_details_diff.jpg
-map_Bump -bm textures/sponza_details_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_details_ddn.jpg
 
 newmtl fabric_a
 Ns 7.843135
@@ -205,7 +205,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_flagpole_diff.jpg
-map_Bump -bm textures/sponza_flagpole_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_flagpole_ddn.jpg
 
 newmtl floor
 Ns 70.843135
@@ -216,7 +216,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_floor_a_diff.jpg
-map_Bump -bm textures/sponza_floor_a_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_floor_a_ddn.jpg
 
 newmtl leaf
 Ns 7.843135
@@ -227,7 +227,7 @@ Ni 1.000000
 illum 1
 map_Kd textures/sponza_thorn_diff.jpg
 map_d textures/sponza_thorn_mask.jpg
-map_Bump -bm textures/sponza_thorn_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_thorn_ddn.jpg
 
 newmtl roof
 Ns 70.843135
@@ -238,7 +238,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/sponza_roof_diff.jpg
-map_Bump -bm textures/sponza_roof_ddn.jpg
+map_Bump -bm 1.0 textures/sponza_roof_ddn.jpg
 
 newmtl vase
 Ns 70.843135
@@ -249,7 +249,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/vase_dif.jpg
-map_Bump -bm textures/vase_ddn.jpg
+map_Bump -bm 1.0 textures/vase_ddn.jpg
 
 newmtl vase_hanging
 Ns 70.843135
@@ -260,7 +260,7 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/vase_hanging.jpg
-map_Bump -bm textures/vase_hanging_ddn.jpg
+map_Bump -bm 1.0 textures/vase_hanging_ddn.jpg
 
 newmtl vase_round
 Ns 70.843135
@@ -271,4 +271,4 @@ Ni 1.000000
 d 1.000000
 illum 1
 map_Kd textures/vase_round.jpg
-map_Bump -bm textures/vase_round_ddn.jpg
+map_Bump -bm 1.0 textures/vase_round_ddn.jpg

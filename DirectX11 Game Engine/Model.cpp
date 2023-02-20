@@ -4,6 +4,7 @@
 #include "Sampler.h"
 #include "GeneralUtilities.h"
 #include "Loguru/loguru.hpp"
+#include "assimp/DefaultLogger.hpp"
 
 namespace dx = DirectX;
 
@@ -37,6 +38,8 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 	: tag(filename.string())
  {
 	 DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
+	 // Create assimp logger to log assimp messages during file loading
+	 Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::VERBOSE );
 
 	 Assimp::Importer Importer;
 	 // TODO assimp logging here for error on file load reason
@@ -46,7 +49,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 		 aiProcess_Triangulate |
 		 aiProcess_GenNormals |
 		 aiProcess_ConvertToLeftHanded);
-
+	 
 	 DLOG_F( INFO, "AIScene Loaded" );
 	 // Check for scene load success
 	 if ( pAIScene == nullptr )
@@ -77,6 +80,8 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 
 	 // Populate node tree from head
 	 PopulateNodeFromAINode( *pHead, pAIScene->mRootNode );
+	 // Kill logger
+	 Assimp::DefaultLogger::kill();
  }
 
 void Model::UpdateTransform( DirectX::XMMATRIX in_transform )
