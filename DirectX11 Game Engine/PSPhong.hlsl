@@ -1,3 +1,5 @@
+#include "Operations.hlsli"
+
 cbuffer LightCBuf
 {
     float3 lightposition;
@@ -32,31 +34,17 @@ float4 main(PSIn psin) : SV_TARGET
     // Normalize normal
     psin.Normal = normalize(psin.Normal);
     
-    float3 pxToLight = lightposition - psin.WorldPos;
-    const float distPxToLight = length(pxToLight);
-    
-    // Calculate the attenuation ( inverse square law )
-    const float attenuation = 1.f / (pow(distPxToLight, 2) * attenQuad
-                              + distPxToLight * attenLin
-                              + attenConst);
-    
-    // Get the diffuse lighting
-    const float3 diffuse = diffuseColor * diffuseIntensity * attenuation
-                                * max(0, dot(normalize(pxToLight), psin.Normal));
-    // Calc specular ( blinn-phong )
+    const float distPxToLight = length(lightposition - psin.WorldPos);
+    float3 pxToLight = normalize(lightposition - psin.WorldPos);
     const float3 pxToEye = normalize(psin.EyePos - psin.WorldPos);
-    pxToLight = normalize(pxToLight);
-    const float3 halfWay = normalize(pxToEye + pxToLight);
-    // Calc cos of the angle between the surface normal and the halfway
-    float cosBetween = max(dot(psin.Normal, halfWay), 0.0);
-    float3 specular;
-    if (dot(psin.Normal, pxToLight) <= 0)
-    {
-        specular = 0;
-    }
-    else
-    {
-        specular = specularIntensity * pow(cosBetween, specularPower) * attenuation;
-    }
+    
+    const float attenuation = Attenuate(distPxToLight, attenQuad, attenLin, attenConst);
+    
+    const float3 diffuse = Diffuse(diffuseColor, diffuseIntensity * attenuation,
+                            pxToLight, psin.Normal);
+    
+    float3 specular = Speculate_BlinnPhong(float3(specularIntensity, specularIntensity, specularIntensity),
+                                            specularPower, pxToEye, pxToLight, psin.Normal);
+
     return float4(saturate(diffuse + ambient + specular) * (float3) tex.Sample(splr, psin.texcoord), 1);
 }

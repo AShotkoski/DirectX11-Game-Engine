@@ -13,12 +13,6 @@
     <FxCompile Include="PSPhong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhongTex.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="VSPhongTex.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -326,5 +320,10 @@
     <ResourceCompile Include="DirectX11 Game Engine.rc">
       <Filter>Resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Operations.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
