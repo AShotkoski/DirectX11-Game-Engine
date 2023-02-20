@@ -120,8 +120,8 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="Loguru\loguru.cpp">
+      <Filter>ThirdParty\Loguru</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,8 +272,8 @@
     <ClInclude Include="GeneralUtilities.h">
       <Filter>Headers\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Headers\Util</Filter>
+    <ClInclude Include="Loguru\loguru.hpp">
+      <Filter>ThirdParty\Loguru</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +312,9 @@
     </Filter>
     <Filter Include="Headers\Util">
       <UniqueIdentifier>{a05da654-f7e6-47af-98d6-171c0dcc218a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Loguru">
+      <UniqueIdentifier>{88bd9adf-4036-43b2-aa93-61805bae1707}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
