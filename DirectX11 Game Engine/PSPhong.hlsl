@@ -43,7 +43,8 @@ float4 main(PSIn psin) : SV_TARGET
     const float3 diffuse = Diffuse(diffuseColor, diffuseIntensity * attenuation,
                             pxToLight, psin.Normal);
     
-    float3 specular = Speculate_BlinnPhong(float3(specularIntensity, specularIntensity, specularIntensity),
+    float3 specularColor = specularIntensity * attenuation;
+    float3 specular = Speculate_BlinnPhong(specularColor,
                                             specularPower, pxToEye, pxToLight, psin.Normal);
 
     return float4(saturate(diffuse + ambient + specular) * (float3) tex.Sample(splr, psin.texcoord), 1);
