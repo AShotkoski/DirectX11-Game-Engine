@@ -1,0 +1,209 @@
+# Blender 3.4.1 MTL File: 'None'
+# www.blender.org
+
+newmtl FlowerPot.001
+Ns 7.843135
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 1
+map_Kd textures/vase_plant.jpg
+map_d textures/vase_plant_mask.jpg
+
+newmtl Lion.001
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/lion.jpg
+map_Bump -bm 1.000000 textures/lion_ddn.jpg
+
+newmtl LionBG.001
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/background.jpg
+map_Bump -bm 1.000000 textures/background_ddn.jpg
+
+newmtl arch.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_arch_diff.jpg
+
+newmtl bricks.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/spnza_bricks_a_diff.jpg
+map_Bump -bm 1.000000 textures/spnza_bricks_a_ddn.jpg
+
+newmtl ceiling.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_ceiling_a_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_ceiling_a_ddn.jpg
+
+newmtl chain.002
+Ns 170.843140
+Ka 1.000000 1.000000 1.000000
+Ks 0.600000 0.600000 0.600000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 2
+map_Kd textures/chain_texture.jpg
+map_d textures/chain_texture_mask.jpg
+map_Bump -bm 1.000000 textures/chain_texture_ddn.jpg
+
+newmtl column_a.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_column_a_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_column_a_ddn.jpg
+
+newmtl column_c.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_column_c_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_column_c_ddn.jpg
+
+newmtl details.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_details_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_details_ddn.jpg
+
+newmtl fabric_a.002
+Ns 7.843135
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd textures/sponza_fabric_diff.jpg
+map_Bump textures/sponza_fabric_ddn.jpg
+
+newmtl fabric_c.002
+Ns 7.843135
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd textures/sponza_curtain_diff.jpg
+map_Bump textures/sponza_fabric_ddn.jpg
+
+newmtl fabric_f.002
+Ns 7.843135
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd textures/sponza_curtain_green_diff.jpg
+map_Bump textures/sponza_fabric_ddn.jpg
+
+newmtl flagpole.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_flagpole_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_flagpole_ddn.jpg
+
+newmtl floor.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/sponza_floor_a_diff.jpg
+map_Bump -bm 1.000000 textures/sponza_floor_a_ddn.jpg
+
+newmtl leaf.002
+Ns 7.843135
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 1
+map_Kd textures/sponza_thorn_diff.jpg
+map_d textures/sponza_thorn_mask.jpg
+map_Bump -bm 1.000000 textures/sponza_thorn_ddn.jpg
+
+newmtl vase.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/vase_dif.jpg
+map_Bump -bm 1.000000 textures/vase_ddn.jpg
+
+newmtl vase_hanging.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/vase_hanging.jpg
+map_Bump -bm 1.000000 textures/vase_hanging_ddn.jpg
+
+newmtl vase_round.002
+Ns 70.843117
+Ka 1.000000 1.000000 1.000000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/vase_round.jpg
+map_Bump -bm 1.000000 textures/vase_round_ddn.jpg
