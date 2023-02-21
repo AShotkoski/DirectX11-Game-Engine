@@ -16,7 +16,8 @@ class Node
 public:
 	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name );
 	void Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const;
-	void SpawnControlWindow( int& nodeIndex, std::optional<int>& selectedIndex );
+	void SpawnControlWindow( int& nodeIndex, std::optional<int>& selectedIndex, Node*& pSelectedNode );
+	void ApplyTransform( DirectX::XMMATRIX newTransform );
 private:
 	// Returns a ref to added child node
 	Node& AddChild( Node&& child );
@@ -24,6 +25,7 @@ private:
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	std::vector<Node> children;
 	DirectX::XMMATRIX transform;
+	DirectX::XMMATRIX applied_transform = DirectX::XMMatrixIdentity();
 	std::string name;
 };
 
