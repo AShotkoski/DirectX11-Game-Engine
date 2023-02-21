@@ -8,6 +8,7 @@
 #include <assimp/postprocess.h>
 #include <memory>
 #include <filesystem>
+#include <optional>
 
 class Node
 {
@@ -15,7 +16,7 @@ class Node
 public:
 	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name );
 	void Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const;
-	void SpawnControlWindow();
+	void SpawnControlWindow( int& nodeIndex, std::optional<int>& selectedIndex );
 private:
 	// Returns a ref to added child node
 	Node& AddChild( Node&& child );

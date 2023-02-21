@@ -30,14 +30,26 @@ void Node::Draw( Graphics & gfx, DirectX::XMMATRIX in_transform ) const
 	 }
  }
 
-void Node::SpawnControlWindow()
+// Spawns the actual tree structure of model recursively
+void Node::SpawnControlWindow(int& nodeIndex, std::optional<int>& selectedIndex )
 {
-	if ( ImGui::TreeNode( "%s", name.c_str() ) )
+	// Store current node index and inc counter for next node
+	const int thisNodeIndex = nodeIndex++;
+
+	auto flags = ImGuiTreeNodeFlags_OpenOnArrow |
+		( selectedIndex.value_or(-1) == thisNodeIndex ? ImGuiTreeNodeFlags_Selected : 0u ) |
+		( children.size() == 0 ? ImGuiTreeNodeFlags_Leaf : 0u );
+
+	if ( ImGui::TreeNodeEx( static_cast<const void*>( &thisNodeIndex ), flags, "%s", name.c_str() ))
 	{
-		// Recursively draw child control windows
+		if ( ImGui::IsItemClicked() )
+		{
+			selectedIndex = thisNodeIndex;
+		}
+
 		for ( auto& c : children )
 		{
-			c.SpawnControlWindow();
+			c.SpawnControlWindow( nodeIndex, selectedIndex );
 		}
 		ImGui::TreePop();
 	}
@@ -60,8 +72,10 @@ public:
 	{
 		if ( ImGui::Begin( "Model Control" ) )
 		{
-			node.SpawnControlWindow();
-			ImGui::Selectable( "slam", &showControlWnd );
+			int ind = 0;
+			node.SpawnControlWindow(ind, selectedNodeIndex);
+
+			showControlWnd = selectedNodeIndex.has_value();
 			if ( showControlWnd )
 			{
 				SpawnControlWindow( node );
@@ -83,7 +97,12 @@ private:
 			{
 				UpdateTransform( dx::XMMatrixScaling( 0.9f, 0.5f, 1.f ) * transform_ );
 			}
+			ImGui::Text( "%d", *selectedNodeIndex );
 		}
+		// handle closure case
+		if ( !showControlWnd )
+			selectedNodeIndex = std::nullopt;
+
 		ImGui::End();
 	}
 	void UpdateTransform( dx::XMMATRIX newTransform ) const
@@ -94,6 +113,7 @@ private:
 	dx::XMMATRIX& transform_;
 	bool isTest = false;
 	bool showControlWnd = false;
+	std::optional<int> selectedNodeIndex = std::nullopt;
 };
 
 Model::Model( Graphics& gfx, std::filesystem::path filename )
