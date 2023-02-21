@@ -44,6 +44,7 @@ private:
 	// OWNER 
 	std::vector<std::shared_ptr<Mesh>> pMeshes;
 	DirectX::XMMATRIX transform = DirectX::XMMatrixIdentity();
+	std::unique_ptr<class ModelController> pController;
 };
 
 

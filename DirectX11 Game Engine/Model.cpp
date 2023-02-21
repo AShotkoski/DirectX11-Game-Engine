@@ -49,8 +49,56 @@ Node& Node::AddChild( Node&& child )
 	 return children.back();
  }
 
+//pImpl class to control models with imgui
+class ModelController
+{
+public:
+	ModelController( dx::XMMATRIX& transform )
+		: transform_( transform )
+	{}
+	void ShowImGui( Node& node )
+	{
+		if ( ImGui::Begin( "Model Control" ) )
+		{
+			node.SpawnControlWindow();
+			ImGui::Selectable( "slam", &showControlWnd );
+			if ( showControlWnd )
+			{
+				SpawnControlWindow( node );
+			}
+		}
+		ImGui::End();
+	}
+private:
+	// Helper for spawning actual controller of selected node
+	void SpawnControlWindow( Node& node )
+	{
+		ImVec2 spawnLoc = ImGui::GetWindowPos();
+		spawnLoc.y += ImGui::GetWindowHeight();
+
+		ImGui::SetNextWindowPos( spawnLoc, ImGuiCond_Appearing );
+		if ( ImGui::Begin( "child", &showControlWnd ) )
+		{
+			if ( ImGui::Button( "dumb?" ) )
+			{
+				UpdateTransform( dx::XMMatrixScaling( 0.9f, 0.5f, 1.f ) * transform_ );
+			}
+		}
+		ImGui::End();
+	}
+	void UpdateTransform( dx::XMMATRIX newTransform ) const
+	{
+		transform_ = newTransform;
+	}
+private:
+	dx::XMMATRIX& transform_;
+	bool isTest = false;
+	bool showControlWnd = false;
+};
+
 Model::Model( Graphics& gfx, std::filesystem::path filename )
 	: tag(filename.string())
+	, pController(std::make_unique<ModelController>(transform))
  {
 	 DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
 	 // Create assimp logger to log assimp messages during file loading
@@ -111,11 +159,7 @@ void Model::Draw( Graphics& gfx ) const
 
 void Model::SpawnControlWindow()
 {
-	if(ImGui::Begin( "Model" ))
-	{
-		pHead->SpawnControlWindow();
-	}
-	ImGui::End();
+	pController->ShowImGui( *pHead );
 }
 
 Model::~Model()
@@ -227,3 +271,4 @@ void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )
 		 PopulateNodeFromAINode( newChild, pAiNode->mChildren[i] );
 	 }
  }
+

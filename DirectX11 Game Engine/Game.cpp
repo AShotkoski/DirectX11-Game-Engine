@@ -13,7 +13,7 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.05f, { 1.9f, 2.f, -2.f } ),
-	testModel(gfx, "Models\\sponza\\sponza.obj")
+	testModel(gfx, "Models\\sponza\\sponza_sad.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -43,27 +43,10 @@ void Game::Go()
 
 void Game::UpdateLogic()
 {	
-
 	light.Bind(gfx);
 
 	// Camera control
 	ControlCamera();
-
-	// Test code with kbd input
-	while ( auto e = wnd.kbd.GetEvent() )
-	{
-		if ( e->GetType() == Keyboard::Event::Keydown )
-		{
-			switch ( e->GetVirtualKey() )
-			{
-				case 'I':
-				{
-					
-					break;
-				}
-			}
-		}
-	}
 }
 
 void Game::DrawFrame()
@@ -81,7 +64,6 @@ void Game::DrawImGuis()
 		ImGui::Text( "%.f FPS", ImGui::GetIO().Framerate );
 	}
 	ImGui::End();
-
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
 	testModel.SpawnControlWindow();
