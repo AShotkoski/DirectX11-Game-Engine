@@ -5,12 +5,14 @@
 #include "GeneralUtilities.h"
 #include "Loguru/loguru.hpp"
 #include "assimp/DefaultLogger.hpp"
+#include "ImGui/imgui.h"
 
 namespace dx = DirectX;
 
-Node::Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform )
+Node::Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name )
 	 : meshes( std::move( in_meshes ) )
 	 , transform( in_transform )
+	 , name(name)
  {}
 
 void Node::Draw( Graphics & gfx, DirectX::XMMATRIX in_transform ) const
@@ -28,6 +30,19 @@ void Node::Draw( Graphics & gfx, DirectX::XMMATRIX in_transform ) const
 	 }
  }
 
+void Node::SpawnControlWindow()
+{
+	if ( ImGui::TreeNode( "%s", name.c_str() ) )
+	{
+		// Recursively draw child control windows
+		for ( auto& c : children )
+		{
+			c.SpawnControlWindow();
+		}
+		ImGui::TreePop();
+	}
+}
+
 Node& Node::AddChild( Node&& child )
  {
 	 children.push_back( child );
@@ -42,7 +57,6 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 	 Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::VERBOSE );
 
 	 Assimp::Importer Importer;
-	 // TODO assimp logging here for error on file load reason
 	 const auto pAIScene = Importer.ReadFile(
 		 filename.string(),
 		 aiProcess_JoinIdenticalVertices |
@@ -71,12 +85,13 @@ Model::Model( Graphics& gfx, std::filesystem::path filename )
 		 }
 	 }
 	 // Pre process head node
-	 assert( pAIScene->mRootNode->mNumMeshes == 0 );
+	 LOG_IF_F( WARNING, pAIScene->mNumMeshes != 0, "root node has nonzero meshes in model %s", pAIScene->mName.C_Str() );
+
 	 const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>(
 		 &pAIScene->mRootNode->mTransformation );
 	 pHead = std::make_unique<Node>(
 		 std::vector<std::shared_ptr<Mesh>>{},
-		 dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ) );
+		 dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ), pAIScene->mRootNode->mName.C_Str() );
 
 	 // Populate node tree from head
 	 PopulateNodeFromAINode( *pHead, pAIScene->mRootNode );
@@ -93,6 +108,19 @@ void Model::Draw( Graphics& gfx ) const
  {
 	 pHead->Draw( gfx, transform );
  }
+
+void Model::SpawnControlWindow()
+{
+	if(ImGui::Begin( "Model" ))
+	{
+		pHead->SpawnControlWindow();
+	}
+	ImGui::End();
+}
+
+Model::~Model()
+{
+}
 
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat)
 {
@@ -193,7 +221,7 @@ void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )
 
 		 auto& newChild = node.AddChild( Node(
 			 std::move( childrenMeshes ),
-			 dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ) ) );
+			 dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ), pChild->mName.C_Str() ) );
 
 		 // Recurse over each child
 		 PopulateNodeFromAINode( newChild, pAiNode->mChildren[i] );

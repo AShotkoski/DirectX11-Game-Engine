@@ -84,6 +84,7 @@ void Game::DrawImGuis()
 
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
+	testModel.SpawnControlWindow();
 }
 
 void Game::ControlCamera()
