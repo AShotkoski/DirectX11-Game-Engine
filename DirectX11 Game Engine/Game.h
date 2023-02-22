@@ -30,8 +30,8 @@ private:
 	float timeFactor = 1.0f;
 
 private:
-	static constexpr UINT ScreenWidth = 800u;
-	static constexpr UINT ScreenHeight = 600u;
+	static constexpr UINT ScreenWidth = 1272u;
+	static constexpr UINT ScreenHeight = 954u;
 	static constexpr const wchar_t* WindowTitle = L"DirectX Window";
 	static constexpr float NearClipping = 0.5f;
 	static constexpr float FarClipping = 85.0f;

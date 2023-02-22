@@ -39,11 +39,11 @@ void Camera::SpawnControlWindow()
 
 void Camera::Reset() noexcept
 {
-	Position.x = 0.f;
-	Position.y = 2.f;
-	Position.z = -10.f;
-	pitch      = 0.f;
-	yaw        = 0.f;
+	Position.x = -6.f;
+	Position.y = 4.f;
+	Position.z = -3.f;
+	pitch      = 0.087f;
+	yaw        = 1.31f;
 	CalculateMatrices();
 }
 

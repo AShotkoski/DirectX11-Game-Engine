@@ -22,8 +22,7 @@ Node::Node(
 void Node::Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const
 {
 	// Draw all meshes and children ( it would be cool to not do this every draw call btw )
-	const auto concatenatedTransform =
-		dx::XMMatrixMultiply( applied_transform * transform, in_transform );
+	const auto concatenatedTransform = applied_transform * transform * in_transform;
 	for( auto& m : meshes )
 	{
 		m->BindTransform( concatenatedTransform );
@@ -79,6 +78,15 @@ Node& Node::AddChild( Node&& child )
 // pImpl class to control models with imgui
 class ModelController
 {
+private:
+	struct Properties
+	{
+		DirectX::XMFLOAT3 pos;
+		float pitch;
+		float yaw;
+		float roll;
+		DirectX::XMFLOAT3 scale = { 1,1,1 };
+	};
 public:
 	void ShowImGui( Node& node )
 	{
@@ -104,13 +112,29 @@ private:
 
 		ImVec2 spawnLoc = ImGui::GetWindowPos();
 		spawnLoc.y += ImGui::GetWindowHeight();
-
+		spawnLoc.x += ImGui::GetWindowWidth() / 8;
 		ImGui::SetNextWindowPos( spawnLoc, ImGuiCond_Appearing );
-		if( ImGui::Begin( "child", &showControlWnd ) )
+		ImVec2 spawnSize = {};
+		spawnSize.x = ImGui::GetWindowWidth() - spawnLoc.x;
+		spawnSize.y = 100;
+		ImGui::SetNextWindowSize( spawnSize, ImGuiCond_Appearing );
+
+		if( ImGui::Begin( pSelectedNode->name.c_str(), &showControlWnd) )
 		{
-			ImGui::DragFloat3( "Pos", &data.pos.x, 0.1f );
-			ImGui::Text( "%d", *selectedNodeIndex );
-			pSelectedNode->ApplyTransform( genTransform() );
+			// QOL ref
+			auto& currProp = propMap[*selectedNodeIndex];
+			bool willReapply = false;
+
+			if ( ImGui::DragFloat3( "Position", &currProp.pos.x, 0.1f ) )
+				willReapply = true;
+			if ( ImGui::DragFloat3( "Rotation", &currProp.pitch, 0.005f ) )
+				willReapply = true;
+			if ( ImGui::DragFloat3( "Scale", &currProp.scale.x, 0.01f ) )
+				willReapply = true;
+
+			// Apply the generated transform.
+			if(willReapply )
+				pSelectedNode->ApplyTransform( genTransform(currProp) );
 		}
 		// handle closure case
 		if( !showControlWnd )
@@ -119,11 +143,11 @@ private:
 		ImGui::End();
 	}
 	// Helper for generating transform mat
-	dx::XMMATRIX genTransform()
+	dx::XMMATRIX genTransform(Properties& data)
 	{
 		return 
-			dx::XMMatrixScaling( data.scale.x, data.scale.y, data.scale.z ) *
 			dx::XMMatrixRotationRollPitchYaw( data.pitch, data.yaw, data.roll ) *
+			dx::XMMatrixScaling( data.scale.x, data.scale.y, data.scale.z ) *
 			dx::XMMatrixTranslation( data.pos.x, data.pos.y, data.pos.z );
 	}
 	void readNodeAppliedTrans()
@@ -137,14 +161,8 @@ private:
 	std::optional<int> selectedNodeIndex = std::nullopt;
 	Node*              pSelectedNode     = nullptr;
 	bool               showControlWnd    = false;
-	struct
-	{
-		DirectX::XMFLOAT3 pos;
-		float pitch;
-		float yaw;
-		float roll;
-		DirectX::XMFLOAT3 scale = { 1,1,1 };
-	}data;
+	// map of index to data, each new node that is modified adds to it
+	std::unordered_map<int, Properties> propMap;
 };
 
 Model::Model( Graphics& gfx, std::filesystem::path filename ) :
