@@ -171,7 +171,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 {
 	DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
 	// Create assimp logger to log assimp messages during file loading
-	Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::VERBOSE );
+	Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::DEBUGGING );
 
 	Assimp::Importer Importer;
 	const auto       pAIScene = Importer.ReadFile(

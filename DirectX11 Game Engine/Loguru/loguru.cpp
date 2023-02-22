@@ -598,7 +598,7 @@ namespace loguru
 	void init(int& argc, char* argv[], const Options& options)
 	{
 		CHECK_GT_F(argc,       0,       "Expected proper argc/argv");
-		CHECK_EQ_F(argv[argc], nullptr, "Expected proper argc/argv");
+		//CHECK_EQ_F(argv[argc], nullptr, "Expected proper argc/argv"); too bad we can't have nice things
 
 		s_argv0_filename = filename(argv[0]);
 

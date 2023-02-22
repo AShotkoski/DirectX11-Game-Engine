@@ -2,7 +2,7 @@
 #include "BaseException.h"
 #include "Game.h"
 #include "ImGuiManager.h"
-#include "Loguru/loguru.hpp"
+#include "LoguruManager.h"
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE     hInstance,
@@ -12,13 +12,14 @@ int WINAPI wWinMain(
 {
 	try
 	{
+		// Setup loguru via manager
+		LoguruManager logManager;
+
 		// enable imgui first globally
 		std::unique_ptr<ImGuiManager> pImGuiManager;
 		if constexpr ( globals::enableImGui )
 			pImGuiManager = std::make_unique<ImGuiManager>();
-		// Setting logging outputs
-		loguru::add_file( "logs\\everything.log", loguru::Truncate, loguru::Verbosity_MAX );
-		loguru::add_file( "logs\\attention.log", loguru::Truncate, loguru::Verbosity_WARNING );
+
 
 		Game game;	
 

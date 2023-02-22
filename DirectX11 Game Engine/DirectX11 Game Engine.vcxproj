@@ -162,6 +162,7 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LoguruManager.h" />
     <ClInclude Include="Loguru\loguru.hpp" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MathUtil.h" />
