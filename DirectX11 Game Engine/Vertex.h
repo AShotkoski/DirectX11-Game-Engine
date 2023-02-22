@@ -17,7 +17,9 @@ namespace Vert
 			Position_2D,
 			Normal,
 			Color_float_RGB,
-			TexCoordUV
+			TexCoordUV,
+			Tangent, 
+			Bitangent
 		};
 
 		// Template map for each elementType to keep all relations of Elementtype with concrete 
@@ -59,6 +61,20 @@ namespace Vert
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "TEXCOORD";
 		};
+		template<>
+		struct TypeInfo<Tangent>
+		{
+			using type = DirectX::XMFLOAT3;
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "TANGENT";
+		};
+		template<>
+		struct TypeInfo<Bitangent>
+		{
+			using type = DirectX::XMFLOAT3;
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "BITANGENT";
+		};
 
 		// Each vertex element contains its type and its offset, in bytes, into the vertexlayout
 		// which can be thought of as the concrete vertex type.
@@ -99,6 +115,10 @@ namespace Vert
 						return GenerateD3DDesc<Color_float_RGB>();
 					case TexCoordUV:
 						return GenerateD3DDesc<TexCoordUV>();
+					case Tangent:
+						return GenerateD3DDesc<Tangent>();
+					case Bitangent:
+						return GenerateD3DDesc<Bitangent>();
 				}
 				assert( false && "horrible error in getd3ddesc" );
 				return {};
@@ -175,6 +195,10 @@ namespace Vert
 					return sizeof( TypeInfo<Normal>::type );
 				case ElementType::TexCoordUV:
 					return sizeof( TypeInfo<TexCoordUV>::type );
+				case ElementType::Tangent:
+					return sizeof( TypeInfo<Tangent>::type );
+				case ElementType::Bitangent:
+					return sizeof( TypeInfo<Bitangent>::type );
 			}
 			// Invalid element was passed in, return 0;
 			assert( "Invalid element passed to sizeofelement" && false );
@@ -247,6 +271,12 @@ namespace Vert
 					break;
 				case types::TexCoordUV:
 					SetAttribute<types::TexCoordUV>( pAttr, std::forward<T>( attr ) );
+					break;
+				case types::Tangent:
+					SetAttribute<types::Tangent>( pAttr, std::forward<T>( attr ) );
+					break;
+				case types::Bitangent:
+					SetAttribute<types::Bitangent>( pAttr, std::forward<T>( attr ) );
 					break;
 				default:
 					assert( false && "bad element type" );
