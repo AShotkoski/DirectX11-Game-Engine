@@ -104,11 +104,11 @@ void Game::ControlCamera()
 	{
 		dCampos.x += 1.f;
 	}
-	if ( wnd.kbd.KeyIsPressed( 'R') )
+	if ( wnd.kbd.KeyIsPressed( 'E') )
 	{
 		dCampos.y += 1.f;
 	}
-	if ( wnd.kbd.KeyIsPressed( 'F') )
+	if ( wnd.kbd.KeyIsPressed( 'Q') )
 	{
 		dCampos.y -= 1.f;
 	}
