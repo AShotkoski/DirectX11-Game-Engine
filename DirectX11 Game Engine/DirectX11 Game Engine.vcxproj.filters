@@ -13,6 +13,12 @@
     <FxCompile Include="PSPhong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="VSPhongNormalMap.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PSPhongNormalMap.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -116,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="Loguru\loguru.cpp">
       <Filter>ThirdParty\Loguru</Filter>
+    </ClCompile>
+    <ClCompile Include="LoguruManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +280,15 @@
     </ClInclude>
     <ClInclude Include="Loguru\loguru.hpp">
       <Filter>ThirdParty\Loguru</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiLog.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="LoguruManager.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Headers\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
