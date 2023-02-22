@@ -201,8 +201,9 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 		}
 	}
 
+	auto dummy = Node( {}, {}, {} );
 	// Populate node tree from head
-	PopulateNodeFromAINode( *pHead, pAIScene->mRootNode, true );
+	PopulateNodeTreeFromAINode(dummy, pAIScene->mRootNode, true );
 	// Kill logger
 	Assimp::DefaultLogger::kill();
 }
@@ -305,13 +306,17 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 }
 
 // Check if ainode has children, if so add child to our node and recurse on child
-void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode, bool isHead )
+void Model::PopulateNodeTreeFromAINode( Node& node, const aiNode* pAiNode, bool isHead )
 {
-	DCHECK_F( !pHead && isHead, "Attempting to create two head nodes in %s", pAiNode->mName.C_Str() );
+	DCHECK_F( ( pHead == nullptr ? isHead : !isHead ), "Attempting to create two head nodes in %s", pAiNode->mName.C_Str() );
 
 	// isHead is only true for the head, in which case we simply populate pHead
-	if(isHead )
+	if ( isHead )
+	{
 		pHead = std::make_unique<Node>( MakeNode( *pAiNode ) );
+		// Re-call so we don't have null ref (oops)
+		PopulateNodeTreeFromAINode( *pHead, pAiNode );
+	}
 
 	// If the ainode is a leaf, we have processed all we need to
 	if( pAiNode->mNumChildren == 0 )
@@ -323,7 +328,7 @@ void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode, bool isHe
 		auto& newChild = node.AddChild( MakeNode(*pAiNode->mChildren[i]));
 
 		// Recurse over each child
-		PopulateNodeFromAINode( newChild, pAiNode->mChildren[i] );
+		PopulateNodeTreeFromAINode( newChild, pAiNode->mChildren[i] );
 	}
 }
 
