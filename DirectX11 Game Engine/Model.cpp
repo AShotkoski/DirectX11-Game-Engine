@@ -178,7 +178,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 	const auto       pAIScene = Importer.ReadFile(
         filename.string(),
         aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
-            | aiProcess_ConvertToLeftHanded );
+            | aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace );
 	
 	DLOG_F( INFO, "AIScene Loaded" );
 	// Check for scene load success
@@ -243,15 +243,32 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	vl.Append( Vert::VertexLayout::Position_3D )
 		.Append( Vert::VertexLayout::Normal )
 		.Append( Vert::VertexLayout::TexCoordUV );
+	if ( hasNormalMap )
+	{
+		vl.Append( Vert::VertexLayout::Tangent );
+		vl.Append( Vert::VertexLayout::Bitangent );
+	}
 	Vert::VertexBuffer vb( std::move( vl ) );
 
 	// Load vertices into vert::vertex buffer
 	for ( size_t i = 0; i < mesh.mNumVertices; i++ )
 	{
-		vb.Emplace_back(
-			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
-			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
-			*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ) );
+		if ( hasNormalMap )
+		{
+			vb.Emplace_back(
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
+				*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ),
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mTangents[i] ),
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mBitangents[i] ) );
+		}
+		else
+		{
+			vb.Emplace_back(
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
+				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
+				*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ) );
+		}
 	}
 
 	// Load indices
