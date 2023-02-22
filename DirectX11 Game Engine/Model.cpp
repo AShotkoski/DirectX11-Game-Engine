@@ -97,7 +97,7 @@ public:
 	}
 
 private:
-	// Helper for spawning actual controller of selected node
+	// Spawn controller that controls selected node
 	void SpawnControlWindow()
 	{
 		DCHECK_NOTNULL_F( pSelectedNode, "Selected node was somehow nullptr, serisouly how?" );
@@ -108,11 +108,9 @@ private:
 		ImGui::SetNextWindowPos( spawnLoc, ImGuiCond_Appearing );
 		if( ImGui::Begin( "child", &showControlWnd ) )
 		{
-			if( ImGui::Button( "dumb?" ) )
-			{
-				pSelectedNode->ApplyTransform( dx::XMMatrixScaling( 0.5f, 1.0f, 1.1f ) );
-			}
+			ImGui::DragFloat3( "Pos", &data.pos.x, 0.1f );
 			ImGui::Text( "%d", *selectedNodeIndex );
+			pSelectedNode->ApplyTransform( genTransform() );
 		}
 		// handle closure case
 		if( !showControlWnd )
@@ -120,11 +118,33 @@ private:
 
 		ImGui::End();
 	}
+	// Helper for generating transform mat
+	dx::XMMATRIX genTransform()
+	{
+		return 
+			dx::XMMatrixScaling( data.scale.x, data.scale.y, data.scale.z ) *
+			dx::XMMatrixRotationRollPitchYaw( data.pitch, data.yaw, data.roll ) *
+			dx::XMMatrixTranslation( data.pos.x, data.pos.y, data.pos.z );
+	}
+	void readNodeAppliedTrans()
+	{
+		DCHECK_NOTNULL_F( pSelectedNode, "Selected node was somehow nullptr, serisouly how?" );
 
+		const auto tran = pSelectedNode->applied_transform;
+		
+	}
 private:
 	std::optional<int> selectedNodeIndex = std::nullopt;
 	Node*              pSelectedNode     = nullptr;
 	bool               showControlWnd    = false;
+	struct
+	{
+		DirectX::XMFLOAT3 pos;
+		float pitch;
+		float yaw;
+		float roll;
+		DirectX::XMFLOAT3 scale = { 1,1,1 };
+	}data;
 };
 
 Model::Model( Graphics& gfx, std::filesystem::path filename ) :
@@ -165,7 +185,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 	// Pre process head node
 	LOG_IF_F(
 		WARNING,
-		pAIScene->mNumMeshes != 0,
+		pAIScene->mRootNode->mNumMeshes > 0,
 		"root node has nonzero meshes in model %s",
 		pAIScene->mName.C_Str() );
 
