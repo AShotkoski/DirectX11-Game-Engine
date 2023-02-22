@@ -13,7 +13,7 @@ Game::Game()
 	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
 	gfx( wnd.GFX() ),
 	light( gfx, 0.05f, { 1.9f, 2.f, -2.f } ),
-	testModel(gfx, "Models\\sponza\\sponza.obj")
+	testModel(gfx, "Models\\sponza\\sponza_sad.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -57,7 +57,8 @@ void Game::DrawFrame()
 
 void Game::DrawImGuis()
 {
-	// Control game-wide settings
+	imguilog.Draw( "log" );
+	// Control game-wide settings controlled by adjusted dt
 	if ( ImGui::Begin( "Simulation Control" ) )
 	{
 		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );

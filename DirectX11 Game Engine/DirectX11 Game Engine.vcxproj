@@ -153,6 +153,7 @@
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="GeneralUtilities.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ImGuiLog.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />

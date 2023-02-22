@@ -3,6 +3,7 @@
 #include "FrameTimer.h"
 #include "PointLight.h"
 #include "Model.h"
+#include "ImGuiLog.h"
 
 class Game
 {
@@ -18,6 +19,7 @@ private:
 	void ControlCamera();
 	void DrawImGuis();
 private:
+	ImGuiLog imguilog; // Create first so it can be used in other ctors
 	Window wnd;
 	Graphics& gfx;
 	FrameTimer ft;
