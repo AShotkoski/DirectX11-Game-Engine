@@ -369,3 +369,4 @@ FodyWeavers.xsd
 !/DirectX11 Game Engine/Models/*/*.obj
 /DirectX11 Game Engine/*.cso
 /DirectX11 Game Engine/imgui.ini
+/DirectX11 Game Engine/Models/big/*
