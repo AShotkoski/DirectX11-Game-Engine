@@ -27,7 +27,7 @@ VSOut main(VSIn vsin)
     vsout.WorldPos = (float3) mul(float4(vsin.pos, 1), model);
        
     vsout.ViewPos = mul(float4(vsin.pos, 1), modelViewProj);
-    vsout.texcoord = (float2)mul(float4(vsin.texcoord, 0, 1), model);
+    vsout.texcoord = vsin.texcoord;
     vsout.Normal = mul(vsin.normal, (float3x3) model);
     // Get eye position
     vsout.EyePos = float3(InvView[3].xyz);
