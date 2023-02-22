@@ -200,22 +200,9 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 				makeMesh( gfx, *pMesh, pAIScene->mMaterials[pMesh->mMaterialIndex] ) );
 		}
 	}
-	// Pre process head node
-	LOG_IF_F(
-		WARNING,
-		pAIScene->mRootNode->mNumMeshes > 0,
-		"root node has nonzero meshes in model %s",
-		pAIScene->mName.C_Str() );
-
-	const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>(
-		&pAIScene->mRootNode->mTransformation );
-	pHead = std::make_unique<Node>(
-		std::vector<std::shared_ptr<Mesh>>{},
-		dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ),
-		pAIScene->mRootNode->mName.C_Str() );
 
 	// Populate node tree from head
-	PopulateNodeFromAINode( *pHead, pAIScene->mRootNode );
+	PopulateNodeFromAINode( *pHead, pAIScene->mRootNode, true );
 	// Kill logger
 	Assimp::DefaultLogger::kill();
 }
@@ -317,9 +304,14 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	return std::make_shared<Mesh>( std::move( Binds ), gfx );
 }
 
-void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )
+// Check if ainode has children, if so add child to our node and recurse on child
+void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode, bool isHead )
 {
-	// Check if ainode has children, if so add child to our node and recurse on child
+	DCHECK_F( !pHead && isHead, "Attempting to create two head nodes in %s", pAiNode->mName.C_Str() );
+
+	// isHead is only true for the head, in which case we simply populate pHead
+	if(isHead )
+		pHead = std::make_unique<Node>( MakeNode( *pAiNode ) );
 
 	// If the ainode is a leaf, we have processed all we need to
 	if( pAiNode->mNumChildren == 0 )
@@ -328,22 +320,23 @@ void Model::PopulateNodeFromAINode( Node& node, const aiNode* pAiNode )
 	// Add a child to our tree for each child in the aiscene tree
 	for( size_t i = 0; i < pAiNode->mNumChildren; i++ )
 	{
-		auto pChild = pAiNode->mChildren[i];
-
-		std::vector<std::shared_ptr<Mesh>> childrenMeshes;
-		for( size_t i = 0; i < pChild->mNumMeshes; i++ )
-		{
-			childrenMeshes.push_back( pMeshes[pChild->mMeshes[i]] );
-		}
-
-		const auto row_maj_trans = *reinterpret_cast<dx::XMFLOAT4X4*>( &pChild->mTransformation );
-
-		auto& newChild = node.AddChild( Node(
-			std::move( childrenMeshes ),
-			dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ),
-			pChild->mName.C_Str() ) );
+		auto& newChild = node.AddChild( MakeNode(*pAiNode->mChildren[i]));
 
 		// Recurse over each child
 		PopulateNodeFromAINode( newChild, pAiNode->mChildren[i] );
 	}
+}
+
+Node Model::MakeNode( const aiNode& ai_Node ) const
+{
+	std::vector<std::shared_ptr<Mesh>> pNodeMeshes;
+	for ( size_t i = 0; i < ai_Node.mNumMeshes; i++ )
+	{
+		pNodeMeshes.push_back( pMeshes[ai_Node.mMeshes[i]] );
+	}
+	const auto row_maj_trans = *reinterpret_cast<const dx::XMFLOAT4X4*>( &ai_Node.mTransformation );
+	return Node(
+		std::move( pNodeMeshes ),
+		dx::XMMatrixTranspose( dx::XMLoadFloat4x4( &row_maj_trans ) ),
+		ai_Node.mName.C_Str() );
 }
