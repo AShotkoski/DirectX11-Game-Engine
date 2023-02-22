@@ -169,6 +169,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 	tag( filename.string() ),
 	pController( std::make_unique<ModelController>( ) )
 {
+	LOG_SCOPE_FUNCTION( INFO );
 	DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
 	// Create assimp logger to log assimp messages during file loading
 	Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::DEBUGGING );
@@ -178,7 +179,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
         filename.string(),
         aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
             | aiProcess_ConvertToLeftHanded );
-
+	
 	DLOG_F( INFO, "AIScene Loaded" );
 	// Check for scene load success
 	if( pAIScene == nullptr )
@@ -203,7 +204,8 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 
 	// Populate node tree from head
 	PopulateNodeTreeFromAINode(nullptr, pAIScene->mRootNode, true );
-	// Kill logger
+
+	// Kill assimp logger
 	Assimp::DefaultLogger::kill();
 }
 
@@ -227,12 +229,14 @@ Model::~Model() {}
 std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat )
 {
 	std::filesystem::path rootpath = tag;
-	rootpath                       = rootpath.parent_path();
+	rootpath = rootpath.parent_path();
 	// set tag for bindable instancing to be the name of the mesh, for VB and IB
 	tag += mesh.mName.C_Str();
+	// Flags for loading (bad system, it will go away later)
+	bool hasDiffuseMap = pAiMat->GetTextureCount( aiTextureType_DIFFUSE );
+	bool hasNormalMap = pAiMat->GetTextureCount( aiTextureType_HEIGHT ); // height lol, thanks standards
 
-	std::vector<std::shared_ptr<Bindable>> Binds;
-	if( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) == 0 )
+	if ( !hasDiffuseMap )
 		LOG_F( WARNING, "Mesh %s doesn't have a diffuse texture.", mesh.mName.C_Str() );
 
 	Vert::VertexLayout vl;
@@ -242,17 +246,18 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Vert::VertexBuffer vb( std::move( vl ) );
 
 	// Load vertices into vert::vertex buffer
-	for( size_t i = 0; i < mesh.mNumVertices; i++ )
+	for ( size_t i = 0; i < mesh.mNumVertices; i++ )
 	{
 		vb.Emplace_back(
 			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
 			*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
 			*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ) );
 	}
+
 	// Load indices
 	std::vector<unsigned short> Indices;
 	Indices.reserve( ( size_t( mesh.mNumFaces ) * 3 ) );
-	for( size_t i = 0; i < mesh.mNumFaces; i++ )
+	for ( size_t i = 0; i < mesh.mNumFaces; i++ )
 	{
 		const auto& face = mesh.mFaces[i];
 		assert( face.mNumIndices == 3 );
@@ -262,13 +267,25 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	}
 
 	// Create Binds
+	std::vector<std::shared_ptr<Bindable>> Binds;
+
+	// Specific Binds
+	if ( hasNormalMap )
+	{
+		Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhongNormalMap.cso" ) );
+		Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhongNormalMap.cso" ) );
+	}
+	else
+	{
+		Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
+		Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
+	}
+	auto vs = static_cast<Binds::VertexShader*>( Binds.back().get() );
+	auto vsbytecode = vs->pGetBytecode();
+
 	Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 	Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
 	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
-	Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
-	Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
-	auto vs         = static_cast<Binds::VertexShader*>( Binds.back().get() );
-	auto vsbytecode = vs->pGetBytecode();
 	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
 
 	// Material properties
@@ -282,19 +299,25 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	}
 	Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
 
-	// Load Texture
+	// Load Textures
 	aiString filename;
-	if( pAiMat->GetTextureCount( aiTextureType_DIFFUSE ) != 0 )
+	if( hasDiffuseMap )
 	{
 		pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
 		using namespace std::string_literals;
 		std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
 		Binds.push_back( Binds::Texture::Resolve( gfx, texturePath ) );
+		// Add normal map ( if present ), we don't support normal maps without diffuse maps, thats dumb.
+		if ( hasNormalMap )
+		{
+			pAiMat->GetTexture( aiTextureType_HEIGHT, 0, &filename );
+			texturePath = rootpath.string() + "\\"s + filename.C_Str();
+			Binds.push_back( Binds::Texture::Resolve( gfx, texturePath, 1u ) );
+		}
 	}
 	Binds.push_back( Binds::Sampler::Resolve( gfx ) );
 
 	// Log mesh creation
-
 	DLOG_F(
 		INFO,
 		"Created %s mesh, which uses %s diffuse tex",

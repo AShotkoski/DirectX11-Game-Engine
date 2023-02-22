@@ -72,7 +72,7 @@ namespace Binds
 
     std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, std::filesystem::path path, UINT slot )
     {
-        return Codex::Resolve<Texture>( gfx, path );
+        return Codex::Resolve<Texture>( gfx, path, slot );
     }
 
 };

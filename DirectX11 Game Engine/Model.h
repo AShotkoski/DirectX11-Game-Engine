@@ -43,6 +43,8 @@ private:
 	std::shared_ptr<Mesh> makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat );
 	void PopulateNodeTreeFromAINode( Node* pNode, const aiNode* pAiNode, bool isHead = false );
 	Node MakeNode( const aiNode& ai_Node ) const;
+	// TODO add a (slow, optional) function for obj files and other non-hierarchical model formats
+	// that uses miniball to calculate centers of each mesh and use that for ModelController
 private:
 	std::string tag;
 	std::unique_ptr<Node> pHead;
