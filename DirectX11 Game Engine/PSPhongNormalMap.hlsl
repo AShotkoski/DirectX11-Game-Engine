@@ -34,18 +34,15 @@ Texture2D norm_map : register(t1);
 
 float4 main(PSIn psin) : SV_TARGET
 {
-    // Calculate normal from map
-    float3x3 tan_to_obj_space =
-    {
-        normalize(psin.Tangent),
-        normalize(psin.Bitangent),
-        normalize(psin.Normal)
-    };
-    float3 tan_normal = norm_map.Sample(splr, psin.texcoord);
-    tan_normal.x = 2.f * tan_normal.x - 1.f;
-    tan_normal.y = 2.f * tan_normal.y - 1.f;
-    tan_normal.z = 2.f * tan_normal.z - 1.f;
-    psin.Normal = normalize(mul(tan_normal, tan_to_obj_space));
+   // psin.Normal = CalculateNormalFromMap(
+   //                                     norm_map.Sample(splr, psin.texcoord).xyz,
+   //                                     normalize(psin.Normal), 
+   //                                     normalize(psin.Tangent),
+   //                                     normalize(psin.Bitangent));
+    psin.Normal = CalculateNormalFromMap_HD(
+                                        norm_map.Sample(splr, psin.texcoord).xyz,
+                                        normalize(psin.Normal), 
+                                        psin.Tangent);
     
     const float distPxToLight = length(lightposition - psin.WorldPos);
     float3 pxToLight = normalize(lightposition - psin.WorldPos);
