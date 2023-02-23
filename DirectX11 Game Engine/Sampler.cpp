@@ -13,7 +13,12 @@ namespace Binds
 		sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.ComparisonFunc = D3D11_COMPARISON_LESS;
-		sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		sd.MipLODBias = 0.0f;
+		sd.MinLOD = 0.0f;
+		sd.MaxLOD = D3D11_FLOAT32_MAX;
+		//sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		sd.Filter = D3D11_FILTER_ANISOTROPIC;
+		sd.MaxAnisotropy = D3D11_MAX_MAXANISOTROPY;
 		THROW_FAILED_GFX( pGetDevice( gfx )->CreateSamplerState( &sd, &pSamplerState ) );
 	}
 

@@ -14,49 +14,58 @@ namespace Binds
 
         THROW_FAILED_GFX(CoInitialize( nullptr ));
         // Create texure
-        auto pScratch = std::make_unique<DirectX::ScratchImage>();
+        DirectX::ScratchImage Scratch;
 		THROW_FAILED_GFX( DirectX::LoadFromWICFile(
 			path.wstring().c_str(),
 			DirectX::WIC_FLAGS_NONE,
 			nullptr,
-			*pScratch ) );
+			Scratch ) );
+		THROW_FAILED_GFX( DirectX::CreateShaderResourceView(
+			pGetDevice( gfx ),
+			Scratch.GetImage( 0, 0, 0 ),
+			1,
+			Scratch.GetMetadata(),
+			&pResourceView ) );
 
+        
+      
         D3D11_TEXTURE2D_DESC td = {};
-        td.Format = pScratch->GetMetadata().format;
-        td.ArraySize = (UINT)pScratch->GetMetadata().arraySize;
-        td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        td.Format = Scratch.GetMetadata().format;
+        td.ArraySize = (UINT)Scratch.GetMetadata().arraySize;
+        td.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
         td.Usage = D3D11_USAGE_DEFAULT;
         td.CPUAccessFlags = 0u;
-        td.Height = (UINT)pScratch->GetMetadata().height;
-        td.Width = (UINT)pScratch->GetMetadata().width;
-        td.MipLevels = (UINT)pScratch->GetMetadata().mipLevels;
+        td.Height = (UINT)Scratch.GetMetadata().height;
+        td.Width = (UINT)Scratch.GetMetadata().width;
+        td.MipLevels = 0u;
         td.SampleDesc.Count = 1;
         td.SampleDesc.Quality = 0;
-        td.MiscFlags = 0u;
+        td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
         D3D11_SUBRESOURCE_DATA sd = {};
         size_t stmempitch;
         size_t stmempitchslice;
         THROW_FAILED_GFX(DirectX::ComputePitch( td.Format, td.Width, td.Height, stmempitch, stmempitchslice ));
-        sd.SysMemPitch = (UINT)stmempitch;
-        sd.SysMemSlicePitch = (UINT)stmempitchslice;
-        sd.pSysMem = pScratch->GetPixels();
         
         Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 
-        THROW_FAILED_GFX(pGetDevice( gfx )->CreateTexture2D( &td, &sd, &pTexture ));
+        THROW_FAILED_GFX(pGetDevice( gfx )->CreateTexture2D( &td, nullptr, &pTexture ));
+        pGetContext( gfx )->UpdateSubresource( pTexture.Get(), 0u, nullptr, Scratch.GetPixels(), stmempitch, stmempitchslice );
 
         D3D11_SHADER_RESOURCE_VIEW_DESC srvd = {};
         srvd.Format = td.Format;
         srvd.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
-        srvd.Texture2D.MipLevels = td.MipLevels;
+        srvd.Texture2D.MipLevels = -1;
         srvd.Texture2D.MostDetailedMip = 0u;
 
         THROW_FAILED_GFX(
 			pGetDevice( gfx )->CreateShaderResourceView( pTexture.Get(), &srvd, &pResourceView ) );
-        // clean
+
+        pGetContext( gfx )->GenerateMips( pResourceView.Get() );
+        // clean     
         CoUninitialize();
-        pScratch->Release();
+        Scratch.Release();
+
     }
 
     void Texture::Bind( Graphics& gfx )

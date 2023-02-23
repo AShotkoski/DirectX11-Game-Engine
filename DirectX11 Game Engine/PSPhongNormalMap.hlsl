@@ -34,11 +34,7 @@ Texture2D norm_map : register(t1);
 
 float4 main(PSIn psin) : SV_TARGET
 {
-   // psin.Normal = CalculateNormalFromMap(
-   //                                     norm_map.Sample(splr, psin.texcoord).xyz,
-   //                                     normalize(psin.Normal), 
-   //                                     normalize(psin.Tangent),
-   //                                     normalize(psin.Bitangent));
+
     psin.Normal = CalculateNormalFromMap_HD(
                                         norm_map.Sample(splr, psin.texcoord).xyz,
                                         normalize(psin.Normal), 
