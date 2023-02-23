@@ -18,8 +18,14 @@ LoguruManager::LoguruManager()
 	// Setup files
 	loguru::add_file( "logs\\everything.log", loguru::Truncate, loguru::Verbosity_MAX );
 	loguru::add_file( "logs\\attention.log", loguru::Truncate, loguru::Verbosity_WARNING );
-
+#ifdef _DEBUG
 	loguru::add_callback( "vs_debug_output", Log_Debug, nullptr, loguru::Verbosity_WARNING );
+#endif
+	// todo add our own exception class here
+	loguru::set_fatal_handler( []( const loguru::Message& message ) 							   
+							   {
+		throw std::runtime_error( std::string( message.prefix ) + message.message );
+							   } );
 }
 
 void LoguruManager::Log_Debug( void* user_data, const loguru::Message& message )

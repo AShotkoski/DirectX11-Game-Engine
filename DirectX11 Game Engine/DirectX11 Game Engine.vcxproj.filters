@@ -129,6 +129,7 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

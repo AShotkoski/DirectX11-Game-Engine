@@ -180,12 +180,10 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
         aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
             | aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace );
 	
-	DLOG_F( INFO, "AIScene Loaded" );
 	// Check for scene load success
-	if( pAIScene == nullptr )
-	{
-		assert( false && "Error loading file" );
-	}
+	CHECK_NOTNULL_F( pAIScene, "Error loading file.\t%s", Importer.GetErrorString() );
+
+	DLOG_F( INFO, "AIScene Loaded" );
 
 	// Populate meshes vector with all meshes (in order)
 	for( size_t i = 0; i < pAIScene->mNumMeshes; i++ )
