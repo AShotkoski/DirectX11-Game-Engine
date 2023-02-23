@@ -2,11 +2,20 @@
 #include <sstream>
 
 ImGuiLog::ImGuiLog()
+	: verbosity_curr_idx(0)
 {
 	AutoScroll = true;
 	Clear();
 	// Integrate loguru callback
 	loguru::add_callback( "imguilog callback", loguru_bouncer, this, loguru::Verbosity_MAX );
+	// Add verbosites for selection
+	verbosities.push_back( loguru::Verbosity_MAX );
+	verbosities.push_back( loguru::Verbosity_INFO  );
+	verbosities.push_back( loguru::Verbosity_WARNING  );
+	verbosities.push_back( loguru::Verbosity_ERROR  );
+
+	// Clunky way to ensure we start at the correct verbosity level
+	change_loguru_verbosity( verbosities[verbosity_curr_idx] );
 }
 
 ImGuiLog::~ImGuiLog()
@@ -33,6 +42,31 @@ void ImGuiLog::Draw( const char* title, bool* p_open )
 	if ( ImGui::BeginPopup( "Options" ) )
 	{
 		ImGui::Checkbox( "Auto-scroll", &AutoScroll );
+		auto toname = [](loguru::Verbosity verb)->const char* 
+		{
+			if ( verb == loguru::Verbosity_MAX )
+				return "MAX";
+			else
+				return loguru::get_verbosity_name( verb );
+		};
+		if ( ImGui::BeginCombo( "Verbosity", toname(verbosities[verbosity_curr_idx])) )
+		{
+			for ( int n = 0; n < verbosities.size(); n++ )
+			{
+				const bool is_selected = ( verbosity_curr_idx == n );
+				if ( ImGui::Selectable( toname( verbosities[n] ), is_selected ) )
+				{
+					verbosity_curr_idx = n;
+					change_loguru_verbosity( verbosities[verbosity_curr_idx] );
+				}
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if ( is_selected )
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+
 		ImGui::EndPopup();
 	}
 
@@ -120,10 +154,17 @@ void ImGuiLog::Draw( const char* title, bool* p_open )
 	ImGui::End();
 }
 
+void ImGuiLog::change_loguru_verbosity( loguru::Verbosity verbosity )
+{
+	loguru::remove_callback( "imguilog callback" );
+	loguru::add_callback( "imguilog callback", loguru_bouncer, this, verbosity );
+}
+
 void ImGuiLog::loguru_bouncer( void* user_data, const loguru::Message& message )
 {
 	std::ostringstream oss;
-	oss << message.prefix << "  " << message.message << '\n';
+	
+	oss << loguru::get_verbosity_name(message.verbosity) << " --- " << message.message << '\n';
 	reinterpret_cast<ImGuiLog*>( user_data )->AddLog( oss.str().c_str() );
 }
 
