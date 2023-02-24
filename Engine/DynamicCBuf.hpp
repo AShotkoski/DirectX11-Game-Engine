@@ -1,5 +1,6 @@
 #pragma once
 #include "Graphics.h"
+#include "Loguru/loguru.hpp"
 #include <type_traits>
 #include <vector>
 
@@ -411,9 +412,110 @@ namespace CB
 	};
 
 	/******************** Dynamic Constant Buffer ************************************************/
-	class BufferLayout
+#define SUPPORTED_TYPES \
+	X(Float) \
+	X(Float2) \
+	X(Float3) \
+	X(Float4) \
+	X(Matrix) \
+	X(Bool)
+
+	// Pollute the namespace with an enum of supported types for easier access
+	enum Type
 	{
+		#define X(el) el,
+		SUPPORTED_TYPES
+		#undef X
+	};
+
+	// Specialize TypeInfo struct on each supported type to use as a single truth point 
+	// of System Type and Hlsl size (eg. Bool is larger in hlsl than c++)
+	template<Type t>
+	struct TypeInfo {};
+	template<>
+	struct TypeInfo<Float>
+	{
+		using systype = float;
+		static constexpr const size_t hlslsize = sizeof( systype );
+	};
+	template<>
+	struct TypeInfo<Float2>
+	{
+		using systype = DirectX::XMFLOAT2;
+		static constexpr const size_t hlslsize = sizeof( systype );
+	};
+	template<>
+	struct TypeInfo<Float3>
+	{
+		using systype = DirectX::XMFLOAT3;
+		static constexpr const size_t hlslsize = sizeof( systype );
+	};
+	template<>
+	struct TypeInfo<Float4>
+	{
+		using systype = DirectX::XMFLOAT4;
+		static constexpr const size_t hlslsize = sizeof( systype );
+	};
+	template<>
+	struct TypeInfo<Matrix>
+	{
+		using systype = DirectX::XMMATRIX;
+		static constexpr const size_t hlslsize = sizeof( systype );
+	};
+	template<>
+	struct TypeInfo<Bool>
+	{
+		using systype = bool;
+		static constexpr const size_t hlslsize = sizeof( int );
+	};
+
+	// Hold a vector of composed class elements, which each have 
+	class Layout
+	{
+	private:
+		// Class which holds the necessary information of each element in the buffer
+		class Element 
+		{
+		public:
+			Element( Type type, size_t offset )
+				: type_( type )
+				, offset_( offset )
+			{}
+			Type type() const
+			{
+				return type_;
+			}
+			// Returns the offset (in bytes) of the next free space in memory in the layout
+			size_t nextSlot() const
+			{
+				return offset_ + GetTypeSysSize( type_ );
+			}
+		private:
+			Type type_;
+			size_t offset_;
+		};
 	public:
-		enum ElementType
+		// Get the size (in bytes) of the system type underlying a Type
+		static constexpr size_t GetTypeSysSize( Type type )
+		{
+			switch ( type )
+			{
+				//case Float: return sizeof( TypeInfo<Float>::systype );
+				#define X(el) case el: \
+					return sizeof(TypeInfo<el>::systype);
+				SUPPORTED_TYPES
+				#undef X
+				default:
+					ABORT_F("Unsupported type passed to GetTypeSysSize");
+			}
+		}
+		// Append an element to the layout, meaning it will be in the buffer
+		Layout& append( Type element )
+		{
+			elements_.emplace_back( element, elements_.empty() ? 0u : elements_.back().nextSlot() );
+			return *this;
+		}
+	private:
+		std::vector<Element> elements_;
 	};
 };
