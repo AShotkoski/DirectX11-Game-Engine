@@ -293,6 +293,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicCBuf.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
