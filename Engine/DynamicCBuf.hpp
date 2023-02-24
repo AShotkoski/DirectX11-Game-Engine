@@ -3,6 +3,7 @@
 #include "Loguru/loguru.hpp"
 #include <type_traits>
 #include <vector>
+#include <unordered_map>
 
 namespace CB
 {
@@ -509,13 +510,20 @@ namespace CB
 					ABORT_F("Unsupported type passed to GetTypeSysSize");
 			}
 		}
-		// Append an element to the layout, meaning it will be in the buffer
-		Layout& append( Type element )
+		// Add an element to the layout, meaning it will be in the buffer
+		Layout& add( Type ty, const std::string& name )
 		{
-			elements_.emplace_back( element, elements_.empty() ? 0u : elements_.back().nextSlot() );
+			DCHECK_F( !elements_.contains( name ), "Duplicate constant buffer element added, %s", name );
+			elements_.emplace( std::make_pair( name, Element( ty, sizeBytes_ ) ) );
+			sizeBytes_ = elements_.at( name ).nextSlot();
 			return *this;
 		}
+		size_t GetSizeBytes() const
+		{
+			return sizeBytes_;
+		}
 	private:
-		std::vector<Element> elements_;
+		std::unordered_map<std::string, Element> elements_;
+		size_t sizeBytes_ = 0u;
 	};
 };
