@@ -1,6 +1,5 @@
 #include "../Engine/Win.h"
 #include "CppUnitTest.h"
-#include "../Engine/Loguru/loguru.hpp"
 // I'm an evil, horrible person, who just want's to test private members of dynamic cbuffer
 #define private public
 #include "../Engine/DynamicCBuf.hpp"
