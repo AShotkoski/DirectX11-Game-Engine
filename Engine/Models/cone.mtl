@@ -1,0 +1,12 @@
+# Blender 3.4.1 MTL File: 'cone with bump map.blend'
+# www.blender.org
+
+newmtl Material.001
+Ns 401.776306
+Ka 0.629921 0.629921 0.629921
+Kd 0.033864 0.053029 0.800000
+Ks 0.673228 0.673228 0.673228
+Ke 0.000000 0.000000 0.000000
+Ni 13.049999
+d 1.000000
+illum 3
