@@ -132,6 +132,9 @@
     <ClCompile Include="ImGuiLog.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="DynamicCB.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -293,7 +296,7 @@
     <ClInclude Include="Mesh.h">
       <Filter>Headers\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCBuf.hpp">
+    <ClInclude Include="DynamicCB.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

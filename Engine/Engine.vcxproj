@@ -111,6 +111,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="DynamicCB.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -152,7 +153,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ConstantBuffers.h" />
-    <ClInclude Include="DynamicCBuf.hpp" />
+    <ClInclude Include="DynamicCB.h" />
     <ClInclude Include="GeneralUtilities.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGuiLog.h" />

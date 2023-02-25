@@ -5,7 +5,7 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
-
+#include "DynamicCB.h"
 namespace dx = DirectX;
 
 Game::Game()
@@ -19,6 +19,12 @@ Game::Game()
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
 
+	CB::Layout layout;
+	layout.add( CB::Matrix, "model" );
+	CB::Buffer buf( layout );
+	buf["model"] = DirectX::XMMatrixRotationRollPitchYaw( 10, 10, 10 );
+
+	DirectX::XMMATRIX rt = buf["model"];
 }
 
 Game::~Game()
