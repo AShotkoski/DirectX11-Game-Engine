@@ -3,7 +3,7 @@
 #include "Loguru/loguru.hpp"
 #include <type_traits>
 #include <vector>
-#include <unordered_map>
+#include <optional>
 
 namespace CB
 {
@@ -473,29 +473,56 @@ namespace CB
 	// Hold a vector of composed class elements, which each have 
 	class Layout
 	{
+		friend class View;
 	private:
 		// Class which holds the necessary information of each element in the buffer
-		class Element 
+		class Element
 		{
 		public:
-			Element( Type type, size_t offset )
-				: type_( type )
-				, offset_( offset )
+			Element( Type type, const std::string& name )
+				: type_( type ),
+				name_( name )
 			{}
 			Type type() const
 			{
 				return type_;
 			}
-			// Returns the offset (in bytes) of the next free space in memory in the layout
-			size_t nextSlot() const
+			const std::string& name() const
 			{
-				return offset_ + GetTypeSysSize( type_ );
+				return name_;
+			}
+			const size_t offset() const
+			{
+				return *offset_;
 			}
 		private:
 			Type type_;
-			size_t offset_;
+			std::optional<size_t> offset_;
+			std::string name_;
 		};
 	public:
+		// Add a named element to the layout, which can later by accessed by name
+		Layout& add( Type ty, const std::string& name )
+		{
+			DCHECK_F( !containsElement( name ), "Duplicate constant buffer element added, %s", name );
+			DCHECK_F( !isAligned, "Attempted to add element to aligned layout" );
+			elements_.emplace_back( ty, name );
+			return *this;
+		}
+		const Element& QueryElementByName( const std::string& name ) const
+		{
+			DCHECK_F( containsElement( name ), "Attempted to query %s, but it doesn't exist.", name );
+			for ( const auto& e : elements_ )
+			{
+				if ( name == e.name() )
+					return e;
+			}
+		}
+		bool isAligned() const
+		{
+			return isAligned_;
+		}
+	protected:
 		// Get the size (in bytes) of the system type underlying a Type
 		static constexpr size_t GetTypeSysSize( Type type )
 		{
@@ -505,25 +532,97 @@ namespace CB
 				#define X(el) case el: \
 					return sizeof(TypeInfo<el>::systype);
 				SUPPORTED_TYPES
-				#undef X
+					#undef X
 				default:
-					ABORT_F("Unsupported type passed to GetTypeSysSize");
+					ABORT_F( "Unsupported type passed to GetTypeSysSize" );
 			}
 		}
-		// Add an element to the layout, meaning it will be in the buffer
-		Layout& add( Type ty, const std::string& name )
+		bool containsElement( const std::string& name ) const
 		{
-			DCHECK_F( !elements_.contains( name ), "Duplicate constant buffer element added, %s", name );
-			elements_.emplace( std::make_pair( name, Element( ty, sizeBytes_ ) ) );
-			sizeBytes_ = elements_.at( name ).nextSlot();
-			return *this;
+			// Loop elements and check name against search
+			for ( const auto& e : elements_ )
+			{
+				if ( e.name() == name )
+					return true;
+			}
+			return false;
 		}
-		size_t GetSizeBytes() const
+		void MarkAligned() { isAligned_ = true; }
+	protected:
+		std::vector<Element> elements_;
+	private:
+		bool isAligned_ = false;
+	};
+
+	/******************** Data View **************************************************************/
+	class View
+	{
+	public:
+		View( char* pData, const Layout::Element& elem)
+			: pData_( pData )
+			, type_( elem.type() )
 		{
-			return sizeBytes_;
+			pData_ += elem.offset();
+		}
+		template <typename T>
+		void operator=( T val )
+		{
+			// Check data is valid
+			DCHECK_F( validate<T>(), "Invalid type %s assignment.", typeid( T ).name() );
+			*reinterpret_cast<T*>( pData_ ) = val;
+		}
+
+		template <typename T>
+		operator T() const
+		{
+			DCHECK_F( validate<T>(), "Invalid type conversion %s assignment.", typeid( T ).name() );
+			return *reinterpret_cast<T*>( pData_ );
 		}
 	private:
-		std::unordered_map<std::string, Element> elements_;
-		size_t sizeBytes_ = 0u;
+		template<typename T>
+		bool validate( )
+		{
+			switch ( type_ )
+			{
+				#define X(el) \
+				case el:\
+						if(typecmp<T, el>())\
+							{return true;}
+				SUPPORTED_TYPES
+				#undef X
+				default:
+					return false;
+			}
+		}
+		template<typename T, Type Ty>
+		bool typecmp() const
+		{
+			return typeid( T ) == typeid( TypeInfo<Ty>::systype );
+		}
+	private:
+		char* pData_; // Points to data in buffer memory
+		const Type type_; // need type for casts
+	};
+
+
+	/******************** Main constant buffer ***************************************************/
+	class Buffer
+	{
+	public:
+		Buffer(Layout layout)
+			: layout_(layout)
+		{
+			// Layout.ALIGN()!
+		}
+		// buf["pos"] = dx::XMFLOAT3(0,1,0);
+		// fthattakesXMFLOAT3(buf["pos"]) todo
+		View operator[]( const std::string& name )
+		{
+			DCHECK_F( layout_.isAligned(), "Unaligned layout in buffer being accessed!" );
+			return View( data_.data(), layout_.QueryElementByName(name));
+		}
+	private:
+		Layout layout_;
+		std::vector<char> data_;
 	};
 };

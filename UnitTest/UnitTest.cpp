@@ -20,7 +20,6 @@ namespace UnitTest
 			layout.add( CB::Float4, "pos" );
 			layout.add( CB::Matrix, "model" );
 			layout.add( CB::Float, "amount" );
-			Assert::AreEqual( layout.GetSizeBytes(), size_t(84));
 		}
 		TEST_METHOD( CBLayoutDumb )
 		{
