@@ -106,14 +106,14 @@ namespace CB
 		// Add a named element to the layout, which can later by accessed by name
 		Layout& add( Type ty, const std::string& name )
 		{
-			DCHECK_F( !containsElement( name ), "Duplicate constant buffer element added, %s", name );
-			DCHECK_F( !isAligned, "Attempted to add element to aligned layout" );
+			DCHECK_F( !containsElement( name ), "Duplicate constant buffer element added, %s", name.c_str() );
+			DCHECK_F( !isAligned(), "Attempted to add element to aligned layout");
 			elements_.emplace_back( ty, name );
 			return *this;
 		}
 		const Element& QueryElementByName( const std::string& name ) const
 		{
-			DCHECK_F( containsElement( name ), "Attempted to query %s, but it doesn't exist.", name );
+			DCHECK_F( containsElement( name ), "Attempted to query %s, but it doesn't exist.", name.c_str() );
 			for ( const auto& e : elements_ )
 			{
 				if ( name == e.name() )
@@ -189,7 +189,7 @@ namespace CB
 		}
 	private:
 		template<typename T>
-		bool validate( )
+		bool validate( ) const
 		{
 			switch ( type_ )
 			{
