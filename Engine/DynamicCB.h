@@ -15,7 +15,7 @@ namespace CB
 	X(Float3) \
 	X(Float4) \
 	X(Matrix) \
-	X(Bool)
+	X(Bool) 
 
 	// Pollute the namespace with an enum of supported types for easier access
 	enum Type
@@ -23,6 +23,7 @@ namespace CB
 		#define X(el) el,
 		SUPPORTED_TYPES
 		#undef X
+		Invalid
 	};
 
 	// Specialize TypeInfo struct on each supported type to use as a single truth point 
@@ -64,6 +65,12 @@ namespace CB
 	{
 		using systype = bool;
 		static constexpr const size_t hlslsize = sizeof( int );
+	};
+	template<>
+	struct TypeInfo<Invalid>
+	{
+		using systype = void;
+		static constexpr const size_t hlslsize = 0u;
 	};
 
 	// Heart of the Dynamic CB system. At its core just a vector of Element objects (element
@@ -127,8 +134,9 @@ namespace CB
 
 	class View
 	{
+		friend class Buffer;
 	public:
-		View( char* pData, const AlignedLayout& layout, const std::string& name );
+		bool Exists() const;
 		template <typename T>
 		void operator=( T val )
 		{
@@ -143,6 +151,9 @@ namespace CB
 			return *reinterpret_cast<T*>( pData_ );
 		}
 	private:
+		// We only want views to be creatable from Buffer
+		View( char* pData, const AlignedLayout& layout, const std::string& name );
+		View();
 		// Validate that type T is the same type as what this view represents
 		template<typename T>
 		bool validate( ) const

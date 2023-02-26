@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../Engine/DynamicCB.h"
 #include "../Engine/MathUtil.h" // dx overloads
+#include "../Engine/LoguruManager.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -27,7 +28,25 @@ namespace UnitTest
 			DirectX::XMFLOAT3 roundTrip = buf["pos"];
 
 			Assert::IsTrue( roundTrip == Position, L"data not round tripped success");
-		}
+		}	
 
+		TEST_METHOD(cbniche)
+		{
+			CB::Layout layout;
+			layout.add( CB::Float3, "pos"); 
+			layout.add( CB::Matrix, "world"); 
+			layout.add( CB::Float, "intensity");  
+
+			CB::Buffer buf( std::move( layout ) );
+
+			buf["pos"] = DirectX::XMFLOAT3{ 13.5f, 133.999f, 0 };
+			DirectX::XMFLOAT3 roundTrip = buf["pos"];
+
+			if ( auto e = buf["cum"]; e.Exists() )
+				Assert::Fail();
+		}
+		
+	private:
+		LoguruManager loguruman; // fatal handler
 	};
 }

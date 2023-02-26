@@ -114,7 +114,9 @@ namespace CB
 	{
 		auto size = elements_.back().GetOffset() + GetTypeSysSize( elements_.back().GetType() );
 		// Ensure entire buffer size is padded to be a multiple of 16 bytes
-		size += 16 - (size % 16);
+		if(size % 16 != 0 )
+			size += 16 - (size % 16);
+
 		return size;
 	}
 
@@ -149,13 +151,22 @@ namespace CB
 
 	/******************** Views ******************************************************************/
 
+	bool View::Exists() const
+	{
+		return type_ != Invalid;
+	}
+
 	View::View( char* pData, const AlignedLayout& layout, const std::string& name )
 		: pData_( pData )
 		, type_( layout.GetTypeAt( name ) )
-	{
-		
+	{	
 		pData_ += layout.GetOffsetAt(name);
 	}
+
+	View::View()
+		: pData_(nullptr)
+		, type_(Invalid)
+	{}
 
 	/******************** Buffer *****************************************************************/
 
@@ -183,8 +194,15 @@ namespace CB
 
 	View Buffer::operator[]( const std::string& name )
 	{
-		DCHECK_F( layout_.Contains( name ), "Attempted to get view on non-existant element %s", name.c_str() );
-		return View( data_.data(), layout_, name );
+		if ( layout_.Contains( name ) )
+		{
+			return View( data_.data(), layout_, name );
+		}
+		else
+		{
+			// Null view
+			return View();
+		}
 	}
 
 }
