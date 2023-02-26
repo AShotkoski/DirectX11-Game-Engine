@@ -66,7 +66,10 @@ namespace CB
 		static constexpr const size_t hlslsize = sizeof( int );
 	};
 
-	// Hold a vector of composed class elements, which each have 
+	// Heart of the Dynamic CB system. At its core just a vector of Element objects (element
+	// is a basic class which just contains a data type and name, and once aligned, an offset) 
+	// which describe the layout of the constant buffer.
+
 	class Layout
 	{
 		friend class View;
@@ -87,28 +90,45 @@ namespace CB
 			std::string name_;
 		};
 	public:
-		Layout();
 		// Add a named element to the layout, which can later by accessed by name
 		Layout& add( Type ty, const std::string& name );
-		const Element& QueryElementByName( const std::string& name ) const;
-		bool isAligned() const;
-		// ONLY CALLED FROM Buffer ( todo some funky inheritance to do this )
+		// Add element if it doesn't exist, otherwise do nothing. Returns true if successful
+		bool try_add( Type ty, const std::string& name );
+	protected:
 		void Align();
 		size_t GetSizeBytes() const;
+		Type GetTypeAt( const std::string& name ) const;
+		size_t GetOffsetAt( const std::string& name ) const;
+		bool ContainsElement( const std::string& name ) const;
 	private:
 		// Get the size (in bytes) of the system type underlying a Type
 		static constexpr size_t GetTypeSysSize( Type type );
-		bool containsElement( const std::string& name ) const;
+		const Element& QueryElementByName( const std::string& name ) const;
 	private:
 		std::vector<Element> elements_;
-		bool isAligned_;
 	};
 
+	// Creating an AlignedLayout from a layout means that all offsets are set in accordance 
+	// with hlsl packing rules, and the layout may no longer be modified. This is the type
+	// which the Buffer class contains.
+
+	class AlignedLayout : private Layout
+	{
+		// Gives access to the inherited functions for getting type and offset at name.
+		friend class View;
+	public:
+		AlignedLayout( Layout unaligned );
+		size_t GetSizeBytes() const;
+		bool Contains( const std::string name ) const;
+	};
+
+
 	/******************** Data View **************************************************************/
+
 	class View
 	{
 	public:
-		View( char* pData, const Layout::Element& elem );
+		View( char* pData, const AlignedLayout& layout, const std::string& name );
 		template <typename T>
 		void operator=( T val )
 		{
@@ -116,7 +136,6 @@ namespace CB
 			DCHECK_F( validate<T>(), "Invalid type %s assignment.", typeid( T ).name() );
 			*reinterpret_cast<T*>( pData_ ) = val;
 		}
-
 		template <typename T>
 		operator T() const
 		{
@@ -124,6 +143,7 @@ namespace CB
 			return *reinterpret_cast<T*>( pData_ );
 		}
 	private:
+		// Validate that type T is the same type as what this view represents
 		template<typename T>
 		bool validate( ) const
 		{
@@ -132,7 +152,13 @@ namespace CB
 				#define X(el) \
 				case el:\
 						if(typecmp<T, el>())\
-							{return true;}
+						{\
+							return true;\
+						}\
+						else\
+						{\
+							[[fallthrough]];\
+						}
 				SUPPORTED_TYPES
 				#undef X
 				default:
@@ -149,18 +175,26 @@ namespace CB
 		const Type type_; // need type for casts
 	};
 
+	// Todo implement once needed
+	class CView
+	{
+	public:
+		
+	private:
+		const View& view_;
+	};
 
 	/******************** Main constant buffer ***************************************************/
+
+	// Note that data is set to '\0' by default.
 	class Buffer
 	{
 	public:
 		Buffer( Layout layout );
-		// buf["pos"] = dx::XMFLOAT3(0,1,0);
-		// fthattakesXMFLOAT3(buf["pos"]) todo
 		View operator[]( const std::string& name );
 		size_t sizeBytes() const;
 	private:
-		Layout layout_;
+		AlignedLayout layout_;
 		std::vector<char> data_;
 	};
 };

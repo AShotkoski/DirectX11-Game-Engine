@@ -2,42 +2,89 @@
 
 namespace CB
 {
-	// ONLY CALLED FROM Buffer ( todo some funky inheritance to do this )
+	/******************** Layout Element *********************************************************/
 
-	Layout::Layout() : isAligned_( false ) {}
+	Layout::Element::Element( Type type, const std::string& name )
+		: type_( type )
+		, name_( name )
+	{}
+	Type Layout::Element::GetType() const
+	{
+		return type_;
+	}
+	const std::string& Layout::Element::GetName() const
+	{
+		return name_;
+	}
+	const size_t Layout::Element::GetOffset() const
+	{
+		return *offset_;
+	}
+
+	/******************** Layout *****************************************************************/
 
 	// Add a named element to the layout, which can later by accessed by name
-
 	Layout& Layout::add( Type ty, const std::string& name )
 	{
 		DCHECK_F(
-			!containsElement( name ),
-			"Duplicate constant buffer element added, %s",
+			!ContainsElement( name ),
+			"Duplicate constant buffer element added, use try_add %s",
 			name.c_str() );
-		DCHECK_F( !isAligned(), "Attempted to add element to aligned layout" );
 		elements_.emplace_back( ty, name );
 		return *this;
+	}
+
+	bool Layout::try_add( Type ty, const std::string& name )
+	{
+		if ( !ContainsElement( name ) )
+		{
+			add( ty, name );
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+
+	constexpr size_t Layout::GetTypeSysSize( Type type )
+	{
+		switch ( type )
+		{
+			#define X( el ) \
+				case el: \
+					return sizeof( TypeInfo<el>::systype );
+			SUPPORTED_TYPES
+				#undef X
+			default:
+				ABORT_F( "Unsupported type passed to GetTypeSysSize" );
+		}
+	}
+
+	bool Layout::ContainsElement( const std::string& name ) const
+	{
+		// Loop elements and check name against search
+		for ( const auto& e : elements_ )
+		{
+			if ( e.GetName() == name )
+				return true;
+		}
+		return false;
 	}
 
 	const Layout::Element& Layout::QueryElementByName( const std::string& name ) const
 	{
 		DCHECK_F(
-			containsElement( name ),
+			ContainsElement( name ),
 			"Attempted to query %s, but it doesn't exist.",
 			name.c_str() );
+
 		for( const auto& e : elements_ )
 		{
 			if( name == e.GetName() )
 				return e;
 		}
 		ABORT_F( "Queried invalid element." );
-		// Never called
-		return elements_.front();
-	}
-
-	bool Layout::isAligned() const
-	{
-		return isAligned_;
 	}
 
 	void Layout::Align()
@@ -60,76 +107,70 @@ namespace CB
 			e.offset_ = totalSize;
 			totalSize += currentSize;
 		}
-
-		isAligned_ = true;
 	}
 
 	size_t Layout::GetSizeBytes() const
 	{
-		DCHECK_F( isAligned(), "Attempted to get size of non aligned layout." );
 		return elements_.back().GetOffset() + GetTypeSysSize( elements_.back().GetType() );
 	}
 
-	// Get the size (in bytes) of the system type underlying a Type
-
-	constexpr size_t Layout::GetTypeSysSize( Type type )
+	Type Layout::GetTypeAt( const std::string& name ) const
 	{
-		switch( type )
-		{
-			#define X( el ) \
-				case el: \
-					return sizeof( TypeInfo<el>::systype );
-						SUPPORTED_TYPES
-			#undef X
-			default:
-				ABORT_F( "Unsupported type passed to GetTypeSysSize" );
-		}
+		return QueryElementByName( name ).GetType();
 	}
 
-	bool Layout::containsElement( const std::string& name ) const
+	size_t Layout::GetOffsetAt( const std::string& name ) const
 	{
-		// Loop elements and check name against search
-		for( const auto& e : elements_ )
-		{
-			if( e.GetName() == name )
-				return true;
-		}
-		return false;
+		return QueryElementByName( name ).GetOffset();
 	}
 
-	Buffer::Buffer( Layout layout ) : layout_( layout )
+	/******************** Aligned Layout *********************************************************/
+
+	AlignedLayout::AlignedLayout( Layout unaligned )
+		: Layout( std::move( unaligned ) )
 	{
-		layout_.Align();
+		Align();
+	}
+
+	size_t AlignedLayout::GetSizeBytes() const
+	{
+		// Use parent function to get size so we can keep elements encapsulated
+		return Layout::GetSizeBytes();
+	}
+
+	bool AlignedLayout::Contains( const std::string name ) const
+	{
+		return Layout::ContainsElement(name);
+	}
+
+	/******************** Views ******************************************************************/
+
+	View::View( char* pData, const AlignedLayout& layout, const std::string& name )
+		: pData_( pData )
+		, type_( layout.GetTypeAt( name ) )
+	{
+		
+		pData_ += layout.GetOffsetAt(name);
+	}
+
+	/******************** Buffer *****************************************************************/
+
+	Buffer::Buffer( Layout layout )
+		: layout_( std::move(layout) )
+	{
+		// Set size of data buffer to match size of layout
 		data_.resize( layout_.GetSizeBytes(), 0 );
 	}
+
 	size_t Buffer::sizeBytes() const
 	{
 		return layout_.GetSizeBytes();
-	}
-	Layout::Element::Element( Type type, const std::string& name ) : type_( type ), name_( name ) {}
-	Type Layout::Element::GetType() const
-	{
-		return type_;
-	}
-	const std::string& Layout::Element::GetName() const
-	{
-		return name_;
-	}
-	const size_t Layout::Element::GetOffset() const
-	{
-		return *offset_;
-	}
+	}	
 
 	View Buffer::operator[]( const std::string& name )
 	{
-		DCHECK_F( layout_.isAligned(), "Unaligned layout in buffer being accessed!" );
-		return View( data_.data(), layout_.QueryElementByName( name ) );
+		DCHECK_F( layout_.Contains( name ), "Attempted to get view on non-existant element %s", name.c_str() );
+		return View( data_.data(), layout_, name );
 	}
 
-	View::View( char* pData, const Layout::Element& elem )
-		: pData_( pData )
-		, type_( elem.GetType() )
-	{
-		pData_ += elem.GetOffset();
-	}
 }
