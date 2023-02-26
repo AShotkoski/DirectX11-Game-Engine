@@ -9,8 +9,7 @@ namespace UnitTest
 {
 	TEST_CLASS(UnitTest)
 	{
-	public:
-		
+	public:		
 		TEST_METHOD(CBRoundTrip)
 		{
 			CB::Layout layout;
