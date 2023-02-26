@@ -8,7 +8,6 @@
 
 namespace CB
 {
-
 	/******************** Dynamic Constant Buffer ************************************************/
 #define SUPPORTED_TYPES \
 	X(Float) \
@@ -119,8 +118,9 @@ namespace CB
 				if ( name == e.name() )
 					return e;
 			}
-			// todo fix
-
+			ABORT_F( "Queried invalid element." );
+			// Never called
+			return elements_.front();
 		}
 		bool isAligned() const
 		{
@@ -225,6 +225,10 @@ namespace CB
 		{
 			DCHECK_F( layout_.isAligned(), "Unaligned layout in buffer being accessed!" );
 			return View( data_.data(), layout_.QueryElementByName(name));
+		}
+		size_t sizeBytes() const
+		{
+			return layout_.GetSizeBytes();
 		}
 	private:
 		Layout layout_;

@@ -18,13 +18,13 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-
 	CB::Layout layout;
-	layout.add( CB::Matrix, "model" );
-	CB::Buffer buf( layout );
-	buf["model"] = DirectX::XMMatrixRotationRollPitchYaw( 10, 10, 10 );
-
-	DirectX::XMMATRIX rt = buf["model"];
+	layout.add( CB::Float3, "pos" );
+	layout.add( CB::Matrix, "world" );
+	layout.add( CB::Float, "intensity" );
+	layout.add( CB::Float4, "four" );
+	// Expect 112 bytes, with padding accounted for
+	CB::Buffer buf( std::move( layout ) );
 }
 
 Game::~Game()

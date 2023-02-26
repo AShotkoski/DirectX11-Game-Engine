@@ -7,16 +7,22 @@ namespace CB
 	void Layout::Align()
 	{
 		// Calculate boundaries of bytes of hlsl
-		// jk rn its just bs
 
 		// loop through elements and set their offset
-		size_t currSize = 0u;
+		size_t totalSize = 0u;
 		for ( auto& e : elements_ )
 		{
 			// Set offset
-			e.offset_ = currSize;
-			// Calc next offset
-			currSize += GetTypeSysSize( e.type() );
+			// Calculate next offset ( total size )
+			auto distFromBoundary = totalSize % 16;
+			auto currentSize = GetTypeSysSize( e.type() );
+			if ( distFromBoundary + currentSize > 16 )
+			{
+				// On boundary, add padding
+				totalSize += 16 - distFromBoundary;
+			}
+			e.offset_ = totalSize;
+			totalSize += currentSize;
 		}
 
 		isAligned_ = true;
