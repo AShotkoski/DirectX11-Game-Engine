@@ -194,10 +194,8 @@ namespace CB
 		Buffer( Layout layout );
 		View operator[]( const std::string& name );
 		size_t sizeBytes() const;
-		const char* GetData() const
-		{
-			return data_.data();
-		}
+		const char* GetData() const;
+		void CopyFrom( const Buffer& other );
 	private:
 		AlignedLayout layout_;
 		std::vector<char> data_;

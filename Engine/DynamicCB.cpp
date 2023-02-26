@@ -107,11 +107,15 @@ namespace CB
 			e.offset_ = totalSize;
 			totalSize += currentSize;
 		}
+		
 	}
 
 	size_t Layout::GetSizeBytes() const
 	{
-		return elements_.back().GetOffset() + GetTypeSysSize( elements_.back().GetType() );
+		auto size = elements_.back().GetOffset() + GetTypeSysSize( elements_.back().GetType() );
+		// Ensure entire buffer size is padded to be a multiple of 16 bytes
+		size += 16 - (size % 16);
+		return size;
 	}
 
 	Type Layout::GetTypeAt( const std::string& name ) const
@@ -171,6 +175,11 @@ namespace CB
 		return data_.data();
 	}
 
+	void Buffer::CopyFrom( const Buffer& other )
+	{
+		DCHECK_F( other.data_.size() == data_.size(), "Size of buffers must match when copying" );
+		data_ = other.data_;
+	}
 
 	View Buffer::operator[]( const std::string& name )
 	{

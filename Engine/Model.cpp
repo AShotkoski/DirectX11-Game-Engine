@@ -7,6 +7,7 @@
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui/imgui.h"
 #include "DynamicCB.h"
+#include "ConstantBufferEx.h"
 
 namespace dx = DirectX;
 
@@ -304,16 +305,30 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
 	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
 
-	// Material properties
-	Material mat;
-	// Set defaults
-	mat.specular_intensity( 1.0f ).specular_power( 1.1f );
+	
+	CB::Layout cbLayout;
+	cbLayout.add( CB::Float, "SpecularIntensity" );
+	cbLayout.add( CB::Float, "SpecularPower" );
+	CB::Buffer cbBuffer( std::move( cbLayout ) );
 	// load material for this mesh from ai, if it has one
 	if( mesh.mMaterialIndex >= 0 )
 	{
-		mat.parseAIMat( *pAiMat );
+		float flBuf = 0.f;
+		aiColor3D colBuf;
+		if ( pAiMat->Get( AI_MATKEY_SHININESS, flBuf ) == aiReturn_SUCCESS )
+		{
+			cbBuffer["SpecularPower"] = flBuf;
+		}
+		if ( pAiMat->Get( AI_MATKEY_COLOR_SPECULAR, colBuf ) == aiReturn_SUCCESS )
+		{
+			// Average color of specular color is our intensity, maybe add support for 
+			// actual specular color in future but idk why.
+			Color specCol = *reinterpret_cast<Color*>( &colBuf );
+			flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
+			cbBuffer["SpecularIntensity"] = flBuf;
+		}
 	}
-	Binds.push_back( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, tag, 1u ) );
+	Binds.push_back( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuffer, 1u ) );
 
 	// Load Textures
 	aiString filename;
