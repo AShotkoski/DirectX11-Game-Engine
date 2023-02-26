@@ -165,7 +165,12 @@ namespace CB
 	size_t Buffer::sizeBytes() const
 	{
 		return layout_.GetSizeBytes();
-	}	
+	}
+	const char* Buffer::GetData() const
+	{
+		return data_.data();
+	}
+
 
 	View Buffer::operator[]( const std::string& name )
 	{

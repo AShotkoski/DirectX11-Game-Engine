@@ -6,6 +6,7 @@
 #include "Loguru/loguru.hpp"
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui/imgui.h"
+#include "DynamicCB.h"
 
 namespace dx = DirectX;
 

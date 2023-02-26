@@ -187,12 +187,17 @@ namespace CB
 	/******************** Main constant buffer ***************************************************/
 
 	// Note that data is set to '\0' by default.
+
 	class Buffer
 	{
 	public:
 		Buffer( Layout layout );
 		View operator[]( const std::string& name );
 		size_t sizeBytes() const;
+		const char* GetData() const
+		{
+			return data_.data();
+		}
 	private:
 		AlignedLayout layout_;
 		std::vector<char> data_;

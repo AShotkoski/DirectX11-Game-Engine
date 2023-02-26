@@ -152,6 +152,7 @@
     <ClInclude Include="BindableCodex.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="ConstantBufferEx.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="DynamicCB.h" />
     <ClInclude Include="GeneralUtilities.h" />

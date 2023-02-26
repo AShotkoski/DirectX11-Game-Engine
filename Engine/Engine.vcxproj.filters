@@ -299,6 +299,9 @@
     <ClInclude Include="DynamicCB.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantBufferEx.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
