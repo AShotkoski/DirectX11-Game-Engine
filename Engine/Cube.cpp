@@ -48,9 +48,9 @@ Cube::Cube(
 	AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
 
 	// Outline
-	itl.Transform( DirectX::XMMatrixScaling( 2, 2, 2 ) );
+	//itl.Transform( DirectX::XMMatrixScaling( 2, 2, 2 ) );
 	outlineBinds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	outlineBinds.push_back( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube7"));
+	outlineBinds.push_back( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube"));
 	outlineBinds.push_back( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube"));
 	outlineBinds.push_back( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso" ));
 	outlineBinds.push_back( Binds::VertexShader::Resolve( gfx, L"VSTransform.cso"));
@@ -72,16 +72,21 @@ Cube::Cube(
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
 	using namespace DirectX;
-		return XMMatrixScaling( size.x, size.y, size.z )
+	auto scale = XMMatrixScaling( size.x, size.y, size.z );
+	if ( outlining )
+		scale = scale * XMMatrixScaling( 1.1f, 1.1f, 1.1f );
+		return scale
 			* XMMatrixRotationRollPitchYaw(pitch,yaw,roll)
 			* XMMatrixTranslation(pos.x,pos.y,pos.z);
 }
 
 void Cube::DrawOutline( Graphics& gfx )
 {
+	outlining = true;
 	for ( auto& b : outlineBinds )
 	{
 		b->Bind( gfx );
 	}
 	gfx.DrawIndexed( QueryBindable<Binds::IndexBuffer>()->GetIndicesCount() );
+	outlining = false;
 }

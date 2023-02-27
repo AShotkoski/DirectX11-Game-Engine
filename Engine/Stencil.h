@@ -30,6 +30,7 @@ namespace Binds
 			else if ( mode == Mode::Mask )
 			{
 				dsDesc.StencilEnable = true;
+				dsDesc.DepthEnable = false;
 				dsDesc.StencilReadMask = 0xFF;
 				dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_NOT_EQUAL;
 				dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
