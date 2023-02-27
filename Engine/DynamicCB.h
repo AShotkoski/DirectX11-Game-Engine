@@ -28,46 +28,38 @@ namespace CB
 
 	// Specialize TypeInfo struct on each supported type to use as a single truth point 
 	// of System Type and Hlsl size (eg. Bool is larger in hlsl than c++)
-	template<Type t>
-	struct TypeInfo {};
-	template<>
-	struct TypeInfo<Float>
+	template<Type t> struct TypeInfo {};
+	template<> struct TypeInfo<Float>
 	{
 		using systype = float;
 		static constexpr const size_t hlslsize = sizeof( systype );
 	};
-	template<>
-	struct TypeInfo<Float2>
+	template<> struct TypeInfo<Float2>
 	{
 		using systype = DirectX::XMFLOAT2;
 		static constexpr const size_t hlslsize = sizeof( systype );
 	};
-	template<>
-	struct TypeInfo<Float3>
+	template<> struct TypeInfo<Float3>
 	{
 		using systype = DirectX::XMFLOAT3;
 		static constexpr const size_t hlslsize = sizeof( systype );
 	};
-	template<>
-	struct TypeInfo<Float4>
+	template<> struct TypeInfo<Float4>
 	{
 		using systype = DirectX::XMFLOAT4;
 		static constexpr const size_t hlslsize = sizeof( systype );
 	};
-	template<>
-	struct TypeInfo<Matrix>
+	template<> struct TypeInfo<Matrix>
 	{
 		using systype = DirectX::XMMATRIX;
 		static constexpr const size_t hlslsize = sizeof( systype );
 	};
-	template<>
-	struct TypeInfo<Bool>
+	template<> struct TypeInfo<Bool>
 	{
 		using systype = bool;
 		static constexpr const size_t hlslsize = sizeof( int );
 	};
-	template<>
-	struct TypeInfo<Invalid>
+	template<> struct TypeInfo<Invalid>
 	{
 		using systype = void;
 		static constexpr const size_t hlslsize = 0u;
@@ -137,8 +129,25 @@ namespace CB
 		friend class Buffer;
 	public:
 		bool Exists() const;
+		operator bool()
+		{
+			return Exists();
+		}
+		template<typename T>
+		bool try_set( const T& val )
+		{
+			if ( Exists() )
+			{
+				operator=( val );
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 		template <typename T>
-		void operator=( T val )
+		void operator=( const T& val )
 		{
 			// Check data is valid
 			DCHECK_F( validate<T>(), "Invalid type %s assignment.", typeid( T ).name() );

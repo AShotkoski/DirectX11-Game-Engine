@@ -42,8 +42,13 @@ namespace UnitTest
 			buf["pos"] = DirectX::XMFLOAT3{ 13.5f, 133.999f, 0 };
 			DirectX::XMFLOAT3 roundTrip = buf["pos"];
 
-			if ( auto e = buf["cum"]; e.Exists() )
+			if ( auto e = buf["notreal"]; e.Exists() )
 				Assert::Fail();
+
+			Assert::IsFalse( buf["worlds"].try_set( DirectX::XMMatrixScaling( 5, 2, -1 ) ) );
+			Assert::IsTrue( buf["world"].try_set( DirectX::XMMatrixScaling( 55, 25, -15 ) ) );
+			Assert::IsFalse( buf["nottrue"] );
+			Assert::IsTrue( buf["intensity"] );
 		}
 		
 	private:
