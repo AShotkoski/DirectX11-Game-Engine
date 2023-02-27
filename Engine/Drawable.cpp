@@ -17,15 +17,7 @@ void Drawable::Draw( Graphics& gfx ) const
 
 	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
 }
-void Drawable::DrawNoIndex( Graphics& gfx, UINT vertCount ) const
-{	
-	for ( auto& b : Binds )
-	{
-		b->Bind( gfx );
-	}
 
-	gfx.Draw( vertCount, 0u );
-}
 
 void Drawable::AddBind( std::shared_ptr<Bindable> bind )
 {
