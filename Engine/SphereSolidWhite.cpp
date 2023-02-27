@@ -22,7 +22,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	// Bind Index Buffer
 	AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "lightidx"));
 	// Bind PS
-	AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolidWhite.cso"));
+	AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso"));
 	// Bind VS, store bytecode
 	AddBind( Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" ) );
 	auto vs = QueryBindable<Binds::VertexShader>();
@@ -33,6 +33,15 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 
 	// Bind non static Transformation CB
 	AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+	// make white
+	struct CB
+	{
+		float r = 1.f;
+		float g = 1.f;
+		float b = 1.f;
+		float pad;
+	} cb;
+	AddBind( Binds::PixelConstantBuffer<CB>::Resolve( gfx, cb, "solidwhite", 1u ) );
 }
 
 void SphereSolidWhite::SetPos( DirectX::XMFLOAT3 position ) noexcept
