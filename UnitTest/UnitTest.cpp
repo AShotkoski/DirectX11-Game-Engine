@@ -49,6 +49,8 @@ namespace UnitTest
 			Assert::IsTrue( buf["world"].try_set( DirectX::XMMatrixScaling( 55, 25, -15 ) ) );
 			Assert::IsFalse( buf["nottrue"] );
 			Assert::IsTrue( buf["intensity"] );
+
+			Assert::ExpectException<std::runtime_error>( [&]() { buf["notreal"] = 5; } );
 		}
 		
 	private:

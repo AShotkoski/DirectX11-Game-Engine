@@ -11,7 +11,7 @@ public:
 		Graphics&         gfx,
 		DirectX::XMFLOAT3 size,
 		DirectX::XMFLOAT3 position,
-		float pitch, float yaw, float roll, std::filesystem::path tex);
+		float pitch, float yaw, float roll);
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:
 	DirectX::XMFLOAT3 size;

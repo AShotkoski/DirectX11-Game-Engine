@@ -19,6 +19,12 @@
     <FxCompile Include="PSPhongNormalMap.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="PSPhongSolid.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VSPhongSolid.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">

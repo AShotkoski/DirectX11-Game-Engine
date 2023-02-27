@@ -4,6 +4,7 @@
 #include "PointLight.h"
 #include "Model.h"
 #include "ImGuiLog.h"
+#include "Cube.h"
 
 class Game
 {
@@ -25,7 +26,8 @@ private:
 	FrameTimer ft;
 
 	PointLight light;
-	Model testModel;
+	Cube cube0;
+	Cube cube1;
 private:
 	float dt = 0.f;
 	float adj_dt = 0.f;

@@ -9,22 +9,15 @@
 namespace dx = DirectX;
 
 Game::Game()
-	:
-	wnd( ScreenWidth, ScreenHeight, WindowTitle ),
-	gfx( wnd.GFX() ),
-	light( gfx, 0.15f, { 1.9f, 2.f, -2.f } ),
-	testModel(gfx, "Models\\sponza\\sponza_sad.obj")
+	: wnd( ScreenWidth, ScreenHeight, WindowTitle )
+	, gfx( wnd.GFX() )
+	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f } )
+	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0  )
+	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-	CB::Layout layout;
-	layout.add( CB::Float3, "pos" );
-	layout.add( CB::Matrix, "world" );
-	layout.add( CB::Float, "intensity" );
-	layout.add( CB::Float4, "four" );
-	// Expect 112 bytes, with padding accounted for
-	CB::Buffer buf( std::move( layout ) );
 }
 
 Game::~Game()
@@ -58,7 +51,8 @@ void Game::UpdateLogic()
 void Game::DrawFrame()
 {
 	light.Draw( gfx );
-	testModel.Draw( gfx );
+	cube0.Draw( gfx );
+	cube1.Draw( gfx );
 }
 
 void Game::DrawImGuis()
@@ -73,7 +67,6 @@ void Game::DrawImGuis()
 	ImGui::End();
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
-	testModel.SpawnControlWindow();
 }
 
 void Game::ControlCamera()
