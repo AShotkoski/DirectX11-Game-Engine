@@ -138,6 +138,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="SphereSolidWhite.cpp" />
+    <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformationConstBuffer.cpp" />

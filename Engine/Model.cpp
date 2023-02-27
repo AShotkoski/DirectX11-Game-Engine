@@ -305,7 +305,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
 	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
 	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
-	Binds.push_back( std::make_shared<Binds::Stencil>( gfx, Binds::Stencil::Mode::Off ) );
+	Binds.push_back( Binds::Stencil::Resolve(gfx,Binds::Stencil::Mode::Off) );
 
 	
 	CB::Layout cbLayout;
