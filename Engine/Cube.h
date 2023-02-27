@@ -1,8 +1,9 @@
 #pragma once
 #include "Drawable.h"
+#include "Mesh.h"
 #include "Material.h"
+#include <filesystem>
 
-// DEPRECIATED
 class Cube : public Drawable
 {
 public:
@@ -10,13 +11,10 @@ public:
 		Graphics&         gfx,
 		DirectX::XMFLOAT3 size,
 		DirectX::XMFLOAT3 position,
-		float pitch, float yaw, float roll,
-		Material material );
-	DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
-	void              Update( float dt );
+		float pitch, float yaw, float roll, std::filesystem::path tex);
+	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:
 	DirectX::XMFLOAT3 size;
-	Material mat;
 	// Position
 	DirectX::XMFLOAT3 pos;
 	// Rotation

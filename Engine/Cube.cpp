@@ -6,56 +6,49 @@
 #include "Colors.h"
 #include "Vertex.h"
 #include "BindableCodex.h"
-#include <random>
+#include "ConstantBufferEx.h"
+#include "Texture.h"
+#include "Sampler.h"
 
 Cube::Cube(
 	Graphics& gfx,
 	DirectX::XMFLOAT3 size,
 	DirectX::XMFLOAT3 position,
-	float pitch, float yaw, float roll,
-	Material material )
+	float pitch, float yaw, float roll, std::filesystem::path tex )
 	: size(size)
 	, pos(position)
-	, mat(material)
 	, pitch(pitch)
 	, yaw(yaw)
 	, roll(roll)
 {
-		// Set topology
 		AddBind( Binds::Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) );
-		// Set vertexs
 		Vert::VertexLayout vLayout;
 		vLayout.Append( Vert::VertexLayout::Position_3D );
 		vLayout.Append( Vert::VertexLayout::Normal );
-
 		Vert::VertexBuffer vertBuf( std::move(vLayout) );
-
 		IndexedTriangleList itl = GeometricPrim::Cube::GetIndependentFaces(vertBuf);
-
 		itl.SetNormalsIndependentFlat();
-
-		// Bind vertex buffer
 		AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" ) );
-		// Bind Index Buffer
 		AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" ) );
-		// Bind PS
-		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolidC.cso" ) );
-		// Bind VS, store bytecode
-		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhongSolidC.cso" ) );
+		AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
+		AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
 		auto vs = QueryBindable<Binds::VertexShader>();
-		assert( vs );
 		auto vsbytecode = vs->pGetBytecode();
-
 		AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-
 		AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+		// set texture
+		AddBind( Binds::Texture::Resolve( gfx, tex ));
+		AddBind( Binds::Sampler::Resolve( gfx ) );
 
 		// Setup phong material properties
-		AddBind( Binds::PixelConstantBuffer<Material>::Resolve( gfx, mat, mat.GetUID(), 1u));
+		CB::Layout cblay;
+		cblay.add( CB::Float, "specularInt" );
+		cblay.add( CB::Float, "specularPow" );
+		CB::Buffer cbbuf( std::move( cblay ) );
+		cbbuf["specularInt"] = 0.4f;
+		cbbuf["specularPow"] = 500.f;
+		AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
 }
-
-void Cube::Update( float dt )
-{}
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 {
