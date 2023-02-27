@@ -14,6 +14,7 @@ Game::Game()
 	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f } )
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
+	, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
@@ -51,9 +52,10 @@ void Game::UpdateLogic()
 void Game::DrawFrame()
 {
 	light.Draw( gfx );
+	sponza.Draw( gfx );
 	cube0.Draw( gfx );
-	cube1.Draw( gfx );
 	cube0.DrawOutline( gfx );
+	cube1.Draw( gfx );
 	cube1.DrawOutline( gfx );
 }
 
@@ -69,6 +71,7 @@ void Game::DrawImGuis()
 	ImGui::End();
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
+	sponza.SpawnControlWindow();
 }
 
 void Game::ControlCamera()

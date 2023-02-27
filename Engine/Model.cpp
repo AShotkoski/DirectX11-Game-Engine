@@ -8,6 +8,7 @@
 #include "ImGui/imgui.h"
 #include "DynamicCB.h"
 #include "ConstantBufferEx.h"
+#include "Stencil.h"
 
 namespace dx = DirectX;
 
@@ -304,6 +305,7 @@ std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const 
 	Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
 	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
 	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
+	Binds.push_back( std::make_shared<Binds::Stencil>( gfx, Binds::Stencil::Mode::Off ) );
 
 	
 	CB::Layout cbLayout;

@@ -6,6 +6,7 @@
 #include "ImGuiLog.h"
 #include "Cube.h"
 
+
 class Game
 {
 public:
@@ -28,6 +29,7 @@ private:
 	PointLight light;
 	Cube cube0;
 	Cube cube1;
+	Model sponza;
 private:
 	float dt = 0.f;
 	float adj_dt = 0.f;
