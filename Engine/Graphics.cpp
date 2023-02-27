@@ -73,19 +73,6 @@ Graphics::Graphics( HWND hWnd )
 	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
 	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
 
-	/************ Create depth / stencil buffer ************/
-
-	// Create depth/stencil state
-	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
-	dsDesc.DepthEnable              = true;
-	dsDesc.DepthFunc                = D3D11_COMPARISON_LESS;
-	dsDesc.DepthWriteMask           = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.StencilEnable            = false;
-	WRL::ComPtr<ID3D11DepthStencilState> pDepthStencilState;
-	THROW_FAILED_GFX( pDevice->CreateDepthStencilState( &dsDesc, &pDepthStencilState ) );
-
-	// Set state
-	pContext->OMSetDepthStencilState( pDepthStencilState.Get(), 1u );
 
 	// Create texture for depth/stencil
 	WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
@@ -94,7 +81,7 @@ Graphics::Graphics( HWND hWnd )
 	descDepth.Height                       = clientRect.bottom;
 	descDepth.MipLevels                    = 1u;
 	descDepth.ArraySize                    = 1u;
-	descDepth.Format                       = DXGI_FORMAT_D32_FLOAT;
+	descDepth.Format                       = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	descDepth.SampleDesc.Count             = 1u;
 	descDepth.SampleDesc.Quality           = 0u;
 	descDepth.Usage                        = D3D11_USAGE_DEFAULT;
@@ -105,7 +92,7 @@ Graphics::Graphics( HWND hWnd )
 
 	// Depth stencil view
 	D3D11_DEPTH_STENCIL_VIEW_DESC DSviewDesc = {};
-	DSviewDesc.Format                        = DXGI_FORMAT_D32_FLOAT;
+	DSviewDesc.Format                        = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	DSviewDesc.ViewDimension                 = D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSviewDesc.Texture2D.MipSlice            = 0u;
 	THROW_FAILED_GFX( pDevice->CreateDepthStencilView(
@@ -142,7 +129,7 @@ void Graphics::BeginFrame()
 	}
 	float c[ 4 ] = { 0.f,0.0f,0.f,1.f };
 	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
-	pContext->ClearDepthStencilView( pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0 );
+	pContext->ClearDepthStencilView( pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0 );
 }
 
 void Graphics::Draw( UINT vertexCount, UINT start )

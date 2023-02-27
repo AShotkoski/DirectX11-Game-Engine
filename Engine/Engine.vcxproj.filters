@@ -308,6 +308,9 @@
     <ClInclude Include="ConstantBufferEx.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="Stencil.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

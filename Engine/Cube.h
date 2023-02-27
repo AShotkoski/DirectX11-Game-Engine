@@ -13,7 +13,9 @@ public:
 		DirectX::XMFLOAT3 position,
 		float pitch, float yaw, float roll);
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
+	void DrawOutline( Graphics& gfx );
 private:
+	std::vector<std::shared_ptr<Bindable>> outlineBinds;
 	DirectX::XMFLOAT3 size;
 	// Position
 	DirectX::XMFLOAT3 pos;

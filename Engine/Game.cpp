@@ -53,6 +53,7 @@ void Game::DrawFrame()
 	light.Draw( gfx );
 	cube0.Draw( gfx );
 	cube1.Draw( gfx );
+	cube0.DrawOutline( gfx );
 }
 
 void Game::DrawImGuis()

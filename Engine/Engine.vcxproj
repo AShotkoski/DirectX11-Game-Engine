@@ -193,6 +193,7 @@
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="SpherePrimitive.h" />
     <ClInclude Include="SphereSolidWhite.h" />
+    <ClInclude Include="Stencil.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformationConstBuffer.h" />
