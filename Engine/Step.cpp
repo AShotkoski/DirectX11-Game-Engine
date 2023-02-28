@@ -7,7 +7,7 @@ Step::Step( size_t passNum )
 {
 }
 
-void Step::Submit( FrameCommander& frame, const Drawable& drawable )
+void Step::Submit( FrameCommander& frame, const Drawable& drawable ) const
 {
 	frame.Accept( Job( &drawable, this ), passIdx );
 }

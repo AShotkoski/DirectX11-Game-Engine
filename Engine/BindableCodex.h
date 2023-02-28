@@ -25,7 +25,7 @@ namespace Binds
 				map[key] = std::make_shared<tBind>( gfx, std::forward<Args>( args )... );
 			}
 
-			return map[key];
+			return std::dynamic_pointer_cast<tBind>(map[key]);
 		}
 
 		static Codex& get()

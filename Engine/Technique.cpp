@@ -1,8 +1,12 @@
 #include "Technique.h"
+#include "FrameCommander.h"
 
 void Technique::Submit( FrameCommander& frame, const Drawable& drawable ) const
 {
-	frame.Accept(//job)
+	for ( auto& s : steps )
+	{
+		s.Submit( frame, drawable );
+	}
 }
 
 void Technique::AddStep( Step step )

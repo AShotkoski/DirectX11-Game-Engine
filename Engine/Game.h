@@ -2,9 +2,10 @@
 #include "Window.h"
 #include "FrameTimer.h"
 #include "PointLight.h"
-#include "Model.h"
+//#include "Model.h"
 #include "ImGuiLog.h"
 #include "Cube.h"
+#include "FrameCommander.h"
 
 
 class Game
@@ -25,11 +26,12 @@ private:
 	Window wnd;
 	Graphics& gfx;
 	FrameTimer ft;
+	FrameCommander frame;
 
 	PointLight light;
 	Cube cube0;
 	Cube cube1;
-	Model sponza;
+	//Model sponza;
 private:
 	float dt = 0.f;
 	float adj_dt = 0.f;

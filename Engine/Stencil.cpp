@@ -37,7 +37,7 @@ std::string Binds::Stencil::GenerateUID( Mode mode )
 	return std::string(typeid(Stencil).name() + "_"s + std::to_string((int)mode));
 }
 
-std::shared_ptr<Stencil> Binds::Stencil::Resolve( Graphics& gfx, Mode mode )
+std::shared_ptr<Binds::Stencil> Binds::Stencil::Resolve( Graphics& gfx, Mode mode )
 {
 	return Binds::Codex::Resolve<Stencil>(gfx, mode);
 }
