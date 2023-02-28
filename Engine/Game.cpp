@@ -40,6 +40,7 @@ void Game::Go()
 		DrawImGuis();
 
 	gfx.EndFrame();
+	frame.Reset();
 }
 
 void Game::UpdateLogic()
@@ -56,6 +57,7 @@ void Game::DrawFrame()
 	//sponza.Draw( gfx );
 	cube0.Submit( frame );
 	cube1.Submit( frame );
+	frame.Execute( gfx );
 }
 
 void Game::DrawImGuis()

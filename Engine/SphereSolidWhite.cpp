@@ -35,6 +35,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	} cb;
 	only.AddBind( Binds::PixelConstantBuffer<CB>::Resolve( gfx, cb, "solidwhite", 1u ) );
 	Solid.AddStep( std::move( only ) );
+	AddTechnique( std::move( Solid ) );
 }
 
 void SphereSolidWhite::SetPos( DirectX::XMFLOAT3 position ) noexcept

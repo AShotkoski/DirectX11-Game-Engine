@@ -52,6 +52,7 @@ Cube::Cube(
 	cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
 	only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
 	solidPhong.AddStep( std::move( only ) );
+	AddTechnique( std::move( solidPhong ) );
 	/*
 	// Outline
 	//itl.Transform( DirectX::XMMatrixScaling( 2, 2, 2 ) );
