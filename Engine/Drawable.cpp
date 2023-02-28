@@ -19,6 +19,11 @@ void Drawable::Draw( Graphics& gfx ) const
 }
 
 
+UINT Drawable::GetIndexCount() const
+{
+	return pIndexBuffer->GetIndicesCount();
+}
+
 void Drawable::AddBind( std::shared_ptr<Bindable> bind )
 {
 	if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )

@@ -6,6 +6,7 @@
 #include "Colors.h"
 #include "MathUtil.h"
 #include "DynamicCB.h"
+
 namespace dx = DirectX;
 
 Game::Game()
@@ -74,6 +75,7 @@ void Game::DrawImGuis()
 	sponza.SpawnControlWindow();
 }
 
+// Todo pImpl for camera control
 void Game::ControlCamera()
 {
 	DirectX::XMFLOAT3 dCampos = { 0, 0, 0 };

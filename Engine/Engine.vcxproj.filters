@@ -144,6 +144,21 @@
     <ClCompile Include="Stencil.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Technique.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameCommander.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Pass.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Step.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -314,6 +329,21 @@
     <ClInclude Include="Stencil.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="Technique.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Step.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameCommander.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -354,6 +384,12 @@
     </Filter>
     <Filter Include="ThirdParty\Loguru">
       <UniqueIdentifier>{88bd9adf-4036-43b2-aa93-61805bae1707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\RenderQueue">
+      <UniqueIdentifier>{f7449506-043c-432e-910e-0ecad08d6d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderQueue">
+      <UniqueIdentifier>{c0e433de-5291-4847-8d01-9c5602bbf1b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
