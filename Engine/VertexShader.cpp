@@ -37,7 +37,7 @@ namespace Binds
 		return std::string( typeid( VertexShader ).name() + "_"s + pathA );
 	}
 
-	std::shared_ptr<Bindable> VertexShader::Resolve( Graphics& gfx, const std::wstring path )
+	std::shared_ptr<VertexShader> VertexShader::Resolve( Graphics& gfx, const std::wstring path )
 	{
 		return Codex::Resolve<VertexShader>(gfx,path);
 	}

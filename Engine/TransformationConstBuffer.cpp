@@ -34,7 +34,7 @@ namespace Binds
 		return std::string( typeid( TransformationConstBuffer ).name() + "_"s + std::to_string((size_t)&parent));
 	}
 
-	std::shared_ptr<Bindable> TransformationConstBuffer::Resolve( Graphics& gfx, const Drawable& parent )
+	std::shared_ptr<TransformationConstBuffer> TransformationConstBuffer::Resolve( Graphics& gfx, const Drawable& parent )
 	{
 		return Codex::Resolve<TransformationConstBuffer>(gfx,parent);
 	}

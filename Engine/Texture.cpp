@@ -79,7 +79,7 @@ namespace Binds
         return std::string( typeid( Texture ).name() + "_"s + path.string() + "_"s + std::to_string(slot));
     }
 
-    std::shared_ptr<Bindable> Texture::Resolve( Graphics& gfx, std::filesystem::path path, UINT slot )
+    std::shared_ptr<Texture> Texture::Resolve( Graphics& gfx, std::filesystem::path path, UINT slot )
     {
         return Codex::Resolve<Texture>( gfx, path, slot );
     }

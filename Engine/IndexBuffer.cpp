@@ -49,7 +49,7 @@ namespace Binds
 		return std::string( typeid( IndexBuffer ).name() + "_"s + tag );
 	}
 
-	std::shared_ptr<Bindable> IndexBuffer::Resolve(
+	std::shared_ptr<IndexBuffer> IndexBuffer::Resolve(
 		Graphics&                          gfx,
 		const std::vector<unsigned short>& indices,
 		std::string                        tag )

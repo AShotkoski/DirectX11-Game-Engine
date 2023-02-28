@@ -16,7 +16,7 @@ namespace Binds
 		VertexBuffer() = default;
 		void Bind( Graphics& gfx ) override;
 		static std::string GenerateUID( const Vert::VertexBuffer& vb, std::string tag );
-		static std::shared_ptr<Bindable>
+		static std::shared_ptr<VertexBuffer>
 			Resolve( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag );
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;

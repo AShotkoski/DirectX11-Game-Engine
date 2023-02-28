@@ -40,7 +40,7 @@ namespace Binds
 		return std::string( typeid( VertexBuffer ).name() + "_"s + tag );
 	}
 
-	std::shared_ptr<Bindable>
+	std::shared_ptr<VertexBuffer>
 		VertexBuffer::Resolve( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag )
 	{
 		return Codex::Resolve<VertexBuffer>(gfx,vb,tag);
