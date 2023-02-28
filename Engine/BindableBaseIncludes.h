@@ -8,3 +8,7 @@
 #include "InputLayout.h"
 #include "ConstantBuffers.h"
 #include "TransformationConstBuffer.h"
+#include "ConstantBufferEx.h"
+#include "Stencil.h"
+#include "Texture.h"
+#include "Sampler.h"

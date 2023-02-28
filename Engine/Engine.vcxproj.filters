@@ -141,7 +141,9 @@
     <ClCompile Include="DynamicCB.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Stencil.cpp" />
+    <ClCompile Include="Stencil.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
