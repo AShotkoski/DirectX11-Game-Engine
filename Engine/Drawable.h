@@ -20,8 +20,9 @@ public:
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
 	void Submit(class FrameCommander& frame) const;
-	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 	UINT GetIndexCount() const;
+	void Bind(Graphics& gfx) const;
+	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 	virtual ~Drawable() = default;
 protected:
 	void AddTechnique( Technique technique);

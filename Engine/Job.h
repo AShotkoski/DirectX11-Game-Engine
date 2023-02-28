@@ -1,13 +1,16 @@
 #pragma once
-#include "Step.h"
-#include "Drawable.h"
-#include "Step.h"
+
+class Step;
+class Drawable;
 
 // pDraw, pStep
 class Job
 {
 public:
-	std::shared_ptr<Drawable> pDrawable;
-	std::shared_ptr<Step> pStep;
+	Job( const Drawable* pDraw, const Step* pStep );
+	void Execute(class Graphics& gfx) const;
+private:
+	const Drawable* pDrawable;
+	const Step* pStep;
 };
 

@@ -26,21 +26,21 @@ Cube::Cube(
 	Vert::VertexBuffer vertBuf( std::move( vLayout ) );
 	IndexedTriangleList itl = GeometricPrim::Cube::GetIndependentFaces( vertBuf );
 	itl.SetNormalsIndependentFlat();
-	AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" ) );
-	AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" ) );
 	// Set common idx buf, vert buf, and topology on parent drawable
 	pVertexBuffer = Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" );
+	pIndexBuffer = Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" );
+	pTopology = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-
-	AddBind( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	
-	AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolid.cso" ) );
-	AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhongSolid.cso" ) );
-	auto vs = QueryBindable<Binds::VertexShader>();
-	auto vsbytecode = vs->pGetBytecode();
-	AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-	AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
-	AddBind( std::make_shared<Binds::Stencil>( gfx, Binds::Stencil::Mode::Write ));
+	// Create Technique for phong
+	Technique solidPhong;
+	Step only( 0 );
+	// Add binds to step needed to phong
+	only.AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolid.cso" ) );
+	auto pVS = Binds::VertexShader::Resolve( gfx, L"VSPhongSolid.cso" );
+	auto vsbytecode = pVS->pGetBytecode();
+	only.AddBind( std::move( pVS ) );
+	only.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
+	only.AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
 	// Setup phong material properties
 	CB::Layout cblay;
 	cblay.add( CB::Float, "specularInt" );
@@ -50,8 +50,9 @@ Cube::Cube(
 	cbbuf["specularInt"] = 0.4f;
 	cbbuf["specularPow"] = 500.f;
 	cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
-	AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
-
+	only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
+	solidPhong.AddStep( std::move( only ) );
+	/*
 	// Outline
 	//itl.Transform( DirectX::XMMatrixScaling( 2, 2, 2 ) );
 	outlineBinds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
@@ -72,6 +73,7 @@ Cube::Cube(
 		float pad;
 	} cbb;
 	outlineBinds.push_back( Binds::PixelConstantBuffer<CBb>::Resolve( gfx, cbb, "solidred", 1u ) );
+	*/
 }
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
@@ -87,6 +89,7 @@ DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 
 void Cube::DrawOutline( Graphics& gfx )
 {
+	/*
 	outlining = true;
 	for ( auto& b : outlineBinds )
 	{
@@ -94,4 +97,5 @@ void Cube::DrawOutline( Graphics& gfx )
 	}
 	gfx.DrawIndexed( QueryBindable<Binds::IndexBuffer>()->GetIndicesCount() );
 	outlining = false;
+	*/
 }

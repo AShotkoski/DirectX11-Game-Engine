@@ -7,6 +7,7 @@ class Step
 public:
 	Step( size_t passNum );
 	void Submit( class FrameCommander& frame, const class Drawable& drawable );
+	void Bind( Graphics& gfx ) const;
 	void AddBind( std::shared_ptr<Bindable> pBind );
 private:
 	std::vector<std::shared_ptr<Bindable>> pBinds;
