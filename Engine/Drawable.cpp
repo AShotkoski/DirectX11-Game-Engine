@@ -2,34 +2,19 @@
 #include <cassert>
 #include "IndexBuffer.h"
 
-void Drawable::Draw( Graphics& gfx ) const
-{	
-	for ( auto& b : Binds )
-	{
-		b->Bind( gfx );
-	}
 
-	// Ensure index buffer exists
-	if ( pIndexBuffer == nullptr )
-	{
-		assert("NO INDEX BUFFER FOUND\n" && false);
-	}
 
-	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
+void Drawable::Submit( FrameCommander& frame ) const
+{
+
 }
-
 
 UINT Drawable::GetIndexCount() const
 {
 	return pIndexBuffer->GetIndicesCount();
 }
 
-void Drawable::AddBind( std::shared_ptr<Bindable> bind )
+void Drawable::AddTechnique( Technique technique )
 {
-	if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )
-	{
-		assert( "Attempted to bind more than 1 index buffer" && pIndexBuffer == nullptr );
-		pIndexBuffer = static_cast<Binds::IndexBuffer*>(bind.get());
-	}
-	Binds.push_back( std::move( bind ) );
+	techniques.push_back( std::move(technique) );
 }

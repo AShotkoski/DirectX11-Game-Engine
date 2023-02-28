@@ -20,7 +20,6 @@ Cube::Cube(
 	, yaw( yaw )
 	, roll( roll )
 {
-	AddBind( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 	Vert::VertexLayout vLayout;
 	vLayout.Append( Vert::VertexLayout::Position_3D );
 	vLayout.Append( Vert::VertexLayout::Normal );
@@ -29,6 +28,12 @@ Cube::Cube(
 	itl.SetNormalsIndependentFlat();
 	AddBind( Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" ) );
 	AddBind( Binds::IndexBuffer::Resolve( gfx, itl.indices, "Cube" ) );
+	// Set common idx buf, vert buf, and topology on parent drawable
+	pVertexBuffer = Binds::VertexBuffer::Resolve( gfx, itl.vb, "Cube" );
+
+
+	AddBind( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
+	
 	AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolid.cso" ) );
 	AddBind( Binds::VertexShader::Resolve( gfx, L"VSPhongSolid.cso" ) );
 	auto vs = QueryBindable<Binds::VertexShader>();

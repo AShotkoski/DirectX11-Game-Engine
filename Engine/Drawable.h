@@ -1,6 +1,7 @@
 #pragma once
 #include "Graphics.h"
 #include "Bindable.h"
+#include "Technique.h"
 #include <vector>
 #include <memory>
 #include <optional>
@@ -18,13 +19,17 @@ public:
 	Drawable() = default;
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
-	virtual void Draw(Graphics& gfx) const;
+	void Submit(class FrameCommander& frame) const;
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
+	UINT GetIndexCount() const;
 	virtual ~Drawable() = default;
 protected:
-	void AddBind( std::shared_ptr<Bindable> bind );
-private:
+	void AddTechnique( Technique technique);
+protected:
+	// These must be set by children
 	std::shared_ptr<Binds::IndexBuffer> pIndexBuffer;
 	std::shared_ptr<Binds::VertexBuffer> pVertexBuffer;
 	std::shared_ptr<Binds::Topology> pTopology;
+private:
+	std::vector<Technique> techniques;
 };
