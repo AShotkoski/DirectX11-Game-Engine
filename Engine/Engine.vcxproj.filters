@@ -156,6 +156,9 @@
     <ClCompile Include="Step.cpp">
       <Filter>Source\RenderQueue</Filter>
     </ClCompile>
+    <ClCompile Include="NullPixelShader.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="Pass.h">
       <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="NullPixelShader.h">
+      <Filter>Headers\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

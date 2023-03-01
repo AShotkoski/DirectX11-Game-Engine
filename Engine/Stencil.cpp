@@ -8,19 +8,21 @@ Binds::Stencil::Stencil( Graphics& gfx, Mode mode )
 
 	if ( mode == Mode::Write )
 	{
-		dsDesc.StencilEnable = true;
+		dsDesc.DepthEnable = FALSE;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = TRUE;
 		dsDesc.StencilWriteMask = 0xFF;
 		dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 		dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
 	}
 	else if ( mode == Mode::Mask )
 	{
-		dsDesc.StencilEnable = true;
-		dsDesc.DepthEnable = false;
+		dsDesc.DepthEnable = FALSE;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = TRUE;
 		dsDesc.StencilReadMask = 0xFF;
 		dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_NOT_EQUAL;
 		dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 	}
 
 	THROW_FAILED_GFX( pGetDevice( gfx )->CreateDepthStencilState( &dsDesc, &pDepthStencilState ) );

@@ -14,18 +14,7 @@ namespace Binds
 
 	void TransformationConstBuffer::Bind( Graphics& gfx )
 	{
-		// Update vertex const buffer with projected transformation matrix given by 
-		// owner drawable
-		const auto parentModel = parent.GetTransformationMatrix();
-
-		const TransformBuffer tb = {
-			DirectX::XMMatrixTranspose( parentModel ), // model
-			DirectX::XMMatrixTranspose( gfx.GetCamera().GetInvMatrix() ), //Invview
-			DirectX::XMMatrixTranspose( parentModel * gfx.GetCamera().GetMatrix() * gfx.GetProjection() ) //proj
-		};
-
-		pVertexCBuf->Update( gfx, tb );
-		pVertexCBuf->Bind( gfx );
+		UpdateAndBind( gfx, GetBuffer( gfx ) );
 	}
 
 	std::string TransformationConstBuffer::GenerateUID( const Drawable& parent )
@@ -38,5 +27,25 @@ namespace Binds
 	{
 		return Codex::Resolve<TransformationConstBuffer>(gfx,parent);
 	}
+
+	TransformationConstBuffer::TransformBuffer TransformationConstBuffer::GetBuffer( Graphics& gfx ) const
+	{
+		// Update vertex const buffer with projected transformation matrix given by 
+		// owner drawable
+		const auto parentModel = parent.GetTransformationMatrix();
+
+		return {
+			DirectX::XMMatrixTranspose( parentModel ), // model
+			DirectX::XMMatrixTranspose( gfx.GetCamera().GetInvMatrix() ), //Invview
+			DirectX::XMMatrixTranspose( parentModel * gfx.GetCamera().GetMatrix() * gfx.GetProjection() ) //proj
+		};
+	}
+
+	void TransformationConstBuffer::UpdateAndBind( Graphics& gfx, TransformBuffer buffer ) const
+	{
+		pVertexCBuf->Update( gfx, buffer );
+		pVertexCBuf->Bind( gfx );
+	}
+
 
 };

@@ -2,6 +2,7 @@
 #include "Pass.h"
 #include "Job.h"
 #include "BindableBaseIncludes.h"
+#include "NullPixelShader.h"
 #include <array>
 
 class FrameCommander
@@ -16,6 +17,13 @@ public:
 	{
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
+
+		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Write )->Bind( gfx );
+		Binds::NullPixelShader::Resolve( gfx )->Bind(gfx);
+		passes[1].Execute( gfx );
+
+		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Mask )->Bind( gfx );
+		passes[2].Execute( gfx );
 	}
 	void Reset()
 	{

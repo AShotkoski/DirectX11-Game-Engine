@@ -17,9 +17,12 @@ namespace Binds
 		};
 	public:
 		TransformationConstBuffer( Graphics& gfx, const Drawable& parent );
-		void Bind( Graphics& gfx ) override;
+		virtual void Bind( Graphics& gfx ) override;
 		static std::string GenerateUID( const Drawable& parent );
 		static std::shared_ptr<TransformationConstBuffer> Resolve( Graphics& gfx, const Drawable& parent );
+	protected:
+		TransformBuffer GetBuffer(Graphics& gfx) const;
+		void UpdateAndBind( Graphics& gfx, TransformBuffer buffer ) const;
 	private:
 		static std::unique_ptr<VertexConstantBuffer<TransformBuffer>> pVertexCBuf;
 		const Drawable& parent;
