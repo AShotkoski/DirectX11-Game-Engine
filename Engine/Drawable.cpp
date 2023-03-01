@@ -26,5 +26,6 @@ void Drawable::Bind(Graphics& gfx) const
 
 void Drawable::AddTechnique( Technique technique )
 {
+	technique.InitParentRef( *this );
 	techniques.push_back( std::move(technique) );
 }

@@ -24,7 +24,8 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	auto vsbytecode = pVS->pGetBytecode();
 	only.AddBind( std::move( pVS ) );
 	only.AddBind( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
-	only.AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+	only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
+
 	// make white
 	struct CB
 	{

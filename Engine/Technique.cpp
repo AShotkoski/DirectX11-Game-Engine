@@ -13,3 +13,11 @@ void Technique::AddStep( Step step )
 {
 	steps.push_back( std::move( step ) );
 }
+
+void Technique::InitParentRef( const Drawable& parent )
+{
+	for ( auto& s : steps )
+	{
+		s.InitParentRef(parent);
+	}
+}

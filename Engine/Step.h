@@ -9,6 +9,7 @@ public:
 	void Submit( class FrameCommander& frame, const class Drawable& drawable ) const;
 	void Bind( Graphics& gfx ) const;
 	void AddBind( std::shared_ptr<Bindable> pBind );
+	void InitParentRef( const class Drawable& parent );
 private:
 	std::vector<std::shared_ptr<Bindable>> pBinds;
 	size_t passIdx;

@@ -41,7 +41,7 @@ Cube::Cube(
 	auto vsbytecode = pVS->pGetBytecode();
 	only.AddBind( std::move( pVS ) );
 	only.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-	only.AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+	only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 	// Setup phong material properties
 	CB::Layout cblay;
 	cblay.add( CB::Float, "specularInt" );
@@ -65,7 +65,7 @@ Cube::Cube(
 			auto vsbytecode = pVS->pGetBytecode();
 			mask.AddBind( std::move( pVS ) );
 			mask.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-			mask.AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
+			mask.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 			Outline.AddStep( std::move( mask ) );
 		}
 		{
@@ -78,8 +78,8 @@ Cube::Cube(
 			class ScalingTransformCB : public Binds::TransformationConstBuffer
 			{
 			public:
-				ScalingTransformCB( Graphics& gfx, Drawable& draw, float scale )
-					: TransformationConstBuffer(gfx, draw)
+				ScalingTransformCB( Graphics& gfx, float scale )
+					: TransformationConstBuffer(gfx )
 					, scale_(scale)
 				{}
 				virtual void Bind( Graphics& gfx ) override
@@ -93,7 +93,7 @@ Cube::Cube(
 			private:
 				float scale_;
 			};
-			draw.AddBind( std::make_shared<ScalingTransformCB>(gfx,*this,1.03f) );
+			draw.AddBind( std::make_shared<ScalingTransformCB>(gfx, 1.03f) );
 			struct CBb
 			{
 				float r = 1.f;

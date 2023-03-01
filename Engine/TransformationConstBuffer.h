@@ -1,7 +1,6 @@
 #pragma once
 #include "Bindable.h"
 #include "ConstantBuffers.h"
-#include "Drawable.h"
 
 namespace Binds
 {
@@ -16,16 +15,16 @@ namespace Binds
 			DirectX::XMMATRIX modelViewProj;
 		};
 	public:
-		TransformationConstBuffer( Graphics& gfx, const Drawable& parent );
+		TransformationConstBuffer( Graphics& gfx);
 		virtual void Bind( Graphics& gfx ) override;
-		static std::string GenerateUID( const Drawable& parent );
-		static std::shared_ptr<TransformationConstBuffer> Resolve( Graphics& gfx, const Drawable& parent );
+		void InitParentRefs( const class Drawable& parent ) override;
+		// No Codex things because a transform cbuf is by nature going to be unique so sharing doesn't make sense
 	protected:
 		TransformBuffer GetBuffer(Graphics& gfx) const;
 		void UpdateAndBind( Graphics& gfx, TransformBuffer buffer ) const;
 	private:
 		static std::unique_ptr<VertexConstantBuffer<TransformBuffer>> pVertexCBuf;
-		const Drawable& parent;
+		const class Drawable* pParent;
 	};
 
 };

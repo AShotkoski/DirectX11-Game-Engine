@@ -24,3 +24,11 @@ void Step::AddBind( std::shared_ptr<Bindable> pBind )
 {
 	pBinds.push_back( std::move( pBind ) );
 }
+
+void Step::InitParentRef( const Drawable& parent )
+{
+	for ( auto& b : pBinds )
+	{
+		b->InitParentRefs( parent );
+	}
+}

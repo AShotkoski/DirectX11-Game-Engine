@@ -1,13 +1,14 @@
 #include "TransformationConstBuffer.h"
 #include "BindableCodex.h"
+#include "Loguru/loguru.hpp"
+#include "Drawable.h"
 
 namespace Binds
 {
 	std::unique_ptr<VertexConstantBuffer<TransformationConstBuffer::TransformBuffer>> TransformationConstBuffer::pVertexCBuf;
 
-	TransformationConstBuffer::TransformationConstBuffer( Graphics& gfx, const Drawable& parent )
-		:
-		parent( parent )
+	TransformationConstBuffer::TransformationConstBuffer( Graphics& gfx )
+		: pParent{nullptr}
 	{
 		pVertexCBuf = std::make_unique<VertexConstantBuffer<TransformBuffer>>( gfx );
 	}
@@ -17,22 +18,17 @@ namespace Binds
 		UpdateAndBind( gfx, GetBuffer( gfx ) );
 	}
 
-	std::string TransformationConstBuffer::GenerateUID( const Drawable& parent )
+	void TransformationConstBuffer::InitParentRefs( const Drawable& parent )
 	{
-		using namespace std::string_literals;
-		return std::string( typeid( TransformationConstBuffer ).name() + "_"s + std::to_string((size_t)&parent));
-	}
-
-	std::shared_ptr<TransformationConstBuffer> TransformationConstBuffer::Resolve( Graphics& gfx, const Drawable& parent )
-	{
-		return Codex::Resolve<TransformationConstBuffer>(gfx,parent);
+		pParent = &parent;
 	}
 
 	TransformationConstBuffer::TransformBuffer TransformationConstBuffer::GetBuffer( Graphics& gfx ) const
 	{
+		DCHECK_NOTNULL_F( pParent, "Attempted to get transform matrix without initializing parent" );
 		// Update vertex const buffer with projected transformation matrix given by 
 		// owner drawable
-		const auto parentModel = parent.GetTransformationMatrix();
+		const auto parentModel = pParent->GetTransformationMatrix();
 
 		return {
 			DirectX::XMMatrixTranspose( parentModel ), // model
@@ -46,6 +42,5 @@ namespace Binds
 		pVertexCBuf->Update( gfx, buffer );
 		pVertexCBuf->Bind( gfx );
 	}
-
 
 };
