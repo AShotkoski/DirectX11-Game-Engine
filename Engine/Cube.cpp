@@ -130,12 +130,12 @@ void Cube::SpawnControlWindow( Graphics& gfx, std::string name )
 				ImGui::Text( pTechnique->GetName().c_str() );
 				bool techActive = pTechnique->Active();
 				using namespace std::string_literals;
-				if ( ImGui::Checkbox( ("Active##"s + pTechnique->GetName()).c_str(), &techActive) )
+				if ( ImGui::Checkbox( ("Active##"s + std::to_string(techIdx)).c_str(), &techActive) )
 				{
 					pTechnique->SetActiveState( techActive );
 				}
 			}
-			virtual bool VisitBuffer( CB::Buffer& cb ) const override
+			virtual bool OnVisitBuffer( CB::Buffer& cb ) const override
 			{
 				namespace dx = DirectX;
 				bool changed = false;
