@@ -28,42 +28,63 @@ namespace CB
 
 	// Specialize TypeInfo struct on each supported type to use as a single truth point 
 	// of System Type and Hlsl size (eg. Bool is larger in hlsl than c++)
-	template<Type t> struct TypeInfo {};
+	template<Type T> struct TypeInfo { static constexpr bool valid = false; };
 	template<> struct TypeInfo<Float>
 	{
 		using systype = float;
 		static constexpr const size_t hlslsize = sizeof( systype );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Float2>
 	{
 		using systype = DirectX::XMFLOAT2;
 		static constexpr const size_t hlslsize = sizeof( systype );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Float3>
 	{
 		using systype = DirectX::XMFLOAT3;
 		static constexpr const size_t hlslsize = sizeof( systype );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Float4>
 	{
 		using systype = DirectX::XMFLOAT4;
 		static constexpr const size_t hlslsize = sizeof( systype );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Matrix>
 	{
 		using systype = DirectX::XMMATRIX;
 		static constexpr const size_t hlslsize = sizeof( systype );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Bool>
 	{
 		using systype = bool;
 		static constexpr const size_t hlslsize = sizeof( int );
+		static constexpr bool valid = true;
 	};
 	template<> struct TypeInfo<Invalid>
 	{
 		using systype = void;
 		static constexpr const size_t hlslsize = 0u;
 	};
+
+	// map from systype to custom type
+	template<typename T>
+	struct ReverseMap
+	{
+		static constexpr bool valid = false;
+	};
+	#define X(el) \
+	template<> struct ReverseMap<typename TypeInfo<el>::systype> \
+	{ \
+		static constexpr Type type = el; \
+		static constexpr bool valid = true; \
+	};
+	SUPPORTED_TYPES
+	#undef X
 
 	// Heart of the Dynamic CB system. At its core just a vector of Element objects (element
 	// is a basic class which just contains a data type and name, and once aligned, an offset) 
@@ -128,6 +149,21 @@ namespace CB
 	{
 		friend class Buffer;
 	public:
+		class ptr
+		{
+			friend class View;
+		public:
+			template <typename T>
+			operator T* ( ) const
+			{
+				static_assert( ReverseMap<std::remove_const_t<T>>::valid, "Unsupported type pointer" );
+				return &static_cast<T&>( *pView_ );
+			}
+		private:
+			ptr( View* pView ) : pView_(pView) {}
+			View* pView_ = nullptr;
+		};
+	public:
 		bool Exists() const;
 		operator bool()
 		{
@@ -146,18 +182,23 @@ namespace CB
 				return false;
 			}
 		}
-		template <typename T>
-		void operator=( const T& val )
+		// TODO a lot of DCHECK_F here could be static_asserts
+		ptr operator&() const
 		{
-			// Check data is valid
-			DCHECK_F( validate<T>(), "Invalid type %s assignment.", typeid( T ).name() );
-			*reinterpret_cast<T*>( pData_ ) = val;
+			return ptr( const_cast<View*>(this) );
+		}
+		template<typename T>
+		operator T& ( ) const
+		{
+			static_assert( ReverseMap<std::remove_const_t<T>>::valid, "Invalid type assignment" );
+			return *reinterpret_cast<T*>( pData_ );
 		}
 		template <typename T>
-		operator T() const
+		T& operator=( const T& rhs )
 		{
-			DCHECK_F( validate<T>(), "Invalid type conversion %s assignment.", typeid( T ).name() );
-			return *reinterpret_cast<T*>( pData_ );
+			static_assert( ReverseMap<std::remove_const_t<T>>::valid, "Invalid Type assignment" );
+			//*reinterpret_cast<T*>( pData_ ) = val;
+			return static_cast<T&>( *this ) = rhs;
 		}
 	private:
 		// We only want views to be creatable from Buffer
