@@ -1,5 +1,5 @@
 #pragma once
-#include "Loguru/loguru.hpp"
+#include "log.h"
 
 class LoguruManager
 {

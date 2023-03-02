@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "Sampler.h"
 #include "GeneralUtilities.h"
-#include "Loguru/loguru.hpp"
+#include "log.h"
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui/imgui.h"
 #include "DynamicCB.h"
@@ -84,10 +84,10 @@ class ModelController
 private:
 	struct Properties
 	{
-		DirectX::XMFLOAT3 pos;
-		float pitch;
-		float yaw;
-		float roll;
+		DirectX::XMFLOAT3 pos = { 0,0,0 };
+		float pitch = 0;
+		float yaw = 0;
+		float roll = 0;
 		DirectX::XMFLOAT3 scale = { 1,1,1 };
 	};
 public:

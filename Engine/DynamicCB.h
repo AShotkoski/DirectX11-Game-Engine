@@ -1,5 +1,5 @@
 #pragma once
-#include "Loguru/loguru.hpp"
+#include "log.h"
 #include <DirectXMath.h>
 #include <string>
 #include <type_traits>

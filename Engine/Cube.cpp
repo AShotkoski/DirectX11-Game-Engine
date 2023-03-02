@@ -93,13 +93,13 @@ Cube::Cube(
 			private:
 				float scale_;
 			};
-			draw.AddBind( std::make_shared<ScalingTransformCB>(gfx, 1.03f) );
+			draw.AddBind( std::make_shared<ScalingTransformCB>(gfx, 1.05f) );
 			struct CBb
 			{
 				float r = 1.f;
 				float g = 0.f;
 				float b = 0.f;
-				float pad;
+				float pad = 0;
 			} cbb;
 			draw.AddBind( Binds::PixelConstantBuffer<CBb>::Resolve( gfx, cbb, "solidred", 1u ) );
 			Outline.AddStep( std::move( draw ) );

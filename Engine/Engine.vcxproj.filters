@@ -353,6 +353,9 @@
     <ClInclude Include="TechniqueProbe.h">
       <Filter>Headers\RenderQueue</Filter>
     </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

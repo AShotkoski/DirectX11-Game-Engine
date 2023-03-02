@@ -1,6 +1,6 @@
 #include "TransformationConstBuffer.h"
 #include "BindableCodex.h"
-#include "Loguru/loguru.hpp"
+#include "log.h"
 #include "Drawable.h"
 #include "TechniqueProbe.h"
 

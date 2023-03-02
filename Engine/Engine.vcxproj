@@ -177,6 +177,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="log.h" />
     <ClInclude Include="LoguruManager.h" />
     <ClInclude Include="Loguru\loguru.hpp" />
     <ClInclude Include="Material.h" />
