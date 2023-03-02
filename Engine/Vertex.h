@@ -139,6 +139,27 @@ namespace Vert
 			elements.emplace_back( el, elements.size() == 0u ? 0u : elements.back().GetNextSlot() );
 			return *this;
 		}
+		bool Try_append( ElementType el ) noexcept
+		{
+			if ( !Contains( el ) )
+			{
+				Append( el );
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		bool Contains(ElementType type) const 
+		{
+			for ( auto& e : elements )
+			{
+				if ( e.GetType() == type )
+					return true;
+			}
+			return false;
+		}
 		size_t NumElements() const
 		{
 			return elements.size();
