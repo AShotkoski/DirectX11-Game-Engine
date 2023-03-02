@@ -159,7 +159,9 @@
     <ClCompile Include="NullPixelShader.cpp">
       <Filter>Source\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantBufferEx.cpp" />
+    <ClCompile Include="ConstantBufferEx.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

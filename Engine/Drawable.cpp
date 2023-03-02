@@ -24,6 +24,14 @@ void Drawable::Bind(Graphics& gfx) const
 	pTopology->Bind( gfx );
 }
 
+void Drawable::Accept( TechniqueProbe& probe ) const
+{
+	for ( auto& t : techniques )
+	{
+		t.Accept( probe );
+	}
+}
+
 void Drawable::AddTechnique( Technique technique )
 {
 	technique.InitParentRef( *this );

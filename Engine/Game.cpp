@@ -73,6 +73,8 @@ void Game::DrawImGuis()
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
 	//sponza.SpawnControlWindow();
+	cube0.SpawnControlWindow( gfx );
+	cube1.SpawnControlWindow( gfx );
 }
 
 // Todo pImpl for camera control

@@ -13,6 +13,7 @@ public:
 		DirectX::XMFLOAT3 position,
 		float pitch, float yaw, float roll);
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
+	void SpawnControlWindow( Graphics& gfx );
 private:
 	DirectX::XMFLOAT3 size;
 	// Position

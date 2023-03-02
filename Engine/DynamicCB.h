@@ -191,13 +191,14 @@ namespace CB
 		operator T& ( ) const
 		{
 			static_assert( ReverseMap<std::remove_const_t<T>>::valid, "Invalid type assignment" );
+			DCHECK_F( Exists(), "Retrieving value that doesn't exist." );
 			return *reinterpret_cast<T*>( pData_ );
 		}
 		template <typename T>
 		T& operator=( const T& rhs )
 		{
 			static_assert( ReverseMap<std::remove_const_t<T>>::valid, "Invalid Type assignment" );
-			//*reinterpret_cast<T*>( pData_ ) = val;
+			DCHECK_F( Exists(), "Assignment to value that doesn't exist." );
 			return static_cast<T&>( *this ) = rhs;
 		}
 	private:

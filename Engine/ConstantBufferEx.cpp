@@ -65,7 +65,7 @@ void Binds::CachingPSConstantBufferEx::Bind( Graphics& gfx )
 
 void Binds::CachingPSConstantBufferEx::Accept( TechniqueProbe& probe )
 {
-	if ( probe.VisitBuffer( buffer_ ) ) 
+	if ( probe.VisitBuffer( buffer_ ) )
 	{ // Buffer changed
 		synchronized_ = false;
 	}

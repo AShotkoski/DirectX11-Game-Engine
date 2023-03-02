@@ -1,13 +1,13 @@
 #include "Cube.h"
 #include "BindableBaseIncludes.h"
-#include "ConstantBuffers.h"
 #include "TransformationConstBuffer.h"
 #include "CubePrimitive.h"
 #include "Colors.h"
 #include "Vertex.h"
 #include "BindableCodex.h"
 #include "ConstantBufferEx.h"
-#include "Stencil.h"
+#include "TechniqueProbe.h"
+#include "ImGui/imgui.h"
 
 Cube::Cube(
 	Graphics& gfx,
@@ -116,4 +116,31 @@ DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 		return scale
 			* XMMatrixRotationRollPitchYaw(pitch,yaw,roll)
 			* XMMatrixTranslation(pos.x,pos.y,pos.z);
+}
+
+void Cube::SpawnControlWindow( Graphics& gfx )
+{
+	if ( ImGui::Begin( "Cubing" ) )
+	{
+		class Probing : public TechniqueProbe
+		{
+		public:
+			virtual bool VisitBuffer( CB::Buffer& cb ) const override
+			{
+				namespace dx = DirectX;
+				bool changed = false;
+				if ( auto e = cb["color"]; e )
+				{
+					if ( ImGui::ColorEdit3( "color", &e ) )
+						changed = true;
+				}
+				return changed;
+			}
+		private:
+		};
+
+		static Probing probe;
+		Accept( probe );
+	}
+	ImGui::End();
 }
