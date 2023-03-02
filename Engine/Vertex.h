@@ -8,68 +8,67 @@
 
 namespace Vert
 {
+
+	#define VERTEX_SUPPORTED_TYPES \
+		X(Position_3D) \
+		X(Position_2D) \
+		X(Normal) \
+		X(Color_float_RGB) \
+		X(TexCoordUV) \
+		X(Tangent) \
+		X(Bitangent)
+
 	class VertexLayout
 	{
 	public:
 		enum ElementType
 		{
-			Position_3D,
-			Position_2D,
-			Normal,
-			Color_float_RGB,
-			TexCoordUV,
-			Tangent, 
-			Bitangent
+			#define X(el) el,
+			VERTEX_SUPPORTED_TYPES
+			#undef X
 		};
 
 		// Template map for each elementType to keep all relations of Elementtype with concrete 
 		// data types in one place.
 		template<ElementType type>
 		struct TypeInfo;
-		template<>
-		struct TypeInfo<Position_3D>
+		template<> struct TypeInfo<Position_3D>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Position";
 		};
-		template<>
-		struct TypeInfo<Position_2D>
+		template<> struct TypeInfo<Position_2D>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Position";
 		};
-		template<>
-		struct TypeInfo<Normal>
+		template<> struct TypeInfo<Normal>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Normal";
 		};
-		template<>
-		struct TypeInfo<Color_float_RGB>
+		template<> struct TypeInfo<Color_float_RGB>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
 		};
-		template<>
-		struct TypeInfo<TexCoordUV>
+		template<> struct TypeInfo<TexCoordUV>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "TEXCOORD";
 		};
-		template<>
-		struct TypeInfo<Tangent>
+		template<> struct TypeInfo<Tangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "TANGENT";
 		};
-		template<>
-		struct TypeInfo<Bitangent>
+		template<> struct TypeInfo<Bitangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -105,20 +104,11 @@ namespace Vert
 			{
 				switch ( type )
 				{
-					case Position_3D:
-						return GenerateD3DDesc<Position_3D>();
-					case Position_2D:
-						return GenerateD3DDesc<Position_2D>();
-					case Normal:
-						return GenerateD3DDesc<Normal>();
-					case Color_float_RGB:
-						return GenerateD3DDesc<Color_float_RGB>();
-					case TexCoordUV:
-						return GenerateD3DDesc<TexCoordUV>();
-					case Tangent:
-						return GenerateD3DDesc<Tangent>();
-					case Bitangent:
-						return GenerateD3DDesc<Bitangent>();
+					#define X(el)\
+					case el:\
+						 return GenerateD3DDesc<el>();
+					VERTEX_SUPPORTED_TYPES
+					#undef X
 				}
 				assert( false && "horrible error in getd3ddesc" );
 				return {};
@@ -185,20 +175,11 @@ namespace Vert
 			// Use the kind of value that will be used to represent each element to get size
 			switch ( el )
 			{
-				case ElementType::Position_3D:
-					return sizeof( TypeInfo<Position_3D>::type );
-				case ElementType::Position_2D:
-					return sizeof( TypeInfo<Position_2D>::type );
-				case ElementType::Color_float_RGB:
-					return sizeof( TypeInfo<Color_float_RGB>::type );
-				case ElementType::Normal:
-					return sizeof( TypeInfo<Normal>::type );
-				case ElementType::TexCoordUV:
-					return sizeof( TypeInfo<TexCoordUV>::type );
-				case ElementType::Tangent:
-					return sizeof( TypeInfo<Tangent>::type );
-				case ElementType::Bitangent:
-					return sizeof( TypeInfo<Bitangent>::type );
+				#define X(el)\
+				case ElementType::el:\
+					return sizeof(TypeInfo<el>::type);
+				VERTEX_SUPPORTED_TYPES
+				#undef X
 			}
 			// Invalid element was passed in, return 0;
 			assert( "Invalid element passed to sizeofelement" && false );
@@ -257,27 +238,12 @@ namespace Vert
 			{
 				using types = VertexLayout::ElementType;
 
-				case types::Position_2D:
-					SetAttribute<types::Position_2D>( pAttr, std::forward<T>( attr ) );
+				#define X(el)\
+				case types::el:\
+					SetAttribute<types::el>(pAttr,std::forward<T>(attr));\
 					break;
-				case types::Position_3D:
-					SetAttribute<types::Position_3D>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Color_float_RGB:
-					SetAttribute<types::Color_float_RGB>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Normal:
-					SetAttribute<types::Normal>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::TexCoordUV:
-					SetAttribute<types::TexCoordUV>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Tangent:
-					SetAttribute<types::Tangent>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Bitangent:
-					SetAttribute<types::Bitangent>( pAttr, std::forward<T>( attr ) );
-					break;
+				VERTEX_SUPPORTED_TYPES
+				#undef X
 				default:
 					assert( false && "bad element type" );
 			}
