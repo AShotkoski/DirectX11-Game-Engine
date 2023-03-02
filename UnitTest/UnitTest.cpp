@@ -54,6 +54,32 @@ namespace UnitTest
 
 			//Assert::ExpectException<std::runtime_error>( [&]() { buf["notreal"] = 5; } );
 		}
+		TEST_METHOD(cbptr)
+		{
+			CB::Layout layout;
+			layout.add( CB::Float, "pos"); 
+			layout.add( CB::Float, "intensity"); 
+			layout.add( CB::Float, "power");  
+
+			CB::Buffer buf(  layout  );
+			CB::Buffer buf1(  layout  );
+
+			buf["pos"] = 1.5f;
+			buf["intensity"] = 0.5f;
+			buf["power"] = 6.8f;
+			buf1["power"] = 50.0f;
+
+			float norm = buf["power"];
+			float one = buf1["power"];
+			
+			float* pPow = &buf["power"];
+			float* pPow1 = &buf1["power"];
+
+			*pPow1 = 5.f;
+
+			norm = buf["power"];
+			one = buf1["power"];
+		}
 		
 	private:
 		LoguruManager loguruman; // fatal handler

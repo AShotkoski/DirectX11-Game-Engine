@@ -44,12 +44,12 @@ Cube::Cube(
 	only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 	// Setup phong material properties
 	CB::Layout cblay;
-	cblay.add( CB::Float, "specularInt" );
-	cblay.add( CB::Float, "specularPow" );
+	cblay.add( CB::Float, "specularIntensity" );
+	cblay.add( CB::Float, "specularPower" );
 	cblay.add( CB::Float3, "color" );
 	CB::Buffer cbbuf( std::move( cblay ) );
-	cbbuf["specularInt"] = 0.4f;
-	cbbuf["specularPow"] = 500.f;
+	cbbuf["specularIntensity"] = 0.4f;
+	cbbuf["specularPower"] = position.x;
 	cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
 	only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
 	solidPhong.AddStep( std::move( only ) );
@@ -118,9 +118,9 @@ DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept
 			* XMMatrixTranslation(pos.x,pos.y,pos.z);
 }
 
-void Cube::SpawnControlWindow( Graphics& gfx )
+void Cube::SpawnControlWindow( Graphics& gfx, std::string name )
 {
-	if ( ImGui::Begin( "Cubing" ) )
+	if ( ImGui::Begin( name.c_str() ) )
 	{
 		class Probing : public TechniqueProbe
 		{
@@ -129,17 +129,30 @@ void Cube::SpawnControlWindow( Graphics& gfx )
 			{
 				namespace dx = DirectX;
 				bool changed = false;
-				if ( auto e = cb["color"]; e )
+				auto l_changed = [&changed]( bool b )
 				{
-					if ( ImGui::ColorEdit3( "color", &e ) )
-						changed = true;
+					if ( b )
+					{
+						changed = changed || true;
+					}
+				};
+				if ( auto e = cb["color"]; e.Exists() )
+				{
+					l_changed( ImGui::ColorEdit3( "color", &e ) );
+				}
+				if ( auto e = cb["specularIntensity"]; e.Exists() )
+				{
+					l_changed( ImGui::DragFloat( "Specular Intensity", &e, 0.01f ) );
+				}
+				if ( auto e = cb["specularPower"]; e.Exists() )
+				{
+					l_changed( ImGui::DragFloat( "Specular Power", &e, 0.25f ) );
 				}
 				return changed;
 			}
 		private:
-		};
+		} probe;
 
-		static Probing probe;
 		Accept( probe );
 	}
 	ImGui::End();

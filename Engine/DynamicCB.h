@@ -165,10 +165,6 @@ namespace CB
 		};
 	public:
 		bool Exists() const;
-		operator bool()
-		{
-			return Exists();
-		}
 		template<typename T>
 		bool try_set( const T& val )
 		{
