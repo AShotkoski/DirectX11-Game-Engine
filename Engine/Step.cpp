@@ -33,7 +33,7 @@ void Step::InitParentRef( const Drawable& parent )
 	}
 }
 
-void Step::Accept( TechniqueProbe& probe ) const
+void Step::Accept( TechniqueProbe& probe )
 {
 	probe.SetStep( this );
 	for ( auto& b : pBinds )

@@ -32,7 +32,7 @@ Cube::Cube(
 	pTopology = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	// Create Technique for phong
-	Technique solidPhong;
+	Technique solidPhong("Solid Color Phong");
 	{
 	Step only( 0 );
 	// Add binds to step needed to phong
@@ -57,7 +57,7 @@ Cube::Cube(
 	AddTechnique( std::move( solidPhong ) );
 
 	// Mask
-	Technique Outline; 
+	Technique Outline("Outline");
 	{
 		{
 			Step mask( 1u );
@@ -125,6 +125,16 @@ void Cube::SpawnControlWindow( Graphics& gfx, std::string name )
 		class Probing : public TechniqueProbe
 		{
 		public:
+			virtual void OnSetTechnique() override
+			{
+				ImGui::Text( pTechnique->GetName().c_str() );
+				bool techActive = pTechnique->Active();
+				using namespace std::string_literals;
+				if ( ImGui::Checkbox( ("Active##"s + pTechnique->GetName()).c_str(), &techActive) )
+				{
+					pTechnique->SetActiveState( techActive );
+				}
+			}
 			virtual bool VisitBuffer( CB::Buffer& cb ) const override
 			{
 				namespace dx = DirectX;
@@ -150,7 +160,6 @@ void Cube::SpawnControlWindow( Graphics& gfx, std::string name )
 				}
 				return changed;
 			}
-		private:
 		} probe;
 
 		Accept( probe );

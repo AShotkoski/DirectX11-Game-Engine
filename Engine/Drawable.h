@@ -22,7 +22,7 @@ public:
 	void Submit(class FrameCommander& frame) const;
 	UINT GetIndexCount() const;
 	void Bind(Graphics& gfx) const;
-	void Accept( class TechniqueProbe& probe ) const;
+	void Accept( class TechniqueProbe& probe );
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 	virtual ~Drawable() = default;
 protected:

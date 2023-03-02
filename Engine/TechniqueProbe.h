@@ -11,12 +11,12 @@ namespace CB
 class TechniqueProbe
 {
 public:
-	void SetTechnique( const Technique* in_pTech )
+	void SetTechnique( Technique* in_pTech )
 	{
 		pTechnique = in_pTech;
 		OnSetTechnique();
 	}
-	void SetStep( const Step* in_pStep )
+	void SetStep( Step* in_pStep )
 	{
 		pStep = in_pStep;
 		OnSetStep();
@@ -30,6 +30,6 @@ protected:
 	virtual void OnSetTechnique() {}
 	virtual void OnSetStep() {}
 protected:
-	const Technique* pTechnique = nullptr;
-	const Step* pStep = nullptr;
+	Technique* pTechnique = nullptr;
+	Step* pStep = nullptr;
 };

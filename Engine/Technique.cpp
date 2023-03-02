@@ -2,8 +2,19 @@
 #include "FrameCommander.h"
 #include "TechniqueProbe.h"
 
+Technique::Technique( const std::string& in_name )
+	:name(in_name)
+{
+}
+
 void Technique::Submit( FrameCommander& frame, const Drawable& drawable ) const
 {
+	// Only submit to steps if tech is active
+	if ( !isActive )
+	{
+		return;
+	}
+
 	for ( auto& s : steps )
 	{
 		s.Submit( frame, drawable );
@@ -23,11 +34,26 @@ void Technique::InitParentRef( const Drawable& parent )
 	}
 }
 
-void Technique::Accept( TechniqueProbe& probe ) const
+void Technique::Accept( TechniqueProbe& probe )
 {
 	probe.SetTechnique( this );
 	for ( auto& s : steps )
 	{
 		s.Accept( probe );
 	}
+}
+
+bool Technique::Active() const
+{
+	return isActive;
+}
+
+void Technique::SetActiveState( bool active )
+{
+	isActive = active;
+}
+
+const std::string& Technique::GetName() const
+{
+	return name;
 }

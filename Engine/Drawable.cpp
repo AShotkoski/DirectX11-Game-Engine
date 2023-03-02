@@ -24,7 +24,7 @@ void Drawable::Bind(Graphics& gfx) const
 	pTopology->Bind( gfx );
 }
 
-void Drawable::Accept( TechniqueProbe& probe ) const
+void Drawable::Accept( TechniqueProbe& probe )
 {
 	for ( auto& t : techniques )
 	{
