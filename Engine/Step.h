@@ -10,6 +10,7 @@ public:
 	void Bind( Graphics& gfx ) const;
 	void AddBind( std::shared_ptr<Bindable> pBind );
 	void InitParentRef( const class Drawable& parent );
+	void Accept( class TechniqueProbe& probe ) const;
 private:
 	std::vector<std::shared_ptr<Bindable>> pBinds;
 	size_t passIdx;

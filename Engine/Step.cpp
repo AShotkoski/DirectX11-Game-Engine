@@ -1,6 +1,6 @@
 #include "Step.h"
 #include "FrameCommander.h"
-
+#include "TechniqueProbe.h"
 
 Step::Step( size_t passNum )
 	: passIdx(passNum)
@@ -30,5 +30,14 @@ void Step::InitParentRef( const Drawable& parent )
 	for ( auto& b : pBinds )
 	{
 		b->InitParentRefs( parent );
+	}
+}
+
+void Step::Accept( TechniqueProbe& probe ) const
+{
+	probe.SetStep( this );
+	for ( auto& b : pBinds )
+	{
+		b->Accept( probe );
 	}
 }

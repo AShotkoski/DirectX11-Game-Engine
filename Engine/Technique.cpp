@@ -1,5 +1,6 @@
 #include "Technique.h"
 #include "FrameCommander.h"
+#include "TechniqueProbe.h"
 
 void Technique::Submit( FrameCommander& frame, const Drawable& drawable ) const
 {
@@ -19,5 +20,14 @@ void Technique::InitParentRef( const Drawable& parent )
 	for ( auto& s : steps )
 	{
 		s.InitParentRef(parent);
+	}
+}
+
+void Technique::Accept( TechniqueProbe& probe ) const
+{
+	probe.SetTechnique( this );
+	for ( auto& s : steps )
+	{
+		s.Accept( probe );
 	}
 }

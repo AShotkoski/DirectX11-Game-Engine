@@ -10,6 +10,7 @@ public:
 	void Submit( class FrameCommander& frame, const Drawable& drawable ) const;
 	void AddStep( Step step );
 	void InitParentRef( const Drawable& parent );
+	void Accept( class TechniqueProbe& probe ) const;
 private:
 	std::vector<Step> steps;
 };

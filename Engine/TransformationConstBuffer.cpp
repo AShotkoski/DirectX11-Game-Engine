@@ -2,6 +2,7 @@
 #include "BindableCodex.h"
 #include "Loguru/loguru.hpp"
 #include "Drawable.h"
+#include "TechniqueProbe.h"
 
 namespace Binds
 {
@@ -22,6 +23,7 @@ namespace Binds
 	{
 		pParent = &parent;
 	}
+
 
 	TransformationConstBuffer::TransformBuffer TransformationConstBuffer::GetBuffer( Graphics& gfx ) const
 	{
