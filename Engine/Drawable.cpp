@@ -4,6 +4,12 @@
 #include "Topology.h"
 #include "Technique.h"
 
+Drawable::Drawable( Material& material )
+{
+	// this is where we will in future set all binds for drawable based on the vertlayout in material and stuff
+	// right now I just wanna see what material will do lol
+}
+
 void Drawable::Submit( FrameCommander& frame ) const
 {
 	for ( auto& t : techniques )

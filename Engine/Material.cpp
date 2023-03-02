@@ -1,48 +1,87 @@
 #include "Material.h"
+#include "Technique.h"
+#include "BindableBaseIncludes.h"
+#include "Colors.h"
 
-Material::Material()
-	: specularIntensity_(0.f)
-	, specularPower_(1.f)
+Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath )
 {
-}
+	// Dynamically compose dynamic CB from aiMaterial, as well as dynamically compose a vertex layout
+	// (but don't fill the buffer yet)
+	
+	using elem = Vert::VertexLayout::ElementType;
+	std::string rootPath = modelPath.parent_path().string() + std::string("\\");
 
-Material& Material::specular_intensity( float intensity )
-{
-	specularIntensity_ = intensity;
-	return *this;
-}
-
-Material& Material::specular_power( float power )
-{
-	specularPower_ = power;
-	return *this;
-}
-
-Material& Material::shininess( float level )
-{
-	return specular_power( level );
-}
-
-std::string Material::GetUID() const
-{
-	using namespace std::string_literals;
-	std::string uid(
-		std::to_string( specularIntensity_ ) + ":"s + std::to_string( specularPower_ ) );
-	return uid;
-}
-
-void Material::parseAIMat( const aiMaterial& aiMat )
-{
-	float flBuf = 0.f;
-	aiColor3D colBuf;
-	if ( aiMat.Get( AI_MATKEY_SHININESS, flBuf ) == aiReturn_SUCCESS )
-		specular_power( flBuf );
-	if ( aiMat.Get( AI_MATKEY_COLOR_SPECULAR, colBuf ) == aiReturn_SUCCESS )
+	// Step 1: Phong technique creation
 	{
-		// Average color of specular color is our intensity, maybe add support for 
-		// actual specular color in future but idk why.
-		Color specCol = *reinterpret_cast<Color*>( &colBuf );
-		flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
-		specular_intensity( flBuf );
-	}
+		Technique Phong{ "Phong" };
+		{
+			Step only( 0 );
+			bool hasDiffuseMap = false;
+			bool hasNormalMap = false;
+			aiString texFilename;
+			std::string shaderName;
+
+			// Common
+			vertlayout_.Append( elem::Position_3D );
+			vertlayout_.Append( elem::Normal );
+			CB::Layout cbLayout;
+
+			// Check for texture
+			if ( aiMat.GetTexture( aiTextureType_DIFFUSE, 0, &texFilename ) == aiReturn_SUCCESS )
+			{
+				hasDiffuseMap = true;
+				const auto texPath = rootPath + texFilename.C_Str();
+				shaderName += "diff";
+				vertlayout_.Append( elem::TexCoordUV );
+				only.AddBind( Binds::Texture::Resolve( gfx, texPath ) );
+			}
+			else // if we don't have a texture, we need material color
+			{
+				cbLayout.add( CB::Float3, "materialColor" );
+			}
+			
+			// Check for Normal Map. TODO: add support for different normal map semantics
+			if ( aiMat.GetTexture( aiTextureType_HEIGHT, 0, &texFilename ) == aiReturn_SUCCESS )
+			{
+				hasNormalMap = true;
+				const auto texPath = rootPath + texFilename.C_Str();
+				shaderName += "norm";
+				vertlayout_.Try_append( elem::TexCoordUV );
+				vertlayout_.Append( elem::Tangent );
+				vertlayout_.Append( elem::Bitangent );
+				only.AddBind( Binds::Texture::Resolve( gfx, texPath, 1u ) );
+				// Todo add cb param for normal amount
+			}
+			
+			// Specular
+			{
+				//TODO spec map
+				cbLayout.add( CB::Float, "specularIntensity" );
+				cbLayout.add( CB::Float, "specularPower" );
+			}
+
+			// Create CB
+			CB::Buffer cbBuf( std::move( cbLayout ) );
+
+			// Specular assignments
+			{
+				float flBuf = 0.f;
+				aiColor3D colBuf;
+				if ( aiMat.Get( AI_MATKEY_SHININESS, flBuf ) == aiReturn_SUCCESS )
+				{
+					cbBuf["specularPower"] = flBuf;
+				}
+				if ( aiMat.Get( AI_MATKEY_COLOR_SPECULAR, colBuf ) == aiReturn_SUCCESS )
+				{
+					// Average color of specular color is our intensity, TODO actual support for multi col channels
+					Color specCol = *reinterpret_cast<Color*>( &colBuf );
+					flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
+					cbBuf["specularIntensity"] = flBuf;
+				}
+			}
+
+			// Add the material CB to the step
+			only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuf, 1u ) );
+		}// step only
+	} // tech phong
 }

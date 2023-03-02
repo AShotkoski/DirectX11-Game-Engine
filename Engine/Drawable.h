@@ -12,11 +12,13 @@ namespace Binds
 	class VertexBuffer;
 	class Topology;
 }
+class Material;
 
 class Drawable
 {
 public:
 	Drawable() = default;
+	Drawable( Material& material );
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
 	void Submit(class FrameCommander& frame) const;
