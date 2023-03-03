@@ -1,14 +1,13 @@
 #include "Model.h"
 #include "Material.h"
-#include "Texture.h"
-#include "Sampler.h"
 #include "GeneralUtilities.h"
-#include "Loguru/loguru.hpp"
+#include "log.h"
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui/imgui.h"
 #include "DynamicCB.h"
-#include "ConstantBufferEx.h"
-#include "Stencil.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace dx = DirectX;
 
@@ -22,18 +21,18 @@ Node::Node(
 {
 }
 
-void Node::Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const
+void Node::Submit( FrameCommander& frame, DirectX::XMMATRIX in_transform ) const
 {
 	// Draw all meshes and children ( it would be cool to not do this every draw call btw )
 	const auto concatenatedTransform = applied_transform * transform * in_transform;
 	for( auto& m : meshes )
 	{
 		m->BindTransform( concatenatedTransform );
-		m->Draw( gfx );
+		m->Submit( frame );
 	}
 	for( auto& c : children )
 	{
-		c.Draw( gfx, concatenatedTransform );
+		c.Submit( frame, concatenatedTransform );
 	}
 }
 
@@ -84,10 +83,10 @@ class ModelController
 private:
 	struct Properties
 	{
-		DirectX::XMFLOAT3 pos;
-		float pitch;
-		float yaw;
-		float roll;
+		DirectX::XMFLOAT3 pos = { 0,0,0 };
+		float pitch = 0;
+		float yaw = 0;
+		float roll = 0;
 		DirectX::XMFLOAT3 scale = { 1,1,1 };
 	};
 public:
@@ -191,16 +190,12 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 	// Populate meshes vector with all meshes (in order)
 	for( size_t i = 0; i < pAIScene->mNumMeshes; i++ )
 	{
-		const auto& pMesh = pAIScene->mMeshes[i];
-		if( pMesh->mMaterialIndex < 0 )
-		{
-			pMeshes.push_back( makeMesh( gfx, *pMesh, nullptr ) );
-		}
-		else
-		{
-			pMeshes.push_back(
-				makeMesh( gfx, *pMesh, pAIScene->mMaterials[pMesh->mMaterialIndex] ) );
-		}
+		const auto& mesh = *pAIScene->mMeshes[i];
+		DCHECK_F( mesh.mMaterialIndex >= 0, "mesh material index not right" );
+		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
+		Material mat( gfx, material, filename );
+		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );
+		
 	}
 
 	// Populate node tree from head
@@ -215,9 +210,9 @@ void Model::UpdateTransform( DirectX::XMMATRIX in_transform )
 	transform = in_transform;
 }
 
-void Model::Draw( Graphics& gfx ) const
+void Model::Submit( FrameCommander& frame ) const
 {
-	pHead->Draw( gfx, transform );
+	pHead->Submit( frame, transform );
 }
 
 void Model::SpawnControlWindow()
@@ -227,138 +222,6 @@ void Model::SpawnControlWindow()
 
 Model::~Model() {}
 
-std::shared_ptr<Mesh> Model::makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat )
-{
-	std::filesystem::path rootpath = tag;
-	rootpath = rootpath.parent_path();
-	// set tag for bindable instancing to be the name of the mesh, for VB and IB
-	tag += mesh.mName.C_Str();
-	// Flags for loading (bad system, it will go away later)
-	bool hasDiffuseMap = pAiMat->GetTextureCount( aiTextureType_DIFFUSE );
-	bool hasNormalMap = pAiMat->GetTextureCount( aiTextureType_HEIGHT ); // height lol, thanks standards
-
-	if ( !hasDiffuseMap )
-		LOG_F( WARNING, "Mesh %s doesn't have a diffuse texture.", mesh.mName.C_Str() );
-
-	Vert::VertexLayout vl;
-	vl.Append( Vert::VertexLayout::Position_3D )
-		.Append( Vert::VertexLayout::Normal )
-		.Append( Vert::VertexLayout::TexCoordUV );
-	if ( hasNormalMap )
-	{
-		vl.Append( Vert::VertexLayout::Tangent );
-		vl.Append( Vert::VertexLayout::Bitangent );
-	}
-	Vert::VertexBuffer vb( std::move( vl ) );
-
-	// Load vertices into vert::vertex buffer
-	for ( size_t i = 0; i < mesh.mNumVertices; i++ )
-	{
-		if ( hasNormalMap )
-		{
-			vb.Emplace_back(
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
-				*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ),
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mTangents[i] ),
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mBitangents[i] ) );
-		}
-		else
-		{
-			vb.Emplace_back(
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mVertices[i] ),
-				*reinterpret_cast<dx::XMFLOAT3*>( &mesh.mNormals[i] ),
-				*reinterpret_cast<dx::XMFLOAT2*>( &mesh.mTextureCoords[0][i] ) );
-		}
-	}
-
-	// Load indices
-	std::vector<unsigned short> Indices;
-	Indices.reserve( ( size_t( mesh.mNumFaces ) * 3 ) );
-	for ( size_t i = 0; i < mesh.mNumFaces; i++ )
-	{
-		const auto& face = mesh.mFaces[i];
-		assert( face.mNumIndices == 3 );
-		Indices.push_back( face.mIndices[0] );
-		Indices.push_back( face.mIndices[1] );
-		Indices.push_back( face.mIndices[2] );
-	}
-
-	// Create Binds
-	std::vector<std::shared_ptr<Bindable>> Binds;
-
-	// Specific Binds
-	if ( hasNormalMap )
-	{
-		Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhongNormalMap.cso" ) );
-		Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhongNormalMap.cso" ) );
-	}
-	else
-	{
-		Binds.push_back( Binds::PixelShader::Resolve( gfx, L"PSPhong.cso" ) );
-		Binds.push_back( Binds::VertexShader::Resolve( gfx, L"VSPhong.cso" ) );
-	}
-	auto vs = static_cast<Binds::VertexShader*>( Binds.back().get() );
-	auto vsbytecode = vs->pGetBytecode();
-
-	Binds.push_back( Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
-	Binds.push_back( Binds::VertexBuffer::Resolve( gfx, vb, tag ) );
-	Binds.push_back( Binds::IndexBuffer::Resolve( gfx, Indices, tag ) );
-	Binds.push_back( Binds::InputLayout::Resolve( gfx, vb.GetLayout(), *vsbytecode ) );
-	Binds.push_back( Binds::Stencil::Resolve(gfx,Binds::Stencil::Mode::Off) );
-
-	
-	CB::Layout cbLayout;
-	cbLayout.add( CB::Float, "SpecularIntensity" );
-	cbLayout.add( CB::Float, "SpecularPower" );
-	CB::Buffer cbBuffer( std::move( cbLayout ) );
-	// load material for this mesh from ai, if it has one
-	if( mesh.mMaterialIndex >= 0 )
-	{
-		float flBuf = 0.f;
-		aiColor3D colBuf;
-		if ( pAiMat->Get( AI_MATKEY_SHININESS, flBuf ) == aiReturn_SUCCESS )
-		{
-			cbBuffer["SpecularPower"] = flBuf;
-		}
-		if ( pAiMat->Get( AI_MATKEY_COLOR_SPECULAR, colBuf ) == aiReturn_SUCCESS )
-		{
-			// Average color of specular color is our intensity, maybe add support for 
-			// actual specular color in future but idk why.
-			Color specCol = *reinterpret_cast<Color*>( &colBuf );
-			flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
-			cbBuffer["SpecularIntensity"] = flBuf;
-		}
-	}
-	Binds.push_back( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuffer, 1u ) );
-
-	// Load Textures
-	aiString filename;
-	if( hasDiffuseMap )
-	{
-		pAiMat->GetTexture( aiTextureType_DIFFUSE, 0, &filename );
-		using namespace std::string_literals;
-		std::string texturePath = rootpath.string() + "\\"s + filename.C_Str();
-		Binds.push_back( Binds::Texture::Resolve( gfx, texturePath ) );
-		// Add normal map ( if present ), we don't support normal maps without diffuse maps, thats dumb.
-		if ( hasNormalMap )
-		{
-			pAiMat->GetTexture( aiTextureType_HEIGHT, 0, &filename );
-			texturePath = rootpath.string() + "\\"s + filename.C_Str();
-			Binds.push_back( Binds::Texture::Resolve( gfx, texturePath, 1u ) );
-		}
-	}
-	Binds.push_back( Binds::Sampler::Resolve( gfx ) );
-
-	// Log mesh creation
-	DLOG_F(
-		INFO,
-		"Created %s mesh, which uses %s diffuse tex",
-		mesh.mName.C_Str(),
-		filename.C_Str() );
-
-	return std::make_shared<Mesh>( std::move( Binds ), gfx );
-}
 
 // Check if ainode has children, if so add child to our node and recurse on child
 void Model::PopulateNodeTreeFromAINode( Node* pNode, const aiNode* pAiNode, bool isHead )

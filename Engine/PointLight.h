@@ -1,13 +1,14 @@
 #pragma once
 #include "ConstantBuffers.h"
 #include "SphereSolidWhite.h"
+#include "FrameCommander.h"
 
 class PointLight
 {
 public:
 	PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos);
 	void Bind( Graphics& gfx ) const;
-	void Draw( Graphics& gfx ) const;
+	void Draw( FrameCommander& frame ) const;
 	void SpawnControlWindow();
 private:
 	struct PointLightCBuf

@@ -5,7 +5,8 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
-#include "DynamicCB.h"
+
+
 namespace dx = DirectX;
 
 Game::Game()
@@ -39,6 +40,7 @@ void Game::Go()
 		DrawImGuis();
 
 	gfx.EndFrame();
+	frame.Reset();
 }
 
 void Game::UpdateLogic()
@@ -51,12 +53,12 @@ void Game::UpdateLogic()
 
 void Game::DrawFrame()
 {
-	light.Draw( gfx );
-	sponza.Draw( gfx );
-	cube0.Draw( gfx );
-	cube0.DrawOutline( gfx );
-	cube1.Draw( gfx );
-	cube1.DrawOutline( gfx );
+	light.Draw( frame );
+	sponza.Submit( frame );
+	cube0.Submit( frame );
+	cube1.Submit( frame );
+
+	frame.Execute( gfx );
 }
 
 void Game::DrawImGuis()
@@ -71,9 +73,12 @@ void Game::DrawImGuis()
 	ImGui::End();
 	gfx.GetCamera().SpawnControlWindow();
 	light.SpawnControlWindow();
-	sponza.SpawnControlWindow();
+	//sponza.SpawnControlWindow();
+	cube0.SpawnControlWindow( gfx, "cube0");
+	cube1.SpawnControlWindow( gfx, "cube1");
 }
 
+// Todo pImpl for camera control
 void Game::ControlCamera()
 {
 	DirectX::XMFLOAT3 dCampos = { 0, 0, 0 };

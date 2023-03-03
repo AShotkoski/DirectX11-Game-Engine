@@ -21,7 +21,7 @@ namespace Binds
 		return std::string(typeid(Topology).name()) + "_"s + std::to_string(type);
 	}
 
-	std::shared_ptr<Bindable> Topology::Resolve( Graphics& gfx, D3D11_PRIMITIVE_TOPOLOGY type )
+	std::shared_ptr<Topology> Topology::Resolve( Graphics& gfx, D3D11_PRIMITIVE_TOPOLOGY type )
 	{
 		return Codex::Resolve<Topology>(gfx, type);
 	}

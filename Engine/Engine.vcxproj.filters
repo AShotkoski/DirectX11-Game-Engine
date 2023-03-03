@@ -7,22 +7,22 @@
     <FxCompile Include="PSSolid.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhong.hlsl">
+    <FxCompile Include="phong_diff_VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhong.hlsl">
+    <FxCompile Include="phong_diff_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhongNormalMap.hlsl">
+    <FxCompile Include="phong_diffnorm_VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhongNormalMap.hlsl">
+    <FxCompile Include="phong_diffnorm_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhongSolid.hlsl">
+    <FxCompile Include="phong__PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhongSolid.hlsl">
+    <FxCompile Include="phong__VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
@@ -123,9 +123,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Loguru\loguru.cpp">
       <Filter>ThirdParty\Loguru</Filter>
     </ClCompile>
@@ -141,7 +138,33 @@
     <ClCompile Include="DynamicCB.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Stencil.cpp" />
+    <ClCompile Include="Stencil.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Technique.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Pass.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Step.cpp">
+      <Filter>Source\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="NullPixelShader.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBufferEx.cpp">
+      <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -249,9 +272,6 @@
     <ClInclude Include="Keyboard.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -312,6 +332,33 @@
     <ClInclude Include="Stencil.h">
       <Filter>Headers\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="Technique.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Step.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameCommander.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="NullPixelShader.h">
+      <Filter>Headers\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="TechniqueProbe.h">
+      <Filter>Headers\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -352,6 +399,12 @@
     </Filter>
     <Filter Include="ThirdParty\Loguru">
       <UniqueIdentifier>{88bd9adf-4036-43b2-aa93-61805bae1707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\RenderQueue">
+      <UniqueIdentifier>{f7449506-043c-432e-910e-0ecad08d6d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderQueue">
+      <UniqueIdentifier>{c0e433de-5291-4847-8d01-9c5602bbf1b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -24,11 +24,10 @@ void PointLight::Bind( Graphics& gfx ) const
 	cbuf.Bind( gfx );
 }
 
-// if draw is not called there is not a performace downside to holding a mesh for the light
-void PointLight::Draw( Graphics& gfx ) const
+void PointLight::Draw( FrameCommander& frame ) const
 {
 	mesh.SetPos( LightPos );
-	mesh.Draw( gfx );
+	mesh.Submit( frame );
 }
 
 void PointLight::SpawnControlWindow()

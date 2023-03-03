@@ -34,7 +34,7 @@ namespace Binds
 		return std::string( typeid( PixelShader ).name() + "_"s + pathA );
 	}
 
-	std::shared_ptr<Bindable> PixelShader::Resolve( Graphics& gfx, const std::wstring path )
+	std::shared_ptr<PixelShader> PixelShader::Resolve( Graphics& gfx, const std::wstring path )
 	{
 		return Codex::Resolve<PixelShader>( gfx, path );
 	}

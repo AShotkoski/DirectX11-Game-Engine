@@ -33,7 +33,7 @@ namespace Binds
 		return std::string( typeid( Sampler ).name() );
 	}
 
-	std::shared_ptr<Bindable> Sampler::Resolve( Graphics& gfx )
+	std::shared_ptr<Sampler> Sampler::Resolve( Graphics& gfx )
 	{
 		return Codex::Resolve<Sampler>(gfx);
 	}

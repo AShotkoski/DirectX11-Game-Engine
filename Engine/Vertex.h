@@ -5,75 +5,85 @@
 #include "Graphics.h"
 #include <type_traits>
 #include <vector>
+#include "assimp/mesh.h"
+
 
 namespace Vert
 {
+
+	#define VERTEX_SUPPORTED_TYPES \
+		X(Position_3D) \
+		X(Position_2D) \
+		X(Normal) \
+		X(Color_float_RGB) \
+		X(TexCoordUV) \
+		X(Tangent) \
+		X(Bitangent)
+
 	class VertexLayout
 	{
 	public:
 		enum ElementType
 		{
-			Position_3D,
-			Position_2D,
-			Normal,
-			Color_float_RGB,
-			TexCoordUV,
-			Tangent, 
-			Bitangent
+			#define X(el) el,
+			VERTEX_SUPPORTED_TYPES
+			#undef X
 		};
+
+		#define EXTRA_AI_MESH_VERT_ELEM(aitype) static type Extract(const aiMesh& mesh, size_t i) {return *reinterpret_cast<const type*>(&mesh.aitype[i]);}
 
 		// Template map for each elementType to keep all relations of Elementtype with concrete 
 		// data types in one place.
 		template<ElementType type>
 		struct TypeInfo;
-		template<>
-		struct TypeInfo<Position_3D>
+		template<> struct TypeInfo<Position_3D>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			EXTRA_AI_MESH_VERT_ELEM( mVertices )
 		};
-		template<>
-		struct TypeInfo<Position_2D>
+		template<> struct TypeInfo<Position_2D>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			EXTRA_AI_MESH_VERT_ELEM( mVertices )
 		};
-		template<>
-		struct TypeInfo<Normal>
+		template<> struct TypeInfo<Normal>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Normal";
+			EXTRA_AI_MESH_VERT_ELEM( mNormals )
 		};
-		template<>
-		struct TypeInfo<Color_float_RGB>
+		template<> struct TypeInfo<Color_float_RGB>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			EXTRA_AI_MESH_VERT_ELEM(mColors[0])
 		};
-		template<>
-		struct TypeInfo<TexCoordUV>
+		template<> struct TypeInfo<TexCoordUV>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "TEXCOORD";
+			EXTRA_AI_MESH_VERT_ELEM(mTextureCoords[0])
 		};
-		template<>
-		struct TypeInfo<Tangent>
+		template<> struct TypeInfo<Tangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "TANGENT";
+			EXTRA_AI_MESH_VERT_ELEM(mTangents)
 		};
-		template<>
-		struct TypeInfo<Bitangent>
+		template<> struct TypeInfo<Bitangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "BITANGENT";
+			EXTRA_AI_MESH_VERT_ELEM(mBitangents)
 		};
 
 		// Each vertex element contains its type and its offset, in bytes, into the vertexlayout
@@ -81,48 +91,12 @@ namespace Vert
 		class Element
 		{
 		public:
-			Element( ElementType type, size_t offset )
-				: type( type )
-				, offset( offset )
-			{}
-			size_t GetOffset() const
-			{
-				return offset;
-			}
-			size_t GetNextSlot() const
-			{
-				return offset + Size();
-			}
-			size_t Size() const
-			{
-				return SizeOfElement( type );
-			}
-			ElementType GetType() const
-			{
-				return type;
-			}
-			D3D11_INPUT_ELEMENT_DESC GetD3DDesc() const
-			{
-				switch ( type )
-				{
-					case Position_3D:
-						return GenerateD3DDesc<Position_3D>();
-					case Position_2D:
-						return GenerateD3DDesc<Position_2D>();
-					case Normal:
-						return GenerateD3DDesc<Normal>();
-					case Color_float_RGB:
-						return GenerateD3DDesc<Color_float_RGB>();
-					case TexCoordUV:
-						return GenerateD3DDesc<TexCoordUV>();
-					case Tangent:
-						return GenerateD3DDesc<Tangent>();
-					case Bitangent:
-						return GenerateD3DDesc<Bitangent>();
-				}
-				assert( false && "horrible error in getd3ddesc" );
-				return {};
-			}
+			Element( ElementType type, size_t offset );
+			size_t GetOffset() const;
+			size_t GetNextSlot() const;
+			size_t Size() const;
+			ElementType GetType() const;
+			D3D11_INPUT_ELEMENT_DESC GetD3DDesc() const;
 		private:
 			template <ElementType ty>
 			D3D11_INPUT_ELEMENT_DESC GenerateD3DDesc() const
@@ -144,24 +118,12 @@ namespace Vert
 		};
 	public:
 		VertexLayout() = default;
-		VertexLayout& Append( ElementType el ) noexcept
-		{
-			elements.emplace_back( el, elements.size() == 0u ? 0u : elements.back().GetNextSlot() );
-			return *this;
-		}
-		size_t NumElements() const
-		{
-			return elements.size();
-		}
-		size_t SizeBytes() const
-		{
-			return elements.size() == 0u ? 0u : elements.back().GetNextSlot();
-		}
-		const Element& ResolveByIndex( size_t index ) const
-		{
-			assert( index < elements.size() );
-			return elements[index];
-		}
+		VertexLayout& Append( ElementType el ) noexcept;
+		bool Try_append( ElementType el ) noexcept;
+		bool Contains( ElementType type ) const;
+		size_t NumElements() const;
+		size_t SizeBytes() const;
+		const Element& ResolveByIndex( size_t index ) const;
 		// Get element with type = 'type'
 		template <ElementType type>
 		const Element& Resolve() const
@@ -178,52 +140,9 @@ namespace Vert
 			return elements.front();
 
 		}
-		// TODO change to template to avoid copy-paste in body
-		static constexpr size_t SizeOfElement( ElementType el )
-		{
-			using namespace DirectX;
-			// Use the kind of value that will be used to represent each element to get size
-			switch ( el )
-			{
-				case ElementType::Position_3D:
-					return sizeof( TypeInfo<Position_3D>::type );
-				case ElementType::Position_2D:
-					return sizeof( TypeInfo<Position_2D>::type );
-				case ElementType::Color_float_RGB:
-					return sizeof( TypeInfo<Color_float_RGB>::type );
-				case ElementType::Normal:
-					return sizeof( TypeInfo<Normal>::type );
-				case ElementType::TexCoordUV:
-					return sizeof( TypeInfo<TexCoordUV>::type );
-				case ElementType::Tangent:
-					return sizeof( TypeInfo<Tangent>::type );
-				case ElementType::Bitangent:
-					return sizeof( TypeInfo<Bitangent>::type );
-			}
-			// Invalid element was passed in, return 0;
-			assert( "Invalid element passed to sizeofelement" && false );
-			return 0;
-		}
-		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DInputLayout() const
-		{
-			std::vector<D3D11_INPUT_ELEMENT_DESC> layout;
-			// Create a input element description for each element in the layout
-			for ( const auto& e : elements )
-			{
-				layout.push_back( e.GetD3DDesc() );
-			}
-
-			return layout;
-		}
-		std::string GetUID() const
-		{
-			std::string uid;
-			for ( const auto& e : elements )
-			{
-				uid.append( std::to_string(e.GetType()) );
-			}
-			return uid;
-		}
+		static constexpr size_t SizeOfElement( ElementType el );
+		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DInputLayout() const;
+		std::string GetUID() const;
 	private:
 		std::vector<Element> elements;
 	};
@@ -234,13 +153,7 @@ namespace Vert
 	{
 		friend class VertexBuffer;
 	public:
-		VertexView( char* pData, VertexLayout& layout )
-			: pData( pData )
-			, layout( layout )
-		{
-			assert( pData != nullptr );
-			assert( layout.SizeBytes() > 0u );
-		}
+		VertexView( char* pData, VertexLayout& layout );
 		template <typename T>
 		void SetAttributeByIndex( size_t index, T&& attr )
 		{
@@ -257,27 +170,12 @@ namespace Vert
 			{
 				using types = VertexLayout::ElementType;
 
-				case types::Position_2D:
-					SetAttribute<types::Position_2D>( pAttr, std::forward<T>( attr ) );
+				#define X(el)\
+				case types::el:\
+					SetAttribute<types::el>(pAttr,std::forward<T>(attr));\
 					break;
-				case types::Position_3D:
-					SetAttribute<types::Position_3D>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Color_float_RGB:
-					SetAttribute<types::Color_float_RGB>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Normal:
-					SetAttribute<types::Normal>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::TexCoordUV:
-					SetAttribute<types::TexCoordUV>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Tangent:
-					SetAttribute<types::Tangent>( pAttr, std::forward<T>( attr ) );
-					break;
-				case types::Bitangent:
-					SetAttribute<types::Bitangent>( pAttr, std::forward<T>( attr ) );
-					break;
+				VERTEX_SUPPORTED_TYPES
+				#undef X
 				default:
 					assert( false && "bad element type" );
 			}
@@ -325,9 +223,7 @@ namespace Vert
 	class CVertexView
 	{
 	public:
-		CVertexView( const VertexView& vertex )
-			: vertex( vertex )
-		{}
+		CVertexView( const VertexView& vertex );
 		template<VertexLayout::ElementType Type>
 		const auto& Attribute() const
 		{
@@ -342,9 +238,9 @@ namespace Vert
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer( VertexLayout layout )
-			: layout( layout )
-		{}
+		VertexBuffer( VertexLayout layout );
+		// Populate buffer from aimesh
+		VertexBuffer( VertexLayout layout, const aiMesh& mesh );
 
 		template <typename ...Args>
 		// Used for emplacing vertices
@@ -356,57 +252,37 @@ namespace Vert
 			Back().SetAttributeByIndex( 0u, std::forward<Args>( args )... );
 		}
 		// number of NEW verts to reserve (doesn't overload, wont downsize) 
-		void Reserve( size_t nVertices )
-		{
-			data.resize( data.size() + (layout.SizeBytes() * nVertices) );
-		}
-		VertexView Back()
-		{
-			assert( data.size() >= layout.SizeBytes() );
-			return VertexView( data.data() + data.size() - layout.SizeBytes(), layout );
-		}
-		VertexView Front()
-		{
-			assert( data.size() >= layout.SizeBytes() );
-			return VertexView( data.data(), layout );
-		}
+		void Reserve( size_t nVertices );
+		VertexView Back();
+		VertexView Front();
 		VertexView operator[]( size_t index )
 		{
 			assert( data.size() >= layout.SizeBytes() );
 			assert( index < Size() );
 			return VertexView( data.data() + ( layout.SizeBytes() * index ), layout );
 		}
-		CVertexView Back() const
-		{
-			return const_cast<VertexBuffer&>( *this ).Back();
-		}
-		CVertexView Front() const
-		{
-			return const_cast<VertexBuffer&>( *this ).Front();
-		}
+		CVertexView Back() const;
+		CVertexView Front() const;
 		CVertexView operator[]( size_t index ) const
 		{
 			return CVertexView(const_cast<VertexBuffer&>( *this )[index]);
 		}
-		const char* GetData() const
+		const char* GetData() const;
+		size_t SizeBytes() const;
+		size_t Size() const;
+		size_t VertexSizeBytes() const;
+		const VertexLayout& GetLayout() const;
+	private:
+		template<VertexLayout::ElementType Type>
+		void SetVertsByAiMesh( const aiMesh& mesh )
 		{
-			return data.data();
-		}
-		size_t SizeBytes() const
-		{
-			return data.size();
-		}
-		size_t Size() const
-		{
-			return data.size() == 0u ? 0u : data.size() / layout.SizeBytes();
-		}
-		size_t VertexSizeBytes() const
-		{
-			return layout.SizeBytes();
-		}
-		const VertexLayout& GetLayout() const
-		{
-			return layout;
+			// called once for each vertex element type from aimesh ctor
+
+			// for each vert in aimesh, set component
+			for ( size_t i = 0; i < mesh.mNumVertices; i++ )
+			{
+				( *this )[i].Attribute<Type>() = VertexLayout::TypeInfo<Type>::Extract( mesh, i );
+			}
 		}
 	private:
 		VertexLayout layout;

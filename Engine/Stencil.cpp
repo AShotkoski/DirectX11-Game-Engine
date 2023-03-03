@@ -8,19 +8,21 @@ Binds::Stencil::Stencil( Graphics& gfx, Mode mode )
 
 	if ( mode == Mode::Write )
 	{
-		dsDesc.StencilEnable = true;
+		dsDesc.DepthEnable = FALSE;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = TRUE;
 		dsDesc.StencilWriteMask = 0xFF;
 		dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 		dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
 	}
 	else if ( mode == Mode::Mask )
 	{
-		dsDesc.StencilEnable = true;
-		dsDesc.DepthEnable = false;
+		dsDesc.DepthEnable = FALSE;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = TRUE;
 		dsDesc.StencilReadMask = 0xFF;
 		dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_NOT_EQUAL;
 		dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 	}
 
 	THROW_FAILED_GFX( pGetDevice( gfx )->CreateDepthStencilState( &dsDesc, &pDepthStencilState ) );
@@ -37,7 +39,7 @@ std::string Binds::Stencil::GenerateUID( Mode mode )
 	return std::string(typeid(Stencil).name() + "_"s + std::to_string((int)mode));
 }
 
-std::shared_ptr<Bindable> Binds::Stencil::Resolve( Graphics& gfx, Mode mode )
+std::shared_ptr<Binds::Stencil> Binds::Stencil::Resolve( Graphics& gfx, Mode mode )
 {
 	return Binds::Codex::Resolve<Stencil>(gfx, mode);
 }

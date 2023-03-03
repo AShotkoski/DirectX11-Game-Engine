@@ -71,7 +71,7 @@ namespace Binds
 				typeid( VertexConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
 				+ std::to_string( slot ) + "_"s + tag);
 		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx,CB consts, std::string tag,  UINT slot = 0u )
+		static std::shared_ptr<VertexConstantBuffer<CB>> Resolve( Graphics& gfx,CB consts, std::string tag,  UINT slot = 0u )
 		{
 			return Codex::Resolve<VertexConstantBuffer<CB>>( gfx, consts, tag, slot );
 		}
@@ -97,7 +97,7 @@ namespace Binds
 				typeid( PixelConstantBuffer ).name() + "_"s + typeid( CB ).name() + "_"s
 				+ std::to_string( slot ) + "_"s + tag);
 		}
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx, CB consts, std::string tag, UINT slot = 0u )
+		static std::shared_ptr<PixelConstantBuffer<CB>> Resolve( Graphics& gfx, CB consts, std::string tag, UINT slot = 0u )
 		{
 			return Codex::Resolve<PixelConstantBuffer<CB>>( gfx,consts,tag, slot );
 		}

@@ -1,6 +1,6 @@
 #pragma once
 #include "ImGui/imgui.h"
-#include "Loguru/loguru.hpp"
+#include "log.h"
 #include <vector>
 
 class ImGuiLog

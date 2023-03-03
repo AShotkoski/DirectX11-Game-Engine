@@ -35,7 +35,7 @@ namespace Binds
 		return std::string(typeid(InputLayout).name() + "_"s + layout.GetUID());
 	}
 
-	std::shared_ptr<Bindable> InputLayout::Resolve( Graphics& gfx, const Vert::VertexLayout& layout, ID3DBlob& VSByteCode )
+	std::shared_ptr<InputLayout> InputLayout::Resolve( Graphics& gfx, const Vert::VertexLayout& layout, ID3DBlob& VSByteCode )
 	{
 		return Codex::Resolve<InputLayout>(gfx, layout, VSByteCode);
 	}

@@ -1,30 +1,76 @@
 #include "Drawable.h"
-#include <cassert>
 #include "IndexBuffer.h"
+#include "VertexBuffer.h"
+#include "Topology.h"
+#include "Technique.h"
+#include "Material.h"
+#include "assimp/mesh.h"
+#include "Vertex.h"
 
-void Drawable::Draw( Graphics& gfx ) const
-{	
-	for ( auto& b : Binds )
+Drawable::Drawable(Graphics& gfx, const Material& material, const aiMesh& mesh )
+{
+	// Add techniques
+	const auto& matTechs = material.GetTechniques();
+	for ( auto& t : matTechs )
 	{
-		b->Bind( gfx );
+		AddTechnique( t );
 	}
 
-	// Ensure index buffer exists
-	if ( pIndexBuffer == nullptr )
-	{
-		assert("NO INDEX BUFFER FOUND\n" && false);
-	}
+	// Set our bindables
+	const auto Tag = material.GetTag() + mesh.mName.C_Str();
 
-	gfx.DrawIndexed( pIndexBuffer->GetIndicesCount() );
+	pTopology = Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	// load vertices from aimesh
+	{
+		Vert::VertexBuffer vb( material.GetVertexLayout(), mesh );
+		pVertexBuffer = Binds::DynamicVertexBuffer::Resolve( gfx, std::move( vb ), Tag );
+	}
+	// idx buffer
+	{
+		std::vector<unsigned short> Indices;
+		Indices.reserve( ( size_t( mesh.mNumFaces ) * 3 ) );
+		for ( size_t i = 0; i < mesh.mNumFaces; i++ )
+		{
+			const auto& face = mesh.mFaces[i];
+			DCHECK_F( face.mNumIndices == 3, "Wrong topology loaded into model.");
+			Indices.push_back( face.mIndices[0] );
+			Indices.push_back( face.mIndices[1] );
+			Indices.push_back( face.mIndices[2] );
+		}
+		pIndexBuffer = Binds::IndexBuffer::Resolve( gfx, Indices, Tag );
+	}
 }
 
-
-void Drawable::AddBind( std::shared_ptr<Bindable> bind )
+void Drawable::Submit( FrameCommander& frame ) const
 {
-	if ( typeid( *bind ) == typeid( Binds::IndexBuffer ) )
+	for ( auto& t : techniques )
 	{
-		assert( "Attempted to bind more than 1 index buffer" && pIndexBuffer == nullptr );
-		pIndexBuffer = static_cast<Binds::IndexBuffer*>(bind.get());
+		t.Submit( frame, *this );
 	}
-	Binds.push_back( std::move( bind ) );
+}
+
+UINT Drawable::GetIndexCount() const
+{
+	return pIndexBuffer->GetIndicesCount();
+}
+
+void Drawable::Bind(Graphics& gfx) const
+{
+	pIndexBuffer->Bind( gfx );
+	pVertexBuffer->Bind( gfx );
+	pTopology->Bind( gfx );
+}
+
+void Drawable::Accept( TechniqueProbe& probe )
+{
+	for ( auto& t : techniques )
+	{
+		t.Accept( probe );
+	}
+}
+
+void Drawable::AddTechnique( Technique technique )
+{
+	technique.InitParentRef( *this );
+	techniques.push_back( std::move(technique) );
 }

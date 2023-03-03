@@ -13,9 +13,8 @@ public:
 		DirectX::XMFLOAT3 position,
 		float pitch, float yaw, float roll);
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
-	void DrawOutline( Graphics& gfx );
+	void SpawnControlWindow( Graphics& gfx, std::string name );
 private:
-	std::vector<std::shared_ptr<Bindable>> outlineBinds;
 	DirectX::XMFLOAT3 size;
 	// Position
 	DirectX::XMFLOAT3 pos;
@@ -23,6 +22,4 @@ private:
 	float pitch = 0;
 	float yaw   = 0;
 	float roll  = 0;
-	bool outlining = false;
-	
 };

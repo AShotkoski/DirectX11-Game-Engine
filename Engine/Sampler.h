@@ -10,7 +10,7 @@ namespace Binds
 		Sampler( Graphics& gfx );
 		void Bind( Graphics& gfx ) override;
 		static std::string GenerateUID(  );
-		static std::shared_ptr<Bindable> Resolve( Graphics& gfx );
+		static std::shared_ptr<Sampler> Resolve( Graphics& gfx );
 	private:
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> pSamplerState;
 	};
