@@ -7,7 +7,7 @@
 #include "assimp/mesh.h"
 #include "Vertex.h"
 
-Drawable::Drawable(Graphics& gfx, Material& material, const aiMesh& mesh )
+Drawable::Drawable(Graphics& gfx, const Material& material, const aiMesh& mesh )
 {
 	// Add techniques
 	const auto& matTechs = material.GetTechniques();

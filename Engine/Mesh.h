@@ -10,7 +10,7 @@
 class Mesh : public Drawable
 {
 public:
-	Mesh( std::vector<std::shared_ptr<Bindable>>&& binds, Graphics& gfx );
+	Mesh( Graphics& gfx, const Material& material, const aiMesh& mesh );
 	void BindTransform( DirectX::XMMATRIX Transform );
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 private:

@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "FrameTimer.h"
 #include "PointLight.h"
-//#include "Model.h"
+#include "Model.h"
 #include "ImGuiLog.h"
 #include "Cube.h"
 #include "FrameCommander.h"
@@ -31,8 +31,8 @@ private:
 	PointLight light;
 	Cube cube0;
 	Cube cube1;
-	//Model sponza;
-	std::unique_ptr<class sus> s;
+	Model sponza;
+
 private:
 	float dt = 0.f;
 	float adj_dt = 0.f;

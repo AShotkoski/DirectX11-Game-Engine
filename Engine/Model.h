@@ -9,14 +9,16 @@
 #include <memory>
 #include <filesystem>
 #include <optional>
+#include "FrameCommander.h"
 
+//todo change includes
 class Node
 {
 	friend class Model;
 	friend class ModelController;
 public:
 	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name );
-	void Draw( Graphics& gfx, DirectX::XMMATRIX in_transform ) const;
+	void Submit( FrameCommander& frame, DirectX::XMMATRIX in_transform ) const;
 	void SpawnControlWindow( int& nodeIndex, std::optional<int>& selectedIndex, Node*& pSelectedNode );
 	void ApplyTransform( DirectX::XMMATRIX newTransform );
 private:
@@ -35,12 +37,11 @@ class Model
 public:
 	Model( Graphics& gfx, std::filesystem::path filename );
 	void UpdateTransform( DirectX::XMMATRIX in_transform );
-	void Draw( Graphics& gfx ) const;
+	void Submit( FrameCommander& frame ) const;
 	void SpawnControlWindow();
 	~Model();
 private:
 	// Makes mesh from Assimp Mesh and returns shared ptr to it
-	std::shared_ptr<Mesh> makeMesh( Graphics& gfx, const aiMesh& mesh, const aiMaterial* pAiMat );
 	void PopulateNodeTreeFromAINode( Node* pNode, const aiNode* pAiNode, bool isHead = false );
 	Node MakeNode( const aiNode& ai_Node ) const;
 	// TODO add a (slow, optional) function for obj files and other non-hierarchical model formats

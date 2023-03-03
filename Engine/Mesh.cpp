@@ -3,15 +3,9 @@
 
 namespace dx = DirectX;
 
-Mesh::Mesh( std::vector<std::shared_ptr<Bindable>>&& binds, Graphics& gfx )
+Mesh::Mesh( Graphics& gfx, const Material& material, const aiMesh& mesh )
+	: Drawable(gfx,material,mesh)
 {
-	/*
-	AddBind( Binds::TransformationConstBuffer::Resolve( gfx, *this ) );
-	for ( auto& b : binds )
-	{
-		AddBind( std::move( b ) );
-	}
-	*/
 }
 
 void Mesh::BindTransform( DirectX::XMMATRIX Transform )

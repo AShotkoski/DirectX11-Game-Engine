@@ -7,10 +7,10 @@
     <FxCompile Include="PSSolid.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhong.hlsl">
+    <FxCompile Include="phong_diff_VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhong.hlsl">
+    <FxCompile Include="phong_diff_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="phong_diffnorm_VS.hlsl">
@@ -19,10 +19,10 @@
     <FxCompile Include="phong_diffnorm_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhongSolid.hlsl">
+    <FxCompile Include="phong__PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhongSolid.hlsl">
+    <FxCompile Include="phong__VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -5,25 +5,9 @@
 #include "NumberFactory.h"
 #include "Colors.h"
 #include "MathUtil.h"
-#include "DynamicCB.h"
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-#include "Material.h"
+
 
 namespace dx = DirectX;
-
-class sus : public Drawable
-{
-public:
-	sus( Graphics& gfx, Material& mat, const aiMesh& mesh )
-		: Drawable( gfx, mat, mesh )
-	{}
-	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
-	{
-		return DirectX::XMMatrixIdentity();
-	}
-};
 
 Game::Game()
 	: wnd( ScreenWidth, ScreenHeight, WindowTitle )
@@ -31,24 +15,11 @@ Game::Game()
 	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f } )
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
-	//, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
+	, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
 {
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
-	// test code
-	Assimp::Importer Importer;
-	const auto       pAIScene = Importer.ReadFile(
-		"Models\\cube.obj",
-		aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
-		| aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace );
-
-	// Check for scene load success
-	CHECK_NOTNULL_F( pAIScene, "Error loading file.\t%s", Importer.GetErrorString() );
-
-	const auto& pMesh = pAIScene->mMeshes[0];
-	Material mat( gfx, *pAIScene->mMaterials[pMesh->mMaterialIndex], "Models\\cube.obj" );
-	s = std::make_unique<sus>( gfx, mat, *pMesh );
 }
 
 Game::~Game()
@@ -83,10 +54,9 @@ void Game::UpdateLogic()
 void Game::DrawFrame()
 {
 	light.Draw( frame );
-	//sponza.Draw( gfx );
+	sponza.Submit( frame );
 	cube0.Submit( frame );
 	cube1.Submit( frame );
-	s->Submit( frame );
 
 	frame.Execute( gfx );
 }
