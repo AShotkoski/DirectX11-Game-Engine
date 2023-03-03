@@ -1,12 +1,13 @@
 #include "Model.h"
 #include "Material.h"
-#include "Texture.h"
-#include "Sampler.h"
 #include "GeneralUtilities.h"
 #include "log.h"
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui/imgui.h"
 #include "DynamicCB.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace dx = DirectX;
 

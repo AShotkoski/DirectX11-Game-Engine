@@ -1,14 +1,7 @@
 #pragma once
-#include "Drawable.h"
-#include "BindableBaseIncludes.h"
-#include "Vertex.h"
 #include "Mesh.h"
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include <memory>
 #include <filesystem>
-#include <optional>
 #include "FrameCommander.h"
 
 //todo change includes

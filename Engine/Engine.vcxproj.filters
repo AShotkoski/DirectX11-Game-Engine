@@ -123,9 +123,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Loguru\loguru.cpp">
       <Filter>ThirdParty\Loguru</Filter>
     </ClCompile>
@@ -161,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="ConstantBufferEx.cpp">
       <Filter>Source\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +272,6 @@
     <ClInclude Include="Keyboard.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -355,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="log.h">
       <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
