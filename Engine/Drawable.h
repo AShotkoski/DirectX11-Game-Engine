@@ -13,12 +13,11 @@ namespace Binds
 	class Topology;
 }
 class Material;
+struct aiMesh;
 
 class Drawable
 {
 public:
-	Drawable() = default;
-	Drawable( Material& material );
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
 	void Submit(class FrameCommander& frame) const;
@@ -28,6 +27,8 @@ public:
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept = 0;
 	virtual ~Drawable() = default;
 protected:
+	Drawable() = default;
+	Drawable( Material& material, const aiMesh& mesh );
 	void AddTechnique( Technique technique);
 protected:
 	// These must be set by children

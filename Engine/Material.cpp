@@ -2,6 +2,7 @@
 #include "Technique.h"
 #include "BindableBaseIncludes.h"
 #include "Colors.h"
+#include "GeneralUtilities.h"
 
 Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath )
 {
@@ -19,7 +20,7 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			bool hasDiffuseMap = false;
 			bool hasNormalMap = false;
 			aiString texFilename;
-			std::string shaderName;
+			std::string shaderName = "phong_";
 
 			// Common
 			vertlayout_.Append( elem::Position_3D );
@@ -82,6 +83,22 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 
 			// Add the material CB to the step
 			only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuf, 1u ) );
+			// Add shaders
+			only.AddBind( Binds::PixelShader::Resolve( gfx, Util::StringToWString( shaderName + std::string( "_PS.cso" ) ) ) );
+			only.AddBind( Binds::VertexShader::Resolve( gfx, Util::StringToWString( shaderName + std::string( "_VS.cso" ) ) ) );
+			// add step to tech
+			Phong.AddStep( std::move( only ) );
+			techniques_.push_back( std::move( Phong ) );
 		}// step only
 	} // tech phong
+}
+
+const std::vector<Technique>& Material::GetTechniques() const
+{
+	return techniques_;
+}
+
+const Vert::VertexLayout& Material::GetVertexLayout() const
+{
+	return vertlayout_;
 }

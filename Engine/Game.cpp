@@ -6,6 +6,10 @@
 #include "Colors.h"
 #include "MathUtil.h"
 #include "DynamicCB.h"
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+#include "Material.h"
 
 namespace dx = DirectX;
 
@@ -20,6 +24,29 @@ Game::Game()
 	//Set matrices
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
 													   NearClipping, FarClipping));
+	// test code
+	Assimp::Importer Importer;
+	const auto       pAIScene = Importer.ReadFile(
+		"Models\\cube.obj",
+		aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
+		| aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace );
+
+	// Check for scene load success
+	CHECK_NOTNULL_F( pAIScene, "Error loading file.\t%s", Importer.GetErrorString() );
+
+	const auto& pMesh = pAIScene->mMeshes[0];
+	Material mat( gfx, *pAIScene->mMaterials[pMesh->mMaterialIndex], "Models\\cube.obj" );
+	class sus : public Drawable
+	{
+	public:
+		sus( Material& mat, const aiMesh& mesh )
+			: Drawable( mat, mesh )
+		{}
+		virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
+		{
+			return DirectX::XMMatrixIdentity();
+		}
+	} s(mat,*pMesh);
 }
 
 Game::~Game()

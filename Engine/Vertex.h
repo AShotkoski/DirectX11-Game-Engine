@@ -5,6 +5,9 @@
 #include "Graphics.h"
 #include <type_traits>
 #include <vector>
+#include "assimp/mesh.h"
+
+//TODO SEPARATE FILES
 
 namespace Vert
 {
@@ -28,6 +31,8 @@ namespace Vert
 			#undef X
 		};
 
+		#define AIEXTRACTOR(aitype) static type Extract(const aiMesh& mesh, size_t i) {return *reinterpret_cast<const type*>(&mesh.aitype[i]);}
+
 		// Template map for each elementType to keep all relations of Elementtype with concrete 
 		// data types in one place.
 		template<ElementType type>
@@ -37,42 +42,49 @@ namespace Vert
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			AIEXTRACTOR( mVertices )
 		};
 		template<> struct TypeInfo<Position_2D>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			AIEXTRACTOR( mVertices )
 		};
 		template<> struct TypeInfo<Normal>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Normal";
+			AIEXTRACTOR( mNormals )
 		};
 		template<> struct TypeInfo<Color_float_RGB>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			AIEXTRACTOR(mColors[0])
 		};
 		template<> struct TypeInfo<TexCoordUV>
 		{
 			using type = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "TEXCOORD";
+			AIEXTRACTOR(mTextureCoords[0])
 		};
 		template<> struct TypeInfo<Tangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "TANGENT";
+			AIEXTRACTOR(mTangents)
 		};
 		template<> struct TypeInfo<Bitangent>
 		{
 			using type = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "BITANGENT";
+			AIEXTRACTOR(mBitangents)
 		};
 
 		// Each vertex element contains its type and its offset, in bytes, into the vertexlayout
@@ -332,6 +344,42 @@ namespace Vert
 		VertexBuffer( VertexLayout layout )
 			: layout( layout )
 		{}
+		// Populate buffer from aimesh
+		VertexBuffer( VertexLayout layout, const aiMesh& mesh )
+			: layout( layout )
+		{
+			Reserve( mesh.mNumVertices );
+			for ( size_t i = 0; i < layout.NumElements(); i++ )
+			{
+				// Switch to get static type
+				switch ( layout.ResolveByIndex(i).GetType() )
+				{
+					using types = VertexLayout::ElementType;
+
+					#define X(el)\
+					case types::el:\
+						populate<types::el>(mesh);\
+						break;
+						VERTEX_SUPPORTED_TYPES
+						#undef X
+					default:
+						assert( false && "bad element type" );
+				}
+			}
+		}
+	private: //TODO MOVE ME FFS
+		template<VertexLayout::ElementType Type>
+		void populate( const aiMesh& mesh )
+		{
+			// called once for each vertex element type from aimesh ctor
+
+			// for each vert in aimesh, set component
+			for ( size_t i = 0; i < mesh.mNumVertices; i++ )
+			{				
+				(*this )[i].Attribute<Type>() = VertexLayout::TypeInfo<Type>::Extract( mesh, i );
+			}
+		}
+	public:
 
 		template <typename ...Args>
 		// Used for emplacing vertices

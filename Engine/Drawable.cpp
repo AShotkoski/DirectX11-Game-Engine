@@ -3,11 +3,27 @@
 #include "VertexBuffer.h"
 #include "Topology.h"
 #include "Technique.h"
+#include "Material.h"
+#include "assimp/mesh.h"
+#include "Vertex.h"
 
-Drawable::Drawable( Material& material )
+Drawable::Drawable( Material& material, const aiMesh& mesh )
 {
-	// this is where we will in future set all binds for drawable based on the vertlayout in material and stuff
-	// right now I just wanna see what material will do lol
+	// Add techniques
+	const auto& matTechs = material.GetTechniques();
+	for ( auto& t : matTechs )
+	{
+		AddTechnique( t );
+	}
+
+	// Set our bindables
+	
+	// load vertices from aimesh
+	{
+		Vert::VertexBuffer vb( material.GetVertexLayout(), mesh );
+		// for each elem in vb layout, set from aimesh for each vertex
+		auto l = vb.Size();
+	}
 }
 
 void Drawable::Submit( FrameCommander& frame ) const

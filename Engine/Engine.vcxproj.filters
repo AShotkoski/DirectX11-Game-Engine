@@ -13,10 +13,10 @@
     <FxCompile Include="PSPhong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSPhongNormalMap.hlsl">
+    <FxCompile Include="phong_diffnorm_VS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="PSPhongNormalMap.hlsl">
+    <FxCompile Include="phong_diffnorm_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="PSPhongSolid.hlsl">
