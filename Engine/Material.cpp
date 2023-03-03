@@ -61,6 +61,7 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 				cbLayout.add( CB::Float, "specularPower" );
 			}
 
+
 			// Create CB
 			CB::Buffer cbBuf( std::move( cbLayout ) );
 
@@ -81,11 +82,20 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 				}
 			}
 
+			if ( hasDiffuseMap || hasNormalMap )
+			{
+				only.AddBind( Binds::Sampler::Resolve( gfx ) );
+			}
+			only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 			// Add the material CB to the step
 			only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuf, 1u ) );
 			// Add shaders
 			only.AddBind( Binds::PixelShader::Resolve( gfx, Util::StringToWString( shaderName + std::string( "_PS.cso" ) ) ) );
-			only.AddBind( Binds::VertexShader::Resolve( gfx, Util::StringToWString( shaderName + std::string( "_VS.cso" ) ) ) );
+			auto pVS = Binds::VertexShader::Resolve( gfx, Util::StringToWString( shaderName + std::string( "_VS.cso" ) ) );
+			auto vsByteCode = pVS->pGetBytecode();
+			only.AddBind( Binds::InputLayout::Resolve( gfx, vertlayout_, *vsByteCode ) );
+			only.AddBind( std::move( pVS ) );
+			tag_ += shaderName;
 			// add step to tech
 			Phong.AddStep( std::move( only ) );
 			techniques_.push_back( std::move( Phong ) );
@@ -101,4 +111,9 @@ const std::vector<Technique>& Material::GetTechniques() const
 const Vert::VertexLayout& Material::GetVertexLayout() const
 {
 	return vertlayout_;
+}
+
+const std::string& Material::GetTag() const
+{
+	return tag_;
 }

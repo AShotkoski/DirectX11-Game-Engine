@@ -49,7 +49,7 @@ Cube::Cube(
 	cblay.add( CB::Float3, "color" );
 	CB::Buffer cbbuf( std::move( cblay ) );
 	cbbuf["specularIntensity"] = 0.4f;
-	cbbuf["specularPower"] = position.x;
+	cbbuf["specularPower"] = 80.f;
 	cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
 	only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
 	solidPhong.AddStep( std::move( only ) );

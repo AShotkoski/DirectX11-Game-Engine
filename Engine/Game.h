@@ -32,6 +32,7 @@ private:
 	Cube cube0;
 	Cube cube1;
 	//Model sponza;
+	std::unique_ptr<class sus> s;
 private:
 	float dt = 0.f;
 	float adj_dt = 0.f;

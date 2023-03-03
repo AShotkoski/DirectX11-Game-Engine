@@ -13,6 +13,18 @@
 
 namespace dx = DirectX;
 
+class sus : public Drawable
+{
+public:
+	sus( Graphics& gfx, Material& mat, const aiMesh& mesh )
+		: Drawable( gfx, mat, mesh )
+	{}
+	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
+	{
+		return DirectX::XMMatrixIdentity();
+	}
+};
+
 Game::Game()
 	: wnd( ScreenWidth, ScreenHeight, WindowTitle )
 	, gfx( wnd.GFX() )
@@ -36,17 +48,7 @@ Game::Game()
 
 	const auto& pMesh = pAIScene->mMeshes[0];
 	Material mat( gfx, *pAIScene->mMaterials[pMesh->mMaterialIndex], "Models\\cube.obj" );
-	class sus : public Drawable
-	{
-	public:
-		sus( Material& mat, const aiMesh& mesh )
-			: Drawable( mat, mesh )
-		{}
-		virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override
-		{
-			return DirectX::XMMatrixIdentity();
-		}
-	} s(mat,*pMesh);
+	s = std::make_unique<sus>( gfx, mat, *pMesh );
 }
 
 Game::~Game()
@@ -84,6 +86,8 @@ void Game::DrawFrame()
 	//sponza.Draw( gfx );
 	cube0.Submit( frame );
 	cube1.Submit( frame );
+	s->Submit( frame );
+
 	frame.Execute( gfx );
 }
 

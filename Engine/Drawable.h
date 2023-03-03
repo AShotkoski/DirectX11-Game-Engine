@@ -28,7 +28,7 @@ public:
 	virtual ~Drawable() = default;
 protected:
 	Drawable() = default;
-	Drawable( Material& material, const aiMesh& mesh );
+	Drawable(Graphics& gfx, Material& material, const aiMesh& mesh );
 	void AddTechnique( Technique technique);
 protected:
 	// These must be set by children
