@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include "Macros.h"
-#include "ImGui/imgui_impl_dx11.h"
-#include "ImGui/imgui_impl_win32.h"
+#include "../ThirdParty/ImGui/imgui_impl_dx11.h"
+#include "../ThirdParty/ImGui/imgui_impl_win32.h"
 #include <sstream>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>

@@ -27,60 +27,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameTimer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseException.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Drawable.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Bindable.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="InputLayout.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Topology.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformationConstBuffer.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Sampler.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
@@ -102,128 +48,49 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ThirdParty\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereSolidWhite.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Loguru\loguru.cpp">
       <Filter>ThirdParty\Loguru</Filter>
     </ClCompile>
-    <ClCompile Include="LoguruManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiLog.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicCB.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Stencil.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Technique.cpp">
-      <Filter>Source\RenderQueue</Filter>
-    </ClCompile>
-    <ClCompile Include="Job.cpp">
-      <Filter>Source\RenderQueue</Filter>
-    </ClCompile>
-    <ClCompile Include="Pass.cpp">
-      <Filter>Source\RenderQueue</Filter>
-    </ClCompile>
-    <ClCompile Include="Step.cpp">
-      <Filter>Source\RenderQueue</Filter>
-    </ClCompile>
-    <ClCompile Include="NullPixelShader.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBufferEx.cpp">
-      <Filter>Source\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
+    <ClCompile Include="Src\BaseException.cpp" />
+    <ClCompile Include="Src\Bindable.cpp" />
+    <ClCompile Include="Src\Camera.cpp" />
+    <ClCompile Include="Src\ConstantBufferEx.cpp" />
+    <ClCompile Include="Src\Cube.cpp" />
+    <ClCompile Include="Src\Drawable.cpp" />
+    <ClCompile Include="Src\DynamicCB.cpp" />
+    <ClCompile Include="Src\FrameTimer.cpp" />
+    <ClCompile Include="Src\Game.cpp" />
+    <ClCompile Include="Src\Graphics.cpp" />
+    <ClCompile Include="Src\ImGuiLog.cpp" />
+    <ClCompile Include="Src\ImGuiManager.cpp" />
+    <ClCompile Include="Src\IndexBuffer.cpp" />
+    <ClCompile Include="Src\InputLayout.cpp" />
+    <ClCompile Include="Src\Job.cpp" />
+    <ClCompile Include="Src\Keyboard.cpp" />
+    <ClCompile Include="Src\LoguruManager.cpp" />
+    <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\Material.cpp" />
+    <ClCompile Include="Src\Mesh.cpp" />
+    <ClCompile Include="Src\Model.cpp" />
+    <ClCompile Include="Src\Mouse.cpp" />
+    <ClCompile Include="Src\NullPixelShader.cpp" />
+    <ClCompile Include="Src\Pass.cpp" />
+    <ClCompile Include="Src\PixelShader.cpp" />
+    <ClCompile Include="Src\PointLight.cpp" />
+    <ClCompile Include="Src\Sampler.cpp" />
+    <ClCompile Include="Src\SphereSolidWhite.cpp" />
+    <ClCompile Include="Src\Stencil.cpp" />
+    <ClCompile Include="Src\Step.cpp" />
+    <ClCompile Include="Src\Technique.cpp" />
+    <ClCompile Include="Src\Texture.cpp" />
+    <ClCompile Include="Src\Topology.cpp" />
+    <ClCompile Include="Src\TransformationConstBuffer.cpp" />
+    <ClCompile Include="Src\Vertex.cpp" />
+    <ClCompile Include="Src\VertexBuffer.cpp" />
+    <ClCompile Include="Src\VertexShader.cpp" />
+    <ClCompile Include="Src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Bindable.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="BindableBaseIncludes.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffers.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="InputLayout.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelShader.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Topology.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShader.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformationConstBuffer.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="CubePrimitive.h">
-      <Filter>Headers\GeometricPrim</Filter>
-    </ClInclude>
-    <ClInclude Include="PlanePrimitive.h">
-      <Filter>Headers\GeometricPrim</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Sampler.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ThirdParty\ImGui</Filter>
     </ClInclude>
@@ -248,117 +115,65 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ThirdParty\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpherePrimitive.h">
-      <Filter>Headers\GeometricPrim</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereSolidWhite.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexedTriangleList.h">
-      <Filter>Headers\GeometricPrim</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseException.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Colors.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameTimer.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Macros.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="MathUtil.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="NumberFactory.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Win.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="BindableCodex.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneralUtilities.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Loguru\loguru.hpp">
       <Filter>ThirdParty\Loguru</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiLog.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="LoguruManager.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Headers\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicCB.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBufferEx.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Stencil.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Technique.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="Step.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameCommander.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="Job.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="Pass.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="NullPixelShader.h">
-      <Filter>Headers\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="TechniqueProbe.h">
-      <Filter>Headers\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="log.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
+    <ClInclude Include="Include\BaseException.h" />
+    <ClInclude Include="Include\Bindable.h" />
+    <ClInclude Include="Include\BindableBaseIncludes.h" />
+    <ClInclude Include="Include\BindableCodex.h" />
+    <ClInclude Include="Include\Camera.h" />
+    <ClInclude Include="Include\Colors.h" />
+    <ClInclude Include="Include\ConstantBufferEx.h" />
+    <ClInclude Include="Include\ConstantBuffers.h" />
+    <ClInclude Include="Include\Cube.h" />
+    <ClInclude Include="Include\CubePrimitive.h" />
+    <ClInclude Include="Include\Drawable.h" />
+    <ClInclude Include="Include\DynamicCB.h" />
+    <ClInclude Include="Include\FrameCommander.h" />
+    <ClInclude Include="Include\FrameTimer.h" />
+    <ClInclude Include="Include\Game.h" />
+    <ClInclude Include="Include\GeneralUtilities.h" />
+    <ClInclude Include="Include\Globals.h" />
+    <ClInclude Include="Include\Graphics.h" />
+    <ClInclude Include="Include\ImGuiLog.h" />
+    <ClInclude Include="Include\ImGuiManager.h" />
+    <ClInclude Include="Include\IndexBuffer.h" />
+    <ClInclude Include="Include\IndexedTriangleList.h" />
+    <ClInclude Include="Include\InputLayout.h" />
+    <ClInclude Include="Include\Job.h" />
+    <ClInclude Include="Include\Keyboard.h" />
+    <ClInclude Include="Include\log.h" />
+    <ClInclude Include="Include\LoguruManager.h" />
+    <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\Material.h" />
+    <ClInclude Include="Include\MathUtil.h" />
+    <ClInclude Include="Include\Mesh.h" />
+    <ClInclude Include="Include\Model.h" />
+    <ClInclude Include="Include\Mouse.h" />
+    <ClInclude Include="Include\NullPixelShader.h" />
+    <ClInclude Include="Include\NumberFactory.h" />
+    <ClInclude Include="Include\Pass.h" />
+    <ClInclude Include="Include\PixelShader.h" />
+    <ClInclude Include="Include\PlanePrimitive.h" />
+    <ClInclude Include="Include\PointLight.h" />
+    <ClInclude Include="Include\resource.h" />
+    <ClInclude Include="Include\Sampler.h" />
+    <ClInclude Include="Include\SpherePrimitive.h" />
+    <ClInclude Include="Include\SphereSolidWhite.h" />
+    <ClInclude Include="Include\Stencil.h" />
+    <ClInclude Include="Include\Step.h" />
+    <ClInclude Include="Include\Technique.h" />
+    <ClInclude Include="Include\TechniqueProbe.h" />
+    <ClInclude Include="Include\Texture.h" />
+    <ClInclude Include="Include\Topology.h" />
+    <ClInclude Include="Include\TransformationConstBuffer.h" />
+    <ClInclude Include="Include\Vertex.h" />
+    <ClInclude Include="Include\VertexBuffer.h" />
+    <ClInclude Include="Include\VertexShader.h" />
+    <ClInclude Include="Include\Win.h" />
+    <ClInclude Include="Include\Window.h" />
+    <ClInclude Include="Include\ImGui.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

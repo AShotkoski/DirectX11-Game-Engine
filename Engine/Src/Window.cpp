@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "resource.h"
-#include "ImGui//imgui_impl_win32.h"
+#include "../ThirdParty/ImGui/imgui_impl_win32.h"
 #include <sstream>
 #include <hidusage.h>
 #include <windowsx.h> 

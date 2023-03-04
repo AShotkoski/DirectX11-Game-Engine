@@ -1,8 +1,8 @@
-#include <Engine/Win.h>
+#include <Engine/include/Win.h>
 #include "CppUnitTest.h"
-#include <Engine/MathUtil.h>
-#include <Engine/LoguruManager.h>
-#include <Engine/DynamicCB.h>
+#include <Engine/include/MathUtil.h>
+#include <Engine/include/LoguruManager.h>
+#include <Engine/include/DynamicCB.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

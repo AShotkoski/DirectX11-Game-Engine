@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "ImGui/imgui.h"
+#include "ImGui.h"
 #include <algorithm>
 
 using namespace DirectX;

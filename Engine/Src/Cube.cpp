@@ -7,7 +7,7 @@
 #include "BindableCodex.h"
 #include "ConstantBufferEx.h"
 #include "TechniqueProbe.h"
-#include "ImGui/imgui.h"
+#include "ImGui.h"
 
 Cube::Cube(
 	Graphics& gfx,

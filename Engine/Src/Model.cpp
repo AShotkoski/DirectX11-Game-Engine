@@ -3,7 +3,7 @@
 #include "GeneralUtilities.h"
 #include "log.h"
 #include "assimp/DefaultLogger.hpp"
-#include "ImGui/imgui.h"
+#include "ImGui.h"
 #include "DynamicCB.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
