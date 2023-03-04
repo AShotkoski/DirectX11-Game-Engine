@@ -1,56 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="VSTransform.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="PSSolid.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong_diff_VS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong_diff_PS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong_diffnorm_VS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong_diffnorm_PS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong__PS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="phong__VS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Loguru\loguru.cpp">
-      <Filter>ThirdParty\Loguru</Filter>
-    </ClCompile>
     <ClCompile Include="Src\BaseException.cpp" />
     <ClCompile Include="Src\Bindable.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
@@ -89,36 +39,16 @@
     <ClCompile Include="Src\VertexBuffer.cpp" />
     <ClCompile Include="Src\VertexShader.cpp" />
     <ClCompile Include="Src\Window.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="ThirdParty\Loguru\loguru.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ImGui\imconfig.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_dx11.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_win32.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>ThirdParty\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Loguru\loguru.hpp">
-      <Filter>ThirdParty\Loguru</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\BaseException.h" />
     <ClInclude Include="Include\Bindable.h" />
     <ClInclude Include="Include\BindableBaseIncludes.h" />
     <ClInclude Include="Include\BindableCodex.h" />
@@ -174,6 +104,17 @@
     <ClInclude Include="Include\Win.h" />
     <ClInclude Include="Include\Window.h" />
     <ClInclude Include="Include\ImGui.h" />
+    <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
+    <ClInclude Include="ThirdParty\ImGui\imgui.h" />
+    <ClInclude Include="ThirdParty\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ThirdParty\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ThirdParty\ImGui\imgui_internal.h" />
+    <ClInclude Include="ThirdParty\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ThirdParty\ImGui\imstb_textedit.h" />
+    <ClInclude Include="ThirdParty\ImGui\imstb_truetype.h" />
+    <ClInclude Include="ThirdParty\Include\BaseException.h" />
+    <ClInclude Include="ThirdParty\Loguru\loguru.hpp" />
+    <ClInclude Include="Include\BaseException.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -233,8 +174,16 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Operations.hlsli">
-      <Filter>Shaders</Filter>
-    </None>
+    <None Include="Shaders\Operations.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\phong__PS.hlsl" />
+    <FxCompile Include="Shaders\phong__VS.hlsl" />
+    <FxCompile Include="Shaders\phong_diff_PS.hlsl" />
+    <FxCompile Include="Shaders\phong_diff_VS.hlsl" />
+    <FxCompile Include="Shaders\phong_diffnorm_PS.hlsl" />
+    <FxCompile Include="Shaders\phong_diffnorm_VS.hlsl" />
+    <FxCompile Include="Shaders\PSSolid.hlsl" />
+    <FxCompile Include="Shaders\VSTransform.hlsl" />
   </ItemGroup>
 </Project>
