@@ -6,6 +6,7 @@
 
 #pragma comment(lib,"d3dcompiler.lib")
 
+// Todo add macro and possible exception that actually tells us file that was failed to find
 namespace Binds
 {
 

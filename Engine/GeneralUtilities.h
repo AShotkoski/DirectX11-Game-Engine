@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "log.h"
+// Please do not include this header in a header, the static functions are meant for internal linkage,
+// meaning include it in source file.
 
 namespace Util
 {

@@ -1,8 +1,8 @@
-#include "../Engine/Win.h"
+#include <Engine/Win.h>
 #include "CppUnitTest.h"
-#include "../Engine/DynamicCB.h"
-#include "../Engine/MathUtil.h" // dx overloads
-#include "../Engine/LoguruManager.h"
+#include <Engine/MathUtil.h>
+#include <Engine/LoguruManager.h>
+#include <Engine/DynamicCB.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

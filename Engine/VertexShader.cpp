@@ -2,18 +2,21 @@
 #include "Macros.h"
 #include "BindableCodex.h"
 #include "GeneralUtilities.h"
+#include "log.h"
+#include <filesystem>
 #include <d3dcompiler.h>
 
 #pragma comment(lib,"d3dcompiler.lib")
 
 namespace Binds
 {
-
+	// todo use filesystem
 	VertexShader::VertexShader( Graphics& gfx, const std::wstring path )
 	{
 			// error codes
 		HRESULT hr;
-
+		//todo stop using wstring
+		DCHECK_F( std::filesystem::exists( path ) , "%s file not found.", Util::WStringToString(path).c_str() );
 		THROW_FAILED_GFX( D3DReadFileToBlob( path.c_str(), &pBlob ) );
 		THROW_FAILED_GFX( pGetDevice( gfx )->CreateVertexShader( pBlob->GetBufferPointer(),
 																 pBlob->GetBufferSize(),

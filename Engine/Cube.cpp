@@ -36,8 +36,8 @@ Cube::Cube(
 	{
 	Step only( 0 );
 	// Add binds to step needed to phong
-	only.AddBind( Binds::PixelShader::Resolve( gfx, L"PSPhongSolid.cso" ) );
-	auto pVS = Binds::VertexShader::Resolve( gfx, L"VSPhongSolid.cso" );
+	only.AddBind( Binds::PixelShader::Resolve( gfx, L"phong__PS.cso" ) );
+	auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
 	auto vsbytecode = pVS->pGetBytecode();
 	only.AddBind( std::move( pVS ) );
 	only.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
@@ -70,7 +70,7 @@ Cube::Cube(
 		}
 		{
 			Step draw( 2u );
-			auto pVS = Binds::VertexShader::Resolve( gfx, L"VSPhongSolid.cso" );
+			auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
 			auto vsbytecode = pVS->pGetBytecode();
 			draw.AddBind( std::move( pVS ) );
 			draw.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
