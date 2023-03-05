@@ -2,9 +2,8 @@
 #include "ImGui.h"
 #include "../ThirdParty/ImGui/imgui_impl_dx11.h"
 #include "../ThirdParty/ImGui/imgui_impl_win32.h"
-#include "NumberFactory.h"
-#include "Colors.h"
-#include "MathUtil.h"
+#include "Util/Colors.h"
+#include "Util/MathUtil.h"
 
 
 namespace dx = DirectX;
