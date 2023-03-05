@@ -5,7 +5,6 @@
 #include "Util/Colors.h"
 #include "Util/MathUtil.h"
 
-
 namespace dx = DirectX;
 
 Game::Game()

@@ -198,7 +198,7 @@ const char* Graphics::Exception::what() const noexcept
 {
 	std::ostringstream ss;
 	ss << BaseException::what() << std::endl
-		<< "[Code] " << std::hex << GetErrorCode() << std::dec << '(' << GetErrorCode() << ')' << std::endl
+		<< "[Code] 0x" << std::hex << GetErrorCode() << std::dec << '(' << GetErrorCode() << ')' << std::endl
 		<< "[Description] " << GetErrorString() << std::endl;
 	whatBuffer = ss.str();
 	return whatBuffer.c_str();

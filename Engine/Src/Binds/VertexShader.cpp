@@ -15,8 +15,10 @@ namespace Binds
 	{
 			// error codes
 		HRESULT hr;
-		//todo stop using wstring
-		DCHECK_F( std::filesystem::exists( path ) , "%s file not found.", Util::WStringToString(path).c_str() );
+
+		// Check file exists (will change later)
+		DCHECK_F( std::filesystem::exists( path ), "Could not find vertex shader file: %s", Util::WStringToString( path ).c_str() );
+
 		THROW_FAILED_GFX( D3DReadFileToBlob( path.c_str(), &pBlob ) );
 		THROW_FAILED_GFX( pGetDevice( gfx )->CreateVertexShader( pBlob->GetBufferPointer(),
 																 pBlob->GetBufferSize(),

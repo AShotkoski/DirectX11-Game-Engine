@@ -49,6 +49,7 @@ std::wstring Window::WindowClass::GetName()  noexcept
 }
 
 /******************   WINDOWS CORE    ***********************/
+
 Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	:
 	width(Width),
@@ -65,7 +66,7 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	
 	if ( AdjustWindowRectEx( &wndRect, dwCreationFlags, false, 0u ) == 0 )
 	{
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 	}
 	
 	// Create Window, pass in pointer to this as lParam to use for message bs.
@@ -83,7 +84,7 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 		WindowClass::GetHInstance(),
 		this );
 	if ( hWnd == nullptr )
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 
 	// Init raw input devices (mouse)
 	RAWINPUTDEVICE rid;
@@ -93,7 +94,7 @@ Window::Window( UINT Width, UINT Height, const std::wstring& Title )
 	rid.hwndTarget  = nullptr;
 	if ( RegisterRawInputDevices(&rid, 1u, sizeof(rid)) == FALSE )
 	{
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 	}
 
 	// Store where the center of the client area is in screen coords.
@@ -149,7 +150,7 @@ RECT Window::GetRect() const
 {
 	RECT rect;
 	if ( GetClientRect(hWnd, &rect) == FALSE )
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 	return rect;
 }
 
@@ -168,7 +169,7 @@ void Window::EnableCursor()
 	ShowCursor();
 	// stop clipping cursor
 	if ( ClipCursor( nullptr ) == FALSE )
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 }
 
 void Window::DisableCursor()
@@ -182,9 +183,9 @@ void Window::DisableCursor()
 	// Confine cursor
 	RECT wndRect = {};
 	if(GetWindowRect( hWnd, &wndRect ) == FALSE)
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 	if ( ClipCursor( &wndRect ) == FALSE )
-		throw LAST_WND_ERR_EXCEPT();
+		throw WINDOW_LAST_ERROR_EXCEPT();
 }
 
 void Window::ShowCursor()
@@ -263,7 +264,7 @@ LRESULT Window::MessageProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			// Fill raw buffer with data
 			if ( GetRawInputData( (HRAWINPUT)lParam, RID_INPUT, rawBuffer.data(), &dwSize, sizeof(RAWINPUTHEADER))
 				 != dwSize )
-				throw LAST_WND_ERR_EXCEPT();
+				throw WINDOW_LAST_ERROR_EXCEPT();
 			const RAWINPUT* pRaw = (RAWINPUT*)rawBuffer.data();
 
 			// Test if the raw data is mouse movement

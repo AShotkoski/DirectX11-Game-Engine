@@ -7,7 +7,6 @@
 #include "Drawable/Cube.h"
 #include "Graphics/FrameCommander.h"
 
-
 class Game
 {
 public:

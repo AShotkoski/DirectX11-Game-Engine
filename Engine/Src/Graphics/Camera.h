@@ -31,6 +31,7 @@ private:
 	float MoveSpeed = 15.f;
 
 	//-----Imgui-----
+
 	bool im_showDebugInfo = true;
 };
 

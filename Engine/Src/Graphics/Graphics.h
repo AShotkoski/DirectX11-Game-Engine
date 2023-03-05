@@ -49,6 +49,7 @@ private:
 
 private:
 	/********************** Parameters *******************/
+
 	static constexpr bool enableVSync = true;
 
 };
