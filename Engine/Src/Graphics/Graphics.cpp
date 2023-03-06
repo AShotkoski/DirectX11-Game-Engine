@@ -23,7 +23,7 @@ Graphics::Graphics( HWND hWnd )
 	// Get window dimensions
 	RECT clientRect;
 	if ( GetClientRect( hWnd, &clientRect ) == 0 )
-		throw std::runtime_error( "Error getting client rect.\n" );
+		throw std::runtime_error( "Error getting client rect.\n" ); // todo graphics error
 
 	// Setup SwapChain parameters
 	DXGI_SWAP_CHAIN_DESC sd = { 0 };

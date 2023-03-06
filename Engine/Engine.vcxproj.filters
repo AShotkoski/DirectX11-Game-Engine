@@ -116,6 +116,8 @@
     <ClInclude Include="Src\Binds\Bindable.h" />
     <ClInclude Include="Src\Binds\BindableBaseIncludes.h" />
     <ClInclude Include="Src\Binds\BindableCodex.h" />
+    <ClInclude Include="Src\ModelProbe.h" />
+    <ClInclude Include="Src\Util\RyeFile.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

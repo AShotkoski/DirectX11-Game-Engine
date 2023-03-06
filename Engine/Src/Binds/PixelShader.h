@@ -3,7 +3,6 @@
 
 namespace Binds
 {
-	// todo: better errors when file load file (also this class is just yucky)
 	class PixelShader : public Bindable
 	{
 	public:

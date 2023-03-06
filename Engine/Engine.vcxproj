@@ -165,6 +165,7 @@
     <ClInclude Include="Src\Binds\BindableBaseIncludes.h" />
     <ClInclude Include="Src\Binds\BindableCodex.h" />
     <ClInclude Include="Src\Graphics\Camera.h" />
+    <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Util\Colors.h" />
     <ClInclude Include="Src\Binds\ConstantBufferEx.h" />
     <ClInclude Include="Src\Binds\ConstantBuffers.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Src\Binds\VertexShader.h" />
     <ClInclude Include="Src\Includers\Win.h" />
     <ClInclude Include="Src\Core\Window.h" />
+    <ClInclude Include="Src\Util\RyeFile.h" />
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
     <ClInclude Include="ThirdParty\ImGui\imgui.h" />
     <ClInclude Include="ThirdParty\ImGui\imgui_impl_dx11.h" />
