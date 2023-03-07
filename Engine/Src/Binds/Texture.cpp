@@ -20,15 +20,16 @@ namespace Binds
 			DirectX::WIC_FLAGS_NONE,
 			nullptr,
 			Scratch ) );
+
+        // set alpha flag
+        bhasAlpha = !Scratch.IsAlphaAllOpaque();
+
 		THROW_FAILED_GFX( DirectX::CreateShaderResourceView(
 			pGetDevice( gfx ),
 			Scratch.GetImage( 0, 0, 0 ),
 			1,
 			Scratch.GetMetadata(),
 			&pResourceView ) );
-
-        
-      
         D3D11_TEXTURE2D_DESC td = {};
         td.Format = Scratch.GetMetadata().format;
         td.ArraySize = (UINT)Scratch.GetMetadata().arraySize;
@@ -82,6 +83,11 @@ namespace Binds
     std::shared_ptr<Texture> Texture::Resolve( Graphics& gfx, std::filesystem::path path, UINT slot )
     {
         return Codex::Resolve<Texture>( gfx, path, slot );
+    }
+
+    bool Texture::hasAlpha() const
+    {
+        return bhasAlpha;
     }
 
 };

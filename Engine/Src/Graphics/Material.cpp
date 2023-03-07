@@ -1,6 +1,7 @@
 #include "Material.h"
 #include "Technique.h"
 #include "Binds/BindableBaseIncludes.h"
+#include "Binds/Blender.h"
 #include "Util/Colors.h"
 #include "Util/GeneralUtilities.h"
 
@@ -18,6 +19,7 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 		{
 			Step only( 0 );
 			bool hasDiffuseMap = false;
+			bool hasAlpha = false;
 			bool hasNormalMap = false;
 			aiString texFilename;
 			std::string shaderName = "phong_";
@@ -34,7 +36,9 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 				const auto texPath = rootPath + texFilename.C_Str();
 				shaderName += "diff";
 				vertlayout_.Append( elem::TexCoordUV );
-				only.AddBind( Binds::Texture::Resolve( gfx, texPath ) );
+				auto pTex = Binds::Texture::Resolve( gfx, texPath );
+				hasAlpha = pTex->hasAlpha();
+				only.AddBind( std::move( pTex ) );
 			}
 			else // if we don't have a texture, we need material color
 			{
@@ -86,6 +90,9 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			{
 				only.AddBind( Binds::Sampler::Resolve( gfx ) );
 			}
+
+			// Common
+			only.AddBind( Binds::Blender::Resolve( gfx ) );// never blend yet
 			only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 			// Add the material CB to the step
 			only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuf, 1u ) );
@@ -96,6 +103,7 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			only.AddBind( Binds::InputLayout::Resolve( gfx, vertlayout_, *vsByteCode ) );
 			only.AddBind( std::move( pVS ) );
 			tag_ += shaderName;
+
 			// add step to tech
 			Phong.AddStep( std::move( only ) );
 			techniques_.push_back( std::move( Phong ) );

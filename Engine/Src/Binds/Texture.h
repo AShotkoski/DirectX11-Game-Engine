@@ -13,9 +13,11 @@ namespace Binds
         void Bind( Graphics& gfx ) override;
         static std::string GenerateUID( std::filesystem::path, UINT slot );
         static std::shared_ptr<Texture> Resolve( Graphics& gfx, std::filesystem::path, UINT slot = 0u );
+        bool hasAlpha() const;
     private:
         UINT slot_;
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pResourceView;
+        bool bhasAlpha;
     };
 
 };

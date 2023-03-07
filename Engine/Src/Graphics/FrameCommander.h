@@ -16,7 +16,6 @@ public:
 	// Script that executes passes
 	void Execute(Graphics& gfx)
 	{
-		Binds::Blender::Resolve( gfx, false )->Bind(gfx);
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 
