@@ -101,7 +101,7 @@ namespace GeometricPrim
 				itl.vb[i].Attribute<Vert::VertexLayout::Position_3D>() = vertices[i];
 			}
 
-			return std::move( itl );
+			return itl;
 		}
 	};
 };

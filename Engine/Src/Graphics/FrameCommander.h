@@ -2,6 +2,7 @@
 #include "Pass.h"
 #include "Job.h"
 #include "Binds/BindableBaseIncludes.h"
+#include "Binds/Blender.h"
 #include "Binds/NullPixelShader.h"
 #include <array>
 
@@ -15,6 +16,7 @@ public:
 	// Script that executes passes
 	void Execute(Graphics& gfx)
 	{
+		Binds::Blender::Resolve( gfx, true )->Bind(gfx);
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 

@@ -27,11 +27,11 @@ struct PSIn // VSOUT
 };
 
 SamplerState splr;
-Texture2D tex;
+Texture2D diffusetex;
 
 float4 main(PSIn psin) : SV_TARGET
 {
-    // Normalize normal
+    // Renormalization
     psin.Normal = normalize(psin.Normal);
     
     const float distPxToLight = length(lightposition - psin.WorldPos);
@@ -47,5 +47,6 @@ float4 main(PSIn psin) : SV_TARGET
     float3 specular = Speculate_BlinnPhong(specularColor,
                                             specularPower, pxToEye, pxToLight, psin.Normal);
 
-    return float4(saturate(diffuse + ambient + specular) * (float3) tex.Sample(splr, psin.texcoord), 1);
+    float4 diffusesample = diffusetex.Sample(splr, psin.texcoord);
+    return float4(saturate(diffuse + ambient) * diffusesample.rgb + specular, diffusesample.a);
 }

@@ -31,7 +31,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 		float r = 1.f;
 		float g = 1.f;
 		float b = 1.f;
-		float pad;
+		float pad = 0;
 	} cb;
 	only.AddBind( Binds::PixelConstantBuffer<CB>::Resolve( gfx, cb, "solidwhite", 1u ) );
 	Solid.AddStep( std::move( only ) );

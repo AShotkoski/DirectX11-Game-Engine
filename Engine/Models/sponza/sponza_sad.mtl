@@ -8,7 +8,7 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 illum 1
-map_Kd textures/vase_plant.jpg
+map_Kd textures/vase_plant.png
 map_d textures/vase_plant_mask.jpg
 
 newmtl Lion.002
