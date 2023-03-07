@@ -24,7 +24,14 @@ namespace Binds
 	}
 	void Blender::Bind( Graphics& gfx )
 	{
-		pGetContext( gfx )->OMSetBlendState( pBlendState.Get(), nullptr, 0xFFFFFFFF );
+		if ( isBlending )
+		{
+			pGetContext( gfx )->OMSetBlendState( pBlendState.Get(), nullptr, 0xFFFFFFFF );
+		}
+		else
+		{
+			pGetContext( gfx )->OMSetBlendState( nullptr, nullptr, 0xFFFFFFFF );
+		}
 	}
 	std::string Blender::GenerateUID( bool blendEnabled )
 	{
