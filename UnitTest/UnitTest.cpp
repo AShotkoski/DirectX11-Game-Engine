@@ -3,32 +3,16 @@
 #include <Engine/src/Util/MathUtil.h>
 #include <Engine/src/Includers/LoguruManager.h>
 #include <Engine/src/Graphics/DynamicCB.h>
-#include <Engine/Src/Util/RyeFile.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest
 {
+
 	TEST_CLASS(UnitTest)
 	{
 	public:		
-		TEST_METHOD( RyeFiling )
-		{
-			RyeFile fil( "C:\\Users\\Shotk\\source\\repos\\DirectX11 Game Engine\\Engine\\logs\\test.txt" );
-			fil.AppendParam( "money", 69.420 );
-			fil.AppendParam( "cash", true );
-			fil.AppendParam( "bitcoin", 32 );
-
-			int in;
-			fil.Resolve( "bitcoin", in );
-			auto resopt = fil.Resolve<double>("money");
-			float resref;
-			fil.Resolve( "money", resref );
-			bool b = fil.ForceResolve( "cash", false );
-			int bad;
-			fil.Resolve( "holy shit", bad );
-
-		}
+		
 
 		TEST_METHOD(CBRoundTrip)
 		{

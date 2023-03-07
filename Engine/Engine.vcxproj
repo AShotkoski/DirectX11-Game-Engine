@@ -217,7 +217,6 @@
     <ClInclude Include="Src\Binds\VertexShader.h" />
     <ClInclude Include="Src\Includers\Win.h" />
     <ClInclude Include="Src\Core\Window.h" />
-    <ClInclude Include="Src\Util\RyeFile.h" />
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
     <ClInclude Include="ThirdParty\ImGui\imgui.h" />
     <ClInclude Include="ThirdParty\ImGui\imgui_impl_dx11.h" />
