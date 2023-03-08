@@ -7,7 +7,7 @@ ImGuiLog::ImGuiLog()
 	AutoScroll = true;
 	Clear();
 	// Integrate loguru callback
-	loguru::add_callback( "imguilog callback", loguru_bouncer, this, loguru::Verbosity_MAX );
+	loguru::add_callback( "imguilog callback", loguru_bouncer, this, InitialVerbosityCutoff );
 	// Add verbosites for selection
 	verbosities.push_back( loguru::Verbosity_MAX );
 	verbosities.push_back( loguru::Verbosity_INFO  );
@@ -106,7 +106,9 @@ void ImGuiLog::Draw( const char* title, bool* p_open )
 					( buf + LineOffsets[line_no + 1] - 1 ) :
 					buf_end;
 				if ( Filter.PassFilter( line_start, line_end ) )
-					ImGui::TextUnformatted( line_start, line_end );
+				{
+					ImGui::TextUnformatted( line_start, line_end );		
+				}
 			}
 		}
 		else
@@ -137,7 +139,7 @@ void ImGuiLog::Draw( const char* title, bool* p_open )
 					const char* line_end = ( line_no + 1 < LineOffsets.Size ) ?
 						( buf + LineOffsets[line_no + 1] - 1 ) :
 						buf_end;
-					ImGui::TextUnformatted( line_start, line_end );
+					ImGui::TextUnformatted( line_start, line_end );		
 				}
 			}
 			clipper.End();
@@ -164,7 +166,7 @@ void ImGuiLog::loguru_bouncer( void* user_data, const loguru::Message& message )
 {
 	std::ostringstream oss;
 	
-	oss << loguru::get_verbosity_name(message.verbosity) << " --- " << message.message << '\n';
+	oss << loguru::get_verbosity_name(message.verbosity) << ": " << message.prefix << message.message << '\n';
 	reinterpret_cast<ImGuiLog*>( user_data )->AddLog( oss.str().c_str() );
 }
 

@@ -172,7 +172,6 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 	pController( std::make_unique<ModelController>( ) )
 {
 	LOG_SCOPE_FUNCTION( INFO );
-	DLOG_F( INFO, "Model ctor begins for %s", filename.string().c_str() );
 	// Create assimp logger to log assimp messages during file loading
 	Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::DEBUGGING );
 
@@ -194,7 +193,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 		DCHECK_F( mesh.mMaterialIndex >= 0, "mesh material index not right" );
 		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
 		Material mat( gfx, material, filename );
-		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );		
+		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );
 	}
 
 	// Populate node tree from head
@@ -202,6 +201,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 
 	// Kill assimp logger
 	Assimp::DefaultLogger::kill();
+	LOG_F( INFO, "Created instance of %s, which has %i meshes and %i nodes.", pAIScene->mRootNode->mName.C_Str(), pMeshes.size(), -1);
 }
 
 void Model::UpdateTransform( DirectX::XMMATRIX in_transform )
@@ -232,7 +232,7 @@ void Model::PopulateNodeTreeFromAINode( Node* pNode, const aiNode* pAiNode, bool
 	{
 		pHead = std::make_unique<Node>( MakeNode( *pAiNode ) );
 		// Re-call so we have good ref
-		PopulateNodeTreeFromAINode( pHead.get(), pAiNode);
+		PopulateNodeTreeFromAINode( pHead.get(), pAiNode );
 		return;
 	}
 

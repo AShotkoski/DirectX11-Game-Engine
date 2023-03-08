@@ -21,4 +21,5 @@ private:
 	bool            AutoScroll;  // Keep scrolling if already at the bottom.
 	std::vector<loguru::Verbosity> verbosities;
 	int verbosity_curr_idx;
+	static constexpr loguru::Verbosity InitialVerbosityCutoff = loguru::Verbosity_MAX;
 };
