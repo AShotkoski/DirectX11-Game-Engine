@@ -40,8 +40,9 @@ private:
 private:
 	static constexpr UINT ScreenWidth = 1272u;
 	static constexpr UINT ScreenHeight = 954u;
-	static constexpr const wchar_t* WindowTitle = L"DirectX Window";
-	static constexpr float NearClipping = 0.5f;
-	static constexpr float FarClipping = 85.0f;
+	static constexpr const wchar_t* WindowTitle = L"RyeEngine";
+	static constexpr float NearClipping = 0.1f;
+	static constexpr float FarClipping = 130.0f;
+	static constexpr float Fov = 103.f;
 };
 

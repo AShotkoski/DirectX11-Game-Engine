@@ -4,6 +4,7 @@
 #include "../ThirdParty/ImGui/imgui_impl_win32.h"
 #include "Util/Colors.h"
 #include "Util/MathUtil.h"
+#include <numbers>
 
 namespace dx = DirectX;
 
@@ -15,9 +16,11 @@ Game::Game()
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
 	, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
 {
-	//Set matrices
-	gfx.SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 1.f / wnd.GetAspectRatio(), 
-													   NearClipping, FarClipping));
+	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
+		Fov * (float)std::numbers::pi / 180.f,
+		wnd.GetAspectRatio(),
+		NearClipping,
+		FarClipping ) );
 }
 
 Game::~Game()

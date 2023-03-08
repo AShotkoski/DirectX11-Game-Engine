@@ -1,0 +1,2 @@
+1. The lighting on the backface of a object that does not cull backfaces will have incorrect
+	lighting. (easy fix to flip normal if that is the case)
