@@ -42,6 +42,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd textures/sponza_arch_diff.jpg
+map_Bump textures/sponza_arch_ddn.jpg
 
 newmtl bricks.003
 Ns 70.843117
