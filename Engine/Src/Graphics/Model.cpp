@@ -194,8 +194,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 		DCHECK_F( mesh.mMaterialIndex >= 0, "mesh material index not right" );
 		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
 		Material mat( gfx, material, filename );
-		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );
-		
+		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );		
 	}
 
 	// Populate node tree from head

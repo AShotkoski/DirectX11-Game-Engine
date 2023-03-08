@@ -12,13 +12,13 @@ namespace Binds
 	class VertexBuffer : public Bindable
 	{
 	public:
-		VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag );
-		VertexBuffer() = default;
+		VertexBuffer( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag );	
 		void Bind( Graphics& gfx ) override;
 		static std::string GenerateUID( const Vert::VertexBuffer& vb, std::string tag );
 		static std::shared_ptr<VertexBuffer>
 			Resolve( Graphics& gfx, const Vert::VertexBuffer& vb, std::string tag );
 	protected:
+		VertexBuffer() = default;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
 		UINT stride;
 	};
