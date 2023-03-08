@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Src\Core\BaseException.cpp" />
-    <ClCompile Include="Src\Binds\Bindable.cpp" />
     <ClCompile Include="Src\Graphics\Camera.cpp" />
     <ClCompile Include="Src\Binds\ConstantBufferEx.cpp" />
     <ClCompile Include="Src\Drawable\Cube.cpp" />
@@ -49,6 +48,7 @@
     <ClCompile Include="ThirdParty\Loguru\loguru.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
+    <ClCompile Include="Src\Binds\GraphicsResource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -121,6 +121,9 @@
     <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Binds\Blender.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />
+    <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
+    <ClInclude Include="Src\Binds\RenderTarget.h" />
+    <ClInclude Include="Src\Binds\GraphicsResource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

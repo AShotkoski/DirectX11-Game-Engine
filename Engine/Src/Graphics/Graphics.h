@@ -9,7 +9,7 @@
 class Graphics
 {
 private:
-	friend class Bindable;
+	friend class GraphicsResource;
 public:
 	class Exception : public BaseException
 	{
@@ -42,8 +42,8 @@ private:
 	Camera cam;
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
-	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    pContext;
+	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 

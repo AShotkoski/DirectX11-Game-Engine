@@ -111,6 +111,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Binds\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
@@ -122,7 +123,6 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ThirdParty\Loguru\loguru.cpp" />
     <ClCompile Include="Src\Core\BaseException.cpp" />
-    <ClCompile Include="Src\Binds\Bindable.cpp" />
     <ClCompile Include="Src\Graphics\Camera.cpp" />
     <ClCompile Include="Src\Binds\ConstantBufferEx.cpp" />
     <ClCompile Include="Src\Drawable\Cube.cpp" />
@@ -161,14 +161,17 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Binds\GraphicsResource.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />
     <ClInclude Include="Src\Binds\Blender.h" />
     <ClInclude Include="Include\BaseException.h" />
+    <ClInclude Include="Src\Binds\RenderTarget.h" />
     <ClInclude Include="Src\Core\BaseException.h" />
     <ClInclude Include="Src\Binds\Bindable.h" />
     <ClInclude Include="Src\Binds\BindableBaseIncludes.h" />
     <ClInclude Include="Src\Binds\BindableCodex.h" />
     <ClInclude Include="Src\Graphics\Camera.h" />
+    <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Util\Colors.h" />
     <ClInclude Include="Src\Binds\ConstantBufferEx.h" />
