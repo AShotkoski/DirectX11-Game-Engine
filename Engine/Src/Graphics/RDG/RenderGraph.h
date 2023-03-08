@@ -8,7 +8,7 @@ namespace RDG
 	{
 	public:
 		RenderGraph();
-		void RegisterExternalResource()
+		void RegisterExternalResource();
 		virtual ~RenderGraph() noexcept {};
 
 	private:

@@ -43,6 +43,6 @@ private:
 	static constexpr const wchar_t* WindowTitle = L"RyeEngine";
 	static constexpr float NearClipping = 0.1f;
 	static constexpr float FarClipping = 130.0f;
-	static constexpr float Fov = 103.f;
+	static constexpr float Fov = 93.f;
 };
 

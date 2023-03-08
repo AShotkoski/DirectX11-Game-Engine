@@ -49,6 +49,7 @@
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\GraphicsResource.cpp" />
+    <ClCompile Include="Src\Binds\DepthStencil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\Binds\RenderTarget.h" />
     <ClInclude Include="Src\Binds\GraphicsResource.h" />
+    <ClInclude Include="Src\Binds\DepthStencil.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

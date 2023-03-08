@@ -15,6 +15,7 @@ Game::Game()
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
 	, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
+	, frame(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
 		Fov * (float)std::numbers::pi / 180.f,

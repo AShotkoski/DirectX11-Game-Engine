@@ -6,6 +6,7 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <d3d11sdklayers.h>
+#include <Binds/DepthStencil.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -24,11 +25,14 @@ Graphics::Graphics( HWND hWnd )
 	RECT clientRect;
 	if ( GetClientRect( hWnd, &clientRect ) == 0 )
 		throw std::runtime_error( "Error getting client rect.\n" ); // todo graphics error
+	Width = clientRect.right;
+	Height = clientRect.bottom;
+
 
 	// Setup SwapChain parameters
 	DXGI_SWAP_CHAIN_DESC sd = { 0 };
-	sd.BufferDesc.Width                   = 0;
-	sd.BufferDesc.Height                  = 0;
+	sd.BufferDesc.Width                   = Width;
+	sd.BufferDesc.Height                  = Height;
 	sd.BufferDesc.RefreshRate.Numerator   = 0;
 	sd.BufferDesc.RefreshRate.Denominator = 0;
 	sd.BufferDesc.Format                  = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -73,34 +77,6 @@ Graphics::Graphics( HWND hWnd )
 	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
 	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
 
-
-	// Create texture for depth/stencil
-	WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
-	D3D11_TEXTURE2D_DESC         descDepth = {};
-	descDepth.Width                        = clientRect.right;
-	descDepth.Height                       = clientRect.bottom;
-	descDepth.MipLevels                    = 1u;
-	descDepth.ArraySize                    = 1u;
-	descDepth.Format                       = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count             = 1u;
-	descDepth.SampleDesc.Quality           = 0u;
-	descDepth.Usage                        = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags                    = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags               = 0u;
-	descDepth.MiscFlags                    = 0u;
-	THROW_FAILED_GFX(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
-
-	// Depth stencil view
-	D3D11_DEPTH_STENCIL_VIEW_DESC DSviewDesc = {};
-	DSviewDesc.Format                        = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	DSviewDesc.ViewDimension                 = D3D11_DSV_DIMENSION_TEXTURE2D;
-	DSviewDesc.Texture2D.MipSlice            = 0u;
-	THROW_FAILED_GFX( pDevice->CreateDepthStencilView(
-		pDepthStencil.Get(), &DSviewDesc, &pDepthStencilView ) );
-
-	// Set render target view
-	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), pDepthStencilView.Get() );
-
 	// Setup Viewport
 	D3D11_VIEWPORT vp = {};
 	vp.TopLeftX       = (FLOAT)clientRect.left;
@@ -129,7 +105,6 @@ void Graphics::BeginFrame()
 	}
 	float c[ 4 ] = { 0.f,0.0f,0.f,1.f };
 	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
-	pContext->ClearDepthStencilView( pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0 );
 }
 
 void Graphics::Draw( UINT vertexCount, UINT start )
@@ -140,6 +115,18 @@ void Graphics::Draw( UINT vertexCount, UINT start )
 void Graphics::DrawIndexed( UINT indexCount )
 {
 	pContext->DrawIndexed( indexCount, 0u, 0u );
+}
+
+void Graphics::BindSwapBuffer()
+{
+	// Set render target view
+	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
+}
+
+void Graphics::BindSwapBuffer( DepthStencil& ds )
+{
+	// Set render target view
+	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), ds.pDepthStencilView.Get() );
 }
 
 void Graphics::EndFrame()
@@ -168,8 +155,16 @@ void Graphics::EndFrame()
 			throw GFX_EXCEPT( hr );
 		}
 	}
-	// Rebind render target view
-	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), pDepthStencilView.Get() );
+}
+
+UINT Graphics::GetWidth() const
+{
+	return Width;
+}
+
+UINT Graphics::GetHeight() const
+{
+	return Height;
 }
 
 void Graphics::SetProjection( DirectX::FXMMATRIX proj ) noexcept

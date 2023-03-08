@@ -111,6 +111,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Binds\DepthStencil.cpp" />
     <ClCompile Include="Src\Binds\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Binds\DepthStencil.h" />
     <ClInclude Include="Src\Binds\GraphicsResource.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />
     <ClInclude Include="Src\Binds\Blender.h" />

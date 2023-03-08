@@ -4,11 +4,15 @@
 #include "Binds/BindableBaseIncludes.h"
 #include "Binds/Blender.h"
 #include "Binds/NullPixelShader.h"
+#include <Binds/DepthStencil.h>
 #include <array>
 
 class FrameCommander
 {
 public:
+	FrameCommander( Graphics& gfx )
+		: ds( gfx, gfx.GetWidth(), gfx.GetHeight() )
+	{}
 	void Accept( Job job, size_t passidx )
 	{
 		passes[passidx].Accept( std::move( job ) );
@@ -16,6 +20,8 @@ public:
 	// Script that executes passes
 	void Execute(Graphics& gfx)
 	{
+		ds.Clear( gfx );
+		gfx.BindSwapBuffer( ds );
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 
@@ -34,5 +40,6 @@ public:
 	}
 private:
 	std::array<Pass, 3> passes;
+	DepthStencil ds;
 };
 
