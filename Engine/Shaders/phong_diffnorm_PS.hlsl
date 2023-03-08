@@ -34,7 +34,9 @@ Texture2D norm_map : register(t1);
 
 float4 main(PSIn psin) : SV_TARGET
 {
-
+    float4 diffusesample = diffusetex.Sample(splr, psin.texcoord);
+    clip(diffusesample.a < 0.1f ? -1 : 1);
+    
     psin.Normal = CalculateNormalFromMap_HD(
                                         norm_map.Sample(splr, psin.texcoord).xyz,
                                         normalize(psin.Normal), 
@@ -52,7 +54,6 @@ float4 main(PSIn psin) : SV_TARGET
     float3 specularColor = specularIntensity * attenuation;
     float3 specular = Speculate_BlinnPhong(specularColor,
                                             specularPower, pxToEye, pxToLight, psin.Normal);
-
-    float4 diffusesample = diffusetex.Sample(splr, psin.texcoord);
+    
     return float4(saturate(diffuse + ambient) * diffusesample.rgb + specular, diffusesample.a);
 }

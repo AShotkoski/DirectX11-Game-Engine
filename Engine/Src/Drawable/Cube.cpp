@@ -33,25 +33,29 @@ Cube::Cube(
 	// Create Technique for phong
 	Technique solidPhong("Solid Color Phong");
 	{
-	Step only( 0 );
-	// Add binds to step needed to phong
-	only.AddBind( Binds::PixelShader::Resolve( gfx, L"phong__PS.cso" ) );
-	auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
-	auto vsbytecode = pVS->pGetBytecode();
-	only.AddBind( std::move( pVS ) );
-	only.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-	only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
-	// Setup phong material properties
-	CB::Layout cblay;
-	cblay.add( CB::Float, "specularIntensity" );
-	cblay.add( CB::Float, "specularPower" );
-	cblay.add( CB::Float3, "color" );
-	CB::Buffer cbbuf( std::move( cblay ) );
-	cbbuf["specularIntensity"] = 0.4f;
-	cbbuf["specularPower"] = 80.f;
-	cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
-	only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
-	solidPhong.AddStep( std::move( only ) );
+		Step only( 0 );
+		// Add binds to step needed to phong
+		only.AddBind( Binds::PixelShader::Resolve( gfx, L"phong__PS.cso" ) );
+		auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
+		auto vsbytecode = pVS->pGetBytecode();
+		only.AddBind( std::move( pVS ) );
+		only.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
+		only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
+		// Setup phong material properties
+		CB::Layout cblay;
+		cblay.add( CB::Float, "specularIntensity" );
+		cblay.add( CB::Float, "specularPower" );
+		cblay.add( CB::Float3, "color" );
+		CB::Buffer cbbuf( std::move( cblay ) );
+		cbbuf["specularIntensity"] = 0.4f;
+		cbbuf["specularPower"] = 80.f;
+		cbbuf["color"] = DirectX::XMFLOAT3{ 1.f,0.5,0.05f };
+		only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbbuf, 1u ) );
+		only.AddBind( Binds::Blender::Resolve( gfx ) );
+		only.AddBind( Binds::Rasterizer::Resolve( gfx ) );
+
+
+		solidPhong.AddStep( std::move( only ) );
 	}
 	AddTechnique( std::move( solidPhong ) );
 

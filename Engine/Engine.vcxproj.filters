@@ -48,6 +48,7 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ThirdParty\Loguru\loguru.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
+    <ClCompile Include="Src\Binds\Rasterizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Src\Binds\BindableCodex.h" />
     <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Binds\Blender.h" />
+    <ClInclude Include="Src\Binds\Rasterizer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

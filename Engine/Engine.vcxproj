@@ -111,6 +111,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Binds\Rasterizer.h" />
     <ClInclude Include="Src\Binds\Blender.h" />
     <ClInclude Include="Include\BaseException.h" />
     <ClInclude Include="Src\Core\BaseException.h" />

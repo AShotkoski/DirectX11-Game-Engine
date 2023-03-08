@@ -61,8 +61,7 @@ Ks 0.600000 0.600000 0.600000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 illum 2
-map_Kd textures/chain_texture.jpg
-map_d textures/chain_texture_mask.jpg
+map_Kd textures/chain_texture.png
 map_Bump -bm 1.000000 textures/chain_texture_ddn.jpg
 
 newmtl column_a.003

@@ -1,7 +1,6 @@
 #include "Material.h"
 #include "Technique.h"
 #include "Binds/BindableBaseIncludes.h"
-#include "Binds/Blender.h"
 #include "Util/Colors.h"
 #include "Util/GeneralUtilities.h"
 
@@ -90,6 +89,9 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			{
 				only.AddBind( Binds::Sampler::Resolve( gfx ) );
 			}
+			// all alpha is gonna not backface cull for now
+			only.AddBind( Binds::Rasterizer::Resolve( gfx, !hasAlpha ) );
+			
 
 			// Common
 			only.AddBind( Binds::Blender::Resolve( gfx ) );// never blend yet
