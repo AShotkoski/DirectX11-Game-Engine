@@ -1,7 +1,5 @@
 #pragma once
-#include "GraphicsResource.h"
-#include <Graphics/Graphics.h>
-#include <wrl.h>
+#include <Graphics/GraphicsResource.h>
 
 // todo override ctor to allow custom mipmapping
 

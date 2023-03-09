@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsResource.h"
+#include <Graphics/GraphicsResource.h>
 #include <Graphics/Graphics.h>
 #include <memory>
 

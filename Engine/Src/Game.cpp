@@ -5,6 +5,7 @@
 #include "Util/Colors.h"
 #include "Util/MathUtil.h"
 #include <numbers>
+#include <Graphics/RDG/OutlinedLambertianGraph.h>
 
 namespace dx = DirectX;
 
@@ -47,6 +48,10 @@ void Game::Go()
 
 void Game::UpdateLogic()
 {	
+	//bad test code
+	RDG::OutlinedLambertGraph graph( gfx );
+
+	// end bad test code
 	light.Bind(gfx);
 
 	// Camera control

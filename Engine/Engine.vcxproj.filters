@@ -48,7 +48,7 @@
     <ClCompile Include="ThirdParty\Loguru\loguru.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
-    <ClCompile Include="Src\Binds\GraphicsResource.cpp" />
+    <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,8 +124,12 @@
     <ClInclude Include="Src\Binds\Rasterizer.h" />
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\Binds\RenderTarget.h" />
-    <ClInclude Include="Src\Binds\GraphicsResource.h" />
+    <ClInclude Include="Src\Graphics\GraphicsResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />
+    <ClInclude Include="Src\Graphics\RDG\Pass.h" />
+    <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
+    <ClInclude Include="Src\Graphics\RDG\GraphResource.h" />
+    <ClInclude Include="Src\Graphics\RDG\OutlinedLambertianGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
