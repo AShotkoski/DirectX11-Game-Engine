@@ -5,14 +5,14 @@
 
 namespace RDG
 {
-	//class LambertianPass : public Pass
-	//{
-	//public:
-	//	LambertianPass( Graphics& gfx )
-	//		: Pass("Lambertian")
-	//	{
-	//		
-	//	}
-	//private:
-	//};
+	class LambertianPass : public Pass
+	{
+	public:
+		LambertianPass( Graphics& gfx )
+			: Pass("Lambertian")
+		{
+			
+		}
+	private:
+	};
 }

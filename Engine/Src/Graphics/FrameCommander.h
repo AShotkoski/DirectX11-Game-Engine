@@ -22,6 +22,7 @@ public:
 	{
 		ds.Clear( gfx );
 		gfx.BindSwapBuffer( ds );
+
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 
