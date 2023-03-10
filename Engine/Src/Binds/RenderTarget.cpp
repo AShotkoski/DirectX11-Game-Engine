@@ -67,6 +67,14 @@ void RenderTarget::BindAsRT( Graphics& gfx, ID3D11DepthStencilView* pDS ) const
 		BindNullShaderResource( gfx );
 		isResourceBound = false;
 	}
+	D3D11_VIEWPORT vp = {};
+	vp.TopLeftX = (FLOAT)0;
+	vp.TopLeftY = (FLOAT)0;
+	vp.Width = (FLOAT)Width;
+	vp.Height = (FLOAT)Height;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	pGetContext(gfx)->RSSetViewports(1u, &vp);
 	pGetContext( gfx )->OMSetRenderTargets( 1u, pTargetView.GetAddressOf(), pDS );
 }
 

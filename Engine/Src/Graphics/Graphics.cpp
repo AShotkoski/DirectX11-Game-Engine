@@ -77,15 +77,7 @@ Graphics::Graphics( HWND hWnd )
 	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
 	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
 
-	// Setup Viewport
-	D3D11_VIEWPORT vp = {};
-	vp.TopLeftX       = (FLOAT)clientRect.left;
-	vp.TopLeftY       = (FLOAT)clientRect.top;
-	vp.Width          = (FLOAT)clientRect.right;
-	vp.Height         = (FLOAT)clientRect.bottom;
-	vp.MinDepth       = 0;
-	vp.MaxDepth       = 1;
-	pContext->RSSetViewports( 1u, &vp );
+	
 }
 
 Graphics::~Graphics()
@@ -119,12 +111,27 @@ void Graphics::DrawIndexed( UINT indexCount )
 
 void Graphics::BindSwapBuffer()
 {
+	D3D11_VIEWPORT vp = {};
+	vp.TopLeftX = (FLOAT)0;
+	vp.TopLeftY = (FLOAT)0;
+	vp.Width = (FLOAT)Width;
+	vp.Height = (FLOAT)Height;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
 	// Set render target view
 	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
 }
 
 void Graphics::BindSwapBuffer( DepthStencil& ds )
 {
+	D3D11_VIEWPORT vp = {};
+	vp.TopLeftX = (FLOAT)0;
+	vp.TopLeftY = (FLOAT)0;
+	vp.Width = (FLOAT)Width;
+	vp.Height = (FLOAT)Height;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	pContext->RSSetViewports( 1u, &vp );
 	// Set render target view
 	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), ds.pDepthStencilView.Get() );
 }

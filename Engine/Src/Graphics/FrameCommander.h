@@ -12,8 +12,8 @@ class FrameCommander
 {
 public:
 	FrameCommander( Graphics& gfx )
-		: ds( gfx, gfx.GetWidth(), gfx.GetHeight() )
-		, rt(gfx, gfx.GetWidth(), gfx.GetHeight())
+		: ds( gfx, gfx.GetWidth() , gfx.GetHeight() )
+		, rt(gfx, gfx.GetWidth(), gfx.GetHeight() )
 	{
 		namespace dx = DirectX;
 		Vert::VertexLayout lay;
