@@ -1,6 +1,7 @@
 #include "RenderTarget.h"
 #include "DepthStencil.h"
 #include <Macros.h>
+#include <log.h>
 
 RenderTarget::RenderTarget( Graphics& gfx, UINT width, UINT height )
 	: Width( width )
@@ -39,21 +40,38 @@ RenderTarget::RenderTarget( Graphics& gfx, UINT width, UINT height )
 void RenderTarget::BindAsTex( Graphics& gfx, UINT slot ) const
 {
 	isResourceBound = true;
+	SRVSlot = slot;
 	pGetContext( gfx )->PSSetShaderResources( slot, 1u, pTextureView.GetAddressOf() );
+}
+
+void RenderTarget::Clear( Graphics& gfx ) const
+{
+	const FLOAT clearColor[4] = { 1.f,1.f,1.f,1.f };
+	pGetContext( gfx )->ClearRenderTargetView( pTargetView.Get(), clearColor );
 }
 
 void RenderTarget::BindAsRT( Graphics& gfx ) const
 {
-	pGetContext( gfx )->OMSetRenderTargets( 1u, pTargetView.GetAddressOf(), nullptr );
+	BindAsRT( gfx, nullptr );
 }
 
 void RenderTarget::BindAsRT( Graphics& gfx, const DepthStencil& ds ) const
 {
+	BindAsRT( gfx, ds.pDepthStencilView.Get()  );
+}
+
+void RenderTarget::BindAsRT( Graphics& gfx, ID3D11DepthStencilView* pDS ) const
+{
 	if ( isResourceBound )
 	{
-		ID3D11ShaderResourceView* const pSRV[1] = { NULL };
-		pGetContext( gfx )->PSSetShaderResources( 0u, 1u, pSRV );
+		BindNullShaderResource( gfx );
 		isResourceBound = false;
 	}
-	pGetContext( gfx )->OMSetRenderTargets( 1u, pTargetView.GetAddressOf(), ds.pDepthStencilView.Get() );
+	pGetContext( gfx )->OMSetRenderTargets( 1u, pTargetView.GetAddressOf(), pDS );
+}
+
+void RenderTarget::BindNullShaderResource(Graphics& gfx) const
+{
+	ID3D11ShaderResourceView* const pSRV[1] = { NULL };
+	pGetContext( gfx )->PSSetShaderResources( SRVSlot, 1u, pSRV );
 }

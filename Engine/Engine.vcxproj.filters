@@ -133,7 +133,7 @@
     <ClInclude Include="Src\Graphics\RDG\OutlinedLambertianGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\Sink.h" />
     <ClInclude Include="Src\Graphics\RDG\Source.h" />
-    <ClInclude Include="Src\Binds\BufferResource.h" />
+    <ClInclude Include="Src\Graphics\BufferResource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

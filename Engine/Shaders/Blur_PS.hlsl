@@ -8,5 +8,6 @@ SamplerState splr;
 
 float4 main(VSOUT psin) : SV_TARGET
 {
-    return 1.f - tex.Sample(splr, psin.tc);
+    float4 sampled = tex.Sample(splr, psin.tc);
+    return (0.6f - sampled);
 }

@@ -163,7 +163,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Binds\BufferResource.h" />
+    <ClInclude Include="Src\Graphics\BufferResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />
     <ClInclude Include="Src\Graphics\GraphicsResource.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />

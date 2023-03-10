@@ -40,7 +40,7 @@ public:
 	void Execute(Graphics& gfx)
 	{
 		ds.Clear( gfx );
-		//gfx.BindSwapBuffer( ds );
+		rt.Clear( gfx );
 		rt.BindAsRT( gfx, ds );
 
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
