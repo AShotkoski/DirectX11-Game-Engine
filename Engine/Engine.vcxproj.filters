@@ -50,6 +50,7 @@
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
+    <ClCompile Include="Src\Binds\RenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -130,6 +131,9 @@
     <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
     <ClInclude Include="Src\Graphics\RDG\GraphResource.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlinedLambertianGraph.h" />
+    <ClInclude Include="Src\Graphics\RDG\Sink.h" />
+    <ClInclude Include="Src\Graphics\RDG\Source.h" />
+    <ClInclude Include="Src\Binds\BufferResource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -200,5 +204,7 @@
     <FxCompile Include="Shaders\phong_diffnorm_VS.hlsl" />
     <FxCompile Include="Shaders\PSSolid.hlsl" />
     <FxCompile Include="Shaders\VSTransform.hlsl" />
+    <FxCompile Include="Shaders\Fullscreen_VS.hlsl" />
+    <FxCompile Include="Shaders\Blur_PS.hlsl" />
   </ItemGroup>
 </Project>

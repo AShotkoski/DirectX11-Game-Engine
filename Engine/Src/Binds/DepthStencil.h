@@ -6,6 +6,7 @@
 class DepthStencil : public GraphicsResource
 {
 	friend class Graphics;
+	friend class RenderTarget;
 public:
 	DepthStencil( Graphics& gfx, UINT width, UINT height );
 	void Clear(Graphics& gfx);

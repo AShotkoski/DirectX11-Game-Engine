@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
+    <ClCompile Include="Src\Binds\RenderTarget.cpp" />
     <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Binds\BufferResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />
     <ClInclude Include="Src\Graphics\GraphicsResource.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />
@@ -178,6 +180,8 @@
     <ClInclude Include="Src\Graphics\RDG\Pass.h" />
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
+    <ClInclude Include="Src\Graphics\RDG\Sink.h" />
+    <ClInclude Include="Src\Graphics\RDG\Source.h" />
     <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Util\Colors.h" />
     <ClInclude Include="Src\Binds\ConstantBufferEx.h" />
@@ -251,6 +255,14 @@
     <None Include="Shaders\Operations.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shaders\Blur_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\Fullscreen_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shaders\phong_diffnorm_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
