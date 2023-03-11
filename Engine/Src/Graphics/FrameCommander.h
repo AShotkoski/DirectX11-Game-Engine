@@ -73,7 +73,7 @@ private:
 	std::array<Pass, 3> passes;
 	DepthStencil ds;
 	// fullscreen filter
-	RenderTarget rt;
+	ShaderInputRenderTarget rt;
 	std::shared_ptr<Binds::VertexBuffer> pVBFull;
 	std::shared_ptr<Binds::IndexBuffer> pIBFull;
 	std::shared_ptr<Binds::VertexShader> pVSFull;
