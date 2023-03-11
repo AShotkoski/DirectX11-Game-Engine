@@ -49,7 +49,7 @@ RenderTarget::RenderTarget( Graphics& gfx, ID3D11Texture2D* pTex )
 
 void RenderTarget::Clear( Graphics& gfx ) const
 {
-	const FLOAT clearColor[4] = { 1.f,1.f,1.f,1.f };
+	const FLOAT clearColor[4] = { 0.f,0.f,0.f,0.f };
 	pGetContext( gfx )->ClearRenderTargetView( pTargetView.Get(), clearColor );
 }
 
@@ -108,7 +108,6 @@ void ShaderInputRenderTarget::BindAsTex( Graphics& gfx, UINT slot ) const
 
 void ShaderInputRenderTarget::BindAsRT( Graphics& gfx, ID3D11DepthStencilView* pDS ) const
 {
-	// this check might be not needed anymore
 	if ( isResourceBound )
 	{
 		BindNullShaderResource( gfx );

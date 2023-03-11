@@ -54,7 +54,7 @@ public:
 		passes[2].Execute( gfx );
 
 		//fullscreen
-		gfx.BindSwapBuffer( );
+		gfx.pGetRenderTarget()->BindAsRT( gfx );
 		rt.BindAsTex( gfx, 0 );
 		pVBFull->Bind( gfx );
 		pIBFull->Bind( gfx );

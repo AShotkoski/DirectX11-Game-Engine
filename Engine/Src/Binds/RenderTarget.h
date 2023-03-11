@@ -38,3 +38,14 @@ private:
 	mutable bool isResourceBound = false;
 	mutable UINT SRVSlot = 0u;
 };
+
+// Render target may only be used as a render target
+class ExclusiveRenderTarget : public RenderTarget
+{
+public:
+	ExclusiveRenderTarget( Graphics& gfx, ID3D11Texture2D* pTexture )
+		: RenderTarget(gfx, pTexture)
+	{
+
+	}
+};

@@ -7,6 +7,7 @@
 #include <DirectXMath.h>
 #include <d3d11sdklayers.h>
 #include <Binds/DepthStencil.h>
+#include <Binds/RenderTarget.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -72,12 +73,11 @@ Graphics::Graphics( HWND hWnd )
 	if constexpr ( globals::enableImGui )
 		ImGui_ImplDX11_Init( pDevice.Get(), pContext.Get() );
 
-	// Create render target view
-	Microsoft::WRL::ComPtr<ID3D11Resource> pBackBuffer;
-	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Resource ), &pBackBuffer  ));
-	THROW_FAILED_GFX(pDevice->CreateRenderTargetView( pBackBuffer.Get(), nullptr, &pRenderTargetView));
-
-	
+	// Get back buffer tex
+	WRL::ComPtr<ID3D11Texture2D> pBackBuffer;
+	THROW_FAILED_GFX(pSwapChain->GetBuffer( 0u, __uuidof( ID3D11Texture2D ), &pBackBuffer  ));
+	pRenderTarget = std::dynamic_pointer_cast<RenderTarget>(
+		std::make_shared<ExclusiveRenderTarget>( *this, pBackBuffer.Get() ) );
 }
 
 Graphics::~Graphics()
@@ -95,8 +95,7 @@ void Graphics::BeginFrame()
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
-	float c[ 4 ] = { 0.f,0.0f,0.f,1.f };
-	pContext->ClearRenderTargetView( pRenderTargetView.Get(), c);
+	pRenderTarget->Clear( *this );
 }
 
 void Graphics::Draw( UINT vertexCount, UINT start )
@@ -109,31 +108,9 @@ void Graphics::DrawIndexed( UINT indexCount )
 	pContext->DrawIndexed( indexCount, 0u, 0u );
 }
 
-void Graphics::BindSwapBuffer()
+std::shared_ptr<RenderTarget> Graphics::pGetRenderTarget()
 {
-	D3D11_VIEWPORT vp = {};
-	vp.TopLeftX = (FLOAT)0;
-	vp.TopLeftY = (FLOAT)0;
-	vp.Width = (FLOAT)Width;
-	vp.Height = (FLOAT)Height;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	// Set render target view
-	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), nullptr );
-}
-
-void Graphics::BindSwapBuffer( DepthStencil& ds )
-{
-	D3D11_VIEWPORT vp = {};
-	vp.TopLeftX = (FLOAT)0;
-	vp.TopLeftY = (FLOAT)0;
-	vp.Width = (FLOAT)Width;
-	vp.Height = (FLOAT)Height;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	pContext->RSSetViewports( 1u, &vp );
-	// Set render target view
-	pContext->OMSetRenderTargets( 1u, pRenderTargetView.GetAddressOf(), ds.pDepthStencilView.Get() );
+	return pRenderTarget;
 }
 
 void Graphics::EndFrame()

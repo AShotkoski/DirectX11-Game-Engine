@@ -5,11 +5,14 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include <DirectXMath.h>
+#include <memory>
+
+class RenderTarget;
 
 class Graphics
 {
 private:
-	friend class GraphicsResource;
+	friend class GraphicsResource;	
 public:
 	class Exception : public BaseException
 	{
@@ -33,8 +36,7 @@ public:
 	void BeginFrame();
 	void Draw( UINT vertexCount, UINT start );
 	void DrawIndexed( UINT indexCount );
-	void BindSwapBuffer();
-	void BindSwapBuffer( class DepthStencil& ds );
+	std::shared_ptr<RenderTarget> pGetRenderTarget();
 	void EndFrame();
 	UINT GetWidth() const;
 	UINT GetHeight() const;
@@ -48,10 +50,10 @@ private:
 	UINT Width;
 	UINT Height;
 private:
-	Microsoft::WRL::ComPtr<ID3D11Device>           pDevice;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    pContext;
-	Microsoft::WRL::ComPtr<IDXGISwapChain>         pSwapChain;
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
+	Microsoft::WRL::ComPtr<ID3D11Device>        pDevice;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
+	Microsoft::WRL::ComPtr<IDXGISwapChain>      pSwapChain;
+	std::shared_ptr<RenderTarget> pRenderTarget;
 
 private:
 	/********************** Parameters *******************/
