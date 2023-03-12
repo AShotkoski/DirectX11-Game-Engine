@@ -95,7 +95,6 @@ void Graphics::BeginFrame()
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
-	pRenderTarget->Clear( *this );
 }
 
 void Graphics::Draw( UINT vertexCount, UINT start )

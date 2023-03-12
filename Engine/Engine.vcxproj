@@ -116,6 +116,7 @@
     <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_draw.cpp" />
@@ -175,13 +176,15 @@
     <ClInclude Include="Src\Binds\BindableBaseIncludes.h" />
     <ClInclude Include="Src\Binds\BindableCodex.h" />
     <ClInclude Include="Src\Graphics\Camera.h" />
+    <ClInclude Include="Src\Graphics\RDG\BufferClearingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\GraphResource.h" />
-    <ClInclude Include="Src\Graphics\RDG\OutlinedLambertianGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\Pass.h" />
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
+    <ClInclude Include="Src\Graphics\RDG\RenderQueuePass.h" />
     <ClInclude Include="Src\Graphics\RDG\Sink.h" />
     <ClInclude Include="Src\Graphics\RDG\Source.h" />
+    <ClInclude Include="Src\Graphics\RDG\TestGraph.h" />
     <ClInclude Include="Src\ModelProbe.h" />
     <ClInclude Include="Src\Util\Colors.h" />
     <ClInclude Include="Src\Binds\ConstantBufferEx.h" />

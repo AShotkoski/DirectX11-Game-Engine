@@ -51,6 +51,7 @@
     <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
     <ClCompile Include="Src\Binds\RenderTarget.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -130,10 +131,12 @@
     <ClInclude Include="Src\Graphics\RDG\Pass.h" />
     <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
     <ClInclude Include="Src\Graphics\RDG\GraphResource.h" />
-    <ClInclude Include="Src\Graphics\RDG\OutlinedLambertianGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\Sink.h" />
     <ClInclude Include="Src\Graphics\RDG\Source.h" />
     <ClInclude Include="Src\Graphics\BufferResource.h" />
+    <ClInclude Include="Src\Graphics\RDG\RenderQueuePass.h" />
+    <ClInclude Include="Src\Graphics\RDG\BufferClearingPass.h" />
+    <ClInclude Include="Src\Graphics\RDG\TestGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

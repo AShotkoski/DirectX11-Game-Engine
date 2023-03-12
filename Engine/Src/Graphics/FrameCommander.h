@@ -39,6 +39,7 @@ public:
 	// Script that executes passes
 	void Execute(Graphics& gfx)
 	{
+		gfx.pGetRenderTarget()->Clear( gfx );
 		ds.Clear( gfx );
 		rt.Clear( gfx );
 		rt.BindAsRT( gfx, ds );
