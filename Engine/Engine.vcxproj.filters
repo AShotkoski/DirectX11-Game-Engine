@@ -23,7 +23,6 @@
     <ClCompile Include="Src\Graphics\Model.cpp" />
     <ClCompile Include="Src\Core\Mouse.cpp" />
     <ClCompile Include="Src\Binds\NullPixelShader.cpp" />
-    <ClCompile Include="Src\Graphics\Pass.cpp" />
     <ClCompile Include="Src\Binds\PixelShader.cpp" />
     <ClCompile Include="Src\Graphics\PointLight.cpp" />
     <ClCompile Include="Src\Binds\Sampler.cpp" />
@@ -53,6 +52,7 @@
     <ClCompile Include="Src\Binds\RenderTarget.cpp" />
     <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
     <ClCompile Include="Src\Graphics\RDG\Sink.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\Pass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
