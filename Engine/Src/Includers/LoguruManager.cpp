@@ -1,8 +1,35 @@
 #include "Win.h"
 #include "LoguruManager.h"
 #include "Util/GeneralUtilities.h"
+#include "Core/BaseException.h"
 #include <vector>
 #include <sstream>
+
+class LogException : public BaseException
+{
+public:
+	LogException( const loguru::Message& message )
+		: BaseException(message.line, message.filename)
+		, message(std::string(message.prefix) + message.message)
+	{}
+	virtual const char* what() const noexcept override
+	{
+		std::ostringstream ss;
+		ss <<
+			"[File] " << GetFile() << std::endl <<
+			"[Line] " << GetLine() << std::endl <<
+			"[Message] " << message << std::endl;
+		
+		whatBuffer = ss.str();
+		return whatBuffer.c_str();
+	}
+	virtual const char* GetType() const noexcept override
+	{
+		return "Log Check Exception";
+	}
+private:
+	const std::string message;
+};
 
 LoguruManager::LoguruManager()
 {
@@ -24,7 +51,7 @@ LoguruManager::LoguruManager()
 	// todo add our own exception class here
 	loguru::set_fatal_handler( []( const loguru::Message& message ) 							   
 							   {
-		throw std::runtime_error( std::string( message.prefix ) + message.message );
+									throw LogException(message);
 							   } );
 }
 

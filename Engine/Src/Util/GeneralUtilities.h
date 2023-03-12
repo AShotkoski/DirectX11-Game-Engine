@@ -1,6 +1,7 @@
 #pragma once
+#include <log.h>
 #include <string>
-#include "log.h"
+#include <vector>
 // Please do not include this header in a header, the static functions are meant for internal linkage,
 // meaning include it in source file.
 
@@ -26,5 +27,21 @@ namespace Util
         // Ensure that the last character is in face a null terminating char
         narrow[numCharsConverted - 1] = '\0';
         return narrow;
+    }
+
+    // Splits string str by delimiter delim into a vector of 0..* substrings
+    static std::vector<std::string> SplitString( std::string str, const std::string& delim )
+    {
+        std::vector<std::string> split;
+
+        size_t pos = 0;
+        while ( ( pos = str.find( delim ) ) != std::string::npos )
+        {
+            split.push_back( str.substr( 0, pos ) );
+            str.erase( 0, pos + delim.length() );
+        }
+        if(str.length() > 0 )
+            split.push_back( str.substr( 0, str.length() ) );
+        return split;
     }
 }
