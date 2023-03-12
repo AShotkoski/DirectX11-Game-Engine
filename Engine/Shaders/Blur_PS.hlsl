@@ -13,6 +13,7 @@ float4 main(VSOUT psin) : SV_TARGET
     tex.GetDimensions(width, height);
     float aspectRatio = (float) width / (float) height;
     float4 sampled = tex.Sample(splr, psin.tc);
+    clip(sampled.a < 0.1f ? -1 : 1);
     float4 sampledinv = 0.5f - sampled;
     psin.tc = psin.tc - 0.5f;
     psin.tc.x = psin.tc.x * aspectRatio;

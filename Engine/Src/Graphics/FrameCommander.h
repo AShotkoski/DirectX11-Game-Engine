@@ -42,11 +42,11 @@ public:
 		gfx.pGetRenderTarget()->Clear( gfx );
 		ds.Clear( gfx );
 		rt.Clear( gfx );
-		rt.Bind( gfx, ds );
-
+		gfx.pGetRenderTarget()->Bind( gfx );
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 
+		rt.Bind( gfx, ds );
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Write )->Bind( gfx );
 		Binds::NullPixelShader::Resolve( gfx )->Bind(gfx);
 		passes[1].Execute( gfx );
