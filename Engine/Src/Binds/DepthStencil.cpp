@@ -1,4 +1,5 @@
 #include "DepthStencil.h"
+#include <log.h>
 #include <Macros.h>
 
 namespace WRL = Microsoft::WRL;
@@ -30,6 +31,11 @@ DepthStencil::DepthStencil( Graphics& gfx, UINT width, UINT height )
 	THROW_FAILED_GFX( pGetDevice(gfx)->CreateDepthStencilView(
 		pDepthStencil.Get(), &DSviewDesc, &pDepthStencilView ) );
 
+}
+
+void DepthStencil::Bind( Graphics& gfx )
+{
+	ABORT_F( "Bind was called on depth stencil." );
 }
 
 void DepthStencil::Clear(Graphics& gfx)

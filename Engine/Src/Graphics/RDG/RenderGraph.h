@@ -6,9 +6,9 @@
 
 namespace Binds
 {
-	class DepthStencil;
 }
 
+class DepthStencil;
 class RenderTarget;
 
 namespace RDG
@@ -38,22 +38,22 @@ namespace RDG
 		{
 			return {};
 		}
-		void AppendPass( std::unique_ptr<Pass>&& pPass )
+		void AppendPass( std::unique_ptr<Pass> pPass )
 		{
-			passPtrs.push_back( pPass );
+			passPtrs.push_back( std::move(pPass) );
 		}
 	private:
-		void RegisterGlobalSink( std::unique_ptr<Sink>&& pSink )
+		void RegisterGlobalSink( std::unique_ptr<Sink> pSink )
 		{
-			globalSinkPtrs.push_back( pSink );
+			globalSinkPtrs.push_back( std::move(pSink) );
 		}
-		void RegisterGlobalSource( std::unique_ptr<Source>&& pSource )
+		void RegisterGlobalSource( std::unique_ptr<Source> pSource )
 		{
-			globalSourcePtrs.push_back( pSource );
+			globalSourcePtrs.push_back( std::move(pSource ));
 		}
 	protected:
 		std::shared_ptr<RenderTarget> targetBuffer;
-		std::shared_ptr<Binds::DepthStencil> masterDS;
+		std::shared_ptr<DepthStencil> masterDS;
 	private:
 		std::string name;
 		std::vector<std::unique_ptr<Pass>> passPtrs;

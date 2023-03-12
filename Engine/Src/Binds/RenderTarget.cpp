@@ -53,12 +53,12 @@ void RenderTarget::Clear( Graphics& gfx ) const
 	pGetContext( gfx )->ClearRenderTargetView( pTargetView.Get(), clearColor );
 }
 
-void RenderTarget::BindAsRT( Graphics& gfx ) const
+void RenderTarget::Bind( Graphics& gfx )
 {
 	BindAsRT( gfx, nullptr );
 }
 
-void RenderTarget::BindAsRT( Graphics& gfx, const DepthStencil& ds ) const
+void RenderTarget::Bind( Graphics& gfx, const DepthStencil& ds )
 {
 	BindAsRT( gfx, ds.pDepthStencilView.Get()  );
 }

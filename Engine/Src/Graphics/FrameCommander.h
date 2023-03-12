@@ -42,7 +42,7 @@ public:
 		gfx.pGetRenderTarget()->Clear( gfx );
 		ds.Clear( gfx );
 		rt.Clear( gfx );
-		rt.BindAsRT( gfx, ds );
+		rt.Bind( gfx, ds );
 
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
@@ -55,7 +55,7 @@ public:
 		passes[2].Execute( gfx );
 
 		//fullscreen
-		gfx.pGetRenderTarget()->BindAsRT( gfx );
+		gfx.pGetRenderTarget()->Bind( gfx );
 		rt.BindAsTex( gfx, 0 );
 		pVBFull->Bind( gfx );
 		pIBFull->Bind( gfx );

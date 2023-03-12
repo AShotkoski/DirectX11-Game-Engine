@@ -8,7 +8,7 @@
 RDG::RenderGraph::RenderGraph(Graphics& gfx, const std::string graph_name )
 	: name( graph_name )
 	, targetBuffer(gfx.pGetRenderTarget())
-	, masterDS(std::make_shared<Binds::DepthStencil>(gfx, gfx.GetWidth(), gfx.GetHeight() ))
+	, masterDS(std::make_shared<DepthStencil>(gfx, gfx.GetWidth(), gfx.GetHeight() ))
 {
 	// Register globals
 	RegisterGlobalSink( BufferSink<RenderTarget>::MakeUnique( "backbuffer", targetBuffer ));

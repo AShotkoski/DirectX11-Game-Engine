@@ -40,17 +40,18 @@ namespace RDG
 
 	// The template type is the type of resource the sink handles
 	template <typename T>
-		requires std::is_base_of<BufferResource, T>::value
+		requires std::is_base_of<Bindable, T>::value
 	class BufferSink : public Sink
 	{
 	public:
 		BufferSink( const std::string& name, std::shared_ptr<T>& pTarget)
 			: Sink(name)
+			, pResource(pTarget)
 		{}
 		// Helper to make unique ptr
 		static std::unique_ptr<BufferSink<T>> MakeUnique( const std::string& name, std::shared_ptr<T>& pTarget )
 		{
-			return std::make_shared<BufferSink<T>>( name, pTarget );
+			return std::make_unique<BufferSink<T>>( name, pTarget );
 		}
 	private:
 		std::shared_ptr<T>& pResource;

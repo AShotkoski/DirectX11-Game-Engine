@@ -14,7 +14,11 @@ namespace RDG
 		{
 			return name;
 		}
-		virtual std::shared_ptr<BufferResource> YieldResource();
+		virtual std::shared_ptr<BufferResource> YieldResource()
+		{
+			//todo
+			return {};
+		}
 	protected:
 		Source( const std::string& name )
 			: name( name )
@@ -27,17 +31,18 @@ namespace RDG
 
 	// The template type is the type of resource the Source handles
 	template <typename T>
-		requires std::is_base_of<BufferResource, T>::value
+		requires std::is_base_of<Bindable, T>::value
 	class BufferSource : public Source
 	{
 	public:
 		BufferSource( const std::string& name, std::shared_ptr<T>& pTarget )
 			: Source( name )
+			, pResource(pTarget)
 		{}
 		// Helper to make unique ptr
 		static std::unique_ptr<BufferSource<T>> MakeUnique( const std::string& name, std::shared_ptr<T>& pTarget )
 		{
-			return std::make_shared<BufferSource<T>>( name, pTarget );
+			return std::make_unique<BufferSource<T>>( name, pTarget );
 		}
 	private:
 		std::shared_ptr<T>& pResource;
