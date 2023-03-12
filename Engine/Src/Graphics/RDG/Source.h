@@ -4,6 +4,8 @@
 
 class BufferResource;
 
+class Bindable;
+
 namespace RDG
 {
 	class Source

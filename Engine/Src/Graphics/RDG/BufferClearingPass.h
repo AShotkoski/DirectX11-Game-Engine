@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Pass.h"
+#include "Sink.h"
+#include "Source.h"
 
 namespace RDG
 {

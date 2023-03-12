@@ -45,7 +45,7 @@ public:
 		//gfx.pGetRenderTarget()->Clear( gfx );
 		ds.Clear( gfx );
 		rt.Clear( gfx );
-		gfx.pGetRenderTarget()->Bind( gfx );
+		gfx.pGetRenderTarget()->Bind( gfx, ds );
 		Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off )->Bind( gfx );
 		passes[0].Execute( gfx );
 
