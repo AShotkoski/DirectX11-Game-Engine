@@ -7,6 +7,7 @@
 #include <Binds/DepthStencil.h>
 #include <Binds/RenderTarget.h>
 #include <array>
+#include "RDG/TestGraph.h"
 
 class FrameCommander
 {
@@ -14,6 +15,7 @@ public:
 	FrameCommander( Graphics& gfx )
 		: ds( gfx, gfx.GetWidth() , gfx.GetHeight() )
 		, rt(gfx, gfx.GetWidth(), gfx.GetHeight() )
+		, tg(gfx)
 	{
 		namespace dx = DirectX;
 		Vert::VertexLayout lay;
@@ -39,7 +41,8 @@ public:
 	// Script that executes passes
 	void Execute(Graphics& gfx)
 	{
-		gfx.pGetRenderTarget()->Clear( gfx );
+		tg.Execute( gfx );
+		//gfx.pGetRenderTarget()->Clear( gfx );
 		ds.Clear( gfx );
 		rt.Clear( gfx );
 		gfx.pGetRenderTarget()->Bind( gfx );
@@ -71,6 +74,8 @@ public:
 		passes[2].Clear();
 	}
 private:
+	RDG::TestGraph tg;
+
 	std::array<Pass, 3> passes;
 	DepthStencil ds;
 	// fullscreen filter
@@ -80,5 +85,6 @@ private:
 	std::shared_ptr<Binds::VertexShader> pVSFull;
 	std::shared_ptr<Binds::PixelShader> pPSFull;
 	std::shared_ptr<Binds::InputLayout> pILFull;
+
 };
 

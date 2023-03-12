@@ -14,11 +14,7 @@ namespace RDG
 		{
 			return name;
 		}
-		virtual std::shared_ptr<BufferResource> YieldResource()
-		{
-			//todo
-			return {};
-		}
+		virtual std::shared_ptr<Bindable> YieldResource() = 0;
 	protected:
 		Source( const std::string& name )
 			: name( name )
@@ -43,6 +39,10 @@ namespace RDG
 		static std::unique_ptr<BufferSource<T>> MakeUnique( const std::string& name, std::shared_ptr<T>& pTarget )
 		{
 			return std::make_unique<BufferSource<T>>( name, pTarget );
+		}
+		virtual std::shared_ptr<Bindable> YieldResource() override
+		{
+			return std::static_pointer_cast<Bindable>( pResource );
 		}
 	private:
 		std::shared_ptr<T>& pResource;

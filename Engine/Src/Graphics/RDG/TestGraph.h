@@ -15,6 +15,8 @@ namespace RDG
 				pass->SetSinkLinkage( "buffer", "$.backbuffer" );
 				AppendPass( std::move( pass ) );
 			}
+			LinkGlobalSink( "backbuffer", "clearRT.buffer" );
+			Finalize();
 		}
 	private:
 

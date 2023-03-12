@@ -52,6 +52,7 @@
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
     <ClCompile Include="Src\Binds\RenderTarget.cpp" />
     <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\Sink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
