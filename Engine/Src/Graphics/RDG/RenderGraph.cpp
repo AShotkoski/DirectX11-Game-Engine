@@ -52,6 +52,20 @@ namespace RDG
 		auto split = Util::SplitString( target_name, "." );
 		DCHECK_F( split.size() == 2, "Wrong number of subsstrings generated when linking sink" );
 		( *it )->SetTarget( split[0], split[1] );
+
+		// Bind
+		bool bound = false;
+		for ( auto& p : passPtrs )
+		{
+			if ( p->GetName() == (*it)->GetTargetPassName() )
+			{
+				(*it)->Bind( p->GetSource( (*it)->GetTargetSourceName() ) );
+				bound = true;
+				break;
+			}
+		}
+		if ( !bound )
+			ABORT_F( "Couldn't find %s pass to bind", ( *it )->GetTargetPassName() );
 	}
 
 	void RenderGraph::LinkSinks( Pass& pass )
@@ -102,8 +116,21 @@ namespace RDG
 
 	void RenderGraph::Finalize()
 	{
-		//todo validate all passes and sinks 
-
+		for ( const auto& p : passPtrs )
+		{
+			if ( !p->ValidateLinkage() )
+			{
+				// todo exception
+				ABORT_F( "Linkage validation failed on \"%s\"", name.c_str() );
+			}
+		}
+		for ( const auto& s : globalSinkPtrs )
+		{
+			if ( !s->isLinked() )
+			{
+				ABORT_F( "Linkage validation failed on \"%s\"", name.c_str() );
+			}
+		}
 		finalized = true;
 	}
 

@@ -24,9 +24,9 @@ namespace RDG
 		RenderGraph(Graphics& gfx, const std::string graph_name );
 		void AppendPass( std::unique_ptr<Pass> pPass );
 		// Links global sink, typically called for back buffer from the final pass
-		void LinkGlobalSink( const std::string& sink_name, const std::string& target_name );
-		
+		void LinkGlobalSink( const std::string& sink_name, const std::string& target_name );	
 		void LinkSinks( Pass& pass );
+		// Validates all sinks on every pass and self are linked
 		void Finalize();
 	private:
 		void RegisterGlobalSink( std::unique_ptr<Sink> pSink );

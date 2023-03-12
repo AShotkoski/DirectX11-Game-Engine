@@ -37,7 +37,10 @@ namespace RDG
 		{
 			return targetSourceName;
 		}
-
+		bool isLinked() const
+		{
+			return linked;
+		}
 		virtual void Bind(Source& source) = 0;
 	protected:
 		Sink(const std::string& name)

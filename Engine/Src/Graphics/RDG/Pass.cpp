@@ -19,6 +19,18 @@ namespace RDG
 		DCHECK_F( split.size() == 2, "Wrong number of subsstrings generated when linking sink" );
 		sink.SetTarget( split[0], split[1] );
 	}
+
+	// Check that all sinks are linked
+
+	bool Pass::ValidateLinkage() const
+	{
+		for ( const auto& s : SinkPtrs )
+		{
+			if ( !s->isLinked() )
+				return false;
+		}
+		return true;
+	}
 	Sink& Pass::GetSink( const std::string& sink_name )
 	{
 		for ( auto& s : SinkPtrs )

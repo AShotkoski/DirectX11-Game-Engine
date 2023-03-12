@@ -17,11 +17,12 @@ namespace RDG
 		virtual ~Pass() = default;
 		// Target is target pass and target source separated by a period eg "lambertian.gbuffer"
 		void SetSinkLinkage( const std::string& sink_name, const std::string& target );
-
 		Sink& GetSink( const std::string& sink_name );
 		const std::vector<std::unique_ptr<Sink>>& GetSinks() const;
 		Source& GetSource( const std::string& source_name );
 		const std::string& GetName() const;
+		// Check that all sinks are linked
+		bool ValidateLinkage() const;
 	protected:
 		void RegisterSink( std::unique_ptr<Sink> pSink );
 		void RegisterSource( std::unique_ptr<Source> pSource );
