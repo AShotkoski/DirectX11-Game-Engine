@@ -65,4 +65,8 @@ namespace RDG
 	{
 		SourcePtrs.push_back( std::move( pSource ) );
 	}
+	void Pass::Clear()
+	{
+
+	}
 }

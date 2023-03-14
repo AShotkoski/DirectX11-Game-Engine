@@ -20,6 +20,7 @@ namespace RDG
 		}
 	}
 
+
 	RenderQueuePass& RenderGraph::GetRenderQueue( const std::string& pass_name )
 	{
 		for ( auto& p : passPtrs )
@@ -28,6 +29,14 @@ namespace RDG
 				return *static_cast<RenderQueuePass*>(p.get());
 		}
 		ABORT_F( "%s not found", pass_name.c_str() );
+	}
+
+	void RenderGraph::Clear()
+	{
+		for ( auto& p : passPtrs )
+		{
+			p->Clear();
+		}
 	}
 
 	RenderGraph::RenderGraph( Graphics& gfx, const std::string graph_name )
@@ -85,8 +94,8 @@ namespace RDG
 		{
 			const auto& targetpass = s->GetTargetPassName();
 			const auto& targetsource = s->GetTargetSourceName();
-			DCHECK_F( !targetpass.empty(), "No target pass" );
-			DCHECK_F( !targetsource.empty(), "No target source" );
+			DCHECK_F( !targetpass.empty(), "Missing target pass on sink \"%s\"", s->GetName().c_str() );
+			DCHECK_F( !targetsource.empty(), "Missing target source on sink \"%s\"", s->GetName().c_str() );
 
 			// Check if global target
 			if ( targetpass == "$" )

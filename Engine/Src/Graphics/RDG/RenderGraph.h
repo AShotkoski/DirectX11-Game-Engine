@@ -30,6 +30,7 @@ namespace RDG
 		virtual ~RenderGraph() noexcept = default;
 		void Execute( Graphics& gfx );
 		RenderQueuePass& GetRenderQueue( const std::string& pass_name );
+		virtual void Clear();
 	protected:
 		RenderGraph(Graphics& gfx, const std::string graph_name );
 		void AppendPass( std::unique_ptr<Pass> pPass );

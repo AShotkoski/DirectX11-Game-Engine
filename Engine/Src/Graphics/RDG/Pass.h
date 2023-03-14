@@ -23,6 +23,7 @@ namespace RDG
 		const std::string& GetName() const;
 		// Check that all sinks are linked
 		bool ValidateLinkage() const;
+		virtual void Clear();
 	protected:
 		void RegisterSink( std::unique_ptr<Sink> pSink );
 		void RegisterSource( std::unique_ptr<Source> pSource );

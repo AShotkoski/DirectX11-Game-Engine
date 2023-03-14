@@ -2,6 +2,7 @@
 #include "RenderGraph.h"
 #include "BufferClearingPass.h"
 #include "RenderQueuePass.h"
+#include <Binds/RenderTarget.h>
 
 namespace RDG
 {
@@ -11,6 +12,7 @@ namespace RDG
 		TestGraph( Graphics& gfx )
 			: RenderGraph( gfx, "TestGraph" )
 		{
+			targetBuffer->Bind( gfx, *masterDS );
 			{
 				auto pass = std::make_unique<BufferClearingPass>( "clearRT" );
 				pass->SetSinkLinkage( "buffer", "$.backbuffer" );
@@ -23,6 +25,8 @@ namespace RDG
 			}
 			{
 				auto pass = std::make_unique<RenderQueuePass>( "lambertian" );
+				pass->SetSinkLinkage( "rendertarget", "clearRT.buffer" );
+				pass->SetSinkLinkage( "depthstencil", "clearDS.buffer" );
 				AppendPass( std::move( pass ) );
 			}
 			LinkGlobalSink( "backbuffer", "clearRT.buffer" );

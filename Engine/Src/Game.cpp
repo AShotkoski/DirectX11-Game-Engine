@@ -60,6 +60,7 @@ void Game::DrawFrame()
 	cube1.Submit( );
 
 	graph.Execute( gfx );
+	graph.Clear();
 }
 
 void Game::DrawImGuis()
