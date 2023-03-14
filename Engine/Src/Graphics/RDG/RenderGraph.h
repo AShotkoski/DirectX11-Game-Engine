@@ -3,6 +3,14 @@
 #include <vector>
 #include <memory>
 
+//
+// Global Sinks and Sources: 
+// Sinks: 
+//		"backbuffer" (backbuffer render target)
+// Sources: 
+//		"backbuffer"
+//		"depthstencil" (master depth stencil buffer)
+//
 
 class DepthStencil;
 class RenderTarget;

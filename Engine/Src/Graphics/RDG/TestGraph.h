@@ -15,6 +15,11 @@ namespace RDG
 				pass->SetSinkLinkage( "buffer", "$.backbuffer" );
 				AppendPass( std::move( pass ) );
 			}
+			{
+				auto pass = std::make_unique<BufferClearingPass>( "clearDS" );
+				pass->SetSinkLinkage( "buffer", "$.depthstencil" );
+				AppendPass( std::move( pass ) );
+			}
 			LinkGlobalSink( "backbuffer", "clearRT.buffer" );
 			Finalize();
 		}

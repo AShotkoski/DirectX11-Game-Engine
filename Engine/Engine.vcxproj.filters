@@ -53,6 +53,8 @@
     <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
     <ClCompile Include="Src\Graphics\RDG\Sink.cpp" />
     <ClCompile Include="Src\Graphics\RDG\Pass.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\BindingPass.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\RenderQueuePass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -138,6 +140,7 @@
     <ClInclude Include="Src\Graphics\RDG\RenderQueuePass.h" />
     <ClInclude Include="Src\Graphics\RDG\BufferClearingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\TestGraph.h" />
+    <ClInclude Include="Src\Graphics\RDG\BindingPass.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
