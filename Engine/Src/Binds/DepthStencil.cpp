@@ -38,7 +38,12 @@ void DepthStencil::Bind( Graphics& gfx )
 	ABORT_F( "Bind was called on depth stencil." );
 }
 
-void DepthStencil::Clear(Graphics& gfx)
+void DepthStencil::Clear(Graphics& gfx) const
 {
 	pGetContext(gfx)->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
+void DepthStencil::BindAsRT( Graphics& gfx, ID3D11DepthStencilView* pDepthStencilView ) const
+{
+	throw GFX_EXCEPT( ERROR_CANCELLED );
 }

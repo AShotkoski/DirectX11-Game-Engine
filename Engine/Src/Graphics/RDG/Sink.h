@@ -73,7 +73,7 @@ namespace RDG
 		}
 		virtual void BufferSink::Bind( Source& source ) override
 		{
-			std::shared_ptr<T> rec = std::static_pointer_cast<T>(source.YieldResource());
+			std::shared_ptr<T> rec = std::dynamic_pointer_cast<T>(source.YieldResource());
 			DCHECK_NOTNULL_F( rec, "Failed resource acquisition when binding %s to %s.", source.GetName().c_str(), GetName().c_str());
 			
 			pResource = std::move( rec );

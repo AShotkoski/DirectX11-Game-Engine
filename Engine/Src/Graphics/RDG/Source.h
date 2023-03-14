@@ -44,7 +44,7 @@ namespace RDG
 		}
 		virtual std::shared_ptr<Bindable> YieldResource() override
 		{
-			return std::static_pointer_cast<Bindable>( pResource );
+			return pResource;
 		}
 	private:
 		std::shared_ptr<T>& pResource;
