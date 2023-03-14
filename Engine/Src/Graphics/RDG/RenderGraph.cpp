@@ -6,6 +6,7 @@
 #include <Binds/DepthStencil.h>
 #include <Util/GeneralUtilities.h>
 #include "Pass.h"
+#include "RenderQueuePass.h"
 
 namespace RDG
 {
@@ -17,6 +18,16 @@ namespace RDG
 		{
 			p->Execute( gfx );
 		}
+	}
+
+	RenderQueuePass& RenderGraph::GetRenderQueue( const std::string& pass_name )
+	{
+		for ( auto& p : passPtrs )
+		{
+			if ( p->GetName() == pass_name && std::is_same<RenderQueuePass, decltype( *p )>::value )
+				return *static_cast<RenderQueuePass*>(p.get());
+		}
+		ABORT_F( "%s not found", pass_name.c_str() );
 	}
 
 	RenderGraph::RenderGraph( Graphics& gfx, const std::string graph_name )

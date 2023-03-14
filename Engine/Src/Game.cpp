@@ -15,7 +15,7 @@ Game::Game()
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0 )
 	, sponza(gfx, "Models\\sponza\\sponza_sad.obj")
-	, frame(gfx)
+	, graph(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
 		Fov * (float)std::numbers::pi / 180.f,
@@ -42,7 +42,6 @@ void Game::Go()
 		DrawImGuis();
 
 	gfx.EndFrame();
-	frame.Reset();
 }
 
 void Game::UpdateLogic()
@@ -60,7 +59,7 @@ void Game::DrawFrame()
 	cube0.Submit( frame );
 	cube1.Submit( frame );
 
-	frame.Execute( gfx );
+	graph.Execute( gfx );
 }
 
 void Game::DrawImGuis()

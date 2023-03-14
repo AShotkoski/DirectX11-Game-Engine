@@ -1,15 +1,17 @@
 #include "Step.h"
 #include "FrameCommander.h"
 #include "TechniqueProbe.h"
+#include "RDG/RenderQueuePass.h"
 
-Step::Step( size_t passNum )
-	: passIdx(passNum)
+Step::Step( const std::string& target_pass )
+	: targetPass(target_pass)
 {
 }
 
-void Step::Submit( FrameCommander& frame, const Drawable& drawable ) const
+void Step::Submit( const Drawable& drawable ) const
 {
-	frame.Accept( Job( &drawable, this ), passIdx );
+	DCHECK_F( pTargetPass != nullptr, "Cannot submit to target pass that is not linked.");
+	pTargetPass->Accept( Job{ &drawable, this } );
 }
 
 void Step::Bind( Graphics& gfx ) const
@@ -40,4 +42,9 @@ void Step::Accept( TechniqueProbe& probe )
 	{
 		b->Accept( probe );
 	}
+}
+
+void Step::LinkTarget( RDG::RenderGraph& graph )
+{
+	pTargetPass = &graph.GetRenderQueue( targetPass );
 }

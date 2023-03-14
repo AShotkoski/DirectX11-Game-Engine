@@ -5,7 +5,7 @@
 #include "Graphics/Model.h"
 #include "Util/ImGuiLog.h"
 #include "Drawable/Cube.h"
-#include "Graphics/FrameCommander.h"
+#include "Graphics/RDG/TestGraph.h"
 
 class Game
 {
@@ -25,7 +25,7 @@ private:
 	Window wnd;
 	Graphics& gfx;
 	FrameTimer ft;
-	FrameCommander frame;
+	RDG::TestGraph graph;
 
 	PointLight light;
 	Cube cube0;

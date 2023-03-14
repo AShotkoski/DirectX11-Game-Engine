@@ -102,7 +102,6 @@
     <ClInclude Include="Src\Core\Mouse.h" />
     <ClInclude Include="Src\Binds\NullPixelShader.h" />
     <ClInclude Include="Src\Util\NumberFactory.h" />
-    <ClInclude Include="Src\Graphics\Pass.h" />
     <ClInclude Include="Src\Binds\PixelShader.h" />
     <ClInclude Include="Src\PlanePrimitive.h" />
     <ClInclude Include="Src\Graphics\PointLight.h" />

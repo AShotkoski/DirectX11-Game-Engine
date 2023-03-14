@@ -20,6 +20,7 @@ namespace RDG
 	class Source;
 	class Sink;
 	class Pass;
+	class RenderQueuePass;
 
 	class RenderGraph
 	{
@@ -28,6 +29,7 @@ namespace RDG
 		RenderGraph( const RenderGraph& ) = delete;
 		virtual ~RenderGraph() noexcept = default;
 		void Execute( Graphics& gfx );
+		RenderQueuePass& GetRenderQueue( const std::string& pass_name );
 	protected:
 		RenderGraph(Graphics& gfx, const std::string graph_name );
 		void AppendPass( std::unique_ptr<Pass> pPass );
