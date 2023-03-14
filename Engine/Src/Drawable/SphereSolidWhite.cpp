@@ -3,7 +3,7 @@
 #include "SpherePrimitive.h"
 #include "Graphics/Vertex.h"
 
-SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
+SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius, RDG::RenderGraph* pGraph )
 {
 	// Set parent binds
 	pTopology =  Binds::Topology::Resolve( gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) ;
@@ -17,6 +17,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 
 	Technique Solid;
 	Step only( "lambertian" );
+	only.LinkTarget( *pGraph );
 
 	only.AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso"));
 	auto pVS =  Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" ) ;

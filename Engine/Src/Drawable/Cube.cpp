@@ -12,7 +12,7 @@ Cube::Cube(
 	Graphics& gfx,
 	DirectX::XMFLOAT3 size,
 	DirectX::XMFLOAT3 position,
-	float pitch, float yaw, float roll )
+	float pitch, float yaw, float roll, RDG::RenderGraph* pGraph )
 	: size( size )
 	, pos( position )
 	, pitch( pitch )
@@ -33,7 +33,8 @@ Cube::Cube(
 	// Create Technique for phong
 	Technique solidPhong("Solid Color Phong");
 	{
-		Step only( "labertian");
+		Step only( "lambertian" );
+		only.LinkTarget( *pGraph );
 		// Add binds to step needed to phong
 		only.AddBind( Binds::PixelShader::Resolve( gfx, L"phong__PS.cso" ) );
 		auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );

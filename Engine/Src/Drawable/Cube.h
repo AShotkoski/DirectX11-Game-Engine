@@ -4,6 +4,11 @@
 #include "Graphics/Material.h"
 #include <filesystem>
 
+namespace RDG
+{
+	class RenderGraph;
+}
+
 class Cube : public Drawable
 {
 public:
@@ -11,7 +16,7 @@ public:
 		Graphics&         gfx,
 		DirectX::XMFLOAT3 size,
 		DirectX::XMFLOAT3 position,
-		float pitch, float yaw, float roll);
+		float pitch, float yaw, float roll, RDG::RenderGraph* pGraph);
 	virtual DirectX::XMMATRIX GetTransformationMatrix() const noexcept override;
 	void SpawnControlWindow( Graphics& gfx, std::string name );
 private:

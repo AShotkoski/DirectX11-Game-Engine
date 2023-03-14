@@ -1,11 +1,11 @@
 #include "PointLight.h"
 #include "ImGui.h"
 
-PointLight::PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos )
+PointLight::PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos, RDG::RenderGraph* pGraph )
 	:
 	cbuf(gfx),
 	LightPos(pos),
-	mesh(gfx, radius)
+	mesh(gfx, radius, pGraph)
 {}
 
 void PointLight::Bind( Graphics& gfx ) const

@@ -24,7 +24,7 @@ namespace RDG
 	{
 		for ( auto& p : passPtrs )
 		{
-			if ( p->GetName() == pass_name && std::is_same<RenderQueuePass, decltype( *p )>::value )
+			if ( p->GetName() == pass_name ) // todo  type check && std::is_same<RenderQueuePass, decltype( *(p.get()) )>::value
 				return *static_cast<RenderQueuePass*>(p.get());
 		}
 		ABORT_F( "%s not found", pass_name.c_str() );
@@ -76,7 +76,7 @@ namespace RDG
 			}
 		}
 		if ( !bound )
-			ABORT_F( "Couldn't find %s pass to bind", ( *it )->GetTargetPassName() );
+			ABORT_F( "Couldn't find %s pass to bind", ( *it )->GetTargetPassName().c_str() );
 	}
 
 	void RenderGraph::LinkSinks( Pass& pass )

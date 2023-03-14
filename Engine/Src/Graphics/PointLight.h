@@ -2,10 +2,15 @@
 #include "Binds/ConstantBuffers.h"
 #include "Drawable/SphereSolidWhite.h"
 
+namespace RDG
+{
+	class RenderGraph;
+}
+
 class PointLight
 {
 public:
-	PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos);
+	PointLight( Graphics& gfx, float radius, DirectX::XMFLOAT3 pos, RDG::RenderGraph* pGraph);
 	void Bind( Graphics& gfx ) const;
 	void Draw() const;
 	void SpawnControlWindow();
