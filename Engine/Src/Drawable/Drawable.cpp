@@ -41,11 +41,11 @@ Drawable::Drawable(Graphics& gfx, const Material& material, const aiMesh& mesh )
 	}
 }
 
-void Drawable::Submit( FrameCommander& frame ) const
+void Drawable::Submit( ) const
 {
 	for ( auto& t : techniques )
 	{
-		t.Submit( frame, *this );
+		t.Submit( *this );
 	}
 }
 

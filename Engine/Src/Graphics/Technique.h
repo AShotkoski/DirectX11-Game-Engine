@@ -9,7 +9,7 @@ class Technique
 {
 public:
 	Technique( const std::string& in_name = "unnamed");
-	void Submit( class FrameCommander& frame, const Drawable& drawable ) const;
+	void Submit( const Drawable& drawable ) const;
 	void AddStep( Step step );
 	void InitParentRef( const Drawable& parent );
 	void Accept( class TechniqueProbe& probe );

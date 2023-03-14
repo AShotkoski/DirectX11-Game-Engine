@@ -16,7 +16,7 @@ SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius )
 	pIndexBuffer =  Binds::IndexBuffer::Resolve( gfx, itl.indices, "lightidx");
 
 	Technique Solid;
-	Step only( 0u );
+	Step only( "lambertian" );
 
 	only.AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso"));
 	auto pVS =  Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" ) ;

@@ -2,6 +2,9 @@
 #include "FrameCommander.h"
 #include "TechniqueProbe.h"
 #include "RDG/RenderQueuePass.h"
+#include <log.h>
+#include "Job.h"
+#include "RDG/RenderGraph.h"
 
 Step::Step( const std::string& target_pass )
 	: targetPass(target_pass)

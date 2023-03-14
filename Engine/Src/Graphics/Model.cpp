@@ -21,18 +21,18 @@ Node::Node(
 {
 }
 
-void Node::Submit( FrameCommander& frame, DirectX::XMMATRIX in_transform ) const
+void Node::Submit(DirectX::XMMATRIX in_transform ) const
 {
 	// Draw all meshes and children ( it would be cool to not do this every draw call btw )
 	const auto concatenatedTransform = applied_transform * transform * in_transform;
 	for( auto& m : meshes )
 	{
 		m->BindTransform( concatenatedTransform );
-		m->Submit( frame );
+		m->Submit(  );
 	}
 	for( auto& c : children )
 	{
-		c.Submit( frame, concatenatedTransform );
+		c.Submit( concatenatedTransform );
 	}
 }
 
@@ -78,6 +78,7 @@ Node& Node::AddChild( Node&& child )
 }
 
 // pImpl class to control models with imgui
+/*
 class ModelController
 {
 private:
@@ -110,6 +111,7 @@ private:
 	// Spawn controller that controls selected node
 	void SpawnControlWindow()
 	{
+		
 		DCHECK_NOTNULL_F( pSelectedNode, "Selected node was somehow nullptr, serisouly how?" );
 
 		ImVec2 spawnLoc = ImGui::GetWindowPos();
@@ -143,7 +145,9 @@ private:
 			selectedNodeIndex = std::nullopt;
 
 		ImGui::End();
+		
 	}
+	
 	// Helper for generating transform mat
 	dx::XMMATRIX genTransform(Properties& data)
 	{
@@ -167,9 +171,11 @@ private:
 	std::unordered_map<int, Properties> propMap;
 };
 
+*/
+
 Model::Model( Graphics& gfx, std::filesystem::path filename ) :
-	tag( filename.string() ),
-	pController( std::make_unique<ModelController>( ) )
+	tag( filename.string() )
+	//pController( std::make_unique<ModelController>( ) )
 {
 	LOG_SCOPE_FUNCTION( INFO );
 	// Create assimp logger to log assimp messages during file loading
@@ -209,14 +215,14 @@ void Model::UpdateTransform( DirectX::XMMATRIX in_transform )
 	transform = in_transform;
 }
 
-void Model::Submit( FrameCommander& frame ) const
+void Model::Submit(  ) const
 {
-	pHead->Submit( frame, transform );
+	pHead->Submit(  transform );
 }
 
 void Model::SpawnControlWindow()
 {
-	pController->ShowImGui( *pHead );
+	//pController->ShowImGui( *pHead );
 }
 
 Model::~Model() {}

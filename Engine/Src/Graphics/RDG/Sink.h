@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-
 #include <log.h>
 #include <Binds/Bindable.h>
 #include "Source.h"
+#include <Graphics/BufferResource.h>
 //
 // A sink is bound to a pass and is used to describe the linkage of the graph.
 // A sink will always be bound/attached to a pass, and must always be linked to a source.

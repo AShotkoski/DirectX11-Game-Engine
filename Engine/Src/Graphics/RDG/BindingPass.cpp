@@ -1,4 +1,5 @@
 #include "BindingPass.h"
+#include "Sink.h"
 #include <Binds/Bindable.h>
 
 namespace RDG

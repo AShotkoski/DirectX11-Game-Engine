@@ -5,6 +5,8 @@ class Job;
 
 namespace RDG
 {
+	class Sink;
+
 	class RenderQueuePass : public BindingPass
 	{
 	public:

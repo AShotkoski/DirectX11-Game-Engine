@@ -20,7 +20,7 @@ class Drawable
 public:
 	Drawable( const Drawable& ) = delete;
 	Drawable& operator=( const Drawable& ) = delete;
-	void Submit(class FrameCommander& frame) const;
+	void Submit() const;
 	UINT GetIndexCount() const;
 	void Bind(Graphics& gfx) const;
 	void Accept( class TechniqueProbe& probe );

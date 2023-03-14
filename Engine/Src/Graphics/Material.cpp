@@ -16,7 +16,7 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 	{
 		Technique Phong{ "Phong" };
 		{
-			Step only( 0 );
+			Step only( "labertian");
 			bool hasDiffuseMap = false;
 			bool hasAlpha = false;
 			bool hasNormalMap = false;

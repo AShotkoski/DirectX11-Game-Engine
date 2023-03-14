@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include "Pass.h"
 #include "Job.h"
 #include "Binds/BindableBaseIncludes.h"
@@ -88,3 +89,4 @@ private:
 
 };
 
+*/

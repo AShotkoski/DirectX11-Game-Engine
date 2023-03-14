@@ -1,4 +1,6 @@
 #include "RenderQueuePass.h"
+#include "Sink.h"
+#include "Source.h"
 #include <Graphics/Job.h>
 
 namespace RDG 

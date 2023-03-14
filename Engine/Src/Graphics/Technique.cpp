@@ -7,7 +7,7 @@ Technique::Technique( const std::string& in_name )
 {
 }
 
-void Technique::Submit( FrameCommander& frame, const Drawable& drawable ) const
+void Technique::Submit( const Drawable& drawable ) const
 {
 	// Only submit to steps if tech is active
 	if ( !isActive )
@@ -17,7 +17,7 @@ void Technique::Submit( FrameCommander& frame, const Drawable& drawable ) const
 
 	for ( auto& s : steps )
 	{
-		s.Submit( frame, drawable );
+		s.Submit( drawable );
 	}
 }
 

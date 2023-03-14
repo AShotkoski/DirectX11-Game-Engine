@@ -54,10 +54,10 @@ void Game::UpdateLogic()
 
 void Game::DrawFrame()
 {
-	light.Draw( frame );
-	sponza.Submit( frame );
-	cube0.Submit( frame );
-	cube1.Submit( frame );
+	light.Draw( );
+	sponza.Submit( );
+	cube0.Submit( );
+	cube1.Submit( );
 
 	graph.Execute( gfx );
 }

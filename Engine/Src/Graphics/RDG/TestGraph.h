@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderGraph.h"
 #include "BufferClearingPass.h"
+#include "RenderQueuePass.h"
 
 namespace RDG
 {
@@ -18,6 +19,10 @@ namespace RDG
 			{
 				auto pass = std::make_unique<BufferClearingPass>( "clearDS" );
 				pass->SetSinkLinkage( "buffer", "$.depthstencil" );
+				AppendPass( std::move( pass ) );
+			}
+			{
+				auto pass = std::make_unique<RenderQueuePass>( "lambertian" );
 				AppendPass( std::move( pass ) );
 			}
 			LinkGlobalSink( "backbuffer", "clearRT.buffer" );

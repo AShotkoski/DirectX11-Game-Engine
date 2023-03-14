@@ -10,6 +10,8 @@ class Bindable;
 
 namespace RDG
 {
+	class Sink;
+
 	class BindingPass : public Pass
 	{
 	protected:

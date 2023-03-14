@@ -33,7 +33,7 @@ Cube::Cube(
 	// Create Technique for phong
 	Technique solidPhong("Solid Color Phong");
 	{
-		Step only( 0 );
+		Step only( "labertian");
 		// Add binds to step needed to phong
 		only.AddBind( Binds::PixelShader::Resolve( gfx, L"phong__PS.cso" ) );
 		auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
@@ -59,6 +59,7 @@ Cube::Cube(
 	}
 	AddTechnique( std::move( solidPhong ) );
 
+	/*
 	// Mask
 	Technique Outline("Outline");
 	{
@@ -110,6 +111,7 @@ Cube::Cube(
 		AddTechnique( std::move( Outline ) );
 
 	}
+	*/
 }
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept

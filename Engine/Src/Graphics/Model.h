@@ -2,7 +2,6 @@
 #include "Drawable/Mesh.h"
 #include <memory>
 #include <filesystem>
-#include "FrameCommander.h"
 
 //todo change includes
 class Node
@@ -11,7 +10,7 @@ class Node
 	friend class ModelController;
 public:
 	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name );
-	void Submit( FrameCommander& frame, DirectX::XMMATRIX in_transform ) const;
+	void Submit(DirectX::XMMATRIX in_transform ) const;
 	void SpawnControlWindow( int& nodeIndex, std::optional<int>& selectedIndex, Node*& pSelectedNode );
 	void ApplyTransform( DirectX::XMMATRIX newTransform );
 private:
@@ -30,12 +29,12 @@ class Model
 public:
 	Model( Graphics& gfx, std::filesystem::path filename );
 	void UpdateTransform( DirectX::XMMATRIX in_transform );
-	void Submit( FrameCommander& frame ) const;
+	void Submit() const;
 	void SpawnControlWindow();
 	~Model();
 private:
 	// Makes mesh from Assimp Mesh and returns shared ptr to it
-	void PopulateNodeTreeFromAINode( Node* pNode, const aiNode* pAiNode, bool isHead = false );
+	void PopulateNodeTreeFromAINode( Node* pNode, const struct aiNode* pAiNode, bool isHead = false );
 	Node MakeNode( const aiNode& ai_Node ) const;
 	// TODO add a (slow, optional) function for obj files and other non-hierarchical model formats
 	// that uses miniball to calculate centers of each mesh and use that for ModelController
@@ -45,7 +44,7 @@ private:
 	// OWNER 
 	std::vector<std::shared_ptr<Mesh>> pMeshes;
 	DirectX::XMMATRIX transform = DirectX::XMMatrixIdentity();
-	std::unique_ptr<class ModelController> pController;
+	//std::unique_ptr<class ModelController> pController;
 };
 
 

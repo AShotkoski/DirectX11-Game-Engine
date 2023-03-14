@@ -24,10 +24,10 @@ void PointLight::Bind( Graphics& gfx ) const
 	cbuf.Bind( gfx );
 }
 
-void PointLight::Draw( FrameCommander& frame ) const
+void PointLight::Draw( ) const
 {
 	mesh.SetPos( LightPos );
-	mesh.Submit( frame );
+	mesh.Submit( );
 }
 
 void PointLight::SpawnControlWindow()
