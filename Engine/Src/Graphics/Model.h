@@ -3,7 +3,12 @@
 #include <memory>
 #include <filesystem>
 
-//todo change includes
+namespace RDG
+{
+	class RenderGraph;
+}
+
+
 class Node
 {
 	friend class Model;
@@ -27,7 +32,7 @@ private:
 class Model
 {
 public:
-	Model( Graphics& gfx, std::filesystem::path filename );
+	Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* pGraph);
 	void UpdateTransform( DirectX::XMMATRIX in_transform );
 	void Submit() const;
 	void SpawnControlWindow();

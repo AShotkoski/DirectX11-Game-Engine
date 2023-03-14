@@ -13,7 +13,7 @@ Step::Step( const std::string& target_pass )
 
 void Step::Submit( const Drawable& drawable ) const
 {
-	DCHECK_F( pTargetPass != nullptr, "Cannot submit to target pass that is not linked.");
+	DCHECK_F( pTargetPass != nullptr, "Target pass %s was not linked on.", targetPass.c_str());
 	pTargetPass->Accept( Job{ &drawable, this } );
 }
 

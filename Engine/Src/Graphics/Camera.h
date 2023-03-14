@@ -27,7 +27,7 @@ private:
 	float pitch;
 	float yaw;
 	// Only adjust the numerator
-	static constexpr float Sensitivity = 25.f / 10000.f;
+	static constexpr float Sensitivity = 17.f / 10000.f;
 	float MoveSpeed = 15.f;
 
 	//-----Imgui-----

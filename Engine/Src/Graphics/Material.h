@@ -6,10 +6,15 @@
 
 class Technique;
 
+namespace RDG
+{
+	class RenderGraph;
+}
+
 class Material
 {
 public:
-	Material(Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath );
+	Material(Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath, RDG::RenderGraph* pGraph );
 	const std::vector<Technique>& GetTechniques() const;
 	const Vert::VertexLayout& GetVertexLayout() const;
 	const std::string& GetTag() const;

@@ -173,7 +173,7 @@ private:
 
 */
 
-Model::Model( Graphics& gfx, std::filesystem::path filename ) :
+Model::Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* pGraph ) :
 	tag( filename.string() )
 	//pController( std::make_unique<ModelController>( ) )
 {
@@ -198,7 +198,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename ) :
 		const auto& mesh = *pAIScene->mMeshes[i];
 		DCHECK_F( mesh.mMaterialIndex >= 0, "mesh material index not right" );
 		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
-		Material mat( gfx, material, filename );
+		Material mat( gfx, material, filename, pGraph );
 		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );
 	}
 

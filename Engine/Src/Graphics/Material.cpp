@@ -4,7 +4,7 @@
 #include "Util/Colors.h"
 #include "Util/GeneralUtilities.h"
 
-Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath )
+Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::path modelPath, RDG::RenderGraph* pGraph )
 {
 	// Dynamically compose dynamic CB from aiMaterial, as well as dynamically compose a vertex layout
 	// (but don't fill the buffer yet)
@@ -16,7 +16,8 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 	{
 		Technique Phong{ "Phong" };
 		{
-			Step only( "labertian");
+			Step only( "lambertian");
+			only.LinkTarget( *pGraph );
 			bool hasDiffuseMap = false;
 			bool hasAlpha = false;
 			bool hasNormalMap = false;
