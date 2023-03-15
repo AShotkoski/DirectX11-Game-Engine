@@ -1,6 +1,6 @@
 #pragma once
 #include "Bindable.h"
-#include "Graphics/Vertex.h"
+#include <Geometry/Vertex.h>
 #include <vector>
 
 namespace Binds

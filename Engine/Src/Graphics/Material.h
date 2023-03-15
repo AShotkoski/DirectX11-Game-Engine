@@ -1,6 +1,6 @@
 #pragma once
 #include "DynamicCB.h"
-#include "Vertex.h"
+#include <Geometry/Vertex.h>
 #include <assimp/material.h>
 #include <filesystem>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "IndexedTriangleList.h"
-#include "Graphics/Vertex.h"
+#include "Vertex.h"
 #include <DirectXMath.h>
 
 namespace GeometricPrim

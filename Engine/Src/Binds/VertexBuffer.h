@@ -1,7 +1,7 @@
 #pragma once
 #include "Bindable.h"
 #include "Macros.h"
-#include "Graphics/Vertex.h"
+#include <Geometry/Vertex.h>
 #include <vector>
 #include <wrl.h>
 #include <cassert>

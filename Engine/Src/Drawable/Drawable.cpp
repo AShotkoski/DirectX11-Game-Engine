@@ -4,7 +4,7 @@
 #include "Binds/Topology.h"
 #include "Graphics/Technique.h"
 #include "Graphics/Material.h"
-#include "Graphics/Vertex.h"
+#include <Geometry/Vertex.h>
 #include <assimp/mesh.h>
 
 Drawable::Drawable(Graphics& gfx, const Material& material, const aiMesh& mesh )

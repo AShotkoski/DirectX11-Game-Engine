@@ -1,7 +1,7 @@
 #include "SphereSolidWhite.h"
 #include "Binds/BindableBaseIncludes.h"
-#include "SpherePrimitive.h"
-#include "Graphics/Vertex.h"
+#include <Geometry/SpherePrimitive.h>
+#include <Geometry/Vertex.h>
 
 SphereSolidWhite::SphereSolidWhite( Graphics& gfx, float radius, RDG::RenderGraph* pGraph )
 {

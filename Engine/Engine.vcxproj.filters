@@ -33,7 +33,7 @@
     <ClCompile Include="Src\Binds\Texture.cpp" />
     <ClCompile Include="Src\Binds\Topology.cpp" />
     <ClCompile Include="Src\Binds\TransformationConstBuffer.cpp" />
-    <ClCompile Include="Src\Graphics\Vertex.cpp" />
+    <ClCompile Include="Src\Geometry\Vertex.cpp" />
     <ClCompile Include="Src\Binds\VertexBuffer.cpp" />
     <ClCompile Include="Src\Binds\VertexShader.cpp" />
     <ClCompile Include="Src\Core\Window.cpp" />
@@ -78,7 +78,7 @@
     <ClInclude Include="Src\Binds\ConstantBufferEx.h" />
     <ClInclude Include="Src\Binds\ConstantBuffers.h" />
     <ClInclude Include="Src\Drawable\Cube.h" />
-    <ClInclude Include="Src\CubePrimitive.h" />
+    <ClInclude Include="Src\Geometry\CubePrimitive.h" />
     <ClInclude Include="Src\Drawable\Drawable.h" />
     <ClInclude Include="Src\Graphics\DynamicCB.h" />
     <ClInclude Include="Src\Graphics\FrameCommander.h" />
@@ -91,7 +91,7 @@
     <ClInclude Include="Src\Util\ImGuiLog.h" />
     <ClInclude Include="Src\Includers\ImGuiManager.h" />
     <ClInclude Include="Src\Binds\IndexBuffer.h" />
-    <ClInclude Include="Src\IndexedTriangleList.h" />
+    <ClInclude Include="Src\Geometry\IndexedTriangleList.h" />
     <ClInclude Include="Src\Binds\InputLayout.h" />
     <ClInclude Include="Src\Graphics\Job.h" />
     <ClInclude Include="Src\Core\Keyboard.h" />
@@ -106,11 +106,11 @@
     <ClInclude Include="Src\Binds\NullPixelShader.h" />
     <ClInclude Include="Src\Util\NumberFactory.h" />
     <ClInclude Include="Src\Binds\PixelShader.h" />
-    <ClInclude Include="Src\PlanePrimitive.h" />
+    <ClInclude Include="Src\Geometry\PlanePrimitive.h" />
     <ClInclude Include="Src\Graphics\PointLight.h" />
     <ClInclude Include="Src\Core\resource.h" />
     <ClInclude Include="Src\Binds\Sampler.h" />
-    <ClInclude Include="Src\SpherePrimitive.h" />
+    <ClInclude Include="Src\Geometry\SpherePrimitive.h" />
     <ClInclude Include="Src\Drawable\SphereSolidWhite.h" />
     <ClInclude Include="Src\Binds\Stencil.h" />
     <ClInclude Include="Src\Graphics\Step.h" />
@@ -119,14 +119,14 @@
     <ClInclude Include="Src\Binds\Texture.h" />
     <ClInclude Include="Src\Binds\Topology.h" />
     <ClInclude Include="Src\Binds\TransformationConstBuffer.h" />
-    <ClInclude Include="Src\Graphics\Vertex.h" />
+    <ClInclude Include="Src\Geometry\Vertex.h" />
     <ClInclude Include="Src\Binds\VertexBuffer.h" />
     <ClInclude Include="Src\Binds\VertexShader.h" />
     <ClInclude Include="Src\Includers\Win.h" />
     <ClInclude Include="Src\Binds\Bindable.h" />
     <ClInclude Include="Src\Binds\BindableBaseIncludes.h" />
     <ClInclude Include="Src\Binds\BindableCodex.h" />
-    <ClInclude Include="Src\ModelProbe.h" />
+    <ClInclude Include="Src\Geometry\ModelProbe.h" />
     <ClInclude Include="Src\Binds\Blender.h" />
     <ClInclude Include="Src\Binds\Rasterizer.h" />
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />

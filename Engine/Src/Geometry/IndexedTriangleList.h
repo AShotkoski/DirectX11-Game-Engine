@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics/Vertex.h"
+#include <Geometry/Vertex.h>
 #include <vector>
 #include <cassert>
 #include <DirectXMath.h>

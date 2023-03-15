@@ -1,8 +1,8 @@
 #include "Cube.h"
 #include "Binds/BindableBaseIncludes.h"
-#include "CubePrimitive.h"
+#include <Geometry/CubePrimitive.h>
 #include "Util/Colors.h"
-#include "Graphics/Vertex.h"
+#include <Geometry/Vertex.h>
 #include "Binds/BindableCodex.h"
 #include "Binds/ConstantBufferEx.h"
 #include "Graphics/TechniqueProbe.h"

@@ -2,7 +2,7 @@
 // Vertex Layout class holds a list of Elements which describe the layout of a vertex,
 // in order to describe a useful vertex layout we must also keep track of the order of the 
 // vertex elements.
-#include "Graphics.h"
+#include <Graphics/Graphics.h>
 #include <type_traits>
 #include <vector>
 #include <assimp/mesh.h>
