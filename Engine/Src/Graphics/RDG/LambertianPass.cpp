@@ -4,6 +4,7 @@
 #include <Binds/RenderTarget.h>
 #include <Binds/DepthStencil.h>
 #include <Binds/Stencil.h>
+#include <Binds/Rasterizer.h>
 
 namespace RDG
 {
@@ -16,6 +17,7 @@ namespace RDG
 		RegisterSource( BufferSource<DepthStencil>::MakeUnique( "depthstencil", pTargetDepthBuffer ) );
 		RegisterSource( BufferSource<RenderTarget>::MakeUnique( "rendertarget", pTargetBuffer ) );
 		AddBind( Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off ));
+		AddBind( Binds::Rasterizer::Resolve( gfx, true ) );
 	}
 
 }

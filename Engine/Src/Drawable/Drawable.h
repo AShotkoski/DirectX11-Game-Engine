@@ -4,7 +4,6 @@
 #include "Graphics/Technique.h"
 #include <vector>
 #include <memory>
-#include <optional>
 
 namespace Binds
 {
