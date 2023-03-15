@@ -7,6 +7,7 @@
 #include "Binds/ConstantBufferEx.h"
 #include "Graphics/TechniqueProbe.h"
 #include "ImGui.h"
+#include <Graphics/RDG/RenderGraph.h>
 
 Cube::Cube(
 	Graphics& gfx,
@@ -60,59 +61,63 @@ Cube::Cube(
 	}
 	AddTechnique( std::move( solidPhong ) );
 
-	/*
+	
 	// Mask
-	Technique Outline("Outline");
+	if ( pGraph->ContainsPass( "outlinemask" ) && pGraph->ContainsPass("outlinedraw"))
 	{
+		Technique Outline( "Outline" );
 		{
-			Step mask( 1u );
-			auto pVS = Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" );
-			auto vsbytecode = pVS->pGetBytecode();
-			mask.AddBind( std::move( pVS ) );
-			mask.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-			mask.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
-			Outline.AddStep( std::move( mask ) );
-		}
-		{
-			Step draw( 2u );
-			auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
-			auto vsbytecode = pVS->pGetBytecode();
-			draw.AddBind( std::move( pVS ) );
-			draw.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
-			draw.AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso" ) );
-			class ScalingTransformCB : public Binds::TransformationConstBuffer
 			{
-			public:
-				ScalingTransformCB( Graphics& gfx, float scale )
-					: TransformationConstBuffer(gfx )
-					, scale_(scale)
-				{}
-				virtual void Bind( Graphics& gfx ) override
+				Step mask( "outlinemask" );
+				mask.LinkTarget( *pGraph );
+				auto pVS = Binds::VertexShader::Resolve( gfx, L"VSTransform.cso" );
+				auto vsbytecode = pVS->pGetBytecode();
+				mask.AddBind( std::move( pVS ) );
+				mask.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
+				mask.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
+				Outline.AddStep( std::move( mask ) );
+			}
+			{
+				Step draw( "outlinedraw" );
+				draw.LinkTarget( *pGraph );
+				auto pVS = Binds::VertexShader::Resolve( gfx, L"phong__VS.cso" );
+				auto vsbytecode = pVS->pGetBytecode();
+				draw.AddBind( std::move( pVS ) );
+				draw.AddBind( Binds::InputLayout::Resolve( gfx, vertBuf.GetLayout(), *vsbytecode ) );
+				draw.AddBind( Binds::PixelShader::Resolve( gfx, L"PSSolid.cso" ) );
+				class ScalingTransformCB : public Binds::TransformationConstBuffer
 				{
-					auto scaling = DirectX::XMMatrixScaling( scale_, scale_, scale_ );
-					auto trans = GetBuffer( gfx );
-					trans.model = trans.model * scaling;
-					trans.modelViewProj = trans.modelViewProj * scaling;
-					UpdateAndBind( gfx, trans );
-				}
-			private:
-				float scale_;
-			};
-			draw.AddBind( std::make_shared<ScalingTransformCB>(gfx, 1.05f) );
-			struct CBb
-			{
-				float r = 1.f;
-				float g = 0.f;
-				float b = 0.f;
-				float pad = 0;
-			} cbb;
-			draw.AddBind( Binds::PixelConstantBuffer<CBb>::Resolve( gfx, cbb, "solidred", 1u ) );
-			Outline.AddStep( std::move( draw ) );
-		}
-		AddTechnique( std::move( Outline ) );
+				public:
+					ScalingTransformCB( Graphics& gfx, float scale )
+						: TransformationConstBuffer( gfx )
+						, scale_( scale )
+					{}
+					virtual void Bind( Graphics& gfx ) override
+					{
+						auto scaling = DirectX::XMMatrixScaling( scale_, scale_, scale_ );
+						auto trans = GetBuffer( gfx );
+						trans.model = trans.model * scaling;
+						trans.modelViewProj = trans.modelViewProj * scaling;
+						UpdateAndBind( gfx, trans );
+					}
+				private:
+					float scale_;
+				};
+				draw.AddBind( std::make_shared<ScalingTransformCB>( gfx, 1.05f ) );
+				struct CBb
+				{
+					float r = 1.f;
+					float g = 0.f;
+					float b = 0.f;
+					float pad = 0;
+				} cbb;
+				draw.AddBind( Binds::PixelConstantBuffer<CBb>::Resolve( gfx, cbb, "solidred", 1u ) );
+				Outline.AddStep( std::move( draw ) );
+			}
+			AddTechnique( std::move( Outline ) );
 
+		}
 	}
-	*/
 }
 
 DirectX::XMMATRIX Cube::GetTransformationMatrix() const noexcept

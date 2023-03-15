@@ -55,6 +55,7 @@
     <ClCompile Include="Src\Graphics\RDG\Pass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\BindingPass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\RenderQueuePass.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\LambertianPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />

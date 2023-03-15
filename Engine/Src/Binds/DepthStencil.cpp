@@ -35,7 +35,7 @@ DepthStencil::DepthStencil( Graphics& gfx, UINT width, UINT height )
 
 void DepthStencil::Bind( Graphics& gfx )
 {
-	ABORT_F( "Bind was called on depth stencil." );
+	pGetContext( gfx )->OMSetRenderTargets( 0u, nullptr, pDepthStencilView.Get() );
 }
 
 void DepthStencil::Clear(Graphics& gfx) const

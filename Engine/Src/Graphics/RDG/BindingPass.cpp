@@ -1,6 +1,8 @@
 #include "BindingPass.h"
 #include "Sink.h"
 #include <Binds/Bindable.h>
+#include <Binds/RenderTarget.h>
+#include <Binds/DepthStencil.h>
 
 namespace RDG
 {
@@ -15,9 +17,26 @@ namespace RDG
 	}
 	void BindingPass::BindAll( Graphics& gfx ) const
 	{
+		BindBuffer(gfx);
 		for ( auto& b : bindPtrs )
 		{
 			b->Bind( gfx );
+		}
+	}
+	void BindingPass::BindBuffer(Graphics& gfx) const
+	{
+		if ( !pTargetBuffer && !pTargetDepthBuffer )
+			ABORT_F( "No target buffer or depth stencil is initialized in %s", GetName().c_str() );
+		if ( pTargetBuffer )
+		{
+			if ( pTargetDepthBuffer ) // has render target and depth/stencil
+				pTargetBuffer->Bind( gfx, *pTargetDepthBuffer );
+			else // has only render target
+				pTargetBuffer->Bind( gfx );
+		}
+		else // has only depth stencil
+		{
+			pTargetDepthBuffer->Bind( gfx );
 		}
 	}
 }

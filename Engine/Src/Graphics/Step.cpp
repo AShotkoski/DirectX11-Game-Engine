@@ -49,5 +49,5 @@ void Step::Accept( TechniqueProbe& probe )
 
 void Step::LinkTarget( RDG::RenderGraph& graph )
 {
-	pTargetPass = &graph.GetRenderQueue( targetPass );
+	pTargetPass = graph.GetRenderQueue( targetPass );
 }

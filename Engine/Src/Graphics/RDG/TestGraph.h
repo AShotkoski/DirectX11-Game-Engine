@@ -3,6 +3,7 @@
 #include "BufferClearingPass.h"
 #include "RenderQueuePass.h"
 #include <Binds/RenderTarget.h>
+#include "LambertianPass.h"
 
 namespace RDG
 {
@@ -24,7 +25,7 @@ namespace RDG
 				AppendPass( std::move( pass ) );
 			}
 			{
-				auto pass = std::make_unique<RenderQueuePass>( "lambertian" );
+				auto pass = std::make_unique<LambertianPass>(gfx, "lambertian" );
 				pass->SetSinkLinkage( "rendertarget", "clearRT.buffer" );
 				pass->SetSinkLinkage( "depthstencil", "clearDS.buffer" );
 				AppendPass( std::move( pass ) );

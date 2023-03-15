@@ -21,14 +21,24 @@ namespace RDG
 	}
 
 
-	RenderQueuePass& RenderGraph::GetRenderQueue( const std::string& pass_name )
+	RenderQueuePass* RenderGraph::GetRenderQueue( const std::string& pass_name )
 	{
 		for ( auto& p : passPtrs )
 		{
 			if ( p->GetName() == pass_name ) // todo  type check && std::is_same<RenderQueuePass, decltype( *(p.get()) )>::value
-				return *static_cast<RenderQueuePass*>(p.get());
+				return static_cast<RenderQueuePass*>(p.get());
 		}
 		ABORT_F( "%s not found", pass_name.c_str() );
+	}
+
+	bool RenderGraph::ContainsPass(const std::string& pass_name) const
+	{
+		for ( auto& p : passPtrs )
+		{
+			if ( p->GetName() == pass_name )
+				return true;
+		}
+		return false;
 	}
 
 	void RenderGraph::Clear()

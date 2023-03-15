@@ -1,18 +1,14 @@
 #pragma once
-#include "Pass.h"
-#include "GraphResource.h"
-#include <vector>
+#include "RenderQueuePass.h"
 
 namespace RDG
 {
-	class LambertianPass : public Pass
+	// Sinks:	"rendertarget", "depthstencil"
+	// Sources: "rendertarget", "depthstencil"
+	class LambertianPass : public RenderQueuePass
 	{
 	public:
-		LambertianPass( Graphics& gfx )
-			: Pass("Lambertian")
-		{
-			
-		}
+		LambertianPass( Graphics& gfx, const std::string& name );
 	private:
 	};
 }

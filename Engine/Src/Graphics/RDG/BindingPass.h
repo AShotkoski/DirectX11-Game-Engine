@@ -7,6 +7,8 @@
 #include "Pass.h"
 
 class Bindable;
+class DepthStencil;
+class RenderTarget;
 
 namespace RDG
 {
@@ -18,6 +20,11 @@ namespace RDG
 		BindingPass(const std::string& name);
 		void AddBind( std::shared_ptr<Bindable> bind );
 		void BindAll(Graphics& gfx) const;
+	private:
+		void BindBuffer(Graphics& gfx) const;
+	protected:
+		std::shared_ptr<DepthStencil> pTargetDepthBuffer;
+		std::shared_ptr<RenderTarget> pTargetBuffer;
 	private:
 		std::vector<std::shared_ptr<Bindable>> bindPtrs;
 	};

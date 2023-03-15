@@ -29,7 +29,8 @@ namespace RDG
 		RenderGraph( const RenderGraph& ) = delete;
 		virtual ~RenderGraph() noexcept = default;
 		void Execute( Graphics& gfx );
-		RenderQueuePass& GetRenderQueue( const std::string& pass_name );
+		RenderQueuePass* GetRenderQueue( const std::string& pass_name );
+		bool ContainsPass(const std::string& pass_name) const;
 		virtual void Clear();
 	protected:
 		RenderGraph(Graphics& gfx, const std::string graph_name );
