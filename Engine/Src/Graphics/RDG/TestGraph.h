@@ -4,6 +4,8 @@
 #include "RenderQueuePass.h"
 #include <Binds/RenderTarget.h>
 #include "LambertianPass.h"
+#include "OutlineDrawingPass.h"
+#include "OutlineMaskingPass.h"
 
 namespace RDG
 {
@@ -30,7 +32,18 @@ namespace RDG
 				pass->SetSinkLinkage( "depthstencil", "clearDS.buffer" );
 				AppendPass( std::move( pass ) );
 			}
-			LinkGlobalSink( "backbuffer", "clearRT.buffer" );
+			{
+				auto pass = std::make_unique<OutlineMaskingPass>( gfx );
+				pass->SetSinkLinkage( "depthstencil", "lambertian.depthstencil" );
+				AppendPass( std::move( pass ) );
+			}
+			{
+				auto pass = std::make_unique<OutlineDrawingPass>( gfx );
+				pass->SetSinkLinkage( "depthstencil", "outlinemask.depthstencil" );
+				pass->SetSinkLinkage( "rendertarget", "lambertian.rendertarget" );
+				AppendPass( std::move( pass ) );
+			}
+			LinkGlobalSink( "backbuffer", "lambertian.rendertarget" );
 			Finalize();
 		}
 	private:

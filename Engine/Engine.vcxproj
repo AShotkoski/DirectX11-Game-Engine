@@ -118,6 +118,8 @@
     <ClCompile Include="Src\Binds\Blender.cpp" />
     <ClCompile Include="Src\Graphics\RDG\BindingPass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\LambertianPass.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\OutlineDrawingPass.cpp" />
+    <ClCompile Include="Src\Graphics\RDG\OutlineMaskingPass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\Pass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\RenderGraph.cpp" />
     <ClCompile Include="Src\Graphics\RDG\RenderQueuePass.cpp" />
@@ -183,6 +185,8 @@
     <ClInclude Include="Src\Graphics\RDG\BindingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\BufferClearingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\GraphResource.h" />
+    <ClInclude Include="Src\Graphics\RDG\OutlineDrawingPass.h" />
+    <ClInclude Include="Src\Graphics\RDG\OutlineMaskingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\Pass.h" />
     <ClInclude Include="Src\Graphics\RDG\RenderGraph.h" />
     <ClInclude Include="Src\Graphics\RDG\LambertianPass.h" />
