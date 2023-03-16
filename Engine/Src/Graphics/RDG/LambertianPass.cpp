@@ -17,7 +17,6 @@ namespace RDG
 		RegisterSource( BufferSource<DepthStencil>::MakeUnique( "depthstencil", pTargetDepthBuffer ) );
 		RegisterSource( BufferSource<RenderTarget>::MakeUnique( "rendertarget", pTargetBuffer ) );
 		AddBind( Binds::Stencil::Resolve( gfx, Binds::Stencil::Mode::Off ));
-		AddBind( Binds::Rasterizer::Resolve( gfx, true ) );
 	}
 
 }

@@ -110,13 +110,17 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			if ( hasAlpha )
 			{
 				DLOG_F( INFO, "Alpha - %s", aiMat.GetName().C_Str());
+				only.AddBind( Binds::Blender::Resolve( gfx, true ) );
+			}
+			else
+			{
+				only.AddBind( Binds::Blender::Resolve( gfx ) );
 			}
 			// all alpha is gonna not backface cull for now
 			only.AddBind( Binds::Rasterizer::Resolve( gfx, !hasAlpha ) );
 			
 
 			// Common
-			only.AddBind( Binds::Blender::Resolve( gfx ) );// never blend yet
 			only.AddBind( std::make_shared<Binds::TransformationConstBuffer>( gfx ) );
 			// Add the material CB to the step
 			only.AddBind( std::make_shared<Binds::CachingPSConstantBufferEx>( gfx, cbBuf, 1u ) );
