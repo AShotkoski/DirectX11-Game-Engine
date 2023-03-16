@@ -21,6 +21,10 @@ public:
 			(ushort)( ( c & 0x00FF0000 ) >> 16 ),
 			(ushort)( ( c & 0x0000FF00 ) >> 8 ) );
 	}
+	operator DirectX::XMFLOAT3() const
+	{
+		return DirectX::XMFLOAT3( el );
+	}
 
 public:
 	float el[3];

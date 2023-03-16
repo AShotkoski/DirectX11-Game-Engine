@@ -139,7 +139,7 @@ namespace Vert
 	{}
 
 	VertexBuffer::VertexBuffer( VertexLayout layout )
-		: layout( layout )
+		: layout( std::move(layout) )
 	{}
 
 	// Populate buffer from aimesh
@@ -165,6 +165,12 @@ namespace Vert
 					assert( false && "bad element type" );
 			}
 		}
+	}
+
+	void VertexBuffer::SetLayout( VertexLayout layout )
+	{
+		assert( this->layout.NumElements() == 0 && "Cannot change layout once set");
+		this->layout = std::move(layout);
 	}
 
 	// number of NEW verts to reserve (doesn't overload, wont downsize) 

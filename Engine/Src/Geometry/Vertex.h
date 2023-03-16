@@ -241,6 +241,8 @@ namespace Vert
 		VertexBuffer( VertexLayout layout );
 		// Populate buffer from aimesh
 		VertexBuffer( VertexLayout layout, const aiMesh& mesh );
+		VertexBuffer() = default;
+		void SetLayout( VertexLayout layout );
 
 		template <typename ...Args>
 		// Used for emplacing vertices

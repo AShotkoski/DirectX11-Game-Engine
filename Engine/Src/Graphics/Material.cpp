@@ -29,6 +29,13 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 			vertlayout_.Append( elem::Normal );
 			CB::Layout cbLayout;
 
+			
+			// Specular
+			{
+				//TODO spec map
+				cbLayout.add( CB::Float, "specularIntensity" );
+				cbLayout.add( CB::Float, "specularPower" );
+			}
 			// Check for texture
 			if ( aiMat.GetTexture( aiTextureType_DIFFUSE, 0, &texFilename ) == aiReturn_SUCCESS )
 			{
@@ -57,19 +64,12 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 				only.AddBind( Binds::Texture::Resolve( gfx, texPath, 1u ) );
 				// Todo add cb param for normal amount
 			}
-			
-			// Specular
-			{
-				//TODO spec map
-				cbLayout.add( CB::Float, "specularIntensity" );
-				cbLayout.add( CB::Float, "specularPower" );
-			}
 
 
 			// Create CB
 			CB::Buffer cbBuf( std::move( cbLayout ) );
 
-			// Specular assignments
+			// Buffer reads
 			{
 				float flBuf = 0.f;
 				aiColor3D colBuf;
@@ -84,11 +84,32 @@ Material::Material( Graphics& gfx, const aiMaterial& aiMat, std::filesystem::pat
 					flBuf = ( specCol.el[0] + specCol.el[1] + specCol.el[2] ) / 3.f;
 					cbBuf["specularIntensity"] = flBuf;
 				}
+				else // Without specular color we need intensity at 0
+				{
+					cbBuf["specularIntensity"] = 0.f;
+				}
+				if ( auto e = cbBuf["materialColor"]; e.Exists() )
+				{
+					if ( aiMat.Get( AI_MATKEY_BASE_COLOR, colBuf ) == aiReturn_SUCCESS )
+					{
+						e = *reinterpret_cast<DirectX::XMFLOAT3*>( &colBuf );
+					}
+					else
+					{
+						DLOG_F( WARNING, "%s material doesn't have diffuse map, and failed to get base color.", aiMat.GetName().C_Str() );
+						e = DirectX::XMFLOAT3(Colors::LavenderBlush);
+					}
+				}
 			}
+			
 
 			if ( hasDiffuseMap || hasNormalMap )
 			{
 				only.AddBind( Binds::Sampler::Resolve( gfx ) );
+			}
+			if ( hasAlpha )
+			{
+				DLOG_F( INFO, "Alpha - %s", aiMat.GetName().C_Str());
 			}
 			// all alpha is gonna not backface cull for now
 			only.AddBind( Binds::Rasterizer::Resolve( gfx, !hasAlpha ) );

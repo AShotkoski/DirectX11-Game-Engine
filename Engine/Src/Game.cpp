@@ -14,7 +14,7 @@ Game::Game()
 	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f }, &graph )
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0, &graph  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0, &graph )
-	, sponza(gfx, "Models\\sponza\\sponza_sad.obj", &graph)
+	, sponza(gfx, "C:\\Users\\Shotk\\OneDrive\\Documents\\Desktop\\sponza_intel\\NewSponza_Main_glTF_002.gltf", &graph)
 	, graph(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
