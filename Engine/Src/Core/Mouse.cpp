@@ -62,6 +62,21 @@ std::optional<Mouse::Event> Mouse::GetEvent()
 	return front;
 }
 
+bool Mouse::LeftIsPressed() const
+{
+	return leftDown;
+}
+
+bool Mouse::RightIsPressed() const
+{
+	return rightDown;
+}
+
+bool Mouse::MiddleIsPressed() const
+{
+	return middleDown;
+}
+
 void Mouse::TrimQueue()
 {
 	while ( eventQueue.size() > queueLength )
@@ -71,31 +86,37 @@ void Mouse::TrimQueue()
 // ---Events--- 
 void Mouse::LButtonDown()
 {
+	leftDown = true;
 	eventQueue.push( Event( Event::LeftDown, *this ) );
 }
 
 void Mouse::LButtonUp()
 {
+	leftDown = false;
 	eventQueue.push( Event( Event::LeftUp, *this ) );
 }
 
 void Mouse::RButtonDown()
 {
+	rightDown = true;
 	eventQueue.push( Event( Event::RightDown, *this ) );
 }
 
 void Mouse::RButtonUp()
 {
+	rightDown = false;
 	eventQueue.push( Event( Event::RightUp, *this ) );
 }
 
 void Mouse::MButtonDown()
 {
+	middleDown = true;
 	eventQueue.push( Event( Event::MiddleDown, *this ) );
 }
 
 void Mouse::MButtonUp()
 {
+	middleDown = false;
 	eventQueue.push( Event( Event::MiddleUp, *this ) );
 }
 

@@ -30,7 +30,9 @@ Keyboard::Event::Type Keyboard::Event::GetType() const
 
 void Keyboard::Keydown( WPARAM VK )
 {
+	// Set true on keystate at virtual key index
 	keystates[VK] = true;
+	// Add event of type keydown to event queue
 	eventQueue.push( Event( Event::Keydown, static_cast<unsigned char>(VK), *this ) );
 }
 

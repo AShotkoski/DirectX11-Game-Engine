@@ -24,9 +24,7 @@ public:
 		unsigned char VK;
 	};
 public:
-	Keyboard()
-	{
-	}
+	Keyboard() = default;
 	bool KeyIsPressed( unsigned char VirtualKey ) const;
 	std::optional<Event> GetEvent();
 private:

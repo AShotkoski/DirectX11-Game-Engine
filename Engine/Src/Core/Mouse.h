@@ -48,6 +48,9 @@ public:
 	int GetY() const;
 	std::pair<int, int> GetPos() const;
 	std::optional<Event> GetEvent();
+	bool LeftIsPressed() const;
+	bool RightIsPressed() const;
+	bool MiddleIsPressed() const;
 private:
 	void TrimQueue();
 private:
@@ -66,4 +69,7 @@ private:
 	std::queue<Event> eventQueue;
 	int x;
 	int y;
+	bool leftDown{ false };
+	bool rightDown{ false };
+	bool middleDown{ false };
 };
