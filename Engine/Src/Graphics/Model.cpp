@@ -173,41 +173,53 @@ private:
 
 */
 
-Model::Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* pGraph ) :
-	tag( filename.string() )
+Model::Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* pGraph ) 
+	: tag( filename.string() )
 	//pController( std::make_unique<ModelController>( ) )
 {
 	LOG_SCOPE_FUNCTION( INFO );
-	// Create assimp logger to log assimp messages during file loading
-	Assimp::DefaultLogger::create( "logs\\asslog.log", Assimp::Logger::DEBUGGING );
-
-	Assimp::Importer Importer;
-	const auto       pAIScene = Importer.ReadFile(
-        filename.string(),
-        aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
-            | aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace );
-	
-	// Check for scene load success
-	CHECK_NOTNULL_F( pAIScene, "Error loading file.\t%s", Importer.GetErrorString() );
+	Assimp::Importer importer;
+	const auto pAIScene = LoadAIScene(importer, filename.string());
 
 	DLOG_F( INFO, "AIScene Loaded" );
 
 	// Populate meshes vector with all meshes (in order)
-	for( size_t i = 0; i < pAIScene->mNumMeshes; i++ )
+	for (size_t i = 0; i < pAIScene->mNumMeshes; i++)
 	{
 		const auto& mesh = *pAIScene->mMeshes[i];
-		DCHECK_F( mesh.mMaterialIndex >= 0, "mesh material index not right" );
+		DCHECK_F(mesh.mMaterialIndex >= 0, "mesh material index not right");
 		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
-		Material mat( gfx, material, filename, pGraph );
-		pMeshes.push_back( std::make_shared<Mesh>( gfx, mat, mesh ) );
+		Material mat(gfx, material, filename, pGraph);
+		pMeshes.push_back(std::make_shared<Mesh>(gfx, mat, mesh));
 	}
 
 	// Populate node tree from head
-	PopulateNodeTreeFromAINode(nullptr, pAIScene->mRootNode, true );
+	PopulateNodeTreeFromAINode(nullptr, pAIScene->mRootNode, true);
 
-	// Kill assimp logger
-	Assimp::DefaultLogger::kill();
-	LOG_F( INFO, "Created instance of %s, which has %i meshes and %i nodes.", pAIScene->mRootNode->mName.C_Str(), pMeshes.size(), -1);
+	LOG_F(INFO, "Created instance of %s, which has %i meshes and %i nodes.", pAIScene->mRootNode->mName.C_Str(), pMeshes.size(), -1);
+
+}
+
+Model::Model(Graphics& gfx, const aiScene* pAIScene, std::filesystem::path filename,  RDG::RenderGraph* pGraph)
+	: tag(filename.string())
+{
+	LOG_SCOPE_FUNCTION(INFO);
+
+	// Populate meshes vector with all meshes (in order)
+	for (size_t i = 0; i < pAIScene->mNumMeshes; i++)
+	{
+		const auto& mesh = *pAIScene->mMeshes[i];
+		DCHECK_F(mesh.mMaterialIndex >= 0, "mesh material index not right");
+		const auto& material = *pAIScene->mMaterials[mesh.mMaterialIndex];
+		Material mat(gfx, material, filename, pGraph);
+		pMeshes.push_back(std::make_shared<Mesh>(gfx, mat, mesh));
+	}
+
+	// Populate node tree from head
+	PopulateNodeTreeFromAINode(nullptr, pAIScene->mRootNode, true);
+
+	LOG_F(INFO, "Created instance of %s, which has %i meshes and %i nodes.", pAIScene->mRootNode->mName.C_Str(), pMeshes.size(), -1);
+	
 }
 
 void Model::UpdateTransform( DirectX::XMMATRIX in_transform )
@@ -226,6 +238,21 @@ void Model::SpawnControlWindow()
 }
 
 Model::~Model() {}
+
+const aiScene* Model::LoadAIScene(Assimp::Importer& Importer, std::string filename)
+{
+	Assimp::DefaultLogger::create("logs\\asslog.log", Assimp::Logger::DEBUGGING);
+
+	const auto       pAIScene = Importer.ReadFile(
+		filename,
+		aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_GenNormals
+		| aiProcess_ConvertToLeftHanded | aiProcess_CalcTangentSpace);
+
+	// Check for scene load success
+	CHECK_NOTNULL_F(pAIScene, "Error loading file.\t%s", Importer.GetErrorString());
+	Assimp::DefaultLogger::kill();
+	return pAIScene;
+}
 
 
 // Check if ainode has children, if so add child to our node and recurse on child

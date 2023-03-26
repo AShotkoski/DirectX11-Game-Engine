@@ -145,6 +145,7 @@
     <ClInclude Include="Src\Graphics\RDG\BindingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlineMaskingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlineDrawingPass.h" />
+    <ClInclude Include="Src\Graphics\ASyncModel.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

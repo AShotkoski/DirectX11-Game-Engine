@@ -6,6 +6,7 @@
 #include "Util/ImGuiLog.h"
 #include "Drawable/Cube.h"
 #include "Graphics/RDG/TestGraph.h"
+#include <Graphics/ASyncModel.h>
 
 class Game
 {
@@ -30,7 +31,9 @@ private:
 	PointLight light;
 	Cube cube0;
 	Cube cube1;
-	Model sponza;
+	std::unique_ptr<Model> sponza;
+
+	ModelLoader loader;
 
 private:
 	float dt = 0.f;

@@ -29,14 +29,21 @@ private:
 	std::string name;
 };
 
+namespace Assimp
+{
+	class Importer;
+}
+
 class Model
 {
 public:
 	Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* pGraph);
+	Model( Graphics& gfx, const struct aiScene* pAIScene, std::filesystem::path filename, RDG::RenderGraph* pGraph);
 	void UpdateTransform( DirectX::XMMATRIX in_transform );
 	void Submit() const;
 	void SpawnControlWindow();
-	~Model();
+	virtual ~Model();
+	static const struct aiScene* LoadAIScene(Assimp::Importer& Importer, std::string filename);
 private:
 	// Makes mesh from Assimp Mesh and returns shared ptr to it
 	void PopulateNodeTreeFromAINode( Node* pNode, const struct aiNode* pAiNode, bool isHead = false );

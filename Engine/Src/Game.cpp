@@ -5,6 +5,7 @@
 #include "Util/Colors.h"
 #include "Util/MathUtil.h"
 #include <numbers>
+#include <assimp/scene.h>
 
 namespace dx = DirectX;
 
@@ -14,7 +15,7 @@ Game::Game()
 	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f }, &graph )
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0, &graph  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0, &graph )
-	, sponza(gfx, "Models/sponza/sponza_sad.obj", &graph)
+	//, sponza(gfx, "Models/sponza/sponza_sad.obj", &graph)
 	, graph(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
@@ -22,6 +23,7 @@ Game::Game()
 		wnd.GetAspectRatio(),
 		NearClipping,
 		FarClipping ) );
+	loader.ASyncLoad("Models/sponza/sponza_sad.obj");
 }
 
 Game::~Game()
@@ -54,8 +56,18 @@ void Game::UpdateLogic()
 
 void Game::DrawFrame()
 {
+	if (!sponza && loader.isReady())
+	{
+		sponza = std::make_unique<Model>(gfx, loader.Get(), "Models/sponza/sponza_sad.obj", &graph);
+		
+	}
+	else if (sponza)
+	{
+		sponza->Submit();
+	}
+
 	light.Draw( );
-	sponza.Submit( );
+	//sponza.Submit( );
 	cube0.Submit( );
 	cube1.Submit( );
 
