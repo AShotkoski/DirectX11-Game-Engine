@@ -58,6 +58,7 @@
     <ClCompile Include="Src\Graphics\RDG\LambertianPass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\OutlineMaskingPass.cpp" />
     <ClCompile Include="Src\Graphics\RDG\OutlineDrawingPass.cpp" />
+    <ClCompile Include="Src\Entity\BaseEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\ImGui\imconfig.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Src\Graphics\RDG\OutlineMaskingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlineDrawingPass.h" />
     <ClInclude Include="Src\Graphics\ASyncModel.h" />
+    <ClInclude Include="Src\Entity\BaseEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

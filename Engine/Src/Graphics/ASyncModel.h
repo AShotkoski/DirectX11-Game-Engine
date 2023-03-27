@@ -16,6 +16,7 @@ public:
 			pScene = const_cast<aiScene*>(Model::LoadAIScene(Importer, filename.string()));
 		};
 		loader = std::make_unique<std::jthread>(load);
+		Importer.FreeScene();
 	}
 	bool isReady()
 	{
@@ -36,6 +37,6 @@ private:
 private:
 	Assimp::Importer Importer;
 	std::unique_ptr<std::jthread> loader;
-	aiScene* pScene;
+	aiScene* pScene{ nullptr };
 	bool ready{ false };
 };

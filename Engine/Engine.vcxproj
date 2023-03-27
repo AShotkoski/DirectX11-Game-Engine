@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Binds\DepthStencil.cpp" />
     <ClCompile Include="Src\Binds\RenderTarget.cpp" />
+    <ClCompile Include="Src\Entity\BaseEntity.cpp" />
     <ClCompile Include="Src\Graphics\GraphicsResource.cpp" />
     <ClCompile Include="Src\Binds\Rasterizer.cpp" />
     <ClCompile Include="Src\Binds\Blender.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Entity\BaseEntity.h" />
     <ClInclude Include="Src\Graphics\ASyncModel.h" />
     <ClInclude Include="Src\Graphics\BufferResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />

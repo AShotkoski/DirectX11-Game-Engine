@@ -24,7 +24,6 @@ namespace Binds
 		pParent = &parent;
 	}
 
-
 	TransformationConstBuffer::TransformBuffer TransformationConstBuffer::GetBuffer( Graphics& gfx ) const
 	{
 		DCHECK_NOTNULL_F( pParent, "Attempted to get transform matrix without initializing parent" );
