@@ -81,7 +81,6 @@ void Game::DrawImGuis()
 	// Control game-wide settings controlled by adjusted dt
 	if ( ImGui::Begin( "Simulation Control" ) )
 	{
-		ImGui::SliderFloat( "Speed", &timeFactor, 0.0f, 4.0f );
 		ImGui::Text( "%.f FPS", ImGui::GetIO().Framerate );
 	}
 	ImGui::End();

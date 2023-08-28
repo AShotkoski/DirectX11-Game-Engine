@@ -7,8 +7,7 @@ namespace RDG
 {
 	class RenderGraph;
 }
-
-
+ 
 class Node
 {
 	friend class Model;
