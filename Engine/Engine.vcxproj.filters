@@ -146,7 +146,7 @@
     <ClInclude Include="Src\Graphics\RDG\BindingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlineMaskingPass.h" />
     <ClInclude Include="Src\Graphics\RDG\OutlineDrawingPass.h" />
-    <ClInclude Include="Src\Graphics\ASyncModel.h" />
+    <ClInclude Include="Src\Graphics\ModelLoader.h" />
     <ClInclude Include="Src\Entity\BaseEntity.h" />
   </ItemGroup>
   <ItemGroup>

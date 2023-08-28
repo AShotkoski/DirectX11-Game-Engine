@@ -15,7 +15,6 @@ Game::Game()
 	, light( gfx, 0.15f, { 1.9f, 2.f, -2.f }, &graph )
 	, cube0( gfx, { 1,1,1 }, { 6,0,0 }, 0,0,0, &graph  )
 	, cube1( gfx, { 1,1,1 }, { -1,0,0 }, 0,0,0, &graph )
-	//, sponza(gfx, "Models/sponza/sponza_sad.obj", &graph)
 	, graph(gfx)
 {
 	gfx.SetProjection( DirectX::XMMatrixPerspectiveFovLH(
@@ -48,20 +47,21 @@ void Game::Go()
 
 void Game::UpdateLogic()
 {	
-	light.Bind(gfx);
+	if (!sponza && loader.isReady())
+	{
+		sponza = std::make_unique<Model>(gfx, loader.Get(), "Models/sponza/sponza_sad.obj", &graph);
 
+	}
+
+	light.Bind(gfx);
 	// Camera control
 	ControlCamera();
 }
 
 void Game::DrawFrame()
 {
-	if (!sponza && loader.isReady())
-	{
-		sponza = std::make_unique<Model>(gfx, loader.Get(), "Models/sponza/sponza_sad.obj", &graph);
-		
-	}
-	else if (sponza)
+	
+	if (sponza)
 	{
 		sponza->Submit();
 	}

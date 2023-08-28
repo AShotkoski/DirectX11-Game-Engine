@@ -1,5 +1,7 @@
 #include "BaseEntity.h"
 
+#include <Drawable/Drawable.h>
+
 void BaseEntity::UpdateModel() const
 {
 }

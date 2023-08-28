@@ -6,7 +6,7 @@
 #include "Util/ImGuiLog.h"
 #include "Drawable/Cube.h"
 #include "Graphics/RDG/TestGraph.h"
-#include <Graphics/ASyncModel.h>
+#include <Graphics/ModelLoader.h>
 
 class Game
 {

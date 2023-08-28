@@ -172,7 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Entity\BaseEntity.h" />
-    <ClInclude Include="Src\Graphics\ASyncModel.h" />
+    <ClInclude Include="Src\Graphics\ModelLoader.h" />
     <ClInclude Include="Src\Graphics\BufferResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />
     <ClInclude Include="Src\Graphics\GraphicsResource.h" />
