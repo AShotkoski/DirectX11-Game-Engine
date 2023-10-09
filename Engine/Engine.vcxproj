@@ -151,7 +151,7 @@
     <ClCompile Include="Src\Core\Main.cpp" />
     <ClCompile Include="Src\Graphics\Material.cpp" />
     <ClCompile Include="Src\Drawable\Mesh.cpp" />
-    <ClCompile Include="Src\Graphics\Model.cpp" />
+    <ClCompile Include="Src\Drawable\Model.cpp" />
     <ClCompile Include="Src\Core\Mouse.cpp" />
     <ClCompile Include="Src\Binds\NullPixelShader.cpp" />
     <ClCompile Include="Src\Binds\PixelShader.cpp" />
@@ -170,7 +170,7 @@
     <ClCompile Include="Src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Graphics\ModelLoader.h" />
+    <ClInclude Include="Src\Drawable\ModelLoader.h" />
     <ClInclude Include="Src\Graphics\BufferResource.h" />
     <ClInclude Include="Src\Binds\DepthStencil.h" />
     <ClInclude Include="Src\Graphics\GraphicsResource.h" />
@@ -203,7 +203,6 @@
     <ClInclude Include="Src\Geometry\CubePrimitive.h" />
     <ClInclude Include="Src\Drawable\Drawable.h" />
     <ClInclude Include="Src\Graphics\DynamicCB.h" />
-    <ClInclude Include="Src\Graphics\FrameCommander.h" />
     <ClInclude Include="Src\Util\FrameTimer.h" />
     <ClInclude Include="Src\Game.h" />
     <ClInclude Include="Src\Util\GeneralUtilities.h" />
@@ -223,7 +222,7 @@
     <ClInclude Include="Src\Graphics\Material.h" />
     <ClInclude Include="Src\Util\MathUtil.h" />
     <ClInclude Include="Src\Drawable\Mesh.h" />
-    <ClInclude Include="Src\Graphics\Model.h" />
+    <ClInclude Include="Src\Drawable\Model.h" />
     <ClInclude Include="Src\Core\Mouse.h" />
     <ClInclude Include="Src\Binds\NullPixelShader.h" />
     <ClInclude Include="Src\Util\NumberFactory.h" />

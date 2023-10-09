@@ -1,10 +1,10 @@
 #include "Model.h"
-#include "Material.h"
+#include "Graphics/Material.h"
 #include "Util/GeneralUtilities.h"
 #include "log.h"
 #include "assimp/DefaultLogger.hpp"
 #include "ImGui.h"
-#include "DynamicCB.h"
+#include "Graphics/DynamicCB.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
