@@ -7,11 +7,10 @@ namespace RDG
 {
 	class RenderGraph;
 }
- 
+
 class Node
 {
 	friend class Model;
-	friend class ModelController;
 public:
 	Node( std::vector<std::shared_ptr<Mesh>> in_meshes, DirectX::XMMATRIX in_transform, std::string name );
 	void Submit(DirectX::XMMATRIX in_transform ) const;

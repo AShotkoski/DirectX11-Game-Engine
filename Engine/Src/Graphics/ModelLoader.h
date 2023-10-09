@@ -9,6 +9,7 @@ class ModelLoader
 {
 public:
 	ModelLoader() = default;
+	// Begins loading a model on a separate thread
 	void ASyncLoad(std::filesystem::path filename)
 	{
 		const auto load = [&, filename] 
@@ -18,6 +19,7 @@ public:
 		loader = std::make_unique<std::jthread>(load);
 		Importer.FreeScene();
 	}
+	// Returns true if the thread is done loading
 	bool isReady()
 	{
 		_Query();
@@ -28,6 +30,7 @@ public:
 		return pScene;
 	}
 private:
+	// Checks if the thread is done loading
 	void _Query()
 	{
 		ready = (bool)pScene;

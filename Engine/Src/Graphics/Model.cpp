@@ -178,6 +178,7 @@ Model::Model( Graphics& gfx, std::filesystem::path filename, RDG::RenderGraph* p
 	//pController( std::make_unique<ModelController>( ) )
 {
 	LOG_SCOPE_FUNCTION( INFO );
+	// Load the model from file using assimp
 	Assimp::Importer importer;
 	const auto pAIScene = LoadAIScene(importer, filename.string());
 
